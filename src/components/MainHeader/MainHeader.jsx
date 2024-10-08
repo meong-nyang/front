@@ -1,15 +1,16 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { TbShoppingCart, TbSearch  } from "react-icons/tb";
+import { TbShoppingCart, TbSearch, TbMenu2  } from "react-icons/tb";
+import { Link } from 'react-router-dom';
 
 function MainHeader(props) {
     return (
         <>
             <div css={s.layout}>
                 <div css={s.frame}>
-                    <div>menuBar</div>
-                    <h1>logo</h1>
+                    <div css={s.menuLogo}><TbMenu2 /></div>
+                    <Link to='/'>logooooooooo</Link>
                     <div css={s.account}>
                         <TbSearch /><TbShoppingCart />
                         <a href='/user/login'>로그인</a>

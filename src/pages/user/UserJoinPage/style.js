@@ -4,27 +4,30 @@ export const layout = css`
     display: flex;
     flex-direction: column;
     align-items: center;
+    background-color: #D2E0FB;
 
     & > h1 {
-        margin-bottom: 0px;
+        margin: 0px;
     }
 `;
 
 export const joinBox = css`
     display: flex;
+    margin-top: 20px;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    border: 1px solid #dbdbdb;
-    padding: 10px;
-    width: 55%;
+    border: 1px solid white;
+    padding: 10px 50px;
+    width: 600px;
     height: 75%;
     border-radius: 15px;
-
-    
+    background-color: #ffffff;
+    box-shadow: 2px 2px 1px;
 
     & > button {
-        width: 80%;
+        margin-top: 30px;
+        width: 370px;
         height: 35px;
         border-radius: 10px;
         background-color: #BDCCFF;
@@ -39,12 +42,29 @@ export const joinBox = css`
     }
 `;
 
-export const requiredInformation = css`
-
-`;
-
-export const selectInformation = css`
+export const formInput = css`
     display: flex;
-    align-items: center;
+    flex-direction: column;
+    width: 100%;
 
+    & div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    & label {
+        display: flex;
+        align-items: center;
+    }
+
+    & input {
+        border-radius: 5px;
+        margin: 10px 0px;
+        width: 350px;
+        height: 35px;
+        padding: 0px 10px;
+        border: none;
+        outline: none;
+        background-color: #eceaea;
+    }
 `;

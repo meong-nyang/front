@@ -4,7 +4,7 @@ export const layout = css`
     display: flex;
     flex-direction: column;
     width: 100%;
-    height: 100px;
+    height: 150px;
     background-color: #D2E0FB;
 `;
 
@@ -16,7 +16,9 @@ export const frame = css`
     height: 50%;
 `;
 
-
+export const menuLogo = css`
+    margin-right: 15px;
+`;
 
 export const account = css`
     display: flex;

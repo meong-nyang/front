@@ -3,6 +3,7 @@ import React from 'react';
 import * as s from "./style";
 
 function MainContainer(props) {
+    
     return (
         <div css={s.layout}>
             <div css={s.recommand}>

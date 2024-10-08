@@ -10,7 +10,7 @@ function UserJoinPage(props) {
             <body css={s.layout}>
                 <h1>회원가입</h1>
                 <div css={s.joinBox}>
-                    <div css={s.requiredInformation}>
+                    <div css={s.formInput}>
                         <h4>회원정보 입력</h4>
                         <div>
                             <label htmlFor="">아이디</label>
@@ -32,8 +32,13 @@ function UserJoinPage(props) {
                             <label htmlFor="">전화번호</label>
                             <input type="text" />
                         </div>
+                        <div>
+                            <label htmlFor="">주소</label>
+                            <input type="text" />
+                        </div>
                     </div>
-                    <div css={s.selectInformation}>
+                    
+                    <div css={s.formInput}>
                         <h4>반려동물 정보 입력</h4>
                         <div>
                             <label htmlFor="">반려동물 이름</label>
@@ -45,9 +50,11 @@ function UserJoinPage(props) {
                         </div>
                         <div>
                             <label htmlFor="">종류</label>
-                            <button>강아지</button>
-                            <button>고양이</button>
-                            <button>그 외 아이들</button>
+                            <div>
+                                <button >강아지</button>
+                                <button >고양이</button>
+                                <button >그 외 아이들</button>
+                            </div>
                         </div>
                     </div>
                     <button>회원가입</button>

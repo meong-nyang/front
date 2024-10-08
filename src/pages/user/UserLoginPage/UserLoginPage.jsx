@@ -11,21 +11,18 @@ function UserLoginPage(props) {
                 <h1>로그인</h1>
                 <p>멍멍냥냥에 오신 것을 환영합니다.</p>
                 <div css={s.loginBox}>
-                    <div>
+                    <div css={s.logoBox}>
                         로고
                     </div>
                     <input type="text" />
-                    <input type="text" />
-                    <p>비밀번호를 잊으셨나요?</p>
+                    <input type="password" />
+                    <a href='/user/find'>비밀번호를 잊으셨나요?</a>
                     <button>로그인</button>
                     <p>SNS로 시작하기</p>
                     <div>
                         구글 / 카카오 / 네이버
                     </div>
-                    <div css={s.userJoin}>
-                        <p>아직 계정이 없으신가요?</p>
-                        <a>회원가입</a>
-                    </div>
+                    <a href='/user/join'>아직 계정이 없으신가요?</a>
                 </div>
             </body>
         </>

@@ -2,19 +2,21 @@ import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import MainHeader from '../../../components/MainHeader/MainHeader';
-import MainContainer from '../../../components/MainContainer/MainContainer';
 
-function MainPage(props) {
-
-    
+function UserMyPage(props) {
     return (
         <>
             <MainHeader />
             <body>
-                <MainContainer />
+                <div>
+
+                </div>
+                <div>
+                    
+                </div>
             </body>
         </>
     );
 }
 
-export default MainPage;
+export default UserMyPage;
