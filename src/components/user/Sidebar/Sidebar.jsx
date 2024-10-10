@@ -1,20 +1,20 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import SidebarBody from './SidebarBody/SidebarBody';
-import SidebarHeader from './SidebarHeader/SidebarHeader';
 import { useRecoilState } from 'recoil';
-import { mainSidebarShowAtom, sidebarShowAtom } from '../../atoms/sidebarShowAtom';
+import SidebarBody from './SidebarBody/SidebarBody';
+import { sidebarShowAtom } from '../../../atoms/sidebarShowAtom';
+import SidebarHeader from './SidebarHeader/SidebarHeader';
 
-function SideBar(props) {
+function Sidebar(props) {
     const [ sidebarShow ] = useRecoilState(sidebarShowAtom);
 
     return (
         <div css={s.layout(sidebarShow)}>
-            <SidebarBody />
             <SidebarHeader />
+            <SidebarBody />
         </div>
     );
 }
 
-export default SideBar;
+export default Sidebar;

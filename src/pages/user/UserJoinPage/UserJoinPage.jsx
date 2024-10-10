@@ -1,13 +1,13 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import MainHeader from '../../../components/MainHeader/MainHeader';
+import MainHeader from '../../../components/user/MainHeader/MainHeader';
 
 function UserJoinPage(props) {
     return (
         <>
-            <MainHeader />
             <body css={s.layout}>
+            <MainHeader />
                 <h1>회원가입</h1>
                 <div css={s.joinBox}>
                     <div css={s.formInput}>
@@ -49,11 +49,20 @@ function UserJoinPage(props) {
                             <input type="text" />
                         </div>
                         <div>
-                            <label htmlFor="">종류</label>
-                            <div>
-                                <button >강아지</button>
-                                <button >고양이</button>
-                                <button >그 외 아이들</button>
+                            <div css={s.typeBox}>
+                                <label htmlFor="">종류</label>
+                                <div>
+                                    <input type="radio" name='type'/>
+                                    <label htmlFor="">강아지</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name='type'/>
+                                    <label htmlFor="">고양이</label>
+                                </div>
+                                <div>
+                                    <input type="radio" name='type'/>
+                                    <label htmlFor="">그 외 아이들</label>
+                                </div>
                             </div>
                         </div>
                     </div>

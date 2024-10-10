@@ -5,6 +5,7 @@ export const layout = css`
     flex-direction: column;
     align-items: center;
     background-color: #D2E0FB;
+    height: 100%;
 
     & > h1 {
         margin: 0px;
@@ -66,5 +67,26 @@ export const formInput = css`
         border: none;
         outline: none;
         background-color: #eceaea;
+    }
+`;
+
+export const typeBox = css`
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+    & div {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    & label {
+        display: flex;
+        align-items: center;
+    }
+    
+    & input {
+        display: flex;
+        width: 100px;
     }
 `;

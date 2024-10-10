@@ -1,10 +1,11 @@
+import { css } from "@emotion/react";
+
 export const layout = (isShow) => css`
     position: absolute;
-    top: 0;
-    left: ${isShow ? 0 : -203}px;
-    transition: all 0.3s ease-in-out;
+    top: ${isShow ? 0 : -100}%;
+    transition: all 0.5s ease-in-out;
     box-sizing: border-box;
-    width: 200px;
+    width: 15%;
     height: 100%;
     background-color: white;
     box-shadow: 1px 0px 3px #00000055;
