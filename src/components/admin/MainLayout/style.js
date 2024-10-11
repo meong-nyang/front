@@ -17,7 +17,7 @@ export const menuList = css`
         box-sizing: border-box;
         border: 1px solid #dbdbdb;
         width: 100%;
-        height: 80px;
+        height: 60px;
     }
 
     & > a {
@@ -28,8 +28,8 @@ export const menuList = css`
         border: 1px solid #dbdbdb;
         border-top: none;
         width: 100%;
-        height: 80px;
-        font-size: 18px;
+        height: 60px;
+        font-size: 16px;
         text-decoration: none;
         color: #000000;
     }
@@ -50,7 +50,7 @@ export const mainContainer = css`
         align-items: center;
         padding-left: 20px;
         width: 100%;
-        height: 50px;
+        height: 40px;
         font-size: 14px;
     }
 
