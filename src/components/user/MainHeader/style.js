@@ -5,7 +5,7 @@ export const layout = css`
     flex-direction: column;
     width: 100%;
     height: 150px;
-    background-color: #D2E0FB;
+    background-color: #BDCCFF;
 `;
 
 export const frame = css`
@@ -16,6 +16,10 @@ export const frame = css`
     width: 90%;
     border-bottom: 2px solid white;
     height: 50%;
+
+    & > a {
+        margin-left: 180px;
+    }
 `;
 
 export const menuToggleButton = css`
@@ -24,6 +28,8 @@ export const menuToggleButton = css`
     align-items: center;
     border: 1px solid #dbdbdb;
     margin-right: 15px;
+    width: 30px;
+    height: 30px;
     background-color: white;
     cursor: pointer;
     &:hover {
@@ -34,7 +40,7 @@ export const menuToggleButton = css`
     }
 `;
 
-export const account = css`
+export const accountBox = css`
     display: flex;
     & > a {
         margin-right: 10px;
@@ -43,8 +49,10 @@ export const account = css`
 
 export const accountIcons = css`
     display: flex;
+    width: 50px;
     & > svg {
-        font-size: 16px;
+        font-size: 22px;
+        margin-right: 8px;
     }
 `;
 

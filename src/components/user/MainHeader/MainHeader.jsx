@@ -7,6 +7,7 @@ import { useRecoilState } from 'recoil';
 import Sidebar from '../Sidebar/Sidebar';
 import { sidebarShowAtom } from '../../../atoms/sidebarShowAtom';
 
+
 function MainHeader(props) {
     const [ sidebarShow, setSidebarShow ] = useRecoilState(sidebarShowAtom);
 
@@ -25,8 +26,8 @@ function MainHeader(props) {
                     >
                         <TbMenu2 />
                     </button>
-                    <Link to='/'>logooooooooo</Link>
-                    <div css={s.account}>
+                    <Link to='/'>멍멍냥냥</Link>
+                    <div css={s.accountBox}>
                         <div css={s.accountIcons}>
                             <TbSearch /><TbShoppingCart />
                         </div>
@@ -36,10 +37,10 @@ function MainHeader(props) {
                     </div>
                 </div>
                 <div css={s.category}> 
+                    <a href='/category/best'>초보 반려인을 위한 추천 상품</a>
                     <a href='/category/total'>전체</a>
                     <a href='/category/dog'>강아지 용품</a>
                     <a href='/category/cat'>고양이 용품</a>
-                    <a href='/category/best'>초보 반려인을 위한 추천 상품</a>
                 </div>
             </div>
         </>

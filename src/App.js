@@ -1,7 +1,7 @@
 import './App.css';
 import { Global } from '@emotion/react';
 import { reset } from './styles/common';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 import NotFound from './pages/NotFound/NotFound';
 import MainPage from './pages/user/MainPage/MainPage';
 import UserLoginPage from './pages/user/UserLoginPage/UserLoginPage';
@@ -9,6 +9,7 @@ import UserJoinPage from './pages/user/UserJoinPage/UserJoinPage';
 import UserMyPage from './pages/user/UserMyPage/UserMyPage';
 
 function App() {
+
   return (
     <>
       <Global styles={reset} />

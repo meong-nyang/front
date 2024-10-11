@@ -4,7 +4,7 @@ export const layout = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    background-color: #D2E0FB;
+    background-color: #BDCCFF;
     height: 100%;
 
     & > h1 {
@@ -48,9 +48,14 @@ export const formInput = css`
     flex-direction: column;
     width: 100%;
 
-    & div {
+    & div, td {
         display: flex;
         justify-content: space-between;
+
+        & > td > input {
+            width: 90px;
+            margin-left: 15px;
+        }
     }
 
     & label {
@@ -68,6 +73,12 @@ export const formInput = css`
         outline: none;
         background-color: #eceaea;
     }
+`;
+
+export const addressBox = css`
+    display: flex;
+    flex-direction: column;
+
 `;
 
 export const typeBox = css`

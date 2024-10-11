@@ -11,7 +11,7 @@ function UserJoinPage(props) {
                 <h1>회원가입</h1>
                 <div css={s.joinBox}>
                     <div css={s.formInput}>
-                        <h4>회원정보 입력</h4>
+                        <h3>회원정보 입력</h3>
                         <div>
                             <label htmlFor="">아이디</label>
                             <input type="text" />
@@ -29,16 +29,30 @@ function UserJoinPage(props) {
                             <input type="text" />
                         </div>
                         <div>
-                            <label htmlFor="">전화번호</label>
-                            <input type="text" />
+                            <td>
+                                <label htmlFor="">전화번호</label>
+                                <input type="text" /> 
+                                <input type="text" />
+                                <input type="text" />
+                            </td>
                         </div>
                         <div>
                             <label htmlFor="">주소</label>
+                            <div css={s.addressBox}>
+                                <div>
+                                    <input type="text" value="우편번호" disabled/>
+                                </div>
+                                <input type="text" value="기본주소" disabled/>
+                                <input type="text" placeholder="상세주소 입력"/>
+                            </div>
+                        </div>
+                        <div>
+                            <label htmlFor="">요청사항</label>
                             <input type="text" />
                         </div>
                     </div>
                     
-                    <div css={s.formInput}>
+                    {/* <div css={s.formInput}>
                         <h4>반려동물 정보 입력</h4>
                         <div>
                             <label htmlFor="">반려동물 이름</label>
@@ -65,8 +79,8 @@ function UserJoinPage(props) {
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <button>회원가입</button>
+                    </div> */}
+                    <button>다음</button>
                 </div>
             </body>
         </>
