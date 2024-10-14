@@ -6,7 +6,7 @@ export const layout = (isShow) => css`
     transition: all 0.5s ease-in-out;
     box-sizing: border-box;
     width: 15%;
-    height: 90%;
+    height: 95.5%;
     background-color: white;
     box-shadow: 1px 0px 3px #00000055;
 `;

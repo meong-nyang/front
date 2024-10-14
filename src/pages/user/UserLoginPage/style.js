@@ -17,7 +17,6 @@ export const loginBox = css`
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
-    border: 1px solid white;
     padding: 10px;
     width: 450px;
     height: 70%;
@@ -26,10 +25,8 @@ export const loginBox = css`
     box-shadow: 2px 2px 1px;
 
     & input {
-        margin: 15px 0px 3px;
-        width: 350px;
+        width: 375px;
         height: 45px;
-        border: 1px solid;
         border-radius: 10px;
         padding: 0px 10px;
         font-size: 16px;
@@ -41,6 +38,11 @@ export const loginBox = css`
         justify-content: end;
         align-items: center;
         font-size: 14px;
+        text-decoration: none;
+
+        &:nth-of-type(1) {
+            margin: 0px 0px 0px 210px;
+        }
     }
 
     & p {
@@ -48,13 +50,37 @@ export const loginBox = css`
         margin: 10px 0px;
         font-size: 12px;
     }
+`;
+
+export const logoBox = css`
+    display: flex;
+    margin: 15px 0px 35px;
+    box-sizing: border-box;
+    border: 1px solid #dbdbdb;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    width: 60%;
+    height: 180px;
+`;
+
+export const loginInputBox = css`
+    display: flex;
+    margin-bottom: 10px;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    width: 100%;
 
     & > button {
+        margin: 20px 0px;
         width: 370px;
-        height: 35px;
-        border-radius: 10px;
+        height: 40px;
+        border-radius: 7px;
         background-color: #BDCCFF;
+        border: none;
         outline: none;
+        font-size: 16px;
         cursor: pointer;
 
         &:hover {
@@ -67,63 +93,103 @@ export const loginBox = css`
     }
 `;
 
-export const logoBox = css`
-    display: flex;
-    margin: 10px 0px;
-    box-sizing: border-box;
-    border: 1px solid #dbdbdb;
-    justify-content: center;
-    align-items: center;
-    box-sizing: border-box;
-    width: 60%;
-    height: 150px;
+export const inputWrapper = css`
+    position: relative;
+    margin-bottom: 15px;
+    width: 88%;
+
+    & > input {
+        width: 100%;
+        margin: 10px 0;
+        border-radius: 5px;
+        border: 1px solid #dbdbdb;
+        outline: none;
+        font-size: 16px;
+        box-sizing: border-box;
+    }
+
+    & > label {
+        position: absolute;
+        left: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: all 0.2s ease;
+        pointer-events: none;
+        padding: 0 5px;
+
+    }
+
+    & > input:focus + label,
+    & > input:not(:placeholder-shown) + label {
+        top: -5px;
+        left: 0px;
+        font-size: 12px;
+    }
 `;
 
 export const findPassword = css`
     display: flex;
     justify-content: end;
     align-items: center;
+
+    
 `;
 
 export const OAuthButtonBox = css`
     display: flex;
-    justify-content: space-around;
-    align-items: center;
-    width: 100%;
-    height: 35px;
+    margin-bottom: 20px;
+    justify-content: space-between;
+    box-sizing: border-box;
+    width: 85%;
+    height: 50px;
 
-    & > a {
+    & > :nth-of-type(1) {
         display: flex;
-        justify-content: center;
         align-items: center;
-        margin: 0;
-        color: black;
+        width: 50px;
+        height: 50px;
+        background-color: transparent;
+        border: 1px solid #dbdbdb;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #000000;
+        cursor: pointer;
 
-        &:nth-of-type(1) {
-            width: 50px;
-            height: 50px;
-            & > svg {
-                font-size: 50px;
-            }
-        }
-            
-        &:nth-of-type(2) {
-            width: 50px;
-            height: 50px;
-            color: #3C1E1E;
-            background-color: #FAE100;
-            border-radius: 5px;
-            & > svg {
-                font-size: 42px;
-            }
-        }
-        &:nth-of-type(3) {
-            width: 50px;
-            height: 50px;
-            color: white;
-            background-color: #03C75A;
-            border-radius: 5px;
+        & > svg {
+            font-size: 40px;
         }
 
+        &:hover {
+            background-color: #eeeeee;
+        }
+    }
+
+    & > :nth-of-type(2) {
+        width: 50px;
+        height: 50px;
+        color: #3C1E1E;
+        background-color: #FAE100;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #000000;
+        cursor: pointer;
+
+        & > svg {
+            font-size: 39px;
+        }
+    }
+
+    & > :nth-of-type(3) {
+        width: 50px;
+        height: 50px;
+        color: white;
+        background-color: #03C75A;
+        border: none;
+        border-radius: 5px;
+        box-shadow: 2px 2px 2px #000000;
+        cursor: pointer;
+
+        & > svg {
+            font-size: 25px;
+        }
     }
 `;

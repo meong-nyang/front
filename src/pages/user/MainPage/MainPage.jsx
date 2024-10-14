@@ -4,6 +4,7 @@ import * as s from "./style";
 import MainHeader from '../../../components/user/MainHeader/MainHeader';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/css';
+import Sidebar from '../../../components/user/Sidebar/Sidebar';
 
 function MainPage(props) {
     // const autoMoveSlide = () => {
@@ -25,9 +26,14 @@ function MainPage(props) {
         <>
             <div css={s.layout}>
             <MainHeader />
+            <Sidebar />
                 <div css={s.mainContainer}>
                     <div css={s.mainPage}>
-                        <div>추천</div>
+                        <div>
+                            <p>초보 반려인을 위한 추천상품</p>
+                            <button>보러가기</button>
+
+                        </div>
                         <div>추천</div>
                     </div>
                 </div>

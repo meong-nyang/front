@@ -6,6 +6,10 @@ export const layout = css`
     width: 100%;
     height: 150px;
     background-color: #BDCCFF;
+
+    & a, link {
+        text-decoration: none;
+    }
 `;
 
 export const frame = css`
@@ -43,17 +47,13 @@ export const menuToggleButton = css`
 export const accountBox = css`
     display: flex;
     & > a {
-        margin-right: 10px;
+        margin-left: 10px;
     }
 `;
 
 export const accountIcons = css`
     display: flex;
     width: 50px;
-    & > svg {
-        font-size: 22px;
-        margin-right: 8px;
-    }
 `;
 
 export const category = css`

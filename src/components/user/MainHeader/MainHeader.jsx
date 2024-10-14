@@ -29,7 +29,13 @@ function MainHeader(props) {
                     <Link to='/'>멍멍냥냥</Link>
                     <div css={s.accountBox}>
                         <div css={s.accountIcons}>
-                            <TbSearch /><TbShoppingCart />
+                                <div>
+                                    <button><TbSearch /></button>
+                                </div>
+                                <div>
+                                    <button><TbShoppingCart /></button>
+                                    
+                            </div>
                         </div>
                         <a href='/user/login'>로그인</a>
                         <a href='/user/join'>회원가입</a>
