@@ -55,8 +55,9 @@ export const mainContainer = css`
     }
 
     & > body {
-        flex-grow: 1;
+        width: 1650px;
         box-sizing: border-box;
-        padding: 20px;
+        padding-left: 20px;
+        padding-top: 20px;
     }
 `;

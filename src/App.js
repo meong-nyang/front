@@ -3,7 +3,7 @@ import { Global } from '@emotion/react';
 import { reset } from './styles/common';
 import { Route, Routes } from 'react-router-dom';
 import Dashboard from './pages/admin/Dashboard/Dashboard';
-import ProductManagement from './pages/admin/ProductManagement/ProductManagement';
+import ProductList from './pages/admin/ProductManagement/ProductList';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
       <Global styles={reset} />
       <Routes>
         <Route path='/admin/dashboard' element={<Dashboard />} />
-        <Route path='/admin/product' element={<ProductManagement />} />
+        <Route path='/admin/product' element={<ProductList />} />
         <Route path='/admin/stock' element={<></>} />
         <Route path='/admin/order' element={<></>} />
         <Route path='/admin/customer' element={<></>} />

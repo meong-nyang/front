@@ -4,7 +4,7 @@ import { ADMIN_PAGE_COLORS } from "../../../constants/colors";
 export const layout = css`
     display: flex;
     flex-direction: column;
-    width: 1600px;
+    width: 100%;
     margin-bottom: 20px;
 
     & > div:nth-of-type(1) {
@@ -33,7 +33,7 @@ export const layout = css`
 
 export const information = css`
     display: flex;
-    width: 1600px;
+    width: 100%;
 `;
 
 export const leftInfo = css`
@@ -65,7 +65,7 @@ export const card = css`
     flex-direction: column;
     border: 1px solid black;
     padding: 10px 20px;
-    width: 790px;
+    width: 805px;
     height: 320px;
 
     & > header {
