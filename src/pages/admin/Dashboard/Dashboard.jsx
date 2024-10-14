@@ -115,7 +115,7 @@ function Dashboard(props) {
 
     return (
         <MainLayout location={"대시보드"}>
-            <div css={s.status}>
+            <div css={s.layout}>
                 <div>실시간 매출 현황</div>
                 <table>
                     <tr>

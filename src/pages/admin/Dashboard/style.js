@@ -1,10 +1,10 @@
 import { css } from "@emotion/react";
 import { ADMIN_PAGE_COLORS } from "../../../constants/colors";
 
-export const status = css`
+export const layout = css`
     display: flex;
     flex-direction: column;
-    width: 1400px;
+    width: 1600px;
     margin-bottom: 20px;
 
     & > div:nth-of-type(1) {
@@ -33,7 +33,7 @@ export const status = css`
 
 export const information = css`
     display: flex;
-    width: 1400px;
+    width: 1600px;
 `;
 
 export const leftInfo = css`
@@ -55,7 +55,7 @@ export const rightInfo = css`
     height: 100%;
 
     & > div {
-        height: 560px;
+        height: 660px;
     }
 `;
 
@@ -65,8 +65,8 @@ export const card = css`
     flex-direction: column;
     border: 1px solid black;
     padding: 10px 20px;
-    width: 690px;
-    height: 270px;
+    width: 790px;
+    height: 320px;
 
     & > header {
         margin: 0;
@@ -99,7 +99,7 @@ export const card = css`
     table {
         margin-top: 10px;
         border-collapse: collapse;
-        /* width: 100%; */
+        width: 100%;
     }
 
     td {
@@ -115,7 +115,7 @@ export const card = css`
     }
 
     tbody td {
-        padding: 3px 0px;
+        padding: 5px 0px;
         font-size: 15px;
     }
 `;
