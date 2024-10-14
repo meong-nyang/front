@@ -1,8 +1,14 @@
 /** @jsxImportSource @emotion/react */
+import { useState } from "react";
 import MainLayout from "../../../../components/admin/MainLayout/MainLayout";
 import * as s from "./style";
 
 function ProductRegisterPage() {
+
+    const emptyRegisterData = {}
+
+    const [ registerData, setRegisterData ] = useState(emptyRegisterData);
+
     return (
         <MainLayout location="상품관리 > 상품등록">
             <div css={s.layout}>
@@ -31,7 +37,7 @@ function ProductRegisterPage() {
                         </tr>
                         <tr>
                             <th>카테고리</th>
-                            <td colSpan="3">{"강아지 > 사료"}</td>
+                            <td>{"강아지 > 사료"}</td>
                             <th>단가</th>
                             <td>10000</td>
                             <th>추천상품</th>
@@ -53,7 +59,23 @@ function ProductRegisterPage() {
                     </table>
                 </div>
                 <div css={s.optionalData}>
-
+                    <span>선택 정보</span>
+                    <table>
+                        <tr>
+                            <th>브랜드</th>
+                            <td></td>
+                            <th>모델명</th>
+                            <td></td>
+                            <th>할인금액</th>
+                            <td></td>
+                            <th>판매가격</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>메모</th>
+                            <td colSpan="7"></td>
+                        </tr>
+                    </table>
                 </div>
             </div>
         </MainLayout>

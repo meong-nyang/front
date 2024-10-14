@@ -1,5 +1,5 @@
 import { css } from "@emotion/react";
-import { BUTTON_COLOR } from "../constants/colors";
+import { ADMIN_PAGE_COLORS, BUTTON_COLOR } from "../constants/colors";
 
 export const reset = css`
     html, body, #root {
@@ -16,5 +16,28 @@ export const reset = css`
         width: 120px;
         height: 30px;
         cursor: pointer;
+    }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    th, td {
+        box-sizing: border-box;
+        border: 1px solid black;
+        font-size: 16px;
+        height: 30px;
+    }
+
+    th {
+        width: 10%;
+        font-weight: 500;
+        background-color: ${ADMIN_PAGE_COLORS.tableTitleBg};
+    }
+
+    td {
+        width: 15%;
+        padding: 0px 20px;
     }
 `;

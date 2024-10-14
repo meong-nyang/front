@@ -1,33 +1,8 @@
 import { css } from "@emotion/react";
-import { ADMIN_PAGE_COLORS } from "../../../../constants/colors";
-import { TABLE_SIZE } from "../../../../constants/testDatas/tableSettings";
 
 export const layout = css`
     width: 100%;
     height: 100%;
-
-    table {
-        width: 100%;
-        border-collapse: collapse;
-    }
-
-    th, td {
-        box-sizing: border-box;
-        border: 1px solid black;
-        padding: 0px 20px;
-        font-size: 16px;
-        height: ${TABLE_SIZE.cellHeight};
-    }
-
-    th {
-        width: ${TABLE_SIZE.thWidth};
-        font-weight: 500;
-        background-color: ${ADMIN_PAGE_COLORS.tableTitleBg};
-    }
-
-    td {
-        width: ${TABLE_SIZE.tdWidth};
-    }
 `;
 
 export const images = css`
@@ -64,7 +39,7 @@ export const mustData = css`
     width: 100%;
 
     table > tr:nth-of-type(2) > td:nth-of-type(1) {
-        width: 35%;
+        width: 40%;
     }
 `;
 
@@ -114,5 +89,9 @@ export const recommendBox = css`
 `;
 
 export const optionalData = css`
+    margin-top: 20px;
 
+    & > span {
+        font-weight: 600;
+    }
 `;

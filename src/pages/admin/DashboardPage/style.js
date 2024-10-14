@@ -12,28 +12,6 @@ export const total = css`
         font-weight: 600;
         margin-bottom: 5px;
     }
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    th, td {
-        box-sizing: border-box;
-        border: 1px solid #000000;
-        height: ${TABLE_SIZE.cellHeight};
-        text-align: center;
-    }
-
-    th {
-        background-color: ${ADMIN_PAGE_COLORS.tableTitleBg};
-        width: ${TABLE_SIZE.thWidth};
-        font-weight: 500;
-    }
-
-    td {
-        width: ${TABLE_SIZE.tdWidth};
-    }
 `;
 
 export const information = css`
@@ -103,12 +81,10 @@ export const card = css`
 
     table {
         margin-top: 10px;
-        border-collapse: collapse;
-        width: 100%;
     }
 
     th, td {
-        box-sizing: border-box;
+        border: none;
         text-align: center;
         width: 150px;
     }
@@ -116,8 +92,7 @@ export const card = css`
     th {
         border-top: 1px solid #c9c9c9;
         border-bottom: 1px solid #c9c9c9;
-        padding: 5px 0px;
-        font-weight: 500;
+        background-color: white;
     }
 
     td {

@@ -88,11 +88,11 @@ export const mainTable = css`
 
     & th, td {
         border: 1px solid black;
-        height: 30px;
         text-align: center;
     }
 
     & tr > *:nth-of-type(1) {
+        padding: 0;
         width: 2%;
     }
 
