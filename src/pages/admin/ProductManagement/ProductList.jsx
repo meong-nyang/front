@@ -77,7 +77,13 @@ function ProductList() {
         <>
             <MainLayout location="상품관리 > 상품목록">
                 <div css={s.layout}>
-                    <span>총 10개의 상품</span>
+                    <div css={s.header}>
+                        <span>총 10개의 상품</span>
+                        {
+                            checkedId.size !== 0 &&
+                            <button>선택항목 삭제</button>
+                        }
+                    </div>
                     <div css={s.searchBox}>
                         <button onClick={handleSearchOptionOnClick}>{searchData.searchOption}</button>
                         {

@@ -3,12 +3,19 @@ import { css } from "@emotion/react";
 export const layout = css`
     width: 100%;
     height: 100%;
+`;
+
+export const header = css`
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 5px;
+    width: 100%;
+    height: 30px;
 
     & > span {
         display: inline-block;
         font-size: 16px;
         font-weight: 600;
-        margin-bottom: 5px;
     }
 `;
 
@@ -23,8 +30,6 @@ export const searchBox = css`
         display: flex;
         justify-content: center;
         align-items: center;
-        border: none;
-        outline: none;
         /* border-right: 1px solid #dbdbdb; */
         width: 150px;
         height: 30px;
@@ -62,8 +67,6 @@ export const searchOptionModal = css`
         display: flex;
         justify-content: center;
         align-items: center;
-        border: none;
-        outline: none;
         width: 100%;
         height: 30px;
         background-color: white;
