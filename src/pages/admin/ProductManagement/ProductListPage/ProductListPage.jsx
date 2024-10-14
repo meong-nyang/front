@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
-import MainLayout from "../../../components/admin/MainLayout/MainLayout";
+import MainLayout from "../../../../components/admin/MainLayout/MainLayout";
 import * as s from "./style";
-import { PRODUCTS, SEARCH_OPTIONS } from "../../../constants/testDatas/ProductListDatas";
+import { PRODUCTS, SEARCH_OPTIONS } from "../../../../constants/testDatas/ProductListDatas";
 
-function ProductList() {
+function ProductListPage() {
 
     const products = PRODUCTS;
     const searchOptions = SEARCH_OPTIONS;
@@ -147,4 +147,4 @@ function ProductList() {
     );
 }
 
-export default ProductList;
+export default ProductListPage;

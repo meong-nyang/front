@@ -5,7 +5,7 @@ import * as s from "./style";
 import { Link } from "react-router-dom";
 import { ORDER_DATA, STATISTICS_DATA, STOCK_DATA } from "../../../constants/testDatas/DashboardDatas";
 
-function Dashboard(props) {
+function DashboardPage(props) {
 
     const orderData = ORDER_DATA;
     const stockData = STOCK_DATA;
@@ -141,4 +141,4 @@ function Dashboard(props) {
     );
 }
 
-export default Dashboard;
+export default DashboardPage;
