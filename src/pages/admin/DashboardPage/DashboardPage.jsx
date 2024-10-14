@@ -13,27 +13,27 @@ function DashboardPage(props) {
 
     return (
         <MainLayout location={"대시보드"}>
-            <div css={s.layout}>
+            <div css={s.total}>
                 <div>실시간 매출 현황</div>
                 <table>
                     <tr>
-                        <td>총 매출</td>
+                        <th>총 매출</th>
                         <td>data</td>
-                        <td>총 주문건수</td>
+                        <th>총 주문건수</th>
                         <td>data</td>
-                        <td>총 취소건수</td>
+                        <th>총 취소건수</th>
                         <td>data</td>
-                        <td>전체 회원</td>
+                        <th>전체 회원</th>
                         <td>data</td>
                     </tr>
                     <tr>
-                        <td>오늘 매출</td>
+                        <th>오늘 매출</th>
                         <td>data</td>
-                        <td>오늘 주문건수</td>
+                        <th>오늘 주문건수</th>
                         <td>data</td>
-                        <td>오늘 취소건수</td>
+                        <th>오늘 취소건수</th>
                         <td>data</td>
-                        <td>신규 회원</td>
+                        <th>신규 회원</th>
                         <td>data</td>
                     </tr>
                 </table>
@@ -46,10 +46,10 @@ function DashboardPage(props) {
                             <table>
                                 <thead>
                                     <tr>
-                                        <td>고객명</td>
-                                        <td>주문날짜</td>
-                                        <td>결제상태</td>
-                                        <td>배송상태</td>
+                                        <th>고객명</th>
+                                        <th>주문날짜</th>
+                                        <th>결제상태</th>
+                                        <th>배송상태</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -76,10 +76,10 @@ function DashboardPage(props) {
                             <table>
                                 <thead>
                                     <tr>
-                                        <td>상품코드</td>
-                                        <td>상품명</td>
-                                        <td>가재고</td>
-                                        <td>현재재고</td>
+                                        <th>상품코드</th>
+                                        <th>상품명</th>
+                                        <th>가재고</th>
+                                        <th>현재재고</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -108,10 +108,10 @@ function DashboardPage(props) {
                             <table>
                                 <thead>
                                     <tr>
-                                        <td>일자</td>
-                                        <td>주문건수</td>
-                                        <td>매출액</td>
-                                        <td>취소건수</td>
+                                        <th>일자</th>
+                                        <th>주문건수</th>
+                                        <th>매출액</th>
+                                        <th>취소건수</th>
                                     </tr>
                                 </thead>
                                 <tbody>

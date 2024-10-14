@@ -1,7 +1,8 @@
 import { css } from "@emotion/react";
 import { ADMIN_PAGE_COLORS } from "../../../constants/colors";
+import { TABLE_SIZE } from "../../../constants/testDatas/tableSettings";
 
-export const layout = css`
+export const total = css`
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -17,17 +18,21 @@ export const layout = css`
         width: 100%;
     }
 
-    td {
+    th, td {
         box-sizing: border-box;
         border: 1px solid #000000;
-        width: 15%;
-        height: 35px;
+        height: ${TABLE_SIZE.cellHeight};
         text-align: center;
     }
 
-    td:nth-of-type(odd) {
+    th {
         background-color: ${ADMIN_PAGE_COLORS.tableTitleBg};
-        width: 10%;
+        width: ${TABLE_SIZE.thWidth};
+        font-weight: 500;
+    }
+
+    td {
+        width: ${TABLE_SIZE.tdWidth};
     }
 `;
 
@@ -102,19 +107,20 @@ export const card = css`
         width: 100%;
     }
 
-    td {
+    th, td {
         box-sizing: border-box;
         text-align: center;
         width: 150px;
     }
 
-    thead td {
+    th {
         border-top: 1px solid #c9c9c9;
         border-bottom: 1px solid #c9c9c9;
         padding: 5px 0px;
+        font-weight: 500;
     }
 
-    tbody td {
+    td {
         padding: 5px 0px;
         font-size: 15px;
     }

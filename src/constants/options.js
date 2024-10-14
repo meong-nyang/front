@@ -7,7 +7,7 @@ export const MENU_DATAS = [
     {
         menuId: 2,
         name: "상품관리",
-        address: "/admin/product"
+        address: "/admin/product/list"
     },
     {
         menuId: 3,

@@ -17,6 +17,10 @@ export const header = css`
         font-size: 16px;
         font-weight: 600;
     }
+
+    & button:nth-last-of-type(1) {
+        margin-left: 5px;
+    }
 `;
 
 export const searchBox = css`

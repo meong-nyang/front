@@ -15,5 +15,6 @@ export const reset = css`
         background-color: ${BUTTON_COLOR};
         width: 120px;
         height: 30px;
+        cursor: pointer;
     }
 `;
