@@ -81,6 +81,7 @@ export const loginInputBox = css`
         border: none;
         outline: none;
         font-size: 16px;
+        font-weight: 600;
         cursor: pointer;
 
         &:hover {

@@ -7,7 +7,6 @@ import { useRecoilState } from 'recoil';
 import Sidebar from '../Sidebar/Sidebar';
 import { sidebarShowAtom } from '../../../atoms/sidebarShowAtom';
 
-
 function MainHeader(props) {
     const [ sidebarShow, setSidebarShow ] = useRecoilState(sidebarShowAtom);
 
