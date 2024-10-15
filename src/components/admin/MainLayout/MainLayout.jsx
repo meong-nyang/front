@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { Link, NavLink, useNavigate } from "react-router-dom";
 import * as s from "./style";
-import { MENU_DATAS } from "../../../constants/menuList";
+import { MENU_DATAS } from "../../../constants/options";
 
 function MainLayout({ location, children }) {
     return (
@@ -19,7 +19,7 @@ function MainLayout({ location, children }) {
             </div>
             <div css={s.mainContainer}>
                 <header>
-                    {location}
+                    { location }
                 </header>
                 <body>
                     { children }

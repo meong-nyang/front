@@ -3,139 +3,37 @@ import { FaArrowRight } from "react-icons/fa6";
 import MainLayout from "../../../components/admin/MainLayout/MainLayout";
 import * as s from "./style";
 import { Link } from "react-router-dom";
+import { ORDER_DATA, STATISTICS_DATA, STOCK_DATA } from "../../../constants/testDatas/DashboardDatas";
 
-function Dashboard(props) {
+function DashboardPage(props) {
 
-    const orderData = [
-        {
-            id: 1,
-            customerName: "홍길동",
-            orderDate: "2024-01-01",
-            payStatus: "결제완료",
-            deliveryStatus: "배송종"
-        },
-        {
-            id: 1,
-            customerName: "홍길동",
-            orderDate: "2024-01-01",
-            payStatus: "결제완료",
-            deliveryStatus: "배송종"
-        },
-        {
-            id: 1,
-            customerName: "홍길동",
-            orderDate: "2024-01-01",
-            payStatus: "결제완료",
-            deliveryStatus: "배송종"
-        },
-        {
-            id: 1,
-            customerName: "홍길동",
-            orderDate: "2024-01-01",
-            payStatus: "결제완료",
-            deliveryStatus: "배송종"
-        },
-        {
-            id: 1,
-            customerName: "홍길동",
-            orderDate: "2024-01-01",
-            payStatus: "결제완료",
-            deliveryStatus: "배송종"
-        },
-        {
-            id: 1,
-            customerName: "홍길동",
-            orderDate: "2024-01-01",
-            payStatus: "결제완료",
-            deliveryStatus: "배송종"
-        }
-    ];
-
-    const stockData = [
-        {
-            id: 1,
-            productCode: "P-100101",
-            productName: "사료",
-            expectedStock: "10",
-            currentStock: "20"
-        }
-    ];
-
-    const statisticsData = [
-        {
-            id: 1,
-            date: "2024-01-01",
-            orderCount: "10",
-            sales: "100,000",
-            cancelCount: "5"
-        },
-        {
-            id: 1,
-            date: "2024-01-01",
-            orderCount: "10",
-            sales: "100,000",
-            cancelCount: "5"
-        },
-        {
-            id: 1,
-            date: "2024-01-01",
-            orderCount: "10",
-            sales: "100,000",
-            cancelCount: "5"
-        },
-        {
-            id: 1,
-            date: "2024-01-01",
-            orderCount: "10",
-            sales: "100,000",
-            cancelCount: "5"
-        },
-        {
-            id: 1,
-            date: "2024-01-01",
-            orderCount: "10",
-            sales: "100,000",
-            cancelCount: "5"
-        },
-        {
-            id: 1,
-            date: "2024-01-01",
-            orderCount: "10",
-            sales: "100,000",
-            cancelCount: "5"
-        },
-        {
-            id: 1,
-            date: "2024-01-01",
-            orderCount: "10",
-            sales: "100,000",
-            cancelCount: "5"
-        },
-    ]
+    const orderData = ORDER_DATA;
+    const stockData = STOCK_DATA;
+    const statisticsData = STATISTICS_DATA;
 
     return (
         <MainLayout location={"대시보드"}>
-            <div css={s.status}>
+            <div css={s.total}>
                 <div>실시간 매출 현황</div>
                 <table>
                     <tr>
-                        <td>총 매출</td>
+                        <th>총 매출</th>
                         <td>data</td>
-                        <td>총 주문건수</td>
+                        <th>총 주문건수</th>
                         <td>data</td>
-                        <td>총 취소건수</td>
+                        <th>총 취소건수</th>
                         <td>data</td>
-                        <td>전체 회원</td>
+                        <th>전체 회원</th>
                         <td>data</td>
                     </tr>
                     <tr>
-                        <td>오늘 매출</td>
+                        <th>오늘 매출</th>
                         <td>data</td>
-                        <td>오늘 주문건수</td>
+                        <th>오늘 주문건수</th>
                         <td>data</td>
-                        <td>오늘 취소건수</td>
+                        <th>오늘 취소건수</th>
                         <td>data</td>
-                        <td>신규 회원</td>
+                        <th>신규 회원</th>
                         <td>data</td>
                     </tr>
                 </table>
@@ -148,10 +46,10 @@ function Dashboard(props) {
                             <table>
                                 <thead>
                                     <tr>
-                                        <td>고객명</td>
-                                        <td>주문날짜</td>
-                                        <td>결제상태</td>
-                                        <td>배송상태</td>
+                                        <th>고객명</th>
+                                        <th>주문날짜</th>
+                                        <th>결제상태</th>
+                                        <th>배송상태</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -178,10 +76,10 @@ function Dashboard(props) {
                             <table>
                                 <thead>
                                     <tr>
-                                        <td>상품코드</td>
-                                        <td>상품명</td>
-                                        <td>가재고</td>
-                                        <td>현재재고</td>
+                                        <th>상품코드</th>
+                                        <th>상품명</th>
+                                        <th>가재고</th>
+                                        <th>현재재고</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -210,10 +108,10 @@ function Dashboard(props) {
                             <table>
                                 <thead>
                                     <tr>
-                                        <td>일자</td>
-                                        <td>주문건수</td>
-                                        <td>매출액</td>
-                                        <td>취소건수</td>
+                                        <th>일자</th>
+                                        <th>주문건수</th>
+                                        <th>매출액</th>
+                                        <th>취소건수</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -243,4 +141,4 @@ function Dashboard(props) {
     );
 }
 
-export default Dashboard;
+export default DashboardPage;

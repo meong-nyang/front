@@ -1,39 +1,22 @@
 import { css } from "@emotion/react";
 import { ADMIN_PAGE_COLORS } from "../../../constants/colors";
+import { TABLE_SIZE } from "../../../constants/testDatas/tableSettings";
 
-export const status = css`
+export const total = css`
     display: flex;
     flex-direction: column;
-    width: 1400px;
+    width: 100%;
     margin-bottom: 20px;
 
     & > div:nth-of-type(1) {
         font-weight: 600;
         margin-bottom: 5px;
     }
-
-    table {
-        border-collapse: collapse;
-        width: 100%;
-    }
-
-    td {
-        box-sizing: border-box;
-        border: 1px solid #000000;
-        width: 15%;
-        height: 35px;
-        text-align: center;
-    }
-
-    td:nth-of-type(odd) {
-        background-color: ${ADMIN_PAGE_COLORS.tableTitleBg};
-        width: 10%;
-    }
 `;
 
 export const information = css`
     display: flex;
-    width: 1400px;
+    width: 100%;
 `;
 
 export const leftInfo = css`
@@ -55,7 +38,7 @@ export const rightInfo = css`
     height: 100%;
 
     & > div {
-        height: 560px;
+        height: 660px;
     }
 `;
 
@@ -65,8 +48,8 @@ export const card = css`
     flex-direction: column;
     border: 1px solid black;
     padding: 10px 20px;
-    width: 690px;
-    height: 270px;
+    width: 805px;
+    height: 320px;
 
     & > header {
         margin: 0;
@@ -98,24 +81,22 @@ export const card = css`
 
     table {
         margin-top: 10px;
-        border-collapse: collapse;
-        /* width: 100%; */
     }
 
-    td {
-        box-sizing: border-box;
+    th, td {
+        border: none;
         text-align: center;
         width: 150px;
     }
 
-    thead td {
+    th {
         border-top: 1px solid #c9c9c9;
         border-bottom: 1px solid #c9c9c9;
-        padding: 5px 0px;
+        background-color: white;
     }
 
-    tbody td {
-        padding: 3px 0px;
+    td {
+        padding: 5px 0px;
         font-size: 15px;
     }
 `;
