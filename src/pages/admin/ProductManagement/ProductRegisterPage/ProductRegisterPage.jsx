@@ -4,10 +4,12 @@ import MainLayout from "../../../../components/admin/MainLayout/MainLayout";
 import * as s from "./style";
 import { useMutation } from "react-query";
 import { instance } from "../../../../apis/util/instance";
+import { FiExternalLink } from "react-icons/fi";
 
 function ProductRegisterPage() {
 
-    const emptyRegisterData = {
+    const emptyProductData = {
+        productName: "",
         petGroupId: "",
         categoryId: "",
         productPrice: "",
@@ -16,13 +18,13 @@ function ProductRegisterPage() {
         productBrand: "",
         productModel: "",
         productMemo: "",
-        recommendation: "",
+        recommendation: "yes",
         currentStock: "",
         expectedStock: "",
         productImage: ""
     }
 
-    const [ registerData, setRegisterData ] = useState(emptyRegisterData);
+    const [ productData, setProductData ] = useState(emptyProductData);
     const [ selectedFiles, setSelectedFiles ] = useState([]);
 
     const imagesToFormData = () => {
@@ -30,24 +32,25 @@ function ProductRegisterPage() {
         for (let i of selectedFiles) {
             formData.append('productImage', i);
         }
-        setRegisterData(data => ({
+        setProductData(data => ({
             ...data,
             productImage: formData
         }));
     }
 
-    const toFormData = () => {
+    const formData = () => {
         const formData = new FormData();
-        formData.append("petGroupId", registerData.petGroupId);
-        formData.append("productPrice", registerData.productPrice);
-        formData.append("productPriceDiscount", registerData.productPriceDiscount);
-        formData.append("productDetail", registerData.productDetail);
-        formData.append("productBrand", registerData.productBrand);
-        formData.append("productModel", registerData.productModel);
-        formData.append("productMemo", registerData.productMemo);
-        formData.append("recommendation", registerData.recommendation);
-        formData.append("currentStock", registerData.currentStock);
-        formData.append("expectedStock", registerData.expectedStock);
+        formData.append("productName", productData.productName)
+        formData.append("petGroupId", productData.petGroupId);
+        formData.append("productPrice", productData.productPrice);
+        formData.append("productPriceDiscount", productData.productPriceDiscount);
+        formData.append("productDetail", productData.productDetail);
+        formData.append("productBrand", productData.productBrand);
+        formData.append("productModel", productData.productModel);
+        formData.append("productMemo", productData.productMemo);
+        formData.append("recommendation", productData.recommendation);
+        formData.append("currentStock", productData.currentStock);
+        formData.append("expectedStock", productData.expectedStock);
         for (let i of selectedFiles) {
             formData.append('productImage', i);
         }
@@ -55,7 +58,7 @@ function ProductRegisterPage() {
     }
 
     const registerProductMutation = useMutation(
-        async () => await instance.post("/admin/product", toFormData(), {
+        async () => await instance.post("/admin/product", formData(), {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
@@ -77,7 +80,6 @@ function ProductRegisterPage() {
     }
 
     const handleRegisterButtonOnClick = () => {
-        // imagesToFormData();  // 이미지를 FormData로 변환
         registerProductMutation.mutateAsync();
     }
 
@@ -89,20 +91,20 @@ function ProductRegisterPage() {
                 </div>
                 <div css={s.buttons}>
                     <span>필수 정보</span>
-                    <button onClick={() => {imagesToFormData(); console.log(registerData)}}>취소</button>
+                    <button>취소</button>
                     <button onClick={handleRegisterButtonOnClick}>등록</button>
                 </div>
                 <div css={s.mustData}>
                     <table>
                         <tr>
                             <th>상품명</th>
-                            <td colSpan="7">강아지 사료</td>
+                            <td colSpan="7"></td>
                         </tr>
                         <tr>
                             <th>카테고리</th>
                             <td>{"강아지 > 사료"}</td>
                             <th>단가</th>
-                            <td>10000</td>
+                            <td></td>
                             <th>추천상품</th>
                             <td>
                                 <div css={s.recommendBox}>
@@ -139,6 +141,33 @@ function ProductRegisterPage() {
                             <td colSpan="7"></td>
                         </tr>
                     </table>
+                </div>
+                <div css={s.stockManagement}>
+                    <span>재고 관리</span>
+                    <table>
+                        <tr>
+                            <th>현재재고</th>
+                            <td></td>
+                            <th>가재고</th>
+                            <td></td>
+                            <th>입고 예정 일자</th>
+                            <td></td>
+                            <th>입고 수량</th>
+                            <td></td>
+                        </tr>
+                        <tr>
+                            <th>재고 알림 신청</th>
+                            <td></td>
+                            <th>알림 수량</th>
+                            <td></td>
+                        </tr>
+                    </table>
+                </div>
+                <div css={s.productDetail}>
+                    <span>상세정보 미리보기 <FiExternalLink /></span>
+                    <div>
+                        
+                    </div>
                 </div>
             </div>
         </MainLayout>

@@ -3,6 +3,15 @@ import { css } from "@emotion/react";
 export const layout = css`
     width: 100%;
     height: 100%;
+
+    & td > input {
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        width: 100%;
+        height: 90%;
+        font-size: 16px;
+    }
 `;
 
 export const images = css`
@@ -27,7 +36,6 @@ export const buttons = css`
         flex-grow: 1;
         display: flex;
         align-items: end;
-        font-weight: 600;
     }
 
     & > button {
@@ -92,6 +100,38 @@ export const optionalData = css`
     margin-top: 20px;
 
     & > span {
-        font-weight: 600;
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+`;
+
+export const stockManagement = css`
+    margin-top: 20px;
+
+    & > span {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+`;
+
+export const productDetail = css`
+    margin-top: 20px;
+    height: 350px;
+
+    & > span {
+        display: flex;
+        align-items: center;
+        margin-bottom: 5px;
+        cursor: pointer;
+
+        & > svg {
+            margin-left: 5px;
+        }
+    }
+
+    & > div {
+        border: 1px solid black;
+        width: 100%;
+        height: 100%;
     }
 `;
