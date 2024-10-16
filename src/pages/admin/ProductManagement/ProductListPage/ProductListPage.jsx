@@ -48,17 +48,6 @@ function ProductListPage() {
         setCheckedId(temp);
     }
     
-    const handleCheckboxOnChange = (e) => {
-        const temp = new Set(checkedId);
-        const checkboxId = e.target.name;
-        if (temp.has(checkboxId)) {
-            temp.delete(checkboxId);
-        } else {
-            temp.add(checkboxId);
-        }
-        setCheckedId(temp);
-    }
-    
     const handleSearchOptionOnClick = () => {
         setOpen(open => !open);
     }
@@ -82,6 +71,17 @@ function ProductListPage() {
             ...data,
             searchOption: option.name
         }));
+    }
+
+    const handleCheckboxOnChange = (e) => {
+        const temp = new Set(checkedId);
+        const checkboxId = e.target.name;
+        if (temp.has(checkboxId)) {
+            temp.delete(checkboxId);
+        } else {
+            temp.add(checkboxId);
+        }
+        setCheckedId(temp);
     }
 
     return (
@@ -140,8 +140,8 @@ function ProductListPage() {
                 <tbody>
                     {
                         PRODUCTS.map(product => 
-                            <tr key={product.id}>
-                                <td>
+                            <tr key={product.id} onClick={() => navigate(`/admin/product/modify/${product.id}`)}>
+                                <td onClick={(e) => e.stopPropagation()}>
                                     <input type="checkbox"
                                         name={product.id}
                                         onChange={handleCheckboxOnChange}

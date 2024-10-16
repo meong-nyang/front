@@ -4,11 +4,10 @@ import * as s from "./style";
 import { useMutation } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import { FiExternalLink } from "react-icons/fi";
-import { RiImageAddLine } from "react-icons/ri";
-import { GiCancel } from "react-icons/gi";
 import { useSetRecoilState } from "recoil";
 import { currentLocationAtom } from "../../../../atoms/currentLocationAtom";
 import { useNavigate } from "react-router-dom";
+import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 
 function ProductRegisterPage() {
 
@@ -35,19 +34,8 @@ function ProductRegisterPage() {
 
     const [ productData, setProductData ] = useState(emptyProductData);
     const [ selectedFiles, setSelectedFiles ] = useState([]);
-    const [ imgsPreview, setImgsPreview ] = useState([]);
 
     const navigate = useNavigate();
-
-    useEffect(() => {
-        // const result = selectedFiles.map(file => URL.createObjectURL(file));
-        const result = [];
-        console.log(selectedFiles)
-        for (let i of selectedFiles) {
-            result.push(URL.createObjectURL(i));
-        }
-        setImgsPreview(result);
-    }, [selectedFiles]);
 
     const formData = () => {
         const formData = new FormData();
@@ -85,43 +73,7 @@ function ProductRegisterPage() {
             }
         }
     );
-
-    // const handleFileOnChange = (e) => {
-    //     setSelectedFiles(e.target.files);
-    //     for (let i of e.target.files) {
-    //         setImgsPreview(img => ([...img, URL.createObjectURL(i)]));
-    //     }
-    //     console.log(e.target.files);
-    // }
-
-    const handleImageChangeOnClick = () => {
-        const fileInput = document.createElement("input");
-        fileInput.setAttribute("type", "file");
-        fileInput.setAttribute("accept", "image/*");
-        fileInput.setAttribute("multiple", "true");
-        fileInput.click();
-
-        fileInput.onchange = (e) => {
-            if (selectedFiles.length + e.target.files.length > 10) {
-                return alert("이미지는 최대 10개까지만 등록이 가능합니다");
-            }
-            for (let i of e.target.files) {
-                setSelectedFiles(file => [...file, i]);
-            }
-        }
-    }
-
-    const handleImageDeleteOnClick = (index) => {
-        console.log(index);
-        const newFiles = []
-        for (let i = 0; i < selectedFiles.length; i++) {
-            if (i !== index) {
-                newFiles.push(selectedFiles[i]);
-            }
-        }
-        setSelectedFiles(newFiles);
-    }
-
+    
     const handleRegisterButtonOnClick = () => {
         registerProductMutation.mutateAsync();
     }
@@ -131,26 +83,12 @@ function ProductRegisterPage() {
             ...data,
             recommendation: e.target.id
         }));
-        console.log(e.target.id);
     }
 
     return (
         <>
             <div css={s.layout}>
-                <div css={s.images}>
-                    {
-                        imgsPreview.map((img, index) =>
-                            <span key={index} onClick={() => handleImageDeleteOnClick(index)}>
-                                <img src={img}/>
-                                <GiCancel />
-                            </span>
-                        )
-                    }
-                    {
-                        imgsPreview.length < 10 &&
-                        <div onClick={handleImageChangeOnClick}><RiImageAddLine /></div>
-                    }
-                </div>
+                <ProductImages selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
                 <div css={s.buttons}>
                     <span>필수 정보</span>
                     <button onClick={() => navigate("/admin/product/list")}>취소</button>

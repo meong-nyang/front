@@ -109,6 +109,14 @@ export const mainTable = css`
     border-collapse: collapse;
     width: 100%;
 
+    & input[type="checkbox"] {
+        cursor: pointer;
+    }
+
+    & > tbody tr {
+        cursor: pointer;
+    }
+
     & th, td {
         border: 1px solid black;
         text-align: center;
@@ -141,5 +149,9 @@ export const mainTable = css`
 
     & tr > *:nth-of-type(7) {
         width: 13%;
+    }
+
+    & tr > td:nth-of-type(1) {
+        
     }
 `;
