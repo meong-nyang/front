@@ -10,6 +10,8 @@ import MainPage from './pages/user/MainPage/MainPage';
 import UserLoginPage from './pages/user/UserLoginPage/UserLoginPage';
 import UserJoinPage from './pages/user/UserJoinPage/UserJoinPage';
 import UserMyPage from './pages/user/UserMyPage/UserMyPage';
+import OAuth2SigninPage from './pages/user/OAuth2SigninPage/OAuth2SigninPage';
+import OAuth2SignupPage from './pages/user/OAuth2SignupPage/OAuth2SignupPage';
 
 function App() {
 
@@ -19,8 +21,10 @@ function App() {
       <Routes>
         <Route path='/' element={<MainPage />}/>
         <Route path='/user/login' element={<UserLoginPage/>}/>
-        <Route path='/user/join' element={<UserJoinPage/>}/>
-        <Route path='/user/mypage' element={<UserMyPage/>}/>
+        <Route path='/user/login/oauth2' element={<OAuth2SigninPage />}/>
+        <Route path='/user/join' element={<UserJoinPage />}/>
+        <Route path='/user/join/oauth2' element={<OAuth2SignupPage />}/>
+        <Route path='/user/mypage' element={<UserMyPage />}/>
 
         <Route path='/admin/dashboard' element={<DashboardPage />} />
         <Route path='/admin/product/list' element={<ProductListPage />} />

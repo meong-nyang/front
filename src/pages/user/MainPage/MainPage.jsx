@@ -61,7 +61,7 @@ function MainPage(props) {
                 <Sidebar />
                 <div css={s.mainContainer}>
                     <div css={s.mainPage}>
-                        <TbArrowBadgeLeftFilled css={s.prevButton} onClick={moveToSlide}/>
+                        <TbArrowBadgeLeftFilled css={s.prevButton} onClick={() => moveToSlide('prev')}/>
                         
                         {
                             trainCompartment.map((item, index) => (
@@ -74,7 +74,7 @@ function MainPage(props) {
                             ))
                         }
 
-                        <TbArrowBadgeRightFilled css={s.nextButton} onClick={moveToSlide}/>
+                        <TbArrowBadgeRightFilled css={s.nextButton} onClick={() => moveToSlide('next')}/>
                     </div>
                 </div>
             </div>

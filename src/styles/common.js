@@ -9,7 +9,7 @@ export const reset = css`
         height: 100%;
     }
 
-    button {
+    /* button {
         border: none;
         outline: none;
         background-color: ${BUTTON_COLOR};
@@ -18,10 +18,10 @@ export const reset = css`
         cursor: pointer;
     }
 
-    table {
+    /* table {
         width: 100%;
         border-collapse: collapse;
-    }
+    } */
 
     th, td {
         box-sizing: border-box;
@@ -39,5 +39,5 @@ export const reset = css`
     td {
         width: 15%;
         padding: 0px 10px;
-    }
+    } 
 `;
