@@ -10,6 +10,7 @@ import MainPage from './pages/user/MainPage/MainPage';
 import UserLoginPage from './pages/user/UserLoginPage/UserLoginPage';
 import UserJoinPage from './pages/user/UserJoinPage/UserJoinPage';
 import UserMyPage from './pages/user/UserMyPage/UserMyPage';
+import MainLayout from './components/admin/MainLayout/MainLayout';
 
 function App() {
 
@@ -22,15 +23,21 @@ function App() {
         <Route path='/user/join' element={<UserJoinPage/>}/>
         <Route path='/user/mypage' element={<UserMyPage/>}/>
 
-        <Route path='/admin/dashboard' element={<DashboardPage />} />
-        <Route path='/admin/product/list' element={<ProductListPage />} />
-        <Route path='/admin/product/register' element={<ProductRegisterPage />} />
-        <Route path='/admin/stock' element={<></>} />
-        <Route path='/admin/order' element={<></>} />
-        <Route path='/admin/customer' element={<></>} />
-        <Route path='/admin/statistics' element={<></>} />
-        <Route path='/admin/setting' element={<></>} />
-                                            
+        <Route path='/admin/*' element={
+          <MainLayout>
+            <Routes>
+              <Route path='dashboard' element={<DashboardPage />} />
+              <Route path='product/list' element={<ProductListPage />} />
+              <Route path='product/register' element={<ProductRegisterPage />} />
+              <Route path='stock' element={<></>} />
+              <Route path='order' element={<></>} />
+              <Route path='customer' element={<></>} />
+              <Route path='statistics' element={<></>} />
+              <Route path='setting' element={<></>} />
+            </Routes>
+          </MainLayout>}
+        />
+
         <Route path='*' element={ <NotFound />}/>
       </Routes>
     </>

@@ -1,11 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
-import MainLayout from "../../../../components/admin/MainLayout/MainLayout";
 import * as s from "./style";
 import { PRODUCTS, SEARCH_OPTIONS } from "../../../../constants/testDatas/ProductListDatas";
 import { useNavigate } from "react-router-dom";
+import { useSetRecoilState } from "recoil";
+import { currentLocationAtom } from "../../../../atoms/currentLocationAtom";
+import { IoMdArrowDropdown } from "react-icons/io";
 
 function ProductListPage() {
+
+    const setCurrentLocation = useSetRecoilState(currentLocationAtom);
+    setCurrentLocation({
+        selectedMenuId: 2,
+        currentLocation: "상품관리"
+    });
 
     const products = PRODUCTS;
     const searchOptions = SEARCH_OPTIONS;
@@ -78,21 +86,25 @@ function ProductListPage() {
 
     return (
         <>
-            <MainLayout location="상품관리 > 상품목록" css={s.layout}>
-                <div css={s.header}>
-                    <span>총 10개의 상품</span>
-                    <div>
-                        {
-                            checkedId.size !== 0 &&
-                            <button>선택항목 삭제</button>
-                        }
-                        <button onClick={() => navigate("/admin/product/register")}>상품등록</button>
-                    </div>
-                </div>
-                <div css={s.searchBox}>
-                    <button onClick={handleSearchOptionOnClick}>{searchData.searchOption}</button>
+            <div css={s.header}>
+                <span>총 10개의 상품</span>
+                <div>
                     {
-                        isOpen &&
+                        checkedId.size !== 0 &&
+                        <button>선택항목 삭제</button>
+                    }
+                    <button onClick={() => navigate("/admin/product/register")}>상품등록</button>
+                </div>
+            </div>
+            <div css={s.searchBox}>
+                <div>
+                    <button onClick={handleSearchOptionOnClick}>{searchData.searchOption}</button>
+                    <IoMdArrowDropdown />
+                </div>
+                {
+                    isOpen &&
+                    <>
+                        <span onClick={() => setOpen(false)}/>
                         <div css={s.searchOptionModal}>
                             {
                                 searchOptions.map(option => 
@@ -102,50 +114,50 @@ function ProductListPage() {
                                 )
                             }
                         </div>
+                    </>
+                }
+                <input type="text"
+                    onChange={handleSearchInputOnChange}
+                    onKeyDown={handleSearchInputOnKeyDown}
+                    value={searchData.searchValue} />
+            </div>
+            <table css={s.mainTable}>
+                <thead>
+                    <tr>
+                        <th>
+                            <input type="checkbox"
+                                onChange={handleMasterCheckboxOnChange}
+                                checked={masterCheckbox} />
+                        </th>
+                        <th>상품코드</th>
+                        <th>카테고리</th>
+                        <th>상품명</th>
+                        <th>단가</th>
+                        <th>판매가격</th>
+                        <th>메모</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {
+                        PRODUCTS.map(product => 
+                            <tr key={product.id}>
+                                <td>
+                                    <input type="checkbox"
+                                        name={product.id}
+                                        onChange={handleCheckboxOnChange}
+                                        checked={checkedId.has(product.id)}/>
+                                </td>
+                                <td>{product.productCode}</td>
+                                <td>{product.category}</td>
+                                <td>{product.productName}</td>
+                                <td>{product.unitPrice}</td>
+                                <td>{product.sellingPrice}</td>
+                                <td>{product.memo}</td>
+                            </tr>
+                        )
                     }
-                    <input type="text"
-                        onChange={handleSearchInputOnChange}
-                        onKeyDown={handleSearchInputOnKeyDown}
-                        value={searchData.searchValue} />
-                </div>
-                <table css={s.mainTable}>
-                    <thead>
-                        <tr>
-                            <th>
-                                <input type="checkbox"
-                                    onChange={handleMasterCheckboxOnChange}
-                                    checked={masterCheckbox} />
-                            </th>
-                            <th>상품코드</th>
-                            <th>카테고리</th>
-                            <th>상품명</th>
-                            <th>단가</th>
-                            <th>판매가격</th>
-                            <th>메모</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {
-                            PRODUCTS.map(product => 
-                                <tr key={product.id}>
-                                    <td>
-                                        <input type="checkbox"
-                                            name={product.id}
-                                            onChange={handleCheckboxOnChange}
-                                            checked={checkedId.has(product.id)}/>
-                                    </td>
-                                    <td>{product.productCode}</td>
-                                    <td>{product.category}</td>
-                                    <td>{product.productName}</td>
-                                    <td>{product.unitPrice}</td>
-                                    <td>{product.sellingPrice}</td>
-                                    <td>{product.memo}</td>
-                                </tr>
-                            )
-                        }
-                    </tbody>
-                </table>
-            </MainLayout>
+                </tbody>
+            </table>
         </>
     );
 }

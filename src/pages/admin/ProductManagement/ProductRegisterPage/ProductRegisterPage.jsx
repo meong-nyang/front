@@ -1,14 +1,22 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
-import MainLayout from "../../../../components/admin/MainLayout/MainLayout";
 import * as s from "./style";
 import { useMutation } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import { FiExternalLink } from "react-icons/fi";
 import { RiImageAddLine } from "react-icons/ri";
 import { GiCancel } from "react-icons/gi";
+import { useSetRecoilState } from "recoil";
+import { currentLocationAtom } from "../../../../atoms/currentLocationAtom";
+import { useNavigate } from "react-router-dom";
 
 function ProductRegisterPage() {
+
+    const setCurrentLocation = useSetRecoilState(currentLocationAtom);
+    setCurrentLocation({
+        selectedMenuId: 2,
+        currentLocation: "상품관리 > 상품등록"
+    });
 
     const emptyProductData = {
         productName: "",
@@ -20,7 +28,7 @@ function ProductRegisterPage() {
         productBrand: "",
         productModel: "",
         productMemo: "",
-        recommendation: "yes",
+        recommendation: "no",
         currentStock: "",
         expectedStock: ""
     }
@@ -28,6 +36,8 @@ function ProductRegisterPage() {
     const [ productData, setProductData ] = useState(emptyProductData);
     const [ selectedFiles, setSelectedFiles ] = useState([]);
     const [ imgsPreview, setImgsPreview ] = useState([]);
+
+    const navigate = useNavigate();
 
     useEffect(() => {
         // const result = selectedFiles.map(file => URL.createObjectURL(file));
@@ -116,8 +126,16 @@ function ProductRegisterPage() {
         registerProductMutation.mutateAsync();
     }
 
+    const handleRecommendOnChange = (e) => {
+        setProductData(data => ({
+            ...data,
+            recommendation: e.target.id
+        }));
+        console.log(e.target.id);
+    }
+
     return (
-        <MainLayout location="상품관리 > 상품등록">
+        <>
             <div css={s.layout}>
                 <div css={s.images}>
                     {
@@ -135,7 +153,7 @@ function ProductRegisterPage() {
                 </div>
                 <div css={s.buttons}>
                     <span>필수 정보</span>
-                    <button onClick={() => console.log(selectedFiles)}>취소</button>
+                    <button onClick={() => navigate("/admin/product/list")}>취소</button>
                     <button onClick={handleRegisterButtonOnClick}>등록</button>
                 </div>
                 <div css={s.mustData}>
@@ -153,12 +171,16 @@ function ProductRegisterPage() {
                             <td>
                                 <div css={s.recommendBox}>
                                     <div>
-                                        <input type="radio" name="recommend" id="yes" />
-                                        <label htmlFor="yes"></label>
+                                        <input type="radio" name="recommend" id="yes" 
+                                            checked={productData.recommendation === "yes"}
+                                            onChange={handleRecommendOnChange} />
+                                        <label htmlFor="yes"></label> 
                                         <label htmlFor="yes">설정</label>
                                     </div>
                                     <div>
-                                        <input type="radio" name="recommend" id="no" />
+                                        <input type="radio" name="recommend" id="no"
+                                            checked={productData.recommendation === "no"}
+                                            onChange={handleRecommendOnChange} />
                                         <label htmlFor="no"></label>
                                         <label htmlFor="no">미설정</label>
                                     </div>
@@ -214,7 +236,7 @@ function ProductRegisterPage() {
                     </div>
                 </div>
             </div>
-        </MainLayout>
+        </>
     );
 }
 

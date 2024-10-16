@@ -5,10 +5,14 @@ export const SEARCH_OPTIONS = [
     },
     {
         id: 2,
-        name: "카테고리명"
+        name: "상품코드"
     },
     {
         id: 3,
+        name: "카테고리명"
+    },
+    {
+        id: 4,
         name: "상품명"
     }
 ]
