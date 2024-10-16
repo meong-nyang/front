@@ -160,7 +160,7 @@ export const productDetail = css`
         align-items: center;
         margin-bottom: 5px;
         cursor: pointer;
-        width: auto;
+        width: 160px;
 
         & > svg {
             margin-left: 5px;

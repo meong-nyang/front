@@ -1,6 +1,4 @@
 import { css } from "@emotion/react";
-import { ADMIN_PAGE_COLORS } from "../../../constants/colors";
-import { TABLE_SIZE } from "../../../constants/testDatas/tableSettings";
 
 export const total = css`
     display: flex;
@@ -9,7 +7,6 @@ export const total = css`
     margin-bottom: 20px;
 
     & > div:nth-of-type(1) {
-        font-weight: 600;
         margin-bottom: 5px;
     }
 `;
@@ -63,10 +60,6 @@ export const card = css`
         align-items: center;
         font-weight: 600;
 
-        &:hover {
-            text-decoration: underline;
-        }
-
         & > a {
             display: flex;
             align-items: center;
@@ -75,6 +68,11 @@ export const card = css`
 
             & > svg {
                 margin-right: 5px;
+            }
+
+            &:hover {
+                cursor: pointer;
+                text-decoration: underline;
             }
         }
     }

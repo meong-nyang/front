@@ -35,7 +35,7 @@ function App() {
               <Route path='statistics' element={<></>} />
               <Route path='setting' element={<></>} />
             </Routes>
-          </MainLayout>} 
+          </MainLayout>}
         />
 
         <Route path='*' element={ <NotFound />}/>

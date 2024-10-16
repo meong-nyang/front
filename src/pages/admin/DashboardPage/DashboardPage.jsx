@@ -3,8 +3,16 @@ import { FaArrowRight } from "react-icons/fa6";
 import * as s from "./style";
 import { Link } from "react-router-dom";
 import { ORDER_DATA, STATISTICS_DATA, STOCK_DATA } from "../../../constants/testDatas/DashboardDatas";
+import { useSetRecoilState } from "recoil";
+import { currentLocationAtom } from "../../../atoms/currentLocationAtom";
 
 function DashboardPage(props) {
+
+    const setCurrentLocation = useSetRecoilState(currentLocationAtom);
+    setCurrentLocation({
+        selectedMenuId: 1,
+        currentLocation: "대시보드"
+    });
 
     const orderData = ORDER_DATA;
     const stockData = STOCK_DATA;

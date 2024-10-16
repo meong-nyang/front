@@ -7,7 +7,7 @@ export const layout = css`
     height: 100%;
 `;
 
-export const menuList = css`
+export const menuList = (selectedMenu) => css`
     display: flex;
     flex-direction: column;
     flex-shrink: 0;
@@ -38,6 +38,10 @@ export const menuList = css`
     & > a:hover {
         background-color: #efefef;
     }
+
+    & > a:nth-of-type(${selectedMenu}) {
+        font-weight: 600;
+    }
 `;
 
 export const mainContainer = css`
@@ -55,7 +59,7 @@ export const mainContainer = css`
         font-size: 14px;
     }
 
-    & > body {
+    & > main {
         width: 1650px;
         box-sizing: border-box;
         padding-left: 20px;
