@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { FaArrowRight } from "react-icons/fa6";
-import MainLayout from "../../../components/admin/MainLayout/MainLayout";
 import * as s from "./style";
 import { Link } from "react-router-dom";
 import { ORDER_DATA, STATISTICS_DATA, STOCK_DATA } from "../../../constants/testDatas/DashboardDatas";
@@ -12,7 +11,7 @@ function DashboardPage(props) {
     const statisticsData = STATISTICS_DATA;
 
     return (
-        <MainLayout location={"대시보드"}>
+        <>
             <div css={s.total}>
                 <div>실시간 매출 현황</div>
                 <table>
@@ -137,7 +136,7 @@ function DashboardPage(props) {
                     </div>
                 </div>
             </div>
-        </MainLayout>
+        </>
     );
 }
 

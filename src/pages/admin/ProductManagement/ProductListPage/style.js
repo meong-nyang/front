@@ -67,6 +67,8 @@ export const searchOptionModal = css`
     background-color: white;
     box-shadow: 2px 2px 5px #00000044;
 
+    
+
     & > button {
         display: flex;
         justify-content: center;

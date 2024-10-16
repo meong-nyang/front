@@ -1,9 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import * as s from "./style";
 import { MENU_DATAS } from "../../../constants/options";
+import { useRecoilState } from "recoil";
+import { currentLocationAtom } from "../../../atoms/currentLocationAtom";
 
-function MainLayout({ location, children }) {
+function MainLayout({ children }) {
+
+    const [ currentLocation ] = useRecoilState(currentLocationAtom);
+
     return (
         <div css={s.layout}>
             <div css={s.menuList}>
@@ -18,8 +23,13 @@ function MainLayout({ location, children }) {
                 }
             </div>
             <div css={s.mainContainer}>
-                <header>
-                    { location }
+                <header css={s.head}>
+                    <div>
+                        { currentLocation.locationName }
+                    </div>
+                    <div>
+                        관리자 이름
+                    </div>
                 </header>
                 <body>
                     { children }
