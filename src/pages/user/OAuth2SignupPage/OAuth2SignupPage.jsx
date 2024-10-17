@@ -4,14 +4,19 @@ import * as s from "./style";
 import MainHeader from '../../../components/user/MainHeader/MainHeader';
 import { useMutation } from 'react-query';
 import axios from 'axios';
+import { instance } from '../../../apis/util/instance';
+import { useNavigate, useParams, useSearchParams } from 'react-router-dom';
 
 function OAuth2SignupPage(props) {
+    const navigate = useNavigate();
+    const [params] = useSearchParams();
     const [ inputUser, setInputUser ] = useState({
-        username: "",
+        username: params.get("oAuth2Name"),
         name: "",
         phone: "",
-        provider: ""
+        provider: params.get("provider"),
     });
+
 
     const handleAddInfoInputOnChange = (e) => {
         setInputUser(inputUser => ({
@@ -21,32 +26,20 @@ function OAuth2SignupPage(props) {
     };
 
     const addInfoOAuthSignup = useMutation(
-        async (inputUser) => {
-            const response = await axios.post("/auth/signup", inputUser);
-            return {
-                inSuccess: true,
-                ok: response.data,
-            };
-        },
+        async () => await instance.post("/auth/oauth2/signup", inputUser),
         {
-            inSuccess: (data) => {
-                if (data.isSuccess) {
-                    console.log("회원가입 완료", data.ok.message);
-                }
+            onSuccess: () => {
+                alert("회원가입 완료");
+                navigate("/");
             },
-            onError: (error) => {
-                const response = error.response;
-                // const fieldErrors = response?.data?.map(fieldError => ({
-                //     field: fieldError.field,
-                //     defaultMessage: fieldError.defaultMessage
-                // })) || [];
-
+            onError: error => {
                 console.log("입력한 정보를 다시 확인해 주세요");
             }
         }
     );
 
     const handleAddInfoSubmitOnClick = () => {
+        console.log(inputUser);
         addInfoOAuthSignup.mutateAsync();
     };
 
