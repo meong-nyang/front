@@ -48,7 +48,7 @@ function UserLoginPage(props) {
     }
 
     const signin = useMutation(
-        async () => await instance.post("/login", inputUser),
+        async () => await instance.post("/auth/signin", inputUser),
 
         {
             onSuccess: (data) => {
