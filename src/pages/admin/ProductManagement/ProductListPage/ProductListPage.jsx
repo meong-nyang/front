@@ -3,17 +3,9 @@ import { useEffect, useState } from "react";
 import * as s from "./style";
 import { PRODUCTS, SEARCH_OPTIONS } from "../../../../constants/testDatas/ProductListDatas";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { currentLocationAtom } from "../../../../atoms/currentLocationAtom";
 import { IoMdArrowDropdown } from "react-icons/io";
 
 function ProductListPage() {
-
-    const setCurrentLocation = useSetRecoilState(currentLocationAtom);
-    setCurrentLocation({
-        selectedMenuId: 2,
-        currentLocation: "상품관리"
-    });
 
     const products = PRODUCTS;
     const searchOptions = SEARCH_OPTIONS;

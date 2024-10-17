@@ -3,33 +3,40 @@ import { useEffect, useState } from "react";
 import * as s from "./style";
 import { useMutation } from "react-query";
 import { instance } from "../../../../apis/util/instance";
-import { useSetRecoilState } from "recoil";
-import { currentLocationAtom } from "../../../../atoms/currentLocationAtom";
 import { useNavigate } from "react-router-dom";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import ProductEdit from "../../../../components/admin/ProductEdit/ProductEdit";
 
 function ProductRegisterPage() {
 
-    const setCurrentLocation = useSetRecoilState(currentLocationAtom);
-    setCurrentLocation({
-        selectedMenuId: 2,
-        currentLocation: "상품관리 > 상품등록"
-    });
+    // const emptyProductData = {
+    //     productName: "",
+    //     petGroupId: "",
+    //     categoryId: "",
+    //     productPrice: 0,
+    //     productPriceDiscount: 0,
+    //     productDetail: "",
+    //     productBrand: "",
+    //     productModel: "",
+    //     productMemo: "",
+    //     recommendation: 0,
+    //     currentStock: 0,
+    //     expectedStock: 0
+    // }
 
     const emptyProductData = {
-        productName: "",
-        petGroupId: "",
-        categoryId: "",
-        productPrice: "",
-        productPriceDiscount: "",
-        productDetail: "",
-        productBrand: "",
-        productModel: "",
-        productMemo: "",
-        recommendation: "no",
-        currentStock: "",
-        expectedStock: ""
+        productName: "test",
+        petGroupId: 1,
+        categoryId: 1,
+        productPrice: 0,
+        productPriceDiscount: 0,
+        productDetail: "asdf",
+        productBrand: "asdf",
+        productModel: "asdf",
+        productMemo: "asdf",
+        recommendation: 0,
+        currentStock: 0,
+        expectedStock: 0
     }
 
     const [ productData, setProductData ] = useState(emptyProductData);
@@ -73,12 +80,12 @@ function ProductRegisterPage() {
 
     return (
         <div css={s.layout}>
-            <ProductImages selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
             <div css={s.buttons}>
                 <button onClick={() => navigate("/admin/product/list")}>취소</button>
                 <button onClick={handleRegisterButtonOnClick}>등록</button>
             </div>
-            <ProductEdit productData={productData} setProductData={setProductData}/>
+            <ProductImages selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
+            <ProductEdit productData={productData} setProductData={setProductData} />
         </div>
     );
 }

@@ -8,7 +8,7 @@ export const layout = css`
 export const buttons = css`
     display: flex;
     justify-content: end;
-    margin: 10px 0px 5px;
+    margin: 0px 0px 5px;
     width: 100%;
     height: 30px;
 

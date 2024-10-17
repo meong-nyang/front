@@ -11,6 +11,7 @@ import UserLoginPage from './pages/user/UserLoginPage/UserLoginPage';
 import UserJoinPage from './pages/user/UserJoinPage/UserJoinPage';
 import UserMyPage from './pages/user/UserMyPage/UserMyPage';
 import MainLayout from './components/admin/MainLayout/MainLayout';
+import { useState } from 'react';
 
 function App() {
 
@@ -26,17 +27,18 @@ function App() {
         <Route path='/admin/*' element={
           <MainLayout>
             <Routes>
-              <Route path='dashboard' element={<DashboardPage />} />
-              <Route path='product/list' element={<ProductListPage />} />
-              <Route path='product/register' element={<ProductRegisterPage />} />
-              <Route path='stock' element={<></>} />
-              <Route path='order' element={<></>} />
-              <Route path='customer' element={<></>} />
-              <Route path='statistics' element={<></>} />
-              <Route path='setting' element={<></>} />
+              <Route path='/' element={<DashboardPage />} />
+              <Route path='/product/list' element={<ProductListPage />} />
+              <Route path='/product/register' element={<ProductRegisterPage />} />
+              <Route path='/stock' element={<></>} />
+              <Route path='/order' element={<></>} />
+              <Route path='/customer' element={<></>} />
+              <Route path='/statistics' element={<></>} />
+              <Route path='/setting' element={<></>} />
+              <Route path='/*' element={<NotFound />} />
             </Routes>
-          </MainLayout>}
-        />
+          </MainLayout>
+        } />
 
         <Route path='*' element={ <NotFound />}/>
       </Routes>

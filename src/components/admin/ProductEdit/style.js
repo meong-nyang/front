@@ -1,26 +1,38 @@
 import { css } from "@emotion/react";
 
 export const layout = css`
+    margin-top: 20px;
     width: 100%;
     height: 100%;
 
+    // input type이 number인 경우 오른쪽에 생기는 화살표 제거
+    & input::-webkit-outer-spin-button,
+    & input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
     & td {
-        padding: 0px 1px;
+        padding: 0px;
     }
 
     & td > input {
-        padding: 0 10px;
         box-sizing: border-box;
         border: none;
-        outline: none;
+        padding: 1px 10px;
         width: 100%;
-        height: 90%;
+        height: 28px;
+        outline: none;
         font-size: 16px;
 
         &:focus {
             outline: 2px solid black;
         }
     }
+`;
+
+export const notInput = css`
+    padding: 0px 10px !important;
 `;
 
 export const mustData = css`

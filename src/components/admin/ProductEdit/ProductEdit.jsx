@@ -35,9 +35,14 @@ function ProductEdit({ productData, setProductData }) {
                     </tr>
                     <tr>
                         <th>카테고리</th>
-                        <td>{"강아지 > 사료"}</td>
+                        <td css={s.notInput}>{"강아지 > 사료"}</td>
                         <th>단가</th>
-                        <td><input type="text" /></td>
+                        <td>
+                            <input type="number" name="productPrice"
+                                value={productData.productPrice}
+                                onChange={handleProductDataOnChange}
+                            />
+                        </td>
                         <th>추천상품</th>
                         <td>
                             <div css={s.recommendBox}>
@@ -65,13 +70,28 @@ function ProductEdit({ productData, setProductData }) {
                 <table>
                     <tr>
                         <th>브랜드</th>
-                        <td><input type="text" /></td>
+                        <td>
+                            <input type="text" name="productBrand"
+                                value={productData.productBrand}
+                                onChange={handleProductDataOnChange}
+                            />
+                        </td>
                         <th>모델명</th>
-                        <td><input type="text" /></td>
+                        <td>
+                            <input type="text" name="productModel"
+                                value={productData.productModel}
+                                onChange={handleProductDataOnChange}
+                            />
+                        </td>
                         <th>할인금액</th>
-                        <td><input type="text" /></td>
+                        <td>
+                            <input type="number" name="productPriceDiscount"
+                                value={productData.productPriceDiscount}
+                                onChange={handleProductDataOnChange}
+                            />
+                        </td>
                         <th>판매가격</th>
-                        <td><input type="text" /></td>
+                        <td css={s.notInput}>{productData.productPrice - productData.productPriceDiscount}</td>
                     </tr>
                     <tr>
                         <th>메모</th>

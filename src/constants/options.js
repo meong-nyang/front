@@ -2,7 +2,7 @@ export const MENU_DATAS = [
     {
         menuId: 1,
         name: "대시보드",
-        address: "/admin/dashboard"
+        address: "/admin"
     },
     {
         menuId: 2,
