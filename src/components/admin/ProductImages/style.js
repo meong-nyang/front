@@ -11,12 +11,14 @@ export const images = css`
         margin-right: 20px;
         width: 100px;
         height: 100px;
-        cursor: pointer;
 
         & > svg {
             position: absolute;
             transform: translate(-60%, -40%);
+            width: 20px;
+            height: 20px;
             color: red;
+            cursor: pointer;
         }
     }
 
@@ -40,8 +42,6 @@ export const images = css`
         width: 100%;
         height: 100%;
     }
-
-    &
 
     & input[type="file"] {
         display: none;

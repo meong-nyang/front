@@ -47,9 +47,9 @@ function ProductImages( {selectedFiles, setSelectedFiles} ) {
         <div css={s.images}>
             {
                 imgsPreview.map((img, index) =>
-                    <span key={index} onClick={() => handleImageDeleteOnClick(index)}>
+                    <span key={index}>
                         <img src={img}/>
-                        <GiCancel />
+                        <GiCancel onClick={() => handleImageDeleteOnClick(index)}/>
                     </span>
                 )
             }
