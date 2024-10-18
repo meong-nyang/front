@@ -36,8 +36,8 @@ function MainHeader(props) {
                                     
                             </div>
                         </div>
-                        <a href='/user/login'>로그인</a>
-                        <a href='/user/join'>회원가입</a>
+                        <a href='/auth/signin'>로그인</a>
+                        <a href='/auth/signup'>회원가입</a>
                         <a href='/user/mypage'>마이페이지</a>
                     </div>
                 </div>

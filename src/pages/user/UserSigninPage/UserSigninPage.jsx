@@ -9,7 +9,7 @@ import { useMutation } from 'react-query';
 import { useNavigate } from 'react-router-dom';
 import { instance } from '../../../apis/util/instance';
 
-function UserLoginPage(props) {
+function UserSigninPage(props) {
     const navigate = useNavigate();
     const [ authState, setAuthState ] = useState(1);
 
@@ -65,8 +65,6 @@ function UserLoginPage(props) {
                 alert("로그인에 실패했습니다");
             }
         },
-        
-
     );
 
     const handleLoginInputOnChange = (e) => {
@@ -113,11 +111,11 @@ function UserLoginPage(props) {
                         <a href='http://localhost:8080/oauth2/authorization/kakao'><RiKakaoTalkFill /></a>
                         <a href='http://localhost:8080/oauth2/authorization/naver'><SiNaver /></a>
                     </div>
-                    <a href='/user/join'>아직 계정이 없으신가요?</a>
+                    <a href='/auth/signup'>아직 계정이 없으신가요?</a>
                 </div>
             </body>
         </>
     );
 }
 
-export default UserLoginPage;
+export default UserSigninPage;

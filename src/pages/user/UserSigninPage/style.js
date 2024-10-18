@@ -58,15 +58,15 @@ export const logoBox = css`
     box-sizing: border-box;
     border: 1px solid #dbdbdb;
     justify-content: center;
-    align-items: center;
     box-sizing: border-box;
-    width: 60%;
+    align-items: center;
     height: 180px;
-`;
+    width: 60%;
 
-export const loginInputBox = css`
-    display: flex;
+`;export const loginInputBox = css`
+
     margin-bottom: 10px;
+    display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
