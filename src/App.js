@@ -11,6 +11,7 @@ import UserLoginPage from './pages/user/UserLoginPage/UserLoginPage';
 import UserJoinPage from './pages/user/UserJoinPage/UserJoinPage';
 import UserMyPage from './pages/user/UserMyPage/UserMyPage';
 import MainLayout from './components/admin/MainLayout/MainLayout';
+import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
 
 function App() {
 
@@ -29,6 +30,7 @@ function App() {
               <Route path='/' element={<DashboardPage />} />
               <Route path='/product/list' element={<ProductListPage />} />
               <Route path='/product/register' element={<ProductRegisterPage />} />
+              <Route path='/product/modify/:id' element={<ProductModifyPage />} />
               <Route path='/stock' element={<></>} />
               <Route path='/order' element={<></>} />
               <Route path='/customer' element={<></>} />

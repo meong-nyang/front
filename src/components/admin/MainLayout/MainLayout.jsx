@@ -2,10 +2,11 @@
 import { Link, useLocation } from "react-router-dom";
 import * as s from "./style";
 import { LOCATION_DATAS, MENU_DATAS } from "../../../constants/options";
+import logoImg from "../../../assets/images/logo.png";
 
 function MainLayout({ children }) {
     const addressLocation = useLocation();
-    let result = LOCATION_DATAS.filter(data => data.address === (addressLocation.pathname))[0];
+    let result = LOCATION_DATAS.filter(data => addressLocation.pathname.startsWith(data.address))[0];
 
     if (result === undefined) {
         result = {
@@ -17,7 +18,10 @@ function MainLayout({ children }) {
     return (
         <div css={s.layout}>
             <div css={s.menuList(result.menuId)}>
-                <div>로고</div>
+                <div css={s.logo}>
+                    <img src={logoImg} alt="" />
+                    <span>멍멍냥냥</span>
+                </div>
                 {
                     MENU_DATAS.map(menu => (
                         <Link to={menu.address} key={menu.menuId}>{menu.name}</Link>

@@ -3,7 +3,7 @@ import * as s from "./style";
 import { FiExternalLink } from "react-icons/fi";
 
 
-function ProductEdit({ productData, setProductData }) {
+function ProductEdit({ productData, setProductData, disabled }) {
 
     const handleProductDataOnChange = (e) => {
         setProductData(data => ({
@@ -28,17 +28,24 @@ function ProductEdit({ productData, setProductData }) {
                     <tr>
                         <th>상품명</th>
                         <td colSpan="7">
-                            <input type="text" name="productName" 
+                            <input type="text" name="productName"
+                                disabled={disabled}
                                 value={productData.productName} 
                                 onChange={handleProductDataOnChange} />
                         </td>
                     </tr>
                     <tr>
                         <th>카테고리</th>
-                        <td css={s.notInput}>{"강아지 > 사료"}</td>
+                        <td>
+                            <input type="text" name="productName"
+                                disabled="false"
+                                value={"강아지 > 먹이"} 
+                                onChange={handleProductDataOnChange} />
+                        </td>
                         <th>단가</th>
                         <td>
                             <input type="number" name="productPrice"
+                                disabled={disabled}
                                 value={productData.productPrice}
                                 onChange={handleProductDataOnChange}
                             />
@@ -48,6 +55,7 @@ function ProductEdit({ productData, setProductData }) {
                             <div css={s.recommendBox}>
                                 <div>
                                     <input type="radio" name="recommend" id="yes" 
+                                        disabled={disabled}
                                         checked={productData.recommendation === "yes"}
                                         onChange={handleRecommendOnChange} />
                                     <label htmlFor="yes"></label> 
@@ -55,6 +63,7 @@ function ProductEdit({ productData, setProductData }) {
                                 </div>
                                 <div>
                                     <input type="radio" name="recommend" id="no"
+                                        disabled={disabled}
                                         checked={productData.recommendation === "no"}
                                         onChange={handleRecommendOnChange} />
                                     <label htmlFor="no"></label>
@@ -72,6 +81,7 @@ function ProductEdit({ productData, setProductData }) {
                         <th>브랜드</th>
                         <td>
                             <input type="text" name="productBrand"
+                                disabled={disabled}
                                 value={productData.productBrand}
                                 onChange={handleProductDataOnChange}
                             />
@@ -79,6 +89,7 @@ function ProductEdit({ productData, setProductData }) {
                         <th>모델명</th>
                         <td>
                             <input type="text" name="productModel"
+                                disabled={disabled}
                                 value={productData.productModel}
                                 onChange={handleProductDataOnChange}
                             />
@@ -86,16 +97,22 @@ function ProductEdit({ productData, setProductData }) {
                         <th>할인금액</th>
                         <td>
                             <input type="number" name="productPriceDiscount"
+                                disabled={disabled}
                                 value={productData.productPriceDiscount}
                                 onChange={handleProductDataOnChange}
                             />
                         </td>
                         <th>판매가격</th>
-                        <td css={s.notInput}>{productData.productPrice - productData.productPriceDiscount}</td>
+                        <td>
+                            <input type="text" 
+                                value={productData.productPrice - productData.productPriceDiscount}/>
+                        </td>
                     </tr>
                     <tr>
                         <th>메모</th>
-                        <td colSpan="7"><input type="text" /></td>
+                        <td colSpan="7"><input type="text" 
+                            disabled={disabled} />
+                        </td>
                     </tr>
                 </table>
             </div>

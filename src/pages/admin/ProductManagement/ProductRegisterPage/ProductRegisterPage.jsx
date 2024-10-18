@@ -25,7 +25,7 @@ function ProductRegisterPage() {
     // }
 
     const emptyProductData = {
-        productName: "test",
+        productName: "맛있다",
         petGroupId: 1,
         categoryId: 1,
         productPrice: 0,
@@ -81,11 +81,10 @@ function ProductRegisterPage() {
     return (
         <div css={s.layout}>
             <div css={s.buttons}>
-                <button onClick={() => navigate("/admin/product/list")}>취소</button>
                 <button onClick={handleRegisterButtonOnClick}>등록</button>
             </div>
             <ProductImages selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
-            <ProductEdit productData={productData} setProductData={setProductData} />
+            <ProductEdit productData={productData} setProductData={setProductData} disabled={false} />
         </div>
     );
 }

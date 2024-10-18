@@ -18,7 +18,7 @@ export const layout = css`
     & td > input {
         box-sizing: border-box;
         border: none;
-        padding: 1px 10px;
+        padding: 0px 10px;
         width: 100%;
         height: 28px;
         outline: none;
@@ -27,11 +27,12 @@ export const layout = css`
         &:focus {
             outline: 2px solid black;
         }
-    }
-`;
 
-export const notInput = css`
-    padding: 0px 10px !important;
+        &:disabled {
+            background-color: white;
+            color: black;
+        }
+    }
 `;
 
 export const mustData = css`

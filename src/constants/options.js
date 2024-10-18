@@ -38,11 +38,6 @@ export const MENU_DATAS = [
 
 export const LOCATION_DATAS = [
     {
-        address: "/admin",
-        menuId: 1,
-        name: "대시보드"
-    },
-    {
         address: "/admin/product/list",
         menuId: 2,
         name: "상품관리 > 상품목록"
@@ -51,6 +46,11 @@ export const LOCATION_DATAS = [
         address: "/admin/product/register",
         menuId: 2,
         name: "상품관리 > 상품등록"
+    },
+    {
+        address: "/admin/product/modify",
+        menuId: 2,
+        name: "상품관리 > 상품수정"
     },
     {
         address: "/admin/stock",
@@ -76,5 +76,10 @@ export const LOCATION_DATAS = [
         address: "/admin/setting",
         menuId: 7,
         name: "사이트설정"
-    }
+    },
+    {
+        address: "/admin",
+        menuId: 1,
+        name: "대시보드"
+    },
 ]
