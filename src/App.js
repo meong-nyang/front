@@ -12,6 +12,7 @@ import UserJoinPage from './pages/user/UserJoinPage/UserJoinPage';
 import UserMyPage from './pages/user/UserMyPage/UserMyPage';
 import MainLayout from './components/admin/MainLayout/MainLayout';
 import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
+import AdminSigninPage from './pages/admin/AdminSigninPage/AdminSigninPage';
 
 function App() {
 
@@ -24,6 +25,7 @@ function App() {
         <Route path='/user/join' element={<UserJoinPage/>}/>
         <Route path='/user/mypage' element={<UserMyPage/>}/>
 
+        <Route path='/admin/signin' element={<AdminSigninPage />} />
         <Route path='/admin/*' element={
           <MainLayout>
             <Routes>
