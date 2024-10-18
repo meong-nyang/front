@@ -3,16 +3,8 @@ import { FaArrowRight } from "react-icons/fa6";
 import * as s from "./style";
 import { Link } from "react-router-dom";
 import { ORDER_DATA, STATISTICS_DATA, STOCK_DATA } from "../../../constants/testDatas/DashboardDatas";
-import { useSetRecoilState } from "recoil";
-import { currentLocationAtom } from "../../../atoms/currentLocationAtom";
 
-function DashboardPage(props) {
-
-    const setCurrentLocation = useSetRecoilState(currentLocationAtom);
-    setCurrentLocation({
-        selectedMenuId: 1,
-        currentLocation: "대시보드"
-    });
+function DashboardPage() {
 
     const orderData = ORDER_DATA;
     const stockData = STOCK_DATA;
@@ -23,26 +15,28 @@ function DashboardPage(props) {
             <div css={s.total}>
                 <div>실시간 매출 현황</div>
                 <table>
-                    <tr>
-                        <th>총 매출</th>
-                        <td>data</td>
-                        <th>총 주문건수</th>
-                        <td>data</td>
-                        <th>총 취소건수</th>
-                        <td>data</td>
-                        <th>전체 회원</th>
-                        <td>data</td>
-                    </tr>
-                    <tr>
-                        <th>오늘 매출</th>
-                        <td>data</td>
-                        <th>오늘 주문건수</th>
-                        <td>data</td>
-                        <th>오늘 취소건수</th>
-                        <td>data</td>
-                        <th>신규 회원</th>
-                        <td>data</td>
-                    </tr>
+                    <tbody>
+                        <tr>
+                            <th>총 매출</th>
+                            <td>data</td>
+                            <th>총 주문건수</th>
+                            <td>data</td>
+                            <th>총 취소건수</th>
+                            <td>data</td>
+                            <th>전체 회원</th>
+                            <td>data</td>
+                        </tr>
+                        <tr>
+                            <th>오늘 매출</th>
+                            <td>data</td>
+                            <th>오늘 주문건수</th>
+                            <td>data</td>
+                            <th>오늘 취소건수</th>
+                            <td>data</td>
+                            <th>신규 회원</th>
+                            <td>data</td>
+                        </tr>
+                    </tbody>
                 </table>
             </div>
             <div css={s.information}>
@@ -62,7 +56,7 @@ function DashboardPage(props) {
                                 <tbody>
                                     {
                                         orderData.map(data => (
-                                            <tr>
+                                            <tr key={data.id}>
                                                 <td>{data.customerName}</td>
                                                 <td>{data.orderDate}</td>
                                                 <td>{data.payStatus}</td>
@@ -92,7 +86,7 @@ function DashboardPage(props) {
                                 <tbody>
                                     {
                                         stockData.map(data => (
-                                            <tr>
+                                            <tr key={data.id}>
                                                 <td>{data.productCode}</td>
                                                 <td>{data.productName}</td>
                                                 <td>{data.expectedStock}</td>
@@ -124,7 +118,7 @@ function DashboardPage(props) {
                                 <tbody>
                                     {
                                         statisticsData.map(data => (
-                                            <tr>
+                                            <tr key={data.id}>
                                                 <td>{data.date}</td>
                                                 <td>{data.orderCount}</td>
                                                 <td>{data.sales}</td>

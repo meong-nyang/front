@@ -7,35 +7,35 @@ export const ORDER_DATA = [
         deliveryStatus: "배송종"
     },
     {
-        id: 1,
+        id: 2,
         customerName: "홍길동",
         orderDate: "2024-01-01",
         payStatus: "결제완료",
         deliveryStatus: "배송종"
     },
     {
-        id: 1,
+        id: 3,
         customerName: "홍길동",
         orderDate: "2024-01-01",
         payStatus: "결제완료",
         deliveryStatus: "배송종"
     },
     {
-        id: 1,
+        id: 4,
         customerName: "홍길동",
         orderDate: "2024-01-01",
         payStatus: "결제완료",
         deliveryStatus: "배송종"
     },
     {
-        id: 1,
+        id: 5,
         customerName: "홍길동",
         orderDate: "2024-01-01",
         payStatus: "결제완료",
         deliveryStatus: "배송종"
     },
     {
-        id: 1,
+        id: 6,
         customerName: "홍길동",
         orderDate: "2024-01-01",
         payStatus: "결제완료",
@@ -55,49 +55,49 @@ export const STOCK_DATA = [
 
 export const STATISTICS_DATA = [
     {
-        id: 1,
+        id: 2,
         date: "2024-01-01",
         orderCount: "10",
         sales: "100,000",
         cancelCount: "5"
     },
     {
-        id: 1,
+        id: 3,
         date: "2024-01-01",
         orderCount: "10",
         sales: "100,000",
         cancelCount: "5"
     },
     {
-        id: 1,
+        id: 4,
         date: "2024-01-01",
         orderCount: "10",
         sales: "100,000",
         cancelCount: "5"
     },
     {
-        id: 1,
+        id: 5,
         date: "2024-01-01",
         orderCount: "10",
         sales: "100,000",
         cancelCount: "5"
     },
     {
-        id: 1,
+        id: 6,
         date: "2024-01-01",
         orderCount: "10",
         sales: "100,000",
         cancelCount: "5"
     },
     {
-        id: 1,
+        id: 7,
         date: "2024-01-01",
         orderCount: "10",
         sales: "100,000",
         cancelCount: "5"
     },
     {
-        id: 1,
+        id: 8,
         date: "2024-01-01",
         orderCount: "10",
         sales: "100,000",

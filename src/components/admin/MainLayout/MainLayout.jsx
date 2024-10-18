@@ -1,17 +1,27 @@
 /** @jsxImportSource @emotion/react */
 import { Link, useLocation } from "react-router-dom";
 import * as s from "./style";
-import { MENU_DATAS } from "../../../constants/options";
-import { useRecoilState } from "recoil";
-import { currentLocationAtom } from "../../../atoms/currentLocationAtom";
+import { LOCATION_DATAS, MENU_DATAS } from "../../../constants/options";
+import logoImg from "../../../assets/images/logo.png";
 
 function MainLayout({ children }) {
-    const [ currentLocation ] = useRecoilState(currentLocationAtom);
+    const addressLocation = useLocation();
+    let result = LOCATION_DATAS.filter(data => addressLocation.pathname.startsWith(data.address))[0];
+
+    if (result === undefined) {
+        result = {
+            menuId: 0,
+            name: "잘못된 경로"
+        }
+    }
 
     return (
         <div css={s.layout}>
-            <div css={s.menuList(currentLocation.selectedMenuId)}>
-                <div>로고</div>
+            <div css={s.menuList(result.menuId)}>
+                <div css={s.logo}>
+                    <img src={logoImg} alt="" />
+                    <span>멍멍냥냥</span>
+                </div>
                 {
                     MENU_DATAS.map(menu => (
                         <Link to={menu.address} key={menu.menuId}>{menu.name}</Link>
@@ -21,7 +31,7 @@ function MainLayout({ children }) {
             <div css={s.mainContainer}>
                 <header css={s.head}>
                     <div>
-                        { currentLocation.currentLocation }
+                        {result.name}
                     </div>
                     <div>
                         관리자 이름

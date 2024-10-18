@@ -3,17 +3,9 @@ import { useEffect, useState } from "react";
 import * as s from "./style";
 import { PRODUCTS, SEARCH_OPTIONS } from "../../../../constants/testDatas/ProductListDatas";
 import { useNavigate } from "react-router-dom";
-import { useSetRecoilState } from "recoil";
-import { currentLocationAtom } from "../../../../atoms/currentLocationAtom";
 import { IoMdArrowDropdown } from "react-icons/io";
 
 function ProductListPage() {
-
-    const setCurrentLocation = useSetRecoilState(currentLocationAtom);
-    setCurrentLocation({
-        selectedMenuId: 2,
-        currentLocation: "상품관리"
-    });
 
     const products = PRODUCTS;
     const searchOptions = SEARCH_OPTIONS;
@@ -48,17 +40,6 @@ function ProductListPage() {
         setCheckedId(temp);
     }
     
-    const handleCheckboxOnChange = (e) => {
-        const temp = new Set(checkedId);
-        const checkboxId = e.target.name;
-        if (temp.has(checkboxId)) {
-            temp.delete(checkboxId);
-        } else {
-            temp.add(checkboxId);
-        }
-        setCheckedId(temp);
-    }
-    
     const handleSearchOptionOnClick = () => {
         setOpen(open => !open);
     }
@@ -82,6 +63,17 @@ function ProductListPage() {
             ...data,
             searchOption: option.name
         }));
+    }
+
+    const handleCheckboxOnChange = (e) => {
+        const temp = new Set(checkedId);
+        const checkboxId = e.target.name;
+        if (temp.has(checkboxId)) {
+            temp.delete(checkboxId);
+        } else {
+            temp.add(checkboxId);
+        }
+        setCheckedId(temp);
     }
 
     return (
@@ -140,8 +132,8 @@ function ProductListPage() {
                 <tbody>
                     {
                         PRODUCTS.map(product => 
-                            <tr key={product.id}>
-                                <td>
+                            <tr key={product.id} onClick={() => navigate(`/admin/product/modify/${product.id}`)}>
+                                <td onClick={(e) => e.stopPropagation()}>
                                     <input type="checkbox"
                                         name={product.id}
                                         onChange={handleCheckboxOnChange}

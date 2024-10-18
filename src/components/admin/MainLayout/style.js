@@ -7,6 +7,24 @@ export const layout = css`
     height: 100%;
 `;
 
+export const logo = css`
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+
+    & > img {
+        width: 50px;
+        height: 50px;
+        margin-right: 10px;
+    }
+
+    & > span {
+        font-size: 24px;
+        cursor: default;
+    }
+`;
+
 export const menuList = (selectedMenu) => css`
     display: flex;
     flex-direction: column;
@@ -73,6 +91,14 @@ export const mainContainer = css`
         width: 120px;
         height: 30px;
         cursor: pointer;
+
+        &:hover {
+            background-color: #c4c4c4;
+        }
+
+        &:active {
+            background-color: #616161;
+        }
     }
 
     table {
