@@ -3,7 +3,6 @@ import { css } from "@emotion/react";
 export const layout = css`
     margin-top: 20px;
     width: 100%;
-    height: 100%;
 
     // input type이 number인 경우 오른쪽에 생기는 화살표 제거
     & input::-webkit-outer-spin-button,

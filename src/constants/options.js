@@ -35,3 +35,46 @@ export const MENU_DATAS = [
         address: "/admin/setting"
     }
 ];
+
+export const LOCATION_DATAS = [
+    {
+        address: "/admin",
+        menuId: 1,
+        name: "대시보드"
+    },
+    {
+        address: "/admin/product/list",
+        menuId: 2,
+        name: "상품관리 > 상품목록"
+    },
+    {
+        address: "/admin/product/register",
+        menuId: 2,
+        name: "상품관리 > 상품등록"
+    },
+    {
+        address: "/admin/stock",
+        menuId: 3,
+        name: "재고관리"
+    },
+    {
+        address: "/admin/order",
+        menuId: 4,
+        name: "주문관리"
+    },
+    {
+        address: "/admin/customer",
+        menuId: 5,
+        name: "고객관리"
+    },
+    {
+        address: "/admin/statistics",
+        menuId: 6,
+        name: "통계"
+    },
+    {
+        address: "/admin/setting",
+        menuId: 7,
+        name: "사이트설정"
+    }
+]

@@ -125,6 +125,7 @@ export const mainTable = css`
     & tr > *:nth-of-type(1) {
         padding: 0;
         width: 2%;
+        cursor: default;
     }
 
     & tr > *:nth-of-type(2) {
