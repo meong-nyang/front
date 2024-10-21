@@ -79,4 +79,13 @@ export const button = css`
     width: 100%;
     height: 40px;
     background-color: #D2E0FB;
+    cursor: pointer;
+
+    &:hover {
+        background-color: #b1d4ff;
+    }
+
+    &:active {
+        background-color: #489bff;
+    }
 `;
