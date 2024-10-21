@@ -97,7 +97,7 @@ export const mainContainer = css`
         }
 
         &:active {
-            background-color: #616161;
+            background-color: #c4c4c4;
         }
     }
 
@@ -123,7 +123,6 @@ export const mainContainer = css`
         width: 15%;
         padding: 0px 10px;
     }
-
 `;
 
 export const head = css`
