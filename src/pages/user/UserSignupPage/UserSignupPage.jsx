@@ -5,6 +5,7 @@ import MainHeader from '../../../components/user/MainHeader/MainHeader';
 import { useMutation } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate } from 'react-router-dom';
+import DaumPostcode from 'react-daum-postcode';
 
 function UserSignupPage(props) {
     const [ userSignupData, setUserSignupData ] = useState({
@@ -13,23 +14,20 @@ function UserSignupPage(props) {
         checkPassword: "",
         name: "",
         phone: "",
-        address: "",
-        zipcodce: "",
+        zipcode: "",
         addressDefault: "",
         addressDetail: "",
         request: "",
         petName: "",
         petAge: "",
         petType: "",
-        
     });
 
     const navigate = useNavigate();
-    const [ phone, setPhone ] = useState("");       // phone, address => userSignupData 에 묶어서 처리해주기
-    const [ address, setAddress ] = useState("");
-    const [ postcode, setPostcode ] = useState("");
-    const [ extraAddress, setExtraAddress ] = useState(''); // 참고 항목
-    const [ detailAddress, setDetailAddress ] = useState(''); // 상세 주소
+    const [ addressDefault, setAddressDefault ] = useState("");
+    const [ zipcode, setZipcode ] = useState("");
+    // const [ extraAddress, setExtraAddress ] = useState(''); // 참고 항목 사용 안함
+    const [ addressDetail, setAddressDetail ] = useState(''); // 상세 주소
 
 
     // 핸드폰 번호 입력 시 하이픈 자동 생성
@@ -39,10 +37,10 @@ function UserSignupPage(props) {
         return numbers;
     };
 
-    const handleInputChange = (e) => {
-        const formattedPhoneNumber = addHyphenToPhoneNumber(e.target.value);
-        setPhone(formattedPhoneNumber);
-    };
+    // const handleInputChange = (e) => {
+    //     const formattedPhoneNumber = addHyphenToPhoneNumber(e.target.value);
+    //     setPhone(formattedPhoneNumber);
+    // };
 
     // 다음 주소 검색 api
     useEffect(() => {
@@ -59,35 +57,31 @@ function UserSignupPage(props) {
     }, []);
 
     const handleUserSginupDataChange = (e) => {
+        const formattedValue = e.target.name === 'phone' 
+            ? addHyphenToPhoneNumber(e.target.value) 
+            : e.target.value;
+
         setUserSignupData(userSignupData => ({
             ...userSignupData,
-            [e.target.name]: e.target.value
-        }))
-    }
+            [e.target.name]: formattedValue
+        }));
+    };
 
-    const handleAddressSearch = () => {
+    const handleSearchAddress = () => {
         new window.daum.Postcode({
             oncomplete: function (data) {
                 // 주소 검색 결과를 처리하는 로직
                 let fullAddress = data.address;
-                let extraAddress = '';
-
-                // 참고 항목이 있을 경우 추가
-                if (data.addressType === 'R') {
-                    if (data.bname) {
-                        extraAddress += data.bname;
-                    }
-                    if (data.buildingName) {
-                        extraAddress += (extraAddress ? ', ' + data.buildingName : data.buildingName);
-                    }
-                    fullAddress += (extraAddress ? ` (${extraAddress})` : '');
-                }
-
-                // 우편번호와 주소 상태 업데이트
-                setPostcode(data.zonecode);
-                setAddress(fullAddress);
-                setExtraAddress(extraAddress);
-            }
+                console.log(data);
+                
+                setZipcode(data.zonecode);
+                setAddressDefault(fullAddress);
+                setUserSignupData((prevData) => ({
+                    ...prevData,
+                    zipcode: data.zonecode,
+                    addressDefault: fullAddress,
+                }));
+            },
         }).open();
     };
 
@@ -95,18 +89,24 @@ function UserSignupPage(props) {
         async () => await instance.post("/auth/signup", userSignupData),
         {
             onSuccess: () => {
-                alert("");
-                navigate();
+                alert("회원가입이 완료되었습니다.");
+                navigate("/auth/signin");
             },
             onError: error => {
-                alert("x");
-            }
+                alert("회원가입에 실패했습니다." + error.response?.data.message || error.message);
+            },
         }
     );
 
     const handleUserSignupSubmitClick = () => {
+        if (userSignupData.password !== userSignupData.checkPassword) {
+            console.log(userSignupData);
+            return;
+        }
+
         console.log(userSignupData);
         userSignup.mutateAsync();
+        // navigate("/auth/signup/pet");
     };
 
     return (
@@ -129,31 +129,59 @@ function UserSignupPage(props) {
                             </li>
                         </div>
                         <div css={s.userSignupNavBoxFooter}>
-
+                            네브박스 컴포넌트로 빼기
                         </div>
                     </div>
                     <div css={s.signupBox}>
                         <div css={s.formInput}>
                             <h3>회원정보 입력</h3>
+                            
                             <div>
+                                {/* 네브박스 컴포넌트로 빼기, 중복확인 기능, 글자수 제한, 검색창, 장바구니 구현 */}
                                 <label htmlFor="">아이디</label>
-                                <input type="text" name="username" onChange={handleUserSginupDataChange} value={userSignupData.username}/>
+                                <input 
+                                    type="text" 
+                                    name="username" 
+                                    onChange={handleUserSginupDataChange} 
+                                    value={userSignupData.username}
+                                />
+                                <button>중복화깅</button>
                             </div>
                             <div>
                                 <label htmlFor="">비밀번호</label>
-                                <input type="password" name="password" onChange={handleUserSginupDataChange} value={userSignupData.password}/>
+                                <input 
+                                    type="password" 
+                                    name="password" 
+                                    onChange={handleUserSginupDataChange} 
+                                    value={userSignupData.password}
+                                />
                             </div>
                             <div>
                                 <label htmlFor="">비밀번호 확인</label>
-                                <input type="password" name="checkPassword" onChange={handleUserSginupDataChange} value={userSignupData.checkPassword}/>
+                                <input 
+                                    type="password" 
+                                    name="checkPassword" 
+                                    onChange={handleUserSginupDataChange} 
+                                    value={userSignupData.checkPassword}
+                                />
                             </div>
                             <div>
                                 <label htmlFor="">이름</label>
-                                <input type="text" name="name" onChange={handleUserSginupDataChange} value={userSignupData.name}/>
+                                <input 
+                                    type="text" 
+                                    name="name" 
+                                    onChange={handleUserSginupDataChange} 
+                                    value={userSignupData.name}
+                                />
                             </div>
                             <div>
                                 <label htmlFor="phone">전화번호</label>
-                                <input type="text" name='phone' id='phone' onChange={handleInputChange} value={phone} />
+                                <input 
+                                    type="text" 
+                                    name='phone'
+                                    onChange={handleUserSginupDataChange}
+                                    value={userSignupData.phone} 
+                                />
                             </div>
                             <div>
                                 <label htmlFor="">주소</label>
@@ -161,28 +189,28 @@ function UserSignupPage(props) {
                                     <div>
                                         <input 
                                             type="text" 
-                                            name="postcode" 
+                                            name="zipcode" 
                                             placeholder="우편번호" 
-                                            value={postcode} 
+                                            value={zipcode} 
                                             readOnly 
                                         />
-                                        <button type="button" onClick={handleAddressSearch}>
-                                            우편번호 찾기
+                                        <button type="button" onClick={handleSearchAddress}>
+                                            주소찾기
                                         </button>
                                     </div>
                                     <input 
                                         type="text" 
-                                        name="address" 
+                                        name="addressDefault" 
                                         placeholder="주소" 
-                                        value={address} 
+                                        value={addressDefault} 
                                         readOnly 
                                     />
                                     <input 
                                         type="text" 
-                                        name="detailAddress" 
+                                        name="addressDetail" 
                                         placeholder="상세주소" 
-                                        value={detailAddress} 
-                                        onChange={(e) => setDetailAddress(e.target.value)} 
+                                        onChange={handleUserSginupDataChange} 
+                                        value={userSignupData.addressDetail} 
                                     />
                                 </div>
                             </div>
@@ -215,7 +243,7 @@ function UserSignupPage(props) {
                                 </div>
                             </div>
                         </div> */}
-                        <button onClick={handleUserSignupSubmitClick}>반려동물 정보입력</button>
+                        <button onClick={handleUserSignupSubmitClick}>회원가입</button>
                     </div>
                 </div>
             </body>

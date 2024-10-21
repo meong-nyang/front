@@ -20,9 +20,11 @@ export const userSignupContainer = css`
 `;
 
 export const userSignupNavBox = css`
+    position: absolute;
     display: flex;
     box-sizing: border-box;
     flex-direction: column;
+    left: 20%;
     margin-top: 20px;
     margin-right: 20px;
     align-items: center;
@@ -61,6 +63,7 @@ export const userSignupNavBoxFooter = css`
 `;
 
 export const signupBox = css`
+    position: relative;
     box-sizing: border-box;
     display: flex;
     margin-top: 20px;
@@ -100,6 +103,11 @@ export const formInput = css`
     flex-direction: column;
     width: 100%;
 
+    & > h3 {
+        padding-bottom: 20px;
+        border-bottom: 1px solid #dbdbdb;
+    }
+
     & > div {
         display: flex;
         justify-content: space-between;
@@ -110,12 +118,18 @@ export const formInput = css`
             box-sizing: border-box;
             border-radius: 5px;
             margin: 10px 0px;
+            padding: 0px 95px 0px 10px;
             width: 75%;
             height: 35px;
-            padding: 0px 10px;
             border: none;
             outline: none;
             background-color: #eceaea;
+
+            & + button {
+                position: absolute;
+                display: flex;
+                right: 60px;
+            }
         }
     }
 `;
@@ -144,7 +158,7 @@ export const addressInput = css`
         align-items: center;
 
         & > input {
-            width: 70%;
+            width: 75%;
         }
 
         & > button {

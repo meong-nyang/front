@@ -45,23 +45,25 @@ function UserSigninPage(props) {
                 [fieldError.field]: <p>{fieldError.defaultMessage}</p>
             }
         }
-    }
+    };
 
     const signin = useMutation(
         async () => await instance.post("/auth/signin", inputUser),
 
         {
-            onSuccess: (data) => {
-                const { accessToken } = data;
-                if (accessToken) {
-                    localStorage.setItem("accessToken", accessToken);
-                    alert("로그인 성공");
-                } else {
-                    alert("사용자 정보를 확인해 주세요.");
-                }
+            onSuccess: (e) => {
+                const accessToken = e.data.token;
+                console.log(accessToken);
+                
+                localStorage.setItem("accessToken", accessToken);
+                alert("로그인 성공");
             },
-            onError: (error) => {
-                console.error('로그인 실패', error);
+            onError: (error) => {       // 응답받을 부분의 에러 부분은 백엔드에서 보내주는 형식이랑 맞춰줘야 함
+                console.error(error);
+                
+                showFieldErrorMessage(error.response.data)
+                console.log("Error: " + error.response.data);
+                
                 alert("로그인에 실패했습니다");
             }
         },
@@ -76,6 +78,7 @@ function UserSigninPage(props) {
 
     const handleUserLoginSubmitOnClick = () => {
         signin.mutateAsync();
+
     };
 
     const handleUserLoginSubmitKeyDown = (e) => {
@@ -98,10 +101,12 @@ function UserSigninPage(props) {
                         <div css={s.inputWrapper}>
                             <input type="text" name='username' onChange={handleLoginInputOnChange} value={inputUser.username}  placeholder=' '/>
                             <label htmlFor="">아이디</label>
+                            {fieldErrorMessages.username}
                         </div>
                         <div css={s.inputWrapper}>
                             <input type="password" name='password' onChange={handleLoginInputOnChange} onKeyDown={handleUserLoginSubmitKeyDown} value={inputUser.password} placeholder=' '/>
                             <label>비밀번호</label>
+                            {fieldErrorMessages.password}
                         </div>
                         <a href='/user/find/pw'>비밀번호를 잊으셨나요?</a>
                         <button  onClick={handleUserLoginSubmitOnClick}>로그인</button>

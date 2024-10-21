@@ -13,7 +13,7 @@ function OAuth2SigninPage(props) {
         const accessToken = searchParams.get("accessToken");
         if (!accessToken) {
             alert("잘못된 접근입니다.");
-            navigate("/user/login");
+            navigate("/auth/signin");
             return;
         }
         localStorage.setItem("accessToken", "Bearer " + accessToken);
