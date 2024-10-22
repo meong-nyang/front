@@ -20,7 +20,6 @@ function MainLayout({ children }) {
             <div css={s.menuList(result.menuId)}>
                 <div css={s.logo}>
                     <img src={logoImg} alt="" />
-                    <span>멍멍냥냥</span>
                 </div>
                 {
                     MENU_DATAS.map(menu => (
