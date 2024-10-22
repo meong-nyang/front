@@ -3,44 +3,15 @@ import { useEffect, useState } from "react";
 import * as s from "./style";
 import { RiImageAddLine } from "react-icons/ri";
 import { GiCancel } from "react-icons/gi";
-import { useQueryClient } from "react-query";
 
-function ProductImages( {selectedFiles, setSelectedFiles, isModify} ) {
+function ProductImages({blobs, setBlobs, isModify}) {
     
     const [ imgsPreview, setImgsPreview ] = useState([]);
-    const [ imgsUrl, setImgsUrl ] = useState([]);
-
-    const queryClient = useQueryClient();
-    const productDetail = queryClient.getQueryData("productDetailQuery");
 
     useEffect(() => {
-        const result = [];
-        for (let i of selectedFiles) {
-            result.push(URL.createObjectURL(i));
-        }
-        setImgsPreview(result);
-    }, [selectedFiles]);
-
-    useEffect(() => {
-        let urls = []
-        productDetail?.data.imgUrls.map(url => urls.push("http://localhost:8080/images/" + url.imgName));
-        setImgsUrl(urls);
-    }, [productDetail?.data]);
-
-    // const imgTest = useQuery(
-    //     ["imgTest"],
-    //     async () => await instance.get(`/images/${}`, {
-    //         responseType: "blob"
-    //     }),
-    //     {
-    //         retry: 0,
-    //         refetchOnWindowFocus: false,
-    //         onSuccess: response => {
-    //             console.log(response.data);
-    //             setImgData(response.data);
-    //         }
-    //     }
-    // );
+        const urls = blobs.map(blob => URL.createObjectURL(blob));
+        setImgsPreview(urls);
+    }, [blobs]);
 
     const handleImageChangeOnClick = () => {
         const fileInput = document.createElement("input");
@@ -50,45 +21,40 @@ function ProductImages( {selectedFiles, setSelectedFiles, isModify} ) {
         fileInput.click();
 
         fileInput.onchange = (e) => {
-            if (selectedFiles.length + e.target.files.length > 10) {
+            if (blobs.length + e.target.files.length > 10) {
                 return alert("이미지는 최대 10개까지만 등록이 가능합니다");
             }
-            console.log(selectedFiles);
             for (let i of e.target.files) {
-                setSelectedFiles(file => [...file, i]);
+                setBlobs(file => [...file, i]);
             }
         }
     }
 
     const handleImageDeleteOnClick = (index) => {
         const newFiles = []
-        for (let i = 0; i < selectedFiles.length; i++) {
+        for (let i = 0; i < blobs.length; i++) {
             if (i !== index) {
-                newFiles.push(selectedFiles[i]);
+                newFiles.push(blobs[i]);
             }
         }
-        setSelectedFiles(newFiles);
+        setBlobs(newFiles);
     }
 
     return (
         <div css={s.images}>
-            {/* {
+            {
                 imgsPreview.map((img, index) =>
                     <span key={index}>
                         <img src={img}/>
-                        <GiCancel onClick={() => handleImageDeleteOnClick(index)}/>
+                        {
+                            isModify &&
+                            <GiCancel onClick={() => handleImageDeleteOnClick(index)}/>
+                        }
                     </span>
                 )
-            } */}
-            {
-                imgsUrl.map(url => (
-                    <span>
-                        <img src={url}/>
-                    </span>
-                ))
             }
             {
-                imgsPreview.length < 10 &&
+                imgsPreview.length < 10 && isModify &&
                 <div onClick={handleImageChangeOnClick}><RiImageAddLine /></div>
             }
         </div>

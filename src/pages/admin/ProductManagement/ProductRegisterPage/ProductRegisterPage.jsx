@@ -32,6 +32,8 @@ function ProductRegisterPage() {
     const [ productData, setProductData ] = useState(emptyProductData);
     const [ selectedFiles, setSelectedFiles ] = useState([]);
 
+    useEffect(() => console.log(selectedFiles), [selectedFiles]);
+
     const navigate = useNavigate();
 
     // useState(() => {
@@ -77,8 +79,6 @@ function ProductRegisterPage() {
     );
     
     const handleRegisterButtonOnClick = () => {
-        // console.log(selectedFiles[0]);
-        // console.log(uuidv4());
         registerProductMutation.mutateAsync();
     }
 
@@ -87,7 +87,7 @@ function ProductRegisterPage() {
             <div css={s.buttons}>
                 <button onClick={handleRegisterButtonOnClick}>등록</button>
             </div>
-            <ProductImages selectedFiles={selectedFiles} setSelectedFiles={setSelectedFiles} />
+            <ProductImages blobs={selectedFiles} setBlobs={setSelectedFiles} isModify={true}/>
             <ProductEdit productData={productData} setProductData={setProductData} disabled={false}/>
         </div>
     );

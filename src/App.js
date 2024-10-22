@@ -15,7 +15,7 @@ import AdminSigninPage from './pages/admin/AdminSigninPage/AdminSigninPage';
 import { useQuery } from 'react-query';
 import { useEffect, useState } from 'react';
 import { instance } from './apis/util/instance';
-import ProductDetailPage from './pages/admin/ProductManagement/ProductDetailPage/ProductDetailPage';
+import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
 
 function App() {
 
@@ -85,7 +85,7 @@ function App() {
                             <Route path='/' element={<DashboardPage />} />
                             <Route path='/product/list' element={<ProductListPage />} />
                             <Route path='/product/register' element={<ProductRegisterPage />} />
-                            <Route path='/product/detail/:id' element={<ProductDetailPage />} />
+                            <Route path='/product/modify/:id' element={<ProductModifyPage />} />
                             <Route path='/stock' element={<></>} />
                             <Route path='/order' element={<></>} />
                             <Route path='/customer' element={<></>} />
