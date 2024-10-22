@@ -26,7 +26,7 @@ function ProductDetailModal({ setProductDetailModalOpen }) {
     return (
         <div css={s.background} onClick={() => setProductDetailModalOpen(false)}>
             <div css={s.layout}>
-                {/* <img src="http://localhost:8080/admin/images/다운로드.jpg" alt="" /> */}
+                {/* <img src="http://localhost:8080/images/25cc8765-b8dc-459b-ac1a-eed24f1be190다운로드 (1).jpg" alt="" /> */}
                 <img src={URL.createObjectURL(imgData)} alt="" />
             </div>
         </div>

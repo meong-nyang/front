@@ -30,7 +30,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
         {
             retry: 0,
             refetchOnWindowFocus: false,
-            onSuccess: success => console.log(success),
+            onSuccess: success => {},
             onError: error => console.log(error.response)
         }
     );
@@ -95,6 +95,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                         <td>
                             <input type="number" name="productPrice"
                                 disabled={disabled}
+                                onFocus={(e) => e.target.select()}
                                 value={productData.productPrice}
                                 onChange={handleProductDataOnChange}
                             />
@@ -147,6 +148,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                         <td>
                             <input type="number" name="productPriceDiscount"
                                 disabled={disabled}
+                                onFocus={(e) => e.target.select()}
                                 value={productData.productPriceDiscount}
                                 onChange={handleProductDataOnChange}
                             />
@@ -178,6 +180,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                         <td>
                             <input type="number" name="currentStock"
                                 disabled={disabled}
+                                onFocus={(e) => e.target.select()}
                                 value={productData.currentStock}
                                 onChange={handleProductDataOnChange}
                             />
@@ -186,6 +189,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                         <td>
                             <input type="number" name="expectedStock"
                                 disabled={disabled}
+                                onFocus={(e) => e.target.select()}
                                 value={productData.expectedStock}
                                 onChange={handleProductDataOnChange}
                             />
@@ -202,6 +206,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                         <td>
                             <input type="number" name="arrivalQuantity"
                                 disabled={disabled}
+                                onFocus={(e) => e.target.select()}
                                 value={productData.arrivalQuantity}
                                 onChange={handleProductDataOnChange}
                             />
@@ -233,6 +238,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                         <td>
                             <input type="number" name="minAlertQuantity"
                                 disabled={disabled}
+                                onFocus={(e) => e.target.select()}
                                 value={productData.minAlertQuantity}
                                 onChange={handleProductDataOnChange}
                             />

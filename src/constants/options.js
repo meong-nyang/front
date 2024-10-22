@@ -48,9 +48,9 @@ export const LOCATION_DATAS = [
         name: "상품관리 > 상품등록"
     },
     {
-        address: "/admin/product/modify",
+        address: "/admin/product/detail",
         menuId: 2,
-        name: "상품관리 > 상품수정"
+        name: "상품관리 > 상세"
     },
     {
         address: "/admin/stock",

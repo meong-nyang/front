@@ -9,7 +9,6 @@ import { instance } from "../../../../apis/util/instance";
 
 function ProductListPage() {
 
-    const products = PRODUCTS;
     const searchOptions = SEARCH_OPTIONS;
 
     const navigate = useNavigate();
@@ -21,6 +20,7 @@ function ProductListPage() {
     });
     const [ masterCheckbox, setMasterCheckbox ] = useState(false);
     const [ checkedId, setCheckedId ] = useState(new Set());
+    const [ products, setProducts ] = useState({});
 
     useEffect(() => {
         if (checkedId.size === products.length) {
@@ -36,7 +36,7 @@ function ProductListPage() {
         {
             retry: 0,
             refetchOnWindowFocus: false,
-            onSuccess: success => console.log(success.data.productList),
+            onSuccess: success => setProducts(success.data.productList),
             onError: error => console.log(error)
         }
     );
@@ -48,7 +48,7 @@ function ProductListPage() {
             return;
         }
         products.map(product => {
-            temp.add(product.id);
+            temp.add(product.id.toString());
         });
         setCheckedId(temp);
     }
@@ -79,6 +79,7 @@ function ProductListPage() {
     }
 
     const handleCheckboxOnChange = (e) => {
+        console.log(checkedId);
         const temp = new Set(checkedId);
         const checkboxId = e.target.name;
         if (temp.has(checkboxId)) {
@@ -145,12 +146,12 @@ function ProductListPage() {
                 <tbody>
                     {
                         productList.data?.data?.productList.map(product => 
-                            <tr key={product.id} onClick={() => navigate(`/admin/product/modify/${product.id}`)}>
+                            <tr key={product.id} onClick={() => navigate(`/admin/product/detail/${product.id}`)}>
                                 <td onClick={(e) => e.stopPropagation()}>
                                     <input type="checkbox"
                                         name={product.id}
                                         onChange={handleCheckboxOnChange}
-                                        checked={checkedId.has(product.id)}/>
+                                        checked={checkedId.has(product.id.toString())}/>
                                 </td>
                                 <td>{product.id}</td>
                                 <td>{product.petGroup.categoryGroupName + " > " + product.category.categoryName}</td>
