@@ -28,6 +28,32 @@ function UserSignupPage(props) {
     const [ zipcode, setZipcode ] = useState("");
     // const [ extraAddress, setExtraAddress ] = useState(''); // 참고 항목 사용 안함
     const [ addressDetail, setAddressDetail ] = useState(''); // 상세 주소
+    const [ fieldErrorMessages, setFieldErrorMessages ] = useState({
+        username: <></>,
+        password: <></>,
+        checkPassword: <></>,
+        name: <></>,
+        address: <></>
+    });
+
+    const showFieldErrorMessage = (fieldErrors) => {
+        let emptyFieldErrors = {
+            username: <></>,
+            password: <></>,
+            checkPassword: <></>,
+            name: <></>,
+            address: <></>
+        };
+
+        for (let fieldError of fieldErrors) {
+            emptyFieldErrors = {
+                ...emptyFieldErrors,
+                [fieldError.field]: <p>{fieldError.defaultMessage}</p>
+            }
+        }
+
+        setFieldErrorMessages(emptyFieldErrors);
+    };
 
 
     // 핸드폰 번호 입력 시 하이픈 자동 생성
@@ -104,6 +130,12 @@ function UserSignupPage(props) {
             return;
         }
 
+        if (!userSignupData.isSuccess) {
+            showFieldErrorMessage(userSignupData.fieldErrors);
+            return;
+        }
+        alert(`${userSignupData.ok.message}`);
+
         console.log(userSignupData);
         userSignup.mutateAsync();
         // navigate("/auth/signup/pet");
@@ -145,6 +177,7 @@ function UserSignupPage(props) {
                                     onChange={handleUserSginupDataChange} 
                                     value={userSignupData.username}
                                 />
+                                {fieldErrorMessages.username}
                                 <button>중복화깅</button>
                             </div>
                             <div>
@@ -155,6 +188,7 @@ function UserSignupPage(props) {
                                     onChange={handleUserSginupDataChange} 
                                     value={userSignupData.password}
                                 />
+                                {fieldErrorMessages.password}
                             </div>
                             <div>
                                 <label htmlFor="">비밀번호 확인</label>
@@ -164,6 +198,7 @@ function UserSignupPage(props) {
                                     onChange={handleUserSginupDataChange} 
                                     value={userSignupData.checkPassword}
                                 />
+                                {fieldErrorMessages.checkPassword}
                             </div>
                             <div>
                                 <label htmlFor="">이름</label>
@@ -173,6 +208,7 @@ function UserSignupPage(props) {
                                     onChange={handleUserSginupDataChange} 
                                     value={userSignupData.name}
                                 />
+                                {fieldErrorMessages.name}
                             </div>
                             <div>
                                 <label htmlFor="phone">전화번호</label>
@@ -212,6 +248,7 @@ function UserSignupPage(props) {
                                         onChange={handleUserSginupDataChange} 
                                         value={userSignupData.addressDetail} 
                                     />
+                                    {fieldErrorMessages.address}
                                 </div>
                             </div>
                         </div>

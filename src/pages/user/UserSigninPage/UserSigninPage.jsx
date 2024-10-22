@@ -58,7 +58,8 @@ function UserSigninPage(props) {
                 localStorage.setItem("accessToken", accessToken);
                 alert("로그인 성공");
             },
-            onError: (error) => {       // 응답받을 부분의 에러 부분은 백엔드에서 보내주는 형식이랑 맞춰줘야 함
+            // 응답받을 부분의 에러 부분은 백엔드에서 보내주는 형식이랑 맞춰줘야 함
+            onError: (error) => {       
                 console.error(error);
                 
                 showFieldErrorMessage(error.response.data)
@@ -78,7 +79,6 @@ function UserSigninPage(props) {
 
     const handleUserLoginSubmitOnClick = () => {
         signin.mutateAsync();
-
     };
 
     const handleUserLoginSubmitKeyDown = (e) => {
@@ -95,16 +95,27 @@ function UserSigninPage(props) {
                 <p>멍멍냥냥에 오신 것을 환영합니다.</p>
                 <div css={s.loginBox}>
                     <div css={s.logoBox}>
-                        로고
+                        <img src="" alt="" />
                     </div>
                     <div css={s.loginInputBox}>
                         <div css={s.inputWrapper}>
-                            <input type="text" name='username' onChange={handleLoginInputOnChange} value={inputUser.username}  placeholder=' '/>
+                            <input type="text" 
+                                name='username' 
+                                onChange={handleLoginInputOnChange} 
+                                value={inputUser.username}  
+                                placeholder=' '
+                            />
                             <label htmlFor="">아이디</label>
                             {fieldErrorMessages.username}
                         </div>
                         <div css={s.inputWrapper}>
-                            <input type="password" name='password' onChange={handleLoginInputOnChange} onKeyDown={handleUserLoginSubmitKeyDown} value={inputUser.password} placeholder=' '/>
+                            <input type="password" 
+                                name='password' 
+                                onChange={handleLoginInputOnChange} 
+                                onKeyDown={handleUserLoginSubmitKeyDown} 
+                                value={inputUser.password} 
+                                placeholder=' '
+                            />
                             <label>비밀번호</label>
                             {fieldErrorMessages.password}
                         </div>
