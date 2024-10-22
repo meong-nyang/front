@@ -35,14 +35,14 @@ export const loginBox = css`
 
     & a {
         display: flex;
-        justify-content: end;
+        justify-content: center;
         align-items: center;
         font-size: 14px;
         text-decoration: none;
 
-        &:nth-of-type(1) {
+        /* &:nth-of-type(1) {
             margin: 0px 0px 0px 210px;
-        }
+        } */
     }
 
     & p {
@@ -58,15 +58,15 @@ export const logoBox = css`
     box-sizing: border-box;
     border: 1px solid #dbdbdb;
     justify-content: center;
-    align-items: center;
     box-sizing: border-box;
-    width: 60%;
+    align-items: center;
     height: 180px;
-`;
+    width: 60%;
 
-export const loginInputBox = css`
-    display: flex;
+`;export const loginInputBox = css`
+
     margin-bottom: 10px;
+    display: flex;
     flex-direction: column;
     align-items: center;
     position: relative;
@@ -136,7 +136,7 @@ export const findPassword = css`
     
 `;
 
-export const OAuthButtonBox = css`
+export const OAuthBox = css`
     display: flex;
     margin-bottom: 20px;
     justify-content: space-between;
