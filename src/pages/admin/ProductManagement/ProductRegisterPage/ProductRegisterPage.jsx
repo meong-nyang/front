@@ -67,7 +67,7 @@ function ProductRegisterPage() {
         {
             onSuccess: response => {
                 console.log("등록 성공");
-                console.log(response);
+                alert("상품등록 성공");
             },
             onError: error => {
                 console.log("등록 실패");

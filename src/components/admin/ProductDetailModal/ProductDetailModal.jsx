@@ -10,7 +10,7 @@ function ProductDetailModal({ setProductDetailModalOpen }) {
 
     const imgTest = useQuery(
         ["imgTest"],
-        async () => await instance.get("/admin/images/다운로드.jpg", {
+        async () => await instance.get("/images/25cc8765-b8dc-459b-ac1a-eed24f1be190다운로드 (1).jpg", {
             responseType: "blob"
         }),
         {
