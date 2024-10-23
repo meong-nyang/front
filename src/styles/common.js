@@ -7,4 +7,8 @@ export const reset = css`
         width: 100%;
         height: 100%;
     }
+    p {
+        margin: 0;
+        padding: 0;
+    }
 `;

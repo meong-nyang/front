@@ -4,17 +4,14 @@ import { reset } from './styles/common';
 import DashboardPage from './pages/admin/DashboardPage/DashboardPage';
 import ProductListPage from './pages/admin/ProductManagement/ProductListPage/ProductListPage';
 import ProductRegisterPage from './pages/admin/ProductManagement/ProductRegisterPage/ProductRegisterPage';
-import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 import NotFound from './pages/NotFound/NotFound';
-import MainPage from './pages/user/MainPage/MainPage';
-import UserMyPage from './pages/user/UserMyPage/UserMyPage';
 import MainLayout from './components/admin/MainLayout/MainLayout';
 import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
 import AdminSigninPage from './pages/admin/AdminSigninPage/AdminSigninPage';
-import OAuth2SigninPage from './pages/user/OAuth2SigninPage/OAuth2SigninPage';
-import OAuth2SignupPage from './pages/user/OAuth2SignupPage/OAuth2SignupPage';
+import UserMainPage from './pages/user/UserMainPage/UserMainPage';
 import UserSignupPage from './pages/user/UserSignupPage/UserSignupPage';
-import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
+
 
 function App() {
 
@@ -22,12 +19,8 @@ function App() {
         <>
             <Global styles={reset} />
             <Routes>
-                <Route path='/' element={<MainPage />} />
-                <Route path='/auth/signin' element={<UserSigninPage />} />
-                <Route path='/auth/oauth2/signin' element={<OAuth2SigninPage />} />
-                <Route path='/auth/signup' element={<UserSignupPage />} />
-                <Route path='/auth/oauth2/signup' element={<OAuth2SignupPage />} />
-                <Route path='/user/mypage' element={<UserMyPage />} />
+                <Route path='/' element={<UserMainPage />} />
+                <Route path='/user/signup' element={<UserSignupPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={
