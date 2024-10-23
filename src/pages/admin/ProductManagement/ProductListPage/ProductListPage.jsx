@@ -4,10 +4,11 @@ import * as s from "./style";
 import { PRODUCTS, SEARCH_OPTIONS } from "../../../../constants/testDatas/ProductListDatas";
 import { useNavigate } from "react-router-dom";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useQuery } from "react-query";
+import { instance } from "../../../../apis/util/instance";
 
 function ProductListPage() {
 
-    const products = PRODUCTS;
     const searchOptions = SEARCH_OPTIONS;
 
     const navigate = useNavigate();
@@ -19,6 +20,7 @@ function ProductListPage() {
     });
     const [ masterCheckbox, setMasterCheckbox ] = useState(false);
     const [ checkedId, setCheckedId ] = useState(new Set());
+    const [ products, setProducts ] = useState({});
 
     useEffect(() => {
         if (checkedId.size === products.length) {
@@ -28,6 +30,17 @@ function ProductListPage() {
         }
     }, [checkedId]);
 
+    const productList = useQuery(
+        ["productListQuery"],
+        async () => await instance.get("/admin/products"),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: success => setProducts(success.data.productList),
+            onError: error => console.log(error)
+        }
+    );
+
     const handleMasterCheckboxOnChange = (e) => {
         const temp = new Set();
         if (masterCheckbox) {
@@ -35,7 +48,7 @@ function ProductListPage() {
             return;
         }
         products.map(product => {
-            temp.add(product.id);
+            temp.add(product.id.toString());
         });
         setCheckedId(temp);
     }
@@ -66,6 +79,7 @@ function ProductListPage() {
     }
 
     const handleCheckboxOnChange = (e) => {
+        console.log(checkedId);
         const temp = new Set(checkedId);
         const checkboxId = e.target.name;
         if (temp.has(checkboxId)) {
@@ -131,20 +145,20 @@ function ProductListPage() {
                 </thead>
                 <tbody>
                     {
-                        PRODUCTS.map(product => 
-                            <tr key={product.id} onClick={() => navigate(`/admin/product/modify/${product.id}`)}>
+                        productList.data?.data?.productList.map(product => 
+                            <tr key={product.id} onClick={() => navigate(`/admin/product/detail/${product.id}`)}>
                                 <td onClick={(e) => e.stopPropagation()}>
                                     <input type="checkbox"
                                         name={product.id}
                                         onChange={handleCheckboxOnChange}
-                                        checked={checkedId.has(product.id)}/>
+                                        checked={checkedId.has(product.id.toString())}/>
                                 </td>
-                                <td>{product.productCode}</td>
-                                <td>{product.category}</td>
+                                <td>{product.id}</td>
+                                <td>{product.petGroup.categoryGroupName + " > " + product.category.categoryName}</td>
                                 <td>{product.productName}</td>
-                                <td>{product.unitPrice}</td>
-                                <td>{product.sellingPrice}</td>
-                                <td>{product.memo}</td>
+                                <td>{product.productPrice}</td>
+                                <td>{product.productPrice - product.productPriceDiscount}</td>
+                                <td>{product.productMemo}</td>
                             </tr>
                         )
                     }
