@@ -15,11 +15,6 @@ function ProductEdit({ productData, setProductData, disabled }) {
         categoryId: "사료"
     }
 
-    const emptyCategoryList = {
-        categoryList: [],
-        petGroupList: []
-    }
-
     const [isOpen, setOpen] = useState(false);
     const [productDetailModalOpen, setProductDetailModalOpen] = useState(false);
     const [selectedCategoryName, setSelectedCategoryName] = useState(emptySelectedCategoryName);
@@ -30,7 +25,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
         {
             retry: 0,
             refetchOnWindowFocus: false,
-            onSuccess: success => { },
+            onSuccess: success => {},
             onError: error => console.log(error.response)
         }
     );
@@ -68,14 +63,14 @@ function ProductEdit({ productData, setProductData, disabled }) {
                     <tbody>
                         <tr>
                             <th>상품명</th>
-                            <td colSpan="7">
+                            <td colSpan="5">
                                 <input type="text" name="productName"
                                     disabled={disabled}
                                     value={productData.productName}
                                     onChange={handleProductDataOnChange} />
                             </td>
                         </tr>
-                        <tr>
+                        <tr css={s.mustCategory}>
                             <th>카테고리</th>
                             <td css={s.modal}>
                                 <div css={s.categorySelect}>
@@ -107,7 +102,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                                     <div>
                                         <input type="radio" name="recommend" id="2"
                                             disabled={disabled}
-                                            checked={productData.recommendation === "2"}
+                                            checked={productData.recommendation.toString() === "2"}
                                             onChange={handleRecommendOnChange} />
                                         <label htmlFor="2"></label>
                                         <label htmlFor="2">설정</label>
@@ -115,7 +110,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                                     <div>
                                         <input type="radio" name="recommend" id="1"
                                             disabled={disabled}
-                                            checked={productData.recommendation === "1"}
+                                            checked={productData.recommendation.toString() === "1"}
                                             onChange={handleRecommendOnChange} />
                                         <label htmlFor="1"></label>
                                         <label htmlFor="1">미설정</label>
@@ -224,7 +219,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                                     <div>
                                         <input type="radio" name="alertSetting" id="20"
                                             disabled={disabled}
-                                            checked={productData.alertSetting === "2"}
+                                            checked={productData.alertSetting.toString() === "2"}
                                             onChange={(e) => handleStockAlertOnChange(e, "2")} />
                                         <label htmlFor="20"></label>
                                         <label htmlFor="20">설정</label>
@@ -232,7 +227,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                                     <div>
                                         <input type="radio" name="alertSetting" id="10"
                                             disabled={disabled}
-                                            checked={productData.alertSetting === "1"}
+                                            checked={productData.alertSetting.toString() === "1"}
                                             onChange={(e) => handleStockAlertOnChange(e, "1")} />
                                         <label htmlFor="10"></label>
                                         <label htmlFor="10">미설정</label>

@@ -47,7 +47,7 @@ function ProductDetailPage(props) {
                 <button onClick={() => navigate(`/admin/product/modify/${params.id}`)}>수정</button>
             </div>
             {
-                console.log(productDetail?.data?.data.imgUrls)
+                console.log(productDetail?.data?.data)
             }
             {
                 productDetail.isSuccess &&
@@ -66,7 +66,22 @@ function ProductDetailPage(props) {
                                 <th>단가</th>
                                 <td>{productDetail.data.data.productPrice}</td>
                                 <th>추천상품</th>
-                                <td></td>
+                                <td>
+                                    <div css={s.recommendBox}>
+                                        <div>
+                                            <input type="radio" name="recommend" id="2"
+                                                checked={productDetail.data.data.recommendation.toString() === "2"} />
+                                            <label htmlFor="2"></label>
+                                            <label htmlFor="2">설정</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="recommend" id="1"
+                                                checked={productDetail.data.data.recommendation.toString() === "1"} />
+                                            <label htmlFor="1"></label>
+                                            <label htmlFor="1">미설정</label>
+                                        </div>
+                                    </div>
+                                </td>
                             </tr>
                             <tr>
                                 <th>등록일자</th>
@@ -81,7 +96,7 @@ function ProductDetailPage(props) {
                             <tr>
                                 <th>브랜드</th>
                                 <td>{productDetail.data.data.productBrand}</td>
-                                <th>재조일</th>
+                                <th>제조일</th>
                                 <td>{}</td>
                                 <th>할인금액</th>
                                 <td>{productDetail.data.data.productPriceDiscount}</td>
@@ -99,19 +114,34 @@ function ProductDetailPage(props) {
                         <tbody>
                             <tr>
                                 <th>현재재고</th>
-                                <td>{productDetail.data.data.stock.currentStock}</td>
+                                <td>{productDetail.data.data.currentStock}</td>
                                 <th>가재고</th>
-                                <td>{productDetail.data.data.stock.expectedStock}</td>
+                                <td>{productDetail.data.data.expectedStock}</td>
                                 <th>입고 예정 일자</th>
-                                <td>{productDetail.data.data.stock.arrivalDate}</td>
+                                <td>{productDetail.data.data.arrivalDate}</td>
                                 <th>입고수량</th>
-                                <td>{productDetail.data.data.stock.arrivalQuantity}</td>
+                                <td>{productDetail.data.data.arrivalQuantity}</td>
                             </tr>
                             <tr>
                                 <th>재고 알림 설정</th>
-                                <td></td>
+                                <td>
+                                    <div css={s.recommendBox}>
+                                        <div>
+                                            <input type="radio" name="alertSetting" id="20"
+                                                checked={productDetail.data.data.alertSetting.toString() === "2"} />
+                                            <label htmlFor="20"></label>
+                                            <label htmlFor="20">설정</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="alertSetting" id="10"
+                                                checked={productDetail.data.data.alertSetting.toString() === "1"} />
+                                            <label htmlFor="10"></label>
+                                            <label htmlFor="10">미설정</label>
+                                        </div>
+                                    </div>
+                                </td>
                                 <th>알림 수량</th>
-                                <td>{productDetail.data.data.stock.minAlertQuantity}</td>
+                                <td>{productDetail.data.data.minAlertQuantity}</td>
                             </tr>
                         </tbody>
                     </table>

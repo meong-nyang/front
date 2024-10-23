@@ -55,6 +55,12 @@ export const mustData = css`
     }
 `;
 
+export const mustCategory = css`
+    & > td:nth-of-type(1) {
+        width: 40%;
+    }
+`;
+
 export const modal = css`
     position: relative;
     width: 650px;
