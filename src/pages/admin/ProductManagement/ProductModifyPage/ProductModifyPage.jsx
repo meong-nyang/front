@@ -9,24 +9,24 @@ import { instance } from "../../../../apis/util/instance";
 
 function ProductModifyPage(props) {
 
-    const productId = useParams();
+    const params = useParams();
     const navigate = useNavigate();
     
     const [ productData, setProductData ] = useState({});
     const [ blobs, setBlobs ] = useState([]);
     const [ modifyBeforeBlobs, setModifyBeforeBlobs ] = useState([]);
-    const [ modify, setModify ] = useState(false);
+    const [ modify, setModify ] = useState(true);
 
-    const productDetail = useQuery(
-        ["productDetailQuery"],
-        async () => await instance.get(`/admin/product/${productId.id}`),
+    const productModify = useQuery(
+        ["productModifyQuery"],
+        async () => await instance.get(`/admin/product/${params.id}`),
         {
             retry: 0,
             refetchOnWindowFocus: false,
-            onSuccess: (success) => {
+            onSuccess: async (success) => {
                 setBlobs([]);
                 for (let i of success.data.imgUrls) {
-                    addImgBlobFromUrl("/images/" + i.imgName);
+                    await addImgBlobFromUrl("/images/" + i.imgName);
                 }
                 setProductData(success.data);
             },
@@ -63,22 +63,14 @@ function ProductModifyPage(props) {
         <div css={s.layout}>
             <div css={s.buttons}>
                 {
-                    modify
-                    ?
                     <>
-                        <button onClick={handleCancelButtonOnClick}>취소</button>
                         <button>저장</button>
-                    </>
-                    :
-                    <>
-                        <button onClick={handleModifyButtonOnClick}>수정</button>
-                        <button>삭제</button>
+                        <button onClick={() => navigate(`/admin/product/detail/${params.id}`)}>취소</button>
                     </>
                 }
             </div>
-            
             {
-                productDetail.isSuccess &&
+                productModify.isSuccess &&
                 <>
                     <ProductImages blobs={blobs} setBlobs={setBlobs} isModify={modify} />
                     <ProductEdit productData={productData} setProductData={setProductData} disabled={!modify} />
