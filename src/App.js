@@ -19,6 +19,7 @@ import OAuth2SigninPage from './pages/user/OAuth2SigninPage/OAuth2SigninPage';
 import OAuth2SignupPage from './pages/user/OAuth2SignupPage/OAuth2SignupPage';
 import UserSignupPage from './pages/user/UserSignupPage/UserSignupPage';
 import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
+import StockManagementPage from './pages/admin/StockManagementPage/StockManagementPage';
 
 function App() {
 
@@ -92,7 +93,7 @@ function App() {
                             <Route path='/product/register' element={<ProductRegisterPage />} />
                             <Route path='/product/modify/:id' element={<ProductModifyPage />} />
                             <Route path='/product/detail/:id' element={<ProductDetailPage />} />
-                            <Route path='/stock' element={<></>} />
+                            <Route path='/stock' element={<StockManagementPage />} />
                             <Route path='/order' element={<></>} />
                             <Route path='/customer' element={<></>} />
                             <Route path='/statistics' element={<></>} />
