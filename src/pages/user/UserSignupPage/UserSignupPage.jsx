@@ -5,7 +5,9 @@ import * as s from "./style";
 import { TbCircleNumber1Filled, TbCircleNumber1, TbCircleNumber2Filled, TbCircleNumber2, TbCircleNumber3Filled, TbCircleNumber3 } from "react-icons/tb";
 import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
-
+import UserSignupInfo from '../../../components/user/UserSignupContent/UserSignupInfo/UserSignupInfo';
+import UserSignupAddress from '../../../components/user/UserSignupContent/UserSignupAddress/UserSignupAddress';
+import UserSignupPet from '../../../components/user/UserSignupContent/UserSignupPet/UserSignupPet';
 function UserSignupPage(props) {
     return (
         <UserBackgoundLayout>
@@ -32,7 +34,9 @@ function UserSignupPage(props) {
                     </div>
                 </div>
                 <div css={s.signupContent}>
-
+                    {true && <UserSignupInfo />}
+                    {true && <UserSignupAddress />}
+                    {true && <UserSignupPet />}
                 </div>
             </div>
         </UserBackgoundLayout>

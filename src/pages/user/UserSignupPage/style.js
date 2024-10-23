@@ -47,5 +47,9 @@ export const signupOrder = css`
 `;
 
 export const signupContent = css`
-    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin: 20px;
 `;
