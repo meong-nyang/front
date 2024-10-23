@@ -1,26 +1,11 @@
 import { css } from "@emotion/react";
 
-export const layout = css`
-    width: 100%;
-    height: 100%;
-`;
-
 export const header = css`
     display: flex;
-    justify-content: space-between;
+    justify-content: end;
     margin-bottom: 5px;
     width: 100%;
     height: 30px;
-
-    & > span {
-        display: inline-block;
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    & button:nth-last-of-type(1) {
-        margin-left: 5px;
-    }
 `;
 
 export const searchBox = css`
@@ -110,45 +95,48 @@ export const mainTable = css`
     width: 100%;
 
     & input[type="checkbox"] {
-        cursor: pointer;
-    }
-
-    & > tbody tr {
+        width: 15px !important;
+        height: 15px !important;
         cursor: pointer;
     }
 
     & th, td {
-        border: 1px solid black;
         text-align: center;
     }
 
-    & tr > *:nth-of-type(1) {
-        padding: 0;
-        width: 2%;
-        cursor: default;
-    }
-
-    & tr > *:nth-of-type(2) {
-        width: 15%;
-    }
-
-    & tr > *:nth-of-type(3) {
-        width: 20%;
-    }
-
-    & tr > *:nth-of-type(4) {
-        width: 30%;
-    }
-
-    & tr > *:nth-of-type(5) {
+    & tr *:nth-of-type(1) {
         width: 10%;
     }
 
-    & tr > *:nth-of-type(6) {
+    & tr *:nth-of-type(2) {
+        width: 22%;
+    }
+
+    & tr *:nth-of-type(3) {
         width: 10%;
     }
 
-    & tr > *:nth-of-type(7) {
-        width: 13%;
+    & tr *:nth-of-type(4) {
+        width: 10%;
+    }
+
+    & tr *:nth-of-type(5) {
+        width: 10%;
+    }
+
+    & tr *:nth-of-type(6) {
+        width: 10%;
+    }
+
+    & tr *:nth-of-type(7) {
+        width: 10%;
+    }
+
+    & tr *:nth-of-type(8) {
+        width: 8%;
+    }
+
+    & tr *:nth-of-type(9) {
+        width: 10%;
     }
 `;
