@@ -4,7 +4,7 @@ import { reset } from './styles/common';
 import DashboardPage from './pages/admin/DashboardPage/DashboardPage';
 import ProductListPage from './pages/admin/ProductManagement/ProductListPage/ProductListPage';
 import ProductRegisterPage from './pages/admin/ProductManagement/ProductRegisterPage/ProductRegisterPage';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation, useNavigate } from 'react-router-dom';
 import NotFound from './pages/NotFound/NotFound';
 import MainLayout from './components/admin/MainLayout/MainLayout';
 import AdminSigninPage from './pages/admin/AdminSigninPage/AdminSigninPage';
@@ -16,10 +16,6 @@ import { useEffect, useState } from 'react';
 import { instance } from './apis/util/instance';
 import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
 import ProductDetailPage from './pages/admin/ProductManagement/ProductDetailPage/ProductDetailPage';
-import OAuth2SigninPage from './pages/user/OAuth2SigninPage/OAuth2SigninPage';
-import OAuth2SignupPage from './pages/user/OAuth2SignupPage/OAuth2SignupPage';
-import UserSignupPage from './pages/user/UserSignupPage/UserSignupPage';
-import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
 import StockManagementPage from './pages/admin/StockManagementPage/StockManagementPage';
 
 
