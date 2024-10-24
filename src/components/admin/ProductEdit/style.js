@@ -15,6 +15,13 @@ export const layout = css`
         padding: 0px;
     }
 
+    & th {
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        user-select:none;
+    }
+
     & td > input {
         box-sizing: border-box;
         border: none;
@@ -45,6 +52,47 @@ export const mustData = css`
 
     table > tr:nth-of-type(2) > td:nth-of-type(1) {
         width: 40%;
+    }
+`;
+
+export const mustCategory = css`
+    & > td:nth-of-type(1) {
+        width: 40%;
+    }
+`;
+
+export const modal = css`
+    position: relative;
+    width: 650px;
+    height: 300px;
+    z-index: 10px;
+    cursor: pointer;
+`;
+
+export const categorySelect = css`
+    display: flex;
+    align-items: center;
+
+    & > button {
+        box-sizing: border-box;
+        padding: 0px 10px;
+        width: 100%;
+        height: 100%;
+        background-color: transparent;
+        text-align: left;
+        font-size: 16px;
+
+        &:hover, &:active {
+            background-color: transparent;
+        }
+    }
+
+    & > svg {
+        position: absolute;
+        right: 0;
+        z-index: -10;
+        width: 25px;
+        height: 25px;
     }
 `;
 
@@ -115,15 +163,23 @@ export const productDetail = css`
     margin-top: 20px;
     height: 300px;
 
-    & > span {
+    & > button {
+        box-sizing: border-box;
         display: flex;
         align-items: center;
         margin-bottom: 5px;
-        cursor: pointer;
+        padding: 0;
         width: 160px;
+        background-color: white;
+        cursor: pointer;
+        font-size: 16px;
 
         & > svg {
             margin-left: 5px;
+        }
+
+        &:hover, &:active {
+            background-color: white;
         }
     }
 

@@ -4,17 +4,14 @@ import * as s from "./style";
 import { RiImageAddLine } from "react-icons/ri";
 import { GiCancel } from "react-icons/gi";
 
-function ProductImages( {selectedFiles, setSelectedFiles} ) {
+function ProductImages({blobs, setBlobs, isModify}) {
     
     const [ imgsPreview, setImgsPreview ] = useState([]);
 
     useEffect(() => {
-        const result = [];
-        for (let i of selectedFiles) {
-            result.push(URL.createObjectURL(i));
-        }
-        setImgsPreview(result);
-    }, [selectedFiles]);
+        const urls = blobs.map(blob => URL.createObjectURL(blob));
+        setImgsPreview(urls);
+    }, [blobs]);
 
     const handleImageChangeOnClick = () => {
         const fileInput = document.createElement("input");
@@ -24,23 +21,23 @@ function ProductImages( {selectedFiles, setSelectedFiles} ) {
         fileInput.click();
 
         fileInput.onchange = (e) => {
-            if (selectedFiles.length + e.target.files.length > 10) {
+            if (blobs.length + e.target.files.length > 10) {
                 return alert("이미지는 최대 10개까지만 등록이 가능합니다");
             }
             for (let i of e.target.files) {
-                setSelectedFiles(file => [...file, i]);
+                setBlobs(file => [...file, i]);
             }
         }
     }
 
     const handleImageDeleteOnClick = (index) => {
         const newFiles = []
-        for (let i = 0; i < selectedFiles.length; i++) {
+        for (let i = 0; i < blobs.length; i++) {
             if (i !== index) {
-                newFiles.push(selectedFiles[i]);
+                newFiles.push(blobs[i]);
             }
         }
-        setSelectedFiles(newFiles);
+        setBlobs(newFiles);
     }
 
     return (
@@ -49,12 +46,15 @@ function ProductImages( {selectedFiles, setSelectedFiles} ) {
                 imgsPreview.map((img, index) =>
                     <span key={index}>
                         <img src={img}/>
-                        <GiCancel onClick={() => handleImageDeleteOnClick(index)}/>
+                        {
+                            isModify &&
+                            <GiCancel onClick={() => handleImageDeleteOnClick(index)}/>
+                        }
                     </span>
                 )
             }
             {
-                imgsPreview.length < 10 &&
+                imgsPreview.length < 10 && isModify &&
                 <div onClick={handleImageChangeOnClick}><RiImageAddLine /></div>
             }
         </div>

@@ -83,8 +83,20 @@ export const mainContainer = css`
         padding-left: 20px;
         padding-top: 20px;
     }
+    
+    img {
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        user-select:none;
+    }
 
     button {
+        -webkit-user-select:none;
+        -moz-user-select:none;
+        -ms-user-select:none;
+        user-select:none;
+
         border: none;
         outline: none;
         background-color: ${BUTTON_COLOR};

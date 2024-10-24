@@ -4,5 +4,8 @@ const liveServerAddress = "https://scram.site:8080";
 const localServerAddress = "http://localhost:8080";
 
 export const instance = axios.create({
-    baseURL: localServerAddress
+    baseURL: localServerAddress,
+    headers: {
+        Authorization: localStorage.getItem("accessToken")
+    }
 });

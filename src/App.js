@@ -7,13 +7,73 @@ import ProductRegisterPage from './pages/admin/ProductManagement/ProductRegister
 import { Route, Routes } from 'react-router-dom';
 import NotFound from './pages/NotFound/NotFound';
 import MainLayout from './components/admin/MainLayout/MainLayout';
-import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
 import AdminSigninPage from './pages/admin/AdminSigninPage/AdminSigninPage';
 import UserMainPage from './pages/user/UserMainPage/UserMainPage';
 import UserSignupPage from './pages/user/UserSignupPage/UserSignupPage';
 
+import { useQuery } from 'react-query';
+import { useEffect, useState } from 'react';
+import { instance } from './apis/util/instance';
+import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
+import ProductDetailPage from './pages/admin/ProductManagement/ProductDetailPage/ProductDetailPage';
+import OAuth2SigninPage from './pages/user/OAuth2SigninPage/OAuth2SigninPage';
+import OAuth2SignupPage from './pages/user/OAuth2SignupPage/OAuth2SignupPage';
+import UserSignupPage from './pages/user/UserSignupPage/UserSignupPage';
+import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
+import StockManagementPage from './pages/admin/StockManagementPage/StockManagementPage';
+
 
 function App() {
+
+    const location = useLocation();
+    const navigate = useNavigate();
+
+    const [authRefresh, setAuthRefresh] = useState(true);
+
+    useEffect(() => {
+        if (!authRefresh) {
+            setAuthRefresh(true);
+        }
+    }, [location.pathname]);
+
+    const accessTokenValidation = useQuery(
+        ["accessTokenValidationQuery"],
+        async () => {
+            setAuthRefresh(false);
+            return await instance.get("/auth/access", {
+                params: {
+                    accessToken: localStorage.getItem("accessToken")
+                }
+            });
+        },
+        {
+            enabled: authRefresh,
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: () => {
+                const badPaths = ["/admin/signin"];
+                for (let path of badPaths) {
+                    if(location.pathname.startsWith(path)) {
+                        alert("잘못된 접근입니다.");
+                        navigate("/admin");
+                        break;
+                    }
+                }
+            },
+            onError: error => {
+                console.log("에러");
+                console.log(error.response);
+                const authPaths = ["/user/mypage"];
+                for (let authPath of authPaths) {
+                    if(location.pathname.startsWith(authPath)) {
+                        alert("로그인이 필요한 페이지입니다. \n로그인페이지로 이동합니다.");
+                        navigate("/user/login");
+                        break;
+                    }
+                }
+            }
+        }
+    );
 
     return (
         <>
@@ -30,7 +90,8 @@ function App() {
                             <Route path='/product/list' element={<ProductListPage />} />
                             <Route path='/product/register' element={<ProductRegisterPage />} />
                             <Route path='/product/modify/:id' element={<ProductModifyPage />} />
-                            <Route path='/stock' element={<></>} />
+                            <Route path='/product/detail/:id' element={<ProductDetailPage />} />
+                            <Route path='/stock' element={<StockManagementPage />} />
                             <Route path='/order' element={<></>} />
                             <Route path='/customer' element={<></>} />
                             <Route path='/statistics' element={<></>} />
