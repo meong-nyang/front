@@ -2,12 +2,12 @@ import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 
-function SidebarBody(props) {
+function UserBackgoundLayout({children}) {
     return (
         <div css={s.layout}>
-            cc
+            {children}
         </div>
     );
 }
 
-export default SidebarBody;
+export default UserBackgoundLayout;
