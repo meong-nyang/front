@@ -1,11 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { useState } from "react";
 import * as s from "./style";
-import { IoMdArrowDropdown } from "react-icons/io";
 
 function StockManagementPage(props) {
-
-    const searchOptions = [];
 
     const emptyStockData = [
         {
@@ -60,34 +57,10 @@ function StockManagementPage(props) {
 
     const [ stocks, setStocks ] = useState(emptyStockData);
 
-    const [ isOpen, setOpen ] = useState(false);
-
     return (
         <>
             <div css={s.header}>
                 <button>변경사항 저장</button>
-            </div>
-            <div css={s.searchBox}>
-                <div>
-                    <button></button>
-                    <IoMdArrowDropdown />
-                </div>
-                {
-                    isOpen &&
-                    <>
-                        <span onClick={() => setOpen(false)}/>
-                        <div css={s.searchOptionModal}>
-                            {
-                                searchOptions.map(option => 
-                                    <button key={option.id}>
-                                        {option.name}
-                                    </button>
-                                )
-                            }
-                        </div>
-                    </>
-                }
-                <input type="text" />
             </div>
             <table css={s.mainTable}>
                 <thead>
