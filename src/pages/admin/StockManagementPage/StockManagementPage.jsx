@@ -2,65 +2,25 @@
 import { useState } from "react";
 import * as s from "./style";
 import { IoMdArrowDropdown } from "react-icons/io";
+import { useQuery, useQueryClient } from "react-query";
+import { instance } from "../../../apis/util/instance";
 
 function StockManagementPage(props) {
 
     const searchOptions = [];
 
-    const emptyStockData = [
-        {
-            id: 1,
-            productId: 1,
-            productName: "상품",
-            currentStock: 100,
-            expectedStock: 50,
-            arrivalDate: "2022-02-02",
-            arrivalQuantity: 100,
-            minAlertQuantity: 30,
-            alertSetting: 1,
-            outOfStock: 1
-        },
-        {
-            id: 1,
-            productId: 1,
-            productName: "상품",
-            currentStock: 100,
-            expectedStock: 50,
-            arrivalDate: "2022-02-02",
-            arrivalQuantity: 100,
-            minAlertQuantity: 30,
-            alertSetting: 1,
-            outOfStock: 1
-        },
-        {
-            id: 1,
-            productId: 1,
-            productName: "상품",
-            currentStock: 100,
-            expectedStock: 50,
-            arrivalDate: "2022-02-02",
-            arrivalQuantity: 100,
-            minAlertQuantity: 30,
-            alertSetting: 1,
-            outOfStock: 1
-        },
-        {
-            id: 1,
-            productId: 1,
-            productName: "상품",
-            currentStock: 100,
-            expectedStock: 50,
-            arrivalDate: "2022-02-02",
-            arrivalQuantity: 100,
-            minAlertQuantity: 30,
-            alertSetting: 1,
-            outOfStock: 1
-        }
-    ]
-
-    const [ stocks, setStocks ] = useState(emptyStockData);
-
     const [ isOpen, setOpen ] = useState(false);
+    
+    const stockData = useQuery(
+        ["stockDataQuery"],
+        async () => await instance.get("/admin/products/stock"),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: success => console.log(success.data),
+            onError: error => console.log(error),
+        }
+    );
 
     return (
         <>
@@ -105,8 +65,8 @@ function StockManagementPage(props) {
                 </thead>
                 <tbody>
                     {
-                        stocks.map(stock => (
-                            <tr>
+                        stockData.data.data.stockList.map(stock => (
+                            <tr key={stock.productId}>
                                 <td>{stock.productId}</td>
                                 <td>{stock.productName}</td>
                                 <td>{stock.currentStock}</td>
