@@ -1,19 +1,34 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CategoryModal from "../CategoryModal/CategoryModal";
 import * as s from "./style";
 import { FiExternalLink } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
-import { useQuery } from "react-query";
+import { useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
 
 function ProductEdit({ productData, setProductData, disabled }) {
 
     const emptySelectedCategoryName = {
-        petGroupId: "강아지",
-        categoryId: "사료"
+        petGroupId: "",
+        categoryId: ""
     }
+
+    const queryClient = useQueryClient();
+    const categoryList = queryClient.getQueryData("categoryListQuery");
+
+    useEffect(() => {
+        setSelectedCategoryName({
+            petGroupId: categoryList.data.petGroupList[0].categoryGroupName,
+            categoryId: categoryList.data.categoryList[0].categoryName
+        });
+        setProductData(data => ({
+            ...data,
+            petGroupId: categoryList.data.petGroupList[0].id,
+            categoryId: categoryList.data.categoryList[0].id
+        }));
+    }, []);
 
     const [isOpen, setOpen] = useState(false);
     const [productDetailModalOpen, setProductDetailModalOpen] = useState(false);
