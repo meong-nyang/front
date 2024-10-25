@@ -52,6 +52,7 @@ export const inputBox = css`
 
 export const locationBox = css`
     box-sizing: border-box;
+    flex-grow: 1;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;

@@ -22,7 +22,7 @@ function UserHeaderLayout() {
                 <NavLink to={'/category/re'} style={({isActive}) => (isActive ? activeStyle : {})}>추천상품</NavLink>
             </div>
             <div>
-                <Link to={'/'}>로그인</Link>
+                <Link to={'/user/signin'}>로그인</Link>
                 <Link to={'/user/signup'}>회원가입</Link>
                 <Link to={'/'}><CiSearch /></Link>
                 <Link to={'/'}><CiShoppingCart /></Link>

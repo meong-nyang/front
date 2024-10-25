@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 
@@ -9,6 +9,7 @@ import UserSignupInfo from '../../../components/user/UserSignupContent/UserSignu
 import UserSignupAddress from '../../../components/user/UserSignupContent/UserSignupAddress/UserSignupAddress';
 import UserSignupPet from '../../../components/user/UserSignupContent/UserSignupPet/UserSignupPet';
 function UserSignupPage(props) {
+    const [ order, setOrder ] = useState(1);
     return (
         <UserBackgoundLayout>
             <UserHeaderLayout />
@@ -17,27 +18,39 @@ function UserSignupPage(props) {
                     <p>회원가입</p>
                     <div css={s.signupOrder}>
                         <div>
-                            <TbCircleNumber1Filled />
+                            {
+                                order === 1 ? <TbCircleNumber1Filled /> : <TbCircleNumber1 />
+                            }
                             <p>회원정보</p>
                             <p>입력</p>
                         </div>
                         <div>
-                            <TbCircleNumber2 />
+                            {
+                                order === 2 ? <TbCircleNumber2Filled /> : <TbCircleNumber2 />
+}
                             <p>배송지정보</p>
                             <p>입력</p>
                         </div>
                         <div>
-                            <TbCircleNumber3 />
+                            {
+                                order === 3 ? <TbCircleNumber3Filled /> : <TbCircleNumber3 />
+                            }
                             <p>반려동물</p>
                             <p>정보입력</p>
                         </div>    
                     </div>
                 </div>
                 <div css={s.signupContent}>
-                    {true && <UserSignupInfo />}
-                    {true && <UserSignupAddress />}
-                    {true && <UserSignupPet />}
+                    {order === 1  && <UserSignupInfo order={order} setOrder={setOrder}/>}
+                    {order === 2  && <UserSignupAddress order={order} setOrder={setOrder}/>}
+                    {order === 3  && <UserSignupPet order={order} setOrder={setOrder}/>}
                 </div>
+                {
+                    order === 3 &&
+                    <div css={s.signupBtn}>
+                        <button>회원가입</button>
+                    </div>
+                }
             </div>
         </UserBackgoundLayout>
     );

@@ -17,6 +17,9 @@ export const signupTitle = css`
     margin: 0 auto;
     color: #777777;
 
+    & p {
+        cursor: default;
+    }
     & > p {
         padding: 20px 0px 30px; 
         font-size: 18px;
@@ -34,7 +37,7 @@ export const signupOrder = css`
         display: flex;
         flex-direction: column;
         align-items: center;
-        
+    
         &:nth-of-type(2) {
             padding: 0px 40px;
         }
@@ -53,3 +56,22 @@ export const signupContent = css`
     align-items: center;
     margin: 20px;
 `;
+
+export const signupBtn = css`
+    display: flex;
+    justify-content: center;
+    margin: 20px 0px;
+    & > button {
+        box-sizing: border-box;
+        width: 400px;
+        height: 40px;
+        border: none;
+        border-radius: 5px;
+        background-color: #FFF5D6;
+        color: #777777;
+        font-size: 18px;
+        font-weight: 600;
+        cursor: pointer;
+    }
+`;
+
