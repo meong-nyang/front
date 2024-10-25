@@ -17,6 +17,7 @@ import { instance } from './apis/util/instance';
 import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
 import ProductDetailPage from './pages/admin/ProductManagement/ProductDetailPage/ProductDetailPage';
 import StockManagementPage from './pages/admin/StockManagementPage/StockManagementPage';
+import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
 
 
 function App() {
@@ -77,6 +78,7 @@ function App() {
             <Routes>
                 <Route path='/' element={<UserMainPage />} />
                 <Route path='/user/signup' element={<UserSignupPage />} />
+                <Route path='/user/signin' element={<UserSigninPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={

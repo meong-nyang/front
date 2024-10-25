@@ -4,7 +4,11 @@ import * as s from "./style";
 import { MdArrowForwardIos } from "react-icons/md";
 import UserSignupLayout from '../UserSignupLayout/UserSignupLayout';
 
-function UserSignupInfo() {
+function UserSignupInfo({ order, setOrder }) {
+    const handleNextOnClick = () => {
+        setOrder(order => order + 1);
+    }
+    console.log(order);
     return (
         <UserSignupLayout title="회원정보">
             <div css={s.inputBox}>
@@ -28,7 +32,7 @@ function UserSignupInfo() {
                 <input type="text" placeholder='전화번호를 입력하세요'/>
             </div>
             <div css={s.locationBox}>
-                <p>다음<MdArrowForwardIos /></p>
+                <p onClick={handleNextOnClick}>다음<MdArrowForwardIos /></p>
             </div>
             
         </UserSignupLayout>

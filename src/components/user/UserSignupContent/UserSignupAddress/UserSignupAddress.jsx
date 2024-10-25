@@ -4,10 +4,16 @@ import UserSignupLayout from '../UserSignupLayout/UserSignupLayout';
 import * as s from "./style";
 import { MdArrowBackIos, MdArrowForwardIos } from "react-icons/md";
 
-function UserSignupAddress(props) {
+function UserSignupAddress({ order, setOrder }) {
+    const handlePreOnClick = () =>{
+        setOrder(order => order - 1);
+    }
+
+    const handleNextOnClick = () => {
+        setOrder(order => order + 1);
+    }
     return (
         <UserSignupLayout title="배송지정보">
-            <div css={s.container}>
             <div css={s.inputBox}>
                 <p>주소</p>
                 <div>
@@ -18,9 +24,8 @@ function UserSignupAddress(props) {
                 <input type="text" placeholder='상세주소'/>
             </div>
             <div css={s.locationBox}>
-                <p><MdArrowBackIos />이전</p>
-                <p>다음<MdArrowForwardIos /></p>
-            </div>
+                <p onClick={handlePreOnClick}><MdArrowBackIos />이전</p>
+                <p onClick={handleNextOnClick}>다음<MdArrowForwardIos /></p>
             </div>
         </UserSignupLayout>
     );

@@ -1,19 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
+import Select from 'react-select';
 import UserSignupLayout from '../UserSignupLayout/UserSignupLayout';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { MdArrowBackIos } from "react-icons/md";
+import { PET_AGE_LIST } from '../../../../constants/SelectOption';
 
-function UserSignupPet(props) {
+function UserSignupPet({ order, setOrder }) {
+    const [ selectOption, setSelectOption] = useState(null);
+    const handlePreOnClick = () =>{
+        setOrder(order => order - 1);
+    }
+    
+    const handleSelectChange = (option) => {
+        setSelectOption(option); // 선택한 값을 상태에 저장
+    };
+        
     return (
         <UserSignupLayout title="반려동물 정보"> 
             <div css={s.inputBox}>
                 <p>반려동물 이름</p>
-                <input type="text" placeholder='아이디를 입력하세요'/>
+                <input type="text" placeholder='반려동물의 이름을 입력하세요'/>
             </div>
             <div css={s.inputBox}>
                 <p>반려동물 나이</p>
-                <input type="text" placeholder='아이디를 입력하세요'/>
+                <input type="number" placeholder='나이를 입력하세요'/>
             </div>
             <div css={s.inputBox}>
                 <p>반려동물 종류</p>
@@ -25,7 +36,7 @@ function UserSignupPet(props) {
                 </div>
             </div>
             <div css={s.locationBox}>
-                <p><MdArrowBackIos />이전</p>
+                <p onClick={handlePreOnClick}><MdArrowBackIos />이전</p>
             </div>
         
         </UserSignupLayout>

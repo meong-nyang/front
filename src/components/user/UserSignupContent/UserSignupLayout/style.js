@@ -4,9 +4,8 @@ export const layout = css`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: center;
     width: 650px;
-    height: 480px;
+    height: 500px;
     padding: 15px 30px;
     background-color: #ffffff;
     border-radius: 15px;
@@ -17,6 +16,7 @@ export const layout = css`
         font-weight: 900;
         padding-bottom: 10px;
         border-bottom: 1px solid #E0E0E0;
+        cursor: default;
     }
 `;
 

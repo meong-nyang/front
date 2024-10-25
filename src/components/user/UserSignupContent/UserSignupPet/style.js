@@ -7,6 +7,7 @@ export const inputBox = css`
         margin: 15px 0px 7px;
         font-size: 14px;
         font-weight: 600;
+        cursor: default;
     }
 
     & > input {
@@ -24,6 +25,10 @@ export const typeBox = css`
     box-sizing: border-box;
     display: flex;
     width: 100%;
+
+    & > label{
+        cursor: pointer;
+    }
     & > label:nth-of-type(1) {
         margin-right: 10px;
     }
@@ -66,4 +71,8 @@ export const locationBox = css`
         align-items: center;
         cursor: pointer;
     }
+`;
+
+export const inputAge = css`
+    margin-top: 10px;
 `;
