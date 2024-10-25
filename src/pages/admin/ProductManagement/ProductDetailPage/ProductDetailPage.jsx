@@ -70,13 +70,13 @@ function ProductDetailPage(props) {
                                     <div css={s.recommendBox}>
                                         <div>
                                             <input type="radio" name="recommend" id="2"
-                                                checked={productDetail.data.data.recommendation.toString() === "2"} />
+                                                checked={productDetail.data.data.recommendation === 2} />
                                             <label htmlFor="2"></label>
                                             <label htmlFor="2">설정</label>
                                         </div>
                                         <div>
                                             <input type="radio" name="recommend" id="1"
-                                                checked={productDetail.data.data.recommendation.toString() === "1"} />
+                                                checked={productDetail.data.data.recommendation === 1} />
                                             <label htmlFor="1"></label>
                                             <label htmlFor="1">미설정</label>
                                         </div>
@@ -128,13 +128,13 @@ function ProductDetailPage(props) {
                                     <div css={s.recommendBox}>
                                         <div>
                                             <input type="radio" name="alertSetting" id="20"
-                                                checked={productDetail.data.data.alertSetting.toString() === "2"} />
+                                                checked={productDetail.data.data.alertSetting === 2} />
                                             <label htmlFor="20"></label>
                                             <label htmlFor="20">설정</label>
                                         </div>
                                         <div>
                                             <input type="radio" name="alertSetting" id="10"
-                                                checked={productDetail.data.data.alertSetting.toString() === "1"} />
+                                                checked={productDetail.data.data.alertSetting === 1} />
                                             <label htmlFor="10"></label>
                                             <label htmlFor="10">미설정</label>
                                         </div>
