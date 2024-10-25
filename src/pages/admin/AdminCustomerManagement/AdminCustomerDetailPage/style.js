@@ -3,27 +3,42 @@ import { css } from "@emotion/react";
 export const layout = css`
     width: 100%;
     height: 100%;
-`;
-
-export const header = css`
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 5px;
-    width: 100%;
-    height: 30px;
 
     & > span {
         display: inline-block;
-        font-size: 16px;
-        font-weight: 600;
-    }
-
-    & button:nth-last-of-type(1) {
-        margin-left: 5px;
+        margin-bottom: 5px;
+        margin-top: 20px;
     }
 `;
 
-export const mainTable = css`
+export const buttons = css`
+    display: flex;
+    justify-content: end;
+`;
+
+export const basicInfo = css`
+
+`;
+
+export const petInfo = css`
+    display: flex;
+    width: 100%;
+    height: 100px;
+
+    & > img {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+    }
+
+    & table {
+        border-collapse: collapse;
+        width: 500px;
+
+    }
+`;
+
+export const productTable = css`
     border-collapse: collapse;
     width: 100%;
 
@@ -53,11 +68,11 @@ export const mainTable = css`
     }
 
     & tr > *:nth-of-type(3) {
-        width: 20%;
+        width: 40%;
     }
 
     & tr > *:nth-of-type(4) {
-        width: 30%;
+        width: 10%;
     }
 
     & tr > *:nth-of-type(5) {

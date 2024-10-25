@@ -126,3 +126,18 @@ export const ORDER_SEARCH_OPTIONS = [
         name: "주문날짜"
     },
 ]
+
+export const CUSTOMER_SEARCH_OPTIONS = [
+    {
+        id: "all",
+        name: "전체"
+    },
+    {
+        id: "id",
+        name: "아이디"
+    },
+    {
+        id: "name",
+        name: "이름"
+    },
+]
