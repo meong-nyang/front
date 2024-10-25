@@ -3,6 +3,8 @@ import { useState } from "react";
 import * as s from "./style";
 import SearchBox from "../../../components/admin/SearchBox/SearchBox";
 import { SEARCH_OPTIONS } from "../../../constants/testDatas/ProductListDatas";
+import { useQuery } from "react-query";
+import { instance } from "../../../apis/util/instance";
 
 function OrderManagementPage(props) {
 
@@ -30,6 +32,17 @@ function OrderManagementPage(props) {
     });
 
     const [ orders, setOrders ] = useState(emptyOrderData);
+
+    // const orderList = useQuery(
+    //     ["orderListQuery"],
+    //     async () => await instance.get("/admin/orders"),
+    //     {
+    //         retry: 0,
+    //         refetchOnWindowFocus: false,
+    //         onSuccess: success => console.log(success),
+    //         onError: error => console.log(error)
+    //     }
+    // );
 
     return (
         <>
