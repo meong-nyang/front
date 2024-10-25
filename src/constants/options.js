@@ -65,7 +65,7 @@ export const LOCATION_DATAS = [
     {
         address: "/admin/order",
         menuId: 4,
-        name: "주문관리"
+        name: "주문관리 > 주문목록"
     },
     {
         address: "/admin/customer",
@@ -86,5 +86,43 @@ export const LOCATION_DATAS = [
         address: "/admin",
         menuId: 1,
         name: "대시보드"
+    }
+]
+
+export const PRODUCT_SEARCH_OPTIONS = [
+    {
+        id: "all",
+        name: "전체",
+    },
+    {
+        id: "code",
+        name: "상품코드",
+    },
+    {
+        id: "product",
+        name: "상품명",
+    },
+    {
+        id: "category",
+        name: "카테고리명",
+    }
+]
+
+export const ORDER_SEARCH_OPTIONS = [
+    {
+        id: "all",
+        name: "전체"
+    },
+    {
+        id: "number",
+        name: "주문번호"
+    },
+    {
+        id: "name",
+        name: "주문자명"
+    },
+    {
+        id: "date",
+        name: "주문날짜"
     },
 ]

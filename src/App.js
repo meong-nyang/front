@@ -17,6 +17,7 @@ import { instance } from './apis/util/instance';
 import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
 import ProductDetailPage from './pages/admin/ProductManagement/ProductDetailPage/ProductDetailPage';
 import StockManagementPage from './pages/admin/StockManagementPage/StockManagementPage';
+import OrderManagementPage from './pages/admin/OrderManagementPage/OrderManagementPage';
 
 
 function App() {
@@ -88,7 +89,7 @@ function App() {
                             <Route path='/product/modify/:id' element={<ProductModifyPage />} />
                             <Route path='/product/detail/:id' element={<ProductDetailPage />} />
                             <Route path='/stock' element={<StockManagementPage />} />
-                            <Route path='/order' element={<></>} />
+                            <Route path='/order' element={<OrderManagementPage />} />
                             <Route path='/customer' element={<></>} />
                             <Route path='/statistics' element={<></>} />
                             <Route path='/setting' element={<></>} />
