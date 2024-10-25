@@ -1,10 +1,5 @@
 import { css } from "@emotion/react";
 
-export const layout = css`
-    width: 100%;
-    height: 100%;
-`;
-
 export const header = css`
     display: flex;
     justify-content: space-between;
@@ -33,42 +28,35 @@ export const mainTable = css`
         cursor: pointer;
     }
 
-    & > tbody tr {
-        cursor: pointer;
-    }
-
     & th, td {
-        border: 1px solid black;
         text-align: center;
     }
 
-    & tr > *:nth-of-type(1) {
-        padding: 0;
+    & tr *:nth-of-type(1) {
         width: 2%;
-        cursor: default;
     }
 
-    & tr > *:nth-of-type(2) {
+    & tr *:nth-of-type(2) {
         width: 15%;
     }
 
-    & tr > *:nth-of-type(3) {
-        width: 20%;
+    & tr *:nth-of-type(3) {
+        width: 23%;
     }
 
-    & tr > *:nth-of-type(4) {
-        width: 30%;
+    & tr *:nth-of-type(4) {
+        width: 15%;
     }
 
-    & tr > *:nth-of-type(5) {
-        width: 10%;
+    & tr *:nth-of-type(5) {
+        width: 15%;
     }
 
-    & tr > *:nth-of-type(6) {
-        width: 10%;
+    & tr *:nth-of-type(6) {
+        width: 15%;
     }
 
-    & tr > *:nth-of-type(7) {
-        width: 13%;
+    & tr *:nth-of-type(7) {
+        width: 15%;
     }
 `;

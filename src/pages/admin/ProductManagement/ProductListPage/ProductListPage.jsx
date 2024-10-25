@@ -1,21 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
 import * as s from "./style";
-import { PRODUCTS, SEARCH_OPTIONS } from "../../../../constants/testDatas/ProductListDatas";
+import { SEARCH_OPTIONS } from "../../../../constants/testDatas/ProductListDatas";
 import { useNavigate } from "react-router-dom";
-import { IoMdArrowDropdown } from "react-icons/io";
 import { useQuery } from "react-query";
 import { instance } from "../../../../apis/util/instance";
+import SearchBox from "../../../../components/admin/SearchBox/SearchBox";
 
 function ProductListPage() {
 
-    const searchOptions = SEARCH_OPTIONS;
-
     const navigate = useNavigate();
 
-    const [ isOpen , setOpen ] = useState(false);
     const [ searchData, setSearchData ] = useState({
-        searchOption: "전체",
+        searchOptionId: "all",
+        searchOptionName: "전체",
         searchValue: ""
     });
     const [ masterCheckbox, setMasterCheckbox ] = useState(false);
@@ -53,31 +51,6 @@ function ProductListPage() {
         setCheckedId(temp);
     }
     
-    const handleSearchOptionOnClick = () => {
-        setOpen(open => !open);
-    }
-
-    const handleSearchInputOnChange = (e) => {
-        setSearchData(data => ({
-            ...data,
-            searchValue: e.target.value
-        }));
-    }
-
-    const handleSearchInputOnKeyDown = (e) => {
-        if (e.keyCode === 13) {
-            console.log(searchData);
-        }
-    }
-
-    const handleOptionSelectedOnClick = (option) => {
-        setOpen(false);
-        setSearchData(data => ({
-            ...data,
-            searchOption: option.name
-        }));
-    }
-
     const handleCheckboxOnChange = (e) => {
         console.log(checkedId);
         const temp = new Set(checkedId);
@@ -102,31 +75,7 @@ function ProductListPage() {
                     <button onClick={() => navigate("/admin/product/register")}>상품등록</button>
                 </div>
             </div>
-            <div css={s.searchBox}>
-                <div>
-                    <button onClick={handleSearchOptionOnClick}>{searchData.searchOption}</button>
-                    <IoMdArrowDropdown />
-                </div>
-                {
-                    isOpen &&
-                    <>
-                        <span onClick={() => setOpen(false)}/>
-                        <div css={s.searchOptionModal}>
-                            {
-                                searchOptions.map(option => 
-                                    <button key={option.id} onClick={() => handleOptionSelectedOnClick(option)}>
-                                        {option.name}
-                                    </button>
-                                )
-                            }
-                        </div>
-                    </>
-                }
-                <input type="text"
-                    onChange={handleSearchInputOnChange}
-                    onKeyDown={handleSearchInputOnKeyDown}
-                    value={searchData.searchValue} />
-            </div>
+            <SearchBox searchOptions={SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} />
             <table css={s.mainTable}>
                 <thead>
                     <tr>
