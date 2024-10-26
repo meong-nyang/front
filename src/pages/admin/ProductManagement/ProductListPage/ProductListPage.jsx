@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
 import * as s from "./style";
-import { SEARCH_OPTIONS } from "../../../../constants/testDatas/ProductListDatas";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import SearchBox from "../../../../components/admin/SearchBox/SearchBox";
+import { PRODUCT_SEARCH_OPTIONS } from "../../../../constants/options";
 
 function ProductListPage() {
 
@@ -75,7 +75,7 @@ function ProductListPage() {
                     <button onClick={() => navigate("/admin/product/register")}>상품등록</button>
                 </div>
             </div>
-            <SearchBox searchOptions={SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} />
+            <SearchBox searchOptions={PRODUCT_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} />
             <table css={s.mainTable}>
                 <thead>
                     <tr>

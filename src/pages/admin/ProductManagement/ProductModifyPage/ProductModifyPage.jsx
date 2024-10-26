@@ -34,7 +34,6 @@ function ProductModifyPage(props) {
     const [ productData, setProductData ] = useState();
     const [ blobs, setBlobs ] = useState([]);
     const [ modifyBeforeBlobs, setModifyBeforeBlobs ] = useState([]);
-    const [ modify, setModify ] = useState(true);
 
     const productModify = useQuery(
         ["productModifyQuery"],
@@ -79,8 +78,8 @@ function ProductModifyPage(props) {
             {
                 productModify.isSuccess && productData &&
                 <>
-                    <ProductImages blobs={blobs} setBlobs={setBlobs} isModify={modify} />
-                    <ProductEdit productData={productData} setProductData={setProductData} disabled={!modify} />
+                    <ProductImages blobs={blobs} setBlobs={setBlobs} isModify={true} />
+                    <ProductEdit productData={productData} setProductData={setProductData} disabled={false} />
                 </>
             }
         </div>

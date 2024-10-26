@@ -14,8 +14,8 @@ function ProductRegisterPage() {
         productName: "",
         petGroupId: 1,
         categoryId: 1,
-        productPrice: 0,
-        productPriceDiscount: 0,
+        productPrice: "",
+        productPriceDiscount: "",
         productDetail: "",
         productBrand: "",
         productModel: "",
@@ -65,21 +65,16 @@ function ProductRegisterPage() {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }),
-        {
-            onSuccess: response => {
-                console.log("등록 성공");
-                alert("상품등록 성공");
-            },
-            onError: error => {
-                console.log("등록 실패");
-                console.log(error);
-            }
-        }
+        })
     );
     
     const handleRegisterButtonOnClick = () => {
-        registerProductMutation.mutateAsync();
+        registerProductMutation.mutateAsync()
+        .then(success => alert("등록되었습니다."))
+        .catch(error => {
+            alert("필수정보를 입력해주세요");
+            console.log(error.response);
+        });
     }
 
     return (
