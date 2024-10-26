@@ -18,18 +18,6 @@ function ProductEdit({ productData, setProductData, disabled }) {
     const queryClient = useQueryClient();
     const categoryList = queryClient.getQueryData("categoryListQuery");
 
-    useEffect(() => {
-        setSelectedCategoryName({
-            petGroupId: categoryList.data.petGroupList[0].categoryGroupName,
-            categoryId: categoryList.data.categoryList[0].categoryName
-        });
-        setProductData(data => ({
-            ...data,
-            petGroupId: categoryList.data.petGroupList[0].id,
-            categoryId: categoryList.data.categoryList[0].id
-        }));
-    }, []);
-
     const [isOpen, setOpen] = useState(false);
     const [productDetailModalOpen, setProductDetailModalOpen] = useState(false);
     const [selectedCategoryName, setSelectedCategoryName] = useState(emptySelectedCategoryName);
@@ -40,7 +28,17 @@ function ProductEdit({ productData, setProductData, disabled }) {
         {
             retry: 0,
             refetchOnWindowFocus: false,
-            onSuccess: success => {},
+            onSuccess: success => {
+                setSelectedCategoryName({
+                    petGroupId: success.data.petGroupList[0].categoryGroupName,
+                    categoryId: success.data.categoryList[0].categoryName
+                });
+                setProductData(data => ({
+                    ...data,
+                    petGroupId: success.data.petGroupList[0].id,
+                    categoryId: success.data.categoryList[0].id
+                }));
+            },
             onError: error => console.log(error.response)
         }
     );

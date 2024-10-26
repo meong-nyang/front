@@ -20,6 +20,8 @@ import StockManagementPage from './pages/admin/StockManagementPage/StockManageme
 import OrderManagementPage from './pages/admin/OrderManagementPage/OrderManagementPage';
 import AdminCustomerManagementPage from './pages/admin/AdminCustomerManagement/AdminCustomerManagementPage/AdminCustomerManagementPage';
 import AdminCustomerDetailPage from './pages/admin/AdminCustomerManagement/AdminCustomerDetailPage/AdminCustomerDetailPage';
+import AdminStatisticsPage from './pages/admin/AdminStatisticsPage/AdminStatisticsPage';
+import AdminSiteSettingPage from './pages/admin/AdminSiteSettingPage/AdminSiteSettingPage';
 
 
 function App() {
@@ -94,8 +96,8 @@ function App() {
                             <Route path='/order' element={<OrderManagementPage />} />
                             <Route path='/customer' element={<AdminCustomerManagementPage />} />
                             <Route path='/customer/:id' element={<AdminCustomerDetailPage />} />
-                            <Route path='/statistics' element={<></>} />
-                            <Route path='/setting' element={<></>} />
+                            <Route path='/statistics' element={<AdminStatisticsPage />} />
+                            <Route path='/setting' element={<AdminSiteSettingPage />} />
                             <Route path='/*' element={<NotFound />} />
                         </Routes>
                     </MainLayout>
