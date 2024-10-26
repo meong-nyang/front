@@ -44,7 +44,7 @@ function StockManagementPage(props) {
                 </thead>
                 <tbody>
                     {
-                        stockData.data.data.stockList.map(stock => (
+                        stockData?.data?.data.stockList.map(stock => (
                             <tr key={stock.productId}>
                                 <td>{stock.productId}</td>
                                 <td>{stock.productName}</td>
