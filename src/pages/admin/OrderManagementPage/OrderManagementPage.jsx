@@ -10,7 +10,7 @@ import { useSearchParams } from "react-router-dom";
 
 function OrderManagementPage(props) {
 
-    const limit = 1;
+    const limit = 10;
     const [ searchParams, setSearchParams ] = useSearchParams();
 
     const emptySearchRange = {

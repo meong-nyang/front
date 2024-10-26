@@ -68,7 +68,7 @@ function DashboardPage() {
                             </table>
                         </body>
                         <footer>
-                            <Link to="/admin/order"><FaArrowRight />주문현황 보러가기</Link>
+                            <Link to="/admin/order?page=1"><FaArrowRight />주문현황 보러가기</Link>
                         </footer>
                     </div>
                     <div css={s.card}>
