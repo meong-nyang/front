@@ -4,8 +4,6 @@ import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHead
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import logoImg from "../../../assets/images/logo.png";
-import { FcGoogle } from "react-icons/fc";
-import { FaGoogle } from "react-icons/fa";
 import { RiKakaoTalkFill } from "react-icons/ri";
 import { SiNaver } from "react-icons/si";
 import { GrGoogle } from "react-icons/gr";

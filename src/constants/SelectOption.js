@@ -1,3 +1,7 @@
+import { FaUser } from "react-icons/fa";
+import { PiNoteFill } from "react-icons/pi";
+import { CiShoppingCart } from "react-icons/ci";
+
 export const PET_AGE_LIST = [
     { value: "0", label: "0" },
     { value: "1", label: "1" },
@@ -12,4 +16,15 @@ export const PET_AGE_LIST = [
     { value: "10", label: "10" },
     { value: "etc", label: "직접입력" },
 ];
+
+export const MYPAGE_OPTION_LIST = [
+    { icon: <FaUser /> , title: "회원정보"},
+    { icon: <PiNoteFill /> , title: "주문/배송 내역 조회"},
+    { icon: <CiShoppingCart /> , title: "장바구니"},
+];
+
+export const DELIVERY_STATUS_LIST = [
+    "배송중", "배송완료", "배송대기"
+];
+
     

@@ -9,7 +9,7 @@ export const layout = css`
     padding: 15px 30px;
     background-color: #ffffff;
     border-radius: 15px;
-    box-shadow: 2px 2px 2px #00000044;
+    box-shadow: 5px 5px 20px #00000028;
 
     & > p:nth-of-type(1) {
         font-size: 18px;

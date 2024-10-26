@@ -27,7 +27,7 @@ function UserSignupPage(props) {
                         <div>
                             {
                                 order === 2 ? <TbCircleNumber2Filled /> : <TbCircleNumber2 />
-}
+                            }
                             <p>배송지정보</p>
                             <p>입력</p>
                         </div>
