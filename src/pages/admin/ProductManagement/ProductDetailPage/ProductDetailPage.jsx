@@ -69,13 +69,13 @@ function ProductDetailPage(props) {
                                 <td>
                                     <div css={s.recommendBox}>
                                         <div>
-                                            <input type="radio" name="recommend" id="2"
+                                            <input type="radio" name="recommend" id="2" readOnly={true}
                                                 checked={productDetail.data.data.recommendation === 2} />
                                             <label htmlFor="2"></label>
                                             <label htmlFor="2">설정</label>
                                         </div>
                                         <div>
-                                            <input type="radio" name="recommend" id="1"
+                                            <input type="radio" name="recommend" id="1" readOnly={true}
                                                 checked={productDetail.data.data.recommendation === 1} />
                                             <label htmlFor="1"></label>
                                             <label htmlFor="1">미설정</label>
@@ -127,13 +127,13 @@ function ProductDetailPage(props) {
                                 <td>
                                     <div css={s.recommendBox}>
                                         <div>
-                                            <input type="radio" name="alertSetting" id="20"
+                                            <input type="radio" name="alertSetting" id="20" readOnly={true}
                                                 checked={productDetail.data.data.alertSetting === 2} />
                                             <label htmlFor="20"></label>
                                             <label htmlFor="20">설정</label>
                                         </div>
                                         <div>
-                                            <input type="radio" name="alertSetting" id="10"
+                                            <input type="radio" name="alertSetting" id="10" readOnly={true}
                                                 checked={productDetail.data.data.alertSetting === 1} />
                                             <label htmlFor="10"></label>
                                             <label htmlFor="10">미설정</label>

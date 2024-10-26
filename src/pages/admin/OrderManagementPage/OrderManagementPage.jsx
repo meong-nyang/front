@@ -8,22 +8,14 @@ import { instance } from "../../../apis/util/instance";
 
 function OrderManagementPage(props) {
 
-    const emptyOrderData = [
-        {
-            id: "",
-            userId: "",
-            totalPrice: "",
-            orderItemCount: "",
-            orderDate: "",
-            orderStatus: "",
-            orderName: "",
-            zipcode: "",
-            addressDefault: "",
-            addressDetail: "",
-            phone: "",
-            orderDetails: ""
-        }
-    ]
+    const emptySearchData = {
+        page: 1,
+        limit: 20,
+        search: "",
+        option: "",
+        startDate: "",
+        endDate: "",
+    }
 
     const [ searchData, setSearchData ] = useState({
         searchOptionId: "all",
@@ -31,23 +23,21 @@ function OrderManagementPage(props) {
         searchValue: ""
     });
 
-    const [ orders, setOrders ] = useState(emptyOrderData);
-
-    // const orderList = useQuery(
-    //     ["orderListQuery"],
-    //     async () => await instance.get("/admin/orders"),
-    //     {
-    //         retry: 0,
-    //         refetchOnWindowFocus: false,
-    //         onSuccess: success => console.log(success),
-    //         onError: error => console.log(error)
-    //     }
-    // );
+    const orderList = useQuery(
+        ["orderListQuery"],
+        async () => await instance.get("/admin/orders"),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: success => console.log(success.data),
+            onError: error => console.log(error)
+        }
+    );
 
     return (
         <>
             <div css={s.header}>
-                <span>총 10개의 상품</span>
+                <span>총 {orderList?.data?.data.orderListCount}개</span>
             </div>
             <SearchBox searchOptions={SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} />
             <table css={s.mainTable}>
@@ -68,20 +58,32 @@ function OrderManagementPage(props) {
                 </thead>
                 <tbody>
                     {
-                        orders.map(order => (
+                        orderList?.data?.data.orderList.map(order => (
+                            <>
                             <tr>
-                                <td>
+                                <td rowSpan={order.orderDetails.length}>
                                     <input type="checkbox" />
                                 </td>
-                                <td>{order.id}</td>
-                                <td>{order.orderDate}</td>
-                                <td>{order.id}</td>
-                                <td>{order.id}</td>
-                                <td>{order.id}</td>
-                                <td>{order.orderItemCount}</td>
-                                <td>{order.totalPrice}</td>
-                                <td>{order.orderStatus}</td>
+                                <td rowSpan={order.orderDetails.length}>{order.id}</td>
+                                <td rowSpan={order.orderDetails.length}>{order.orderDate}</td>
+                                <td>{order.orderDetails[0].productId}</td>
+                                <td>{order.orderDetails[0].product.productName}</td>
+                                <td>{order.orderDetails[0].productPrice}</td>
+                                <td>{order.orderDetails[0].productCount}</td>
+                                <td rowSpan={order.orderDetails.length}>{order.totalPrice}</td>
+                                <td rowSpan={order.orderDetails.length}>{order.orderStatus}</td>
                             </tr>
+                            {
+                                order.orderDetails.slice(1).map(product => (
+                                    <tr>
+                                        <td>{product.productId}</td>
+                                        <td>{product.product.productName}</td>
+                                        <td>{product.productPrice}</td>
+                                        <td>{product.productCount}</td>
+                                    </tr>
+                                ))
+                            }
+                            </>
                         ))
                     }
                 </tbody>
@@ -89,5 +91,4 @@ function OrderManagementPage(props) {
         </>
     );
 }
-
 export default OrderManagementPage;

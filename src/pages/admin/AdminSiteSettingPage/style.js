@@ -12,7 +12,6 @@ export const layout = css`
 
 export const information = css`
     display: flex;
-    width: 100%;
     margin-bottom: 50px;
     
     & > img {
