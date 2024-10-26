@@ -7,7 +7,7 @@ export const reset = css`
         width: 100%;
         height: 100%;
     }
-    div,p, label {
+    div, p, label {
         margin: 0;
         padding: 0;
     }

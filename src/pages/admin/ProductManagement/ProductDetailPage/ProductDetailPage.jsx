@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import * as s from "./style";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -47,10 +47,10 @@ function ProductDetailPage(props) {
                 <button onClick={() => navigate(`/admin/product/modify/${params.id}`)}>수정</button>
             </div>
             {
-                console.log(productDetail?.data?.data)
+                console.log(productDetail.isFetching)
             }
             {
-                productDetail.isSuccess &&
+                productDetail.isSuccess && !productDetail.isFetching &&
                 <>
                     <ProductImages blobs={blobs} setBlobs={setBlobs} isModify={false} />
                     <span>상품 정보</span>
@@ -58,7 +58,7 @@ function ProductDetailPage(props) {
                         <tbody>
                             <tr>
                                 <th>상품명</th>
-                                <td colSpan={7}>{productDetail.data.data.productName}</td>
+                                <td colSpan={7}>{productDetail.data.data.productName}</td>  
                             </tr>
                             <tr>
                                 <th>카테고리</th>
