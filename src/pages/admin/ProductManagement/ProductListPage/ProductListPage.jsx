@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import * as s from "./style";
 import { useNavigate } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import SearchBox from "../../../../components/admin/SearchBox/SearchBox";
 import { PRODUCT_SEARCH_OPTIONS } from "../../../../constants/options";
@@ -39,6 +39,31 @@ function ProductListPage() {
         }
     );
 
+    const deleteProductsMutation = useMutation(
+        async () => {
+            console.log(Array.from(checkedId));
+            return await instance.delete("/admin/products", {
+            params: {
+                productIds: Array.from(checkedId)
+            }
+        })}
+    );
+
+    const handleDeleteButtonOnClick = () => {
+        console.log(checkedId);
+        if(window.confirm("정말 삭제하시겠습니까?")) {
+            deleteProductsMutation.mutateAsync()
+                .then(success => {
+                    alert("삭제되었습니다.");
+                    productList.refetch();
+                })
+                .catch(error => {
+                    alert("알수 없는 이유로 삭제에 실패하였습니다.");
+                    console.log(error.response);
+                });
+        }
+    }
+
     const handleMasterCheckboxOnChange = (e) => {
         const temp = new Set();
         if (masterCheckbox) {
@@ -70,12 +95,12 @@ function ProductListPage() {
                 <div>
                     {
                         checkedId.size !== 0 &&
-                        <button>선택항목 삭제</button>
+                        <button onClick={handleDeleteButtonOnClick}>선택항목 삭제</button>
                     }
                     <button onClick={() => navigate("/admin/product/register")}>상품등록</button>
                 </div>
             </div>
-            <SearchBox searchOptions={PRODUCT_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} />
+            <SearchBox searchOptions={PRODUCT_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => productList.refetch()}/>
             <table css={s.mainTable}>
                 <thead>
                     <tr>

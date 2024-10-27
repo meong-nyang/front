@@ -3,14 +3,15 @@ import { useEffect, useState } from "react";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import * as s from "./style";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { instance } from "../../../../apis/util/instance";
+import { MENU_DATAS } from "../../../../constants/options";
 
 function ProductDetailPage(props) {
     const params = useParams();
     const navigate = useNavigate();
 
-    const [ blobs, setBlobs ] = useState([]);
+    const [blobs, setBlobs] = useState([]);
 
     const productDetail = useQuery(
         ["productDetailQuery"],
@@ -31,19 +32,43 @@ function ProductDetailPage(props) {
         }
     );
 
+    const deleteProductMutation = useMutation(
+        async () => await instance.delete("/admin/products", {
+            params: {
+                productIds: params.id
+            }
+        })
+    );
+
     const addImgBlobFromUrl = async (url) => {
         try {
             const response = await instance.get(url, { responseType: "blob" });
             setBlobs(blob => [...blob, response.data]);
-        } catch(e) {
+        } catch (e) {
             console.log("이미지를 불러오는 중 에러가 발생하였습니다");
             console.log(e.response);
         }
     }
 
+    const handleDeleteButtonOnClick = () => {
+        if (window.confirm("정말로 작제하시겠습니까?")) {
+            deleteProductMutation.mutateAsync()
+                .then(success => {
+                    alert("삭제되었습니다.");
+                    navigate(MENU_DATAS[1].address);
+                })
+                .catch(error => {
+                    alert("알수 없는 이유로 삭제에 실패하였습니다.");
+                    console.log(error.response);
+                })
+        }
+
+    }
+
     return (
         <div css={s.layout}>
             <div css={s.buttons}>
+                <button onClick={handleDeleteButtonOnClick}>삭제</button>
                 <button onClick={() => navigate(`/admin/product/modify/${params.id}`)}>수정</button>
             </div>
             {
@@ -58,7 +83,7 @@ function ProductDetailPage(props) {
                         <tbody>
                             <tr>
                                 <th>상품명</th>
-                                <td colSpan={7}>{productDetail.data.data.productName}</td>  
+                                <td colSpan={7}>{productDetail.data.data.productName}</td>
                             </tr>
                             <tr>
                                 <th>카테고리</th>
@@ -97,7 +122,7 @@ function ProductDetailPage(props) {
                                 <th>브랜드</th>
                                 <td>{productDetail.data.data.productBrand}</td>
                                 <th>제조일</th>
-                                <td>{}</td>
+                                <td>{ }</td>
                                 <th>할인금액</th>
                                 <td>{productDetail.data.data.productPriceDiscount}</td>
                                 <th>판매가격</th>

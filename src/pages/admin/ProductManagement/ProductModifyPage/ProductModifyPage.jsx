@@ -4,8 +4,9 @@ import * as s from "./style";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import ProductEdit from "../../../../components/admin/ProductEdit/ProductEdit";
 import { useEffect, useState } from "react";
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../../apis/util/instance";
+import { v4 as uuidv4 } from 'uuid';
 
 function ProductModifyPage(props) {
 
@@ -31,7 +32,7 @@ function ProductModifyPage(props) {
     const params = useParams();
     const navigate = useNavigate();
     
-    const [ productData, setProductData ] = useState();
+    const [ productData, setProductData ] = useState(emptyProductData);
     const [ blobs, setBlobs ] = useState([]);
     const [ modifyBeforeBlobs, setModifyBeforeBlobs ] = useState([]);
 
@@ -46,12 +47,33 @@ function ProductModifyPage(props) {
                 for (let i of success.data.imgUrls) {
                     await addImgBlobFromUrl("/images/" + i.imgName);
                 }
+                console.log(success.data);
                 setProductData(success.data);
             },
             onError: error => {
                 console.log(error.response);
             }
         }
+    );
+
+    const formData = () => {
+        const formData = new FormData();
+        const productEntries = Object.entries(productData);
+        for (let i of productEntries) {
+            formData.append(i[0], i[1]);
+        }
+        for (let i of blobs) {
+            formData.append('productImage', i, uuidv4() + "_" + i.name);
+        }
+        return formData;
+    }
+
+    const productModifyMutation = useMutation(
+        async () => await instance.put(`/admin/product/${productData.id}`, formData(), {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        })
     );
 
     const addImgBlobFromUrl = async (url) => {
@@ -64,13 +86,24 @@ function ProductModifyPage(props) {
         }
     }
 
+    const handleModifyButtonOnClick = () => {
+        productModifyMutation.mutateAsync()
+            .then(success => {
+                alert("수정에 성공하였습니다");
+                navigate(`/admin/product/detail/${params.id}`);
+            })
+            .catch(error => {
+                alert("수정에 실패했습니다.");
+                console.log(error.response);
+            });
+    }
+
     return (
         <div css={s.layout}>
             <div css={s.buttons}>
-                {console.log(productData)}
                 {
                     <>
-                        <button>저장</button>
+                        <button onClick={handleModifyButtonOnClick}>저장</button>
                         <button onClick={() => navigate(`/admin/product/detail/${params.id}`)}>취소</button>
                     </>
                 }
