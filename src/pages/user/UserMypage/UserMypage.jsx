@@ -35,6 +35,10 @@ function UserMypage(props) {
                     selectOption === 1 &&
                     <UserOrderDetail />
                 }
+                {
+                    selectOption === 2 &&
+                    <UserOrderDetail />
+                }
             </div>
         </UserBackgoundLayout>
     );

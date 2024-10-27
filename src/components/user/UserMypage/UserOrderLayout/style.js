@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 export const layout = css`
     box-sizing: border-box;
     width: 1000px;
-    height: 500px;
+    height: auto;
     margin-top: 30px;
     padding: 20px;
     border: 1px solid #e0e0e0;
@@ -53,36 +53,3 @@ export const titleLayout = css`
     }
 `;
 
-export const contentLayout = css`
-    box-sizing: border-box;
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100px;
-    background-color: aliceblue;
-
-    & > div {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        width: 160px;
-        height: 100%;
-    }
-`;
-
-export const productLayout = css`
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: row !important;
-    width: 478px !important;
-    & > img {
-        width: 50px;
-        height: 50px;
-        background-color: red;
-    }
-    & > div {
-        display: flex;
-        flex-direction: column;
-    }
-`;

@@ -26,6 +26,7 @@ function UserOrderDetail(props) {
                 </div>
             </div>
             <UserOrderLayout />
+            <UserOrderLayout />
         </div>
     );
 }

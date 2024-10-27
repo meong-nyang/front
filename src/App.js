@@ -25,6 +25,8 @@ import AdminCustomerManagementPage from './pages/admin/AdminCustomerManagement/A
 import AdminCustomerDetailPage from './pages/admin/AdminCustomerManagement/AdminCustomerDetailPage/AdminCustomerDetailPage';
 import UserOauth2SignupPage from './pages/user/UserOauth2SignupPage/UserOauth2SignupPage';
 import UserMypage from './pages/user/UserMypage/UserMypage';
+import UserCartPage from './pages/user/UserCartPage/UserCartPage';
+import UserOrderPage from './pages/user/UserOrderPage/UserOrderPage';
 
 
 function App() {
@@ -88,6 +90,8 @@ function App() {
                 <Route path='/user/signin' element={<UserSigninPage />} />
                 <Route path='/user/signup/oauth2' element={<UserOauth2SignupPage />} />
                 <Route path='/user' element={<UserMypage />} />
+                <Route path='/user/cart' element={<UserCartPage />} />
+                <Route path='/user/order' element={<UserOrderPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={

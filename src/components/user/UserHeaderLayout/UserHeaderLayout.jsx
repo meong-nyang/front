@@ -24,8 +24,8 @@ function UserHeaderLayout() {
             <div>
                 <Link to={'/user/signin'}>로그인</Link>
                 <Link to={'/user/signup'}>회원가입</Link>
+                <Link to={'/user/cart'}><CiShoppingCart /></Link>
                 <Link to={'/'}><CiSearch /></Link>
-                <Link to={'/'}><CiShoppingCart /></Link>
             </div>
         </div>
     );

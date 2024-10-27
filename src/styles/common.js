@@ -13,6 +13,7 @@ export const reset = css`
     }
     button {
         cursor: pointer;
+        font-size: 14px;
     }
     p {
         cursor: default;
