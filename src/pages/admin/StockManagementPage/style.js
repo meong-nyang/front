@@ -153,3 +153,35 @@ export const mainTable = css`
         width: 10%;
     }
 `;
+
+export const productLine = (isModified) => css`
+
+    & input::-webkit-outer-spin-button,
+    & input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    & > td {
+        padding: 0;
+    }
+
+    & input {
+        box-sizing: border-box;
+        border: none;
+        padding: 0px 10px;
+        width: calc(100% - 2px) !important;
+        height: calc(100% - 2px);
+        outline: none;
+        font-size: 16px;
+        text-align: center;
+
+        &:focus {
+            outline: 1px solid black;
+        }
+    }
+
+    border: ${isModified ? "2px solid red" : "none"};
+`;
+
+export const emtpyCss = css``;

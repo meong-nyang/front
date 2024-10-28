@@ -3,23 +3,22 @@ import { useState } from "react";
 import * as s from "./style";
 
 import { IoMdArrowDropdown } from "react-icons/io";
-import { useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import SearchBox from "../../../components/admin/SearchBox/SearchBox";
 import { MENU_DATAS, STOCK_SEARCH_OPTIONS } from "../../../constants/options";
 import Paginate from "../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { noDate } from "../../../styles/common";
 
 function StockManagementPage(props) {
 
     const limit = 10;
-    const searchOptions = [];
 
     const [ searchParams, setSearchParams ] = useSearchParams();
 
     const navigate = useNavigate();
 
-    const [ isOpen, setOpen ] = useState(false);
     const [ stockData, setStockData ] = useState([]);
     const [ searchData, setSearchData ] = useState({
         searchOptionId: "전체",
@@ -42,11 +41,37 @@ function StockManagementPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: success => {
                 console.log(success.data);
-                setStockData(success.data.stockList);
+                setStockData(success.data.stockList.map(data => ({
+                    ...data,
+                    isModified: false
+                })));
             },
             onError: error => console.log(error),
         }
     );
+
+    const updateStocksMutation = useMutation(
+        async () => {
+            let requestData = stockData.filter(data => data.isModified === true);
+            requestData = requestData.map(data => {
+                delete data.isModified
+                return data;
+            });
+            return await instance.put("/admin/products/stock", {modifyStockList: requestData});
+        }
+    );
+
+    const handleSaveButtonOnClick = () => {
+        updateStocksMutation.mutateAsync()
+            .then(success => {
+                alert("변경되었습니다");
+                stockDatas.refetch();
+            })
+            .catch(error => {
+                console.log(error.response);
+                alert("변경에 실패하였습니다");
+            });
+    }
 
     const handleInputOnEnter = () => {
         console.log(searchData.searchValue);
@@ -55,11 +80,36 @@ function StockManagementPage(props) {
         stockDatas.refetch();
     }
 
+    const handleInputOnChange = (e, index) => {
+        setStockData(data => {
+            const result = [...data];
+            result[index] = {
+                ...result[index],
+                [e.target.name]: e.target.value,
+                isModified: true
+            };
+            return result;
+        })
+    }
+
+    const handleCheckboxOnChange = (e, index) => {
+        setStockData(data => {
+            const result = [...data];
+            result[index] = {
+                ...result[index],
+                [e.target.name]: result[index][e.target.name] === 2 ? 1 : 2,
+                isModified: true
+            };
+            console.log(result);
+            return result;
+        })
+    }
+
     return (
         <>
             <div css={s.header}>
                 <span>총 {stockDatas?.data?.data.stockListCount}개의 상품</span>
-                <button>변경사항 저장</button>
+                <button onClick={handleSaveButtonOnClick}>변경사항 저장</button>
             </div>
             <SearchBox searchOptions={STOCK_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={handleInputOnEnter}/>
             <div css={s.tableLayout}>
@@ -79,20 +129,47 @@ function StockManagementPage(props) {
                     </thead>
                     <tbody>
                         {
-                            stockData.map(stock => (
-                                <tr key={stock.productId}>
+                            stockData.map((stock, index) => (
+                                <tr key={stock.productId} css={s.productLine(stockData[index].isModified)}>
                                     <td>{stock.productId}</td>
                                     <td>{stock.productName}</td>
-                                    <td>{stock.currentStock}</td>
-                                    <td>{stock.expectedStock}</td>
-                                    <td>{stock.arrivalDate}</td>
-                                    <td>{stock.arrivalQuantity}</td>
-                                    <td>{stock.minAlertQuantity}</td>
                                     <td>
-                                        <input type="checkbox" />
+                                        <input type="number" 
+                                            name="currentStock" 
+                                            value={stock.currentStock} 
+                                            onChange={(e) => handleInputOnChange(e, index)} />
+                                    </td>
+                                    <td>{stock.expectedStock}</td>
+                                    <td>
+                                        <input type="date"
+                                            name="arrivalDate" 
+                                            value={stock.arrivalDate}
+                                            onChange={(e) => handleInputOnChange(e, index)}
+                                            css={stock.arrivalDate === "" ? noDate : s.emtpyCss} />
                                     </td>
                                     <td>
-                                        <input type="checkbox" />
+                                        <input type="number"
+                                            name="arrivalQuantity"
+                                            value={stock.arrivalQuantity}
+                                            onChange={(e) => handleInputOnChange(e, index)} />
+                                    </td>
+                                    <td>
+                                        <input type="number"
+                                            name="minAlertQuantity"
+                                            value={stock.minAlertQuantity}
+                                            onChange={(e) => handleInputOnChange(e, index)} />
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" 
+                                            name="alertSetting" 
+                                            checked={stock.alertSetting === 2} 
+                                            onChange={(e) => handleCheckboxOnChange(e, index)}/>
+                                    </td>
+                                    <td>
+                                        <input type="checkbox" 
+                                            name="outOfStock"
+                                            checked={stock.outOfStock === 2}
+                                            onChange={(e) => handleCheckboxOnChange(e, index)} />
                                     </td>
                                 </tr>
                             ))
