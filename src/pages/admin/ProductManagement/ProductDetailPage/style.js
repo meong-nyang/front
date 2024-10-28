@@ -15,6 +15,10 @@ export const buttons = css`
     display: flex;
     justify-content: end;
     margin-bottom: 5px;
+
+    & > button {
+        margin-left: 10px;
+    }
 `;
 
 export const detail = css`

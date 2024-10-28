@@ -2,13 +2,12 @@
 import { FaArrowRight } from "react-icons/fa6";
 import * as s from "./style";
 import { Link } from "react-router-dom";
-import { ORDER_DATA, STATISTICS_DATA, STOCK_DATA } from "../../../constants/testDatas/DashboardDatas";
 
 function DashboardPage() {
 
-    const orderData = ORDER_DATA;
-    const stockData = STOCK_DATA;
-    const statisticsData = STATISTICS_DATA;
+    const orderData = [];
+    const stockData = [];
+    const statisticsData = [];
 
     return (
         <>

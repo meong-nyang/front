@@ -2,11 +2,11 @@
 import React, { useState } from "react";
 import * as s from "./style";
 import SearchBox from "../../../components/admin/SearchBox/SearchBox";
-import { SEARCH_OPTIONS } from "../../../constants/testDatas/ProductListDatas";
 import { useQuery } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import Paginate from "../../../components/admin/Paginate/Paginate";
 import { useSearchParams } from "react-router-dom";
+import { PRODUCT_SEARCH_OPTIONS } from "../../../constants/options";
 
 function OrderManagementPage(props) {
 
@@ -31,7 +31,14 @@ function OrderManagementPage(props) {
 
     const orderList = useQuery(
         ["orderListQuery"],
-        async () => await instance.get(`/admin/orders/search?page=${searchParams.get("page")}&limit=${limit}&option=${searchData.searchOptionId}&search=${searchData.searchValue}`),
+        async () => await instance.get("/admin/orders/search", {
+            params: {
+                page: searchParams.get("page"),
+                limit: limit,
+                option: searchData.searchOptionId,
+                search: searchData.searchValue
+            }
+        }),
         {
             retry: 0,
             refetchOnWindowFocus: false,
@@ -53,7 +60,7 @@ function OrderManagementPage(props) {
             <div css={s.header}>
                 <span>총 {orderList?.data?.data.orderListCount}개</span>
             </div>
-            <SearchBox searchOptions={SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => orderList.refetch()}/>
+            <SearchBox searchOptions={PRODUCT_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => orderList.refetch()}/>
             <table css={s.mainTable}>
                 <thead>
                     <tr>

@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import ProductEdit from "../../../../components/admin/ProductEdit/ProductEdit";
 import { v4 as uuidv4 } from 'uuid';
+import { MENU_DATAS } from "../../../../constants/options";
 
 function ProductRegisterPage() {
 
@@ -14,7 +15,7 @@ function ProductRegisterPage() {
         productName: "",
         petGroupId: 1,
         categoryId: 1,
-        productPrice: 0,
+        productPrice: "",
         productPriceDiscount: 0,
         productDetail: "",
         productBrand: "",
@@ -65,21 +66,18 @@ function ProductRegisterPage() {
             headers: {
                 'Content-Type': 'multipart/form-data'
             }
-        }),
-        {
-            onSuccess: response => {
-                console.log("등록 성공");
-                alert("상품등록 성공");
-            },
-            onError: error => {
-                console.log("등록 실패");
-                console.log(error);
-            }
-        }
+        })
     );
     
     const handleRegisterButtonOnClick = () => {
-        registerProductMutation.mutateAsync();
+        registerProductMutation.mutateAsync()
+        .then(success => {
+            alert("등록되었습니다.");
+            navigate(MENU_DATAS[1].address);
+        }).catch(error => {
+            alert("필수정보를 입력해주세요");
+            console.log(error.response);
+        });
     }
 
     return (
