@@ -34,7 +34,6 @@ function ProductModifyPage(props) {
     
     const [ productData, setProductData ] = useState(emptyProductData);
     const [ blobs, setBlobs ] = useState([]);
-    const [ modifyBeforeBlobs, setModifyBeforeBlobs ] = useState([]);
 
     const productModify = useQuery(
         ["productModifyQuery"],
@@ -87,6 +86,7 @@ function ProductModifyPage(props) {
     }
 
     const handleModifyButtonOnClick = () => {
+        console.log(productData);
         productModifyMutation.mutateAsync()
             .then(success => {
                 alert("수정에 성공하였습니다");

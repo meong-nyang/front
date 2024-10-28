@@ -6,7 +6,7 @@ import { useQuery } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import Paginate from "../../../components/admin/Paginate/Paginate";
 import { useSearchParams } from "react-router-dom";
-import { PRODUCT_SEARCH_OPTIONS } from "../../../constants/options";
+import { ORDER_SEARCH_OPTIONS } from "../../../constants/options";
 
 function OrderManagementPage(props) {
 
@@ -71,7 +71,7 @@ function OrderManagementPage(props) {
             <div css={s.header}>
                 <span>총 {orderList?.data?.data.orderListCount}개</span>
             </div>
-            <SearchBox searchOptions={PRODUCT_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => orderList.refetch()}/>
+            <SearchBox searchOptions={ORDER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => orderList.refetch()}/>
             <div css={s.tableLayout}>
                 <table css={s.mainTable}>
                     <thead>
@@ -122,10 +122,7 @@ function OrderManagementPage(props) {
                     </tbody>
                 </table>
             </div>
-            {
-                orderList?.data?.data.orderListCount > limit &&
-                <Paginate address={"/admin/order"} totalCount={totalProductCount?.data?.data} limit={limit} />
-            }
+            <Paginate address={"/admin/order"} totalCount={totalProductCount?.data?.data} limit={limit} />
         </>
     );
 }

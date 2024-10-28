@@ -2,10 +2,18 @@ import { css } from "@emotion/react";
 
 export const header = css`
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    align-content: center;
     margin-bottom: 5px;
     width: 100%;
     height: 30px;
+
+    & > span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+    }
 `;
 
 export const searchBox = css`
@@ -88,6 +96,11 @@ export const searchOptionModal = css`
             background-color: #dbdbdb;
         }
     }
+`;
+
+export const tableLayout = css`
+    width: 100%;
+    height: 100%;
 `;
 
 export const mainTable = css`

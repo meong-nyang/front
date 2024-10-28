@@ -15,7 +15,7 @@ function AdminCustomerManagementPage(props) {
     return (
         <>
             <div css={s.header}>
-                <span>10명</span>
+                <span>총 10명</span>
             </div>
             <SearchBox searchOptions={CUSTOMER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData}/>
             <table css={s.mainTable}>

@@ -8,7 +8,8 @@ export const header = css`
     height: 30px;
 
     & > span {
-        display: inline-block;
+        display: flex;
+        align-items: center;
         font-size: 16px;
         font-weight: 600;
     }

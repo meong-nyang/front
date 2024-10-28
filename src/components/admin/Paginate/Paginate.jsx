@@ -20,7 +20,7 @@ function Paginate({ address, totalCount, limit }) {
             totalCount % limit === 0
             ? totalCount / limit
             : Math.floor(totalCount / limit) + 1)
-    }, []);
+    }, [totalCount]);
 
     return (
         <div css={s.paginateContainer}>
