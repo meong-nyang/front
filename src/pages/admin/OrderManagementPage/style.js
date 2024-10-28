@@ -18,9 +18,14 @@ export const header = css`
     }
 `;
 
+export const tableLayout = css`
+    width: 100%;
+    height: 100%;
+`;
+
 export const mainTable = css`
     border-collapse: collapse;
-    width: 100%;
+    width: 300px;
 
     & input[type="checkbox"] {
         width: 15px !important;
