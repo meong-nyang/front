@@ -1,8 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { useQuery, useQueryClient } from "react-query";
 import * as s from "./style";
-import { instance } from "../../../apis/util/instance";
-import { useEffect, useState } from "react";
 
 function CategoryModal({ setOpen, productData, setProductData, setSelectedCategoryName }) {
 

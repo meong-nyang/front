@@ -3,7 +3,7 @@ import * as s from "./style";
 import { useState } from 'react';
 import { IoMdArrowDropdown } from "react-icons/io";
 
-function SearchBox({ searchOptions, searchData, setSearchData }) {
+function SearchBox({ searchOptions, searchData, setSearchData, onEnter }) {
 
     const [ isOpen, setOpen ] = useState(false);
 
@@ -21,7 +21,12 @@ function SearchBox({ searchOptions, searchData, setSearchData }) {
             ...data,
             searchValue: e.target.value
         }));
-        console.log(searchData);
+    }
+
+    const handleInputOnKeyDown = (e) => {
+        if(e.keyCode === 13) {
+            onEnter();
+        }
     }
 
     return (
@@ -47,6 +52,7 @@ function SearchBox({ searchOptions, searchData, setSearchData }) {
             }
             <input type="text"
                 onChange={handleInputOnChange}
+                onKeyDown={handleInputOnKeyDown}
                 value={searchData.searchValue}/>
         </div>
     );

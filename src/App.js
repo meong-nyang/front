@@ -28,7 +28,8 @@ import UserMypage from './pages/user/UserMypage/UserMypage';
 import UserCartPage from './pages/user/UserCartPage/UserCartPage';
 import UserOrderPage from './pages/user/UserOrderPage/UserOrderPage';
 import UserProductDetailPage from './pages/user/UserProductDetailPage/UserProductDetailPage';
-
+import AdminStatisticsPage from './pages/admin/AdminStatisticsPage/AdminStatisticsPage';
+import AdminSiteSettingPage from './pages/admin/AdminSiteSettingPage/AdminSiteSettingPage';
 
 function App() {
 
@@ -108,8 +109,8 @@ function App() {
                             <Route path='/order' element={<OrderManagementPage />} />
                             <Route path='/customer' element={<AdminCustomerManagementPage />} />
                             <Route path='/customer/:id' element={<AdminCustomerDetailPage />} />
-                            <Route path='/statistics' element={<></>} />
-                            <Route path='/setting' element={<></>} />
+                            <Route path='/statistics' element={<AdminStatisticsPage />} />
+                            <Route path='/setting' element={<AdminSiteSettingPage />} />
                             <Route path='/*' element={<NotFound />} />
                         </Routes>
                     </MainLayout>
