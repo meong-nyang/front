@@ -13,8 +13,7 @@ export const signupTitle = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 500px;
-    margin: 0 auto;
+    width: 100%;
     color: #777777;
 
     & p {
@@ -22,16 +21,18 @@ export const signupTitle = css`
     }
     & > p {
         padding: 20px 0px 30px; 
-        font-size: 18px;
+        font-size: 20px;
         font-weight: 600;
     }
 `;
 
 export const signupOrder = css`
+    box-sizing: border-box;
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
+    margin-bottom: 20px;
     font-size: 14px;
     & > div {
         display: flex;

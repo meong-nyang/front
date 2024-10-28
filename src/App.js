@@ -23,9 +23,13 @@ import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
 import OrderManagementPage from './pages/admin/OrderManagementPage/OrderManagementPage';
 import AdminCustomerManagementPage from './pages/admin/AdminCustomerManagement/AdminCustomerManagementPage/AdminCustomerManagementPage';
 import AdminCustomerDetailPage from './pages/admin/AdminCustomerManagement/AdminCustomerDetailPage/AdminCustomerDetailPage';
+import UserOauth2SignupPage from './pages/user/UserOauth2SignupPage/UserOauth2SignupPage';
+import UserMypage from './pages/user/UserMypage/UserMypage';
+import UserCartPage from './pages/user/UserCartPage/UserCartPage';
+import UserOrderPage from './pages/user/UserOrderPage/UserOrderPage';
+import UserProductDetailPage from './pages/user/UserProductDetailPage/UserProductDetailPage';
 import AdminStatisticsPage from './pages/admin/AdminStatisticsPage/AdminStatisticsPage';
 import AdminSiteSettingPage from './pages/admin/AdminSiteSettingPage/AdminSiteSettingPage';
-
 
 function App() {
 
@@ -86,6 +90,11 @@ function App() {
                 <Route path='/' element={<UserMainPage />} />
                 <Route path='/user/signup' element={<UserSignupPage />} />
                 <Route path='/user/signin' element={<UserSigninPage />} />
+                <Route path='/user/signup/oauth2' element={<UserOauth2SignupPage />} />
+                <Route path='/user' element={<UserMypage />} />
+                <Route path='/user/cart' element={<UserCartPage />} />
+                <Route path='/user/order' element={<UserOrderPage />} />
+                <Route path='/product' element={<UserProductDetailPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={

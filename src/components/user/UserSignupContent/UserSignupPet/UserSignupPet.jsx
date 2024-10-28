@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-import Select from 'react-select';
 import UserSignupLayout from '../UserSignupLayout/UserSignupLayout';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { MdArrowBackIos } from "react-icons/md";
-import { PET_AGE_LIST } from '../../../../constants/SelectOption';
 
 function UserSignupPet({ order, setOrder }) {
     const [ selectOption, setSelectOption] = useState(null);

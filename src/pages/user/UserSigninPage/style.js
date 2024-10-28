@@ -15,8 +15,8 @@ export const signinContainer = css`
     display: flex;
     justify-content: center;
     align-items: center;
-    width: 1100px;
-    height: 700px;
+    width: 1000px;
+    height: 600px;
     background-color: #ffffff;
     border-radius: 25px;
     box-shadow: 5px 5px 20px #00000028;
@@ -28,11 +28,11 @@ export const signinContainer = css`
         justify-content: center;
         align-items: center;
         border-radius: 25px;
-        width: 550px;
+        width: 500px;
         height: 100%;
         & > img {
             box-sizing: border-box;
-            width: 350px;
+            width: 300px;
             margin: 0px auto;
         }
 
