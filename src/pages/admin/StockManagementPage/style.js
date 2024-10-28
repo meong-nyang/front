@@ -2,10 +2,18 @@ import { css } from "@emotion/react";
 
 export const header = css`
     display: flex;
-    justify-content: end;
+    justify-content: space-between;
+    align-content: center;
     margin-bottom: 5px;
     width: 100%;
     height: 30px;
+
+    & > span {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: 600;
+    }
 `;
 
 export const searchBox = css`
@@ -90,6 +98,11 @@ export const searchOptionModal = css`
     }
 `;
 
+export const tableLayout = css`
+    width: 100%;
+    height: 100%;
+`;
+
 export const mainTable = css`
     border-collapse: collapse;
     width: 100%;
@@ -140,3 +153,35 @@ export const mainTable = css`
         width: 10%;
     }
 `;
+
+export const productLine = (isModified) => css`
+
+    & input::-webkit-outer-spin-button,
+    & input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
+    & > td {
+        padding: 0;
+    }
+
+    & input {
+        box-sizing: border-box;
+        border: none;
+        padding: 0px 10px;
+        width: calc(100% - 2px) !important;
+        height: calc(100% - 2px);
+        outline: none;
+        font-size: 16px;
+        text-align: center;
+
+        &:focus {
+            outline: 1px solid black;
+        }
+    }
+
+    border: ${isModified ? "2px solid red" : "none"};
+`;
+
+export const emtpyCss = css``;

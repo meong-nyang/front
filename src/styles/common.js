@@ -19,3 +19,24 @@ export const reset = css`
         cursor: default;
     }
 `;
+
+
+
+export const noDate = css`
+    &::-webkit-datetime-edit-text {
+        -webkit-appearance: none;
+        display: none;
+    }
+    &::-webkit-datetime-edit-month-field{
+        -webkit-appearance: none;
+        display: none;
+    }
+    &::-webkit-datetime-edit-day-field {
+        -webkit-appearance: none;
+        display: none;
+    }
+    &::-webkit-datetime-edit-year-field {
+        -webkit-appearance: none;
+        display: none;
+    }
+`;
