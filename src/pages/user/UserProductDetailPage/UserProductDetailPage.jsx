@@ -9,7 +9,6 @@ function UserProductDetailPage(props) {
             <div>
 
             </div>
-            <UserProductDetailPage />
         </UserBackgoundLayout>
     );
 }

@@ -75,7 +75,7 @@ function App() {
                 for (let authPath of authPaths) {
                     if(location.pathname.startsWith(authPath)) {
                         alert("로그인이 필요한 페이지입니다. \n로그인페이지로 이동합니다.");
-                        navigate("/user/login");
+                        navigate("/user/signin");
                         break;
                     }
                 }
