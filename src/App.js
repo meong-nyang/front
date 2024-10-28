@@ -27,6 +27,7 @@ import UserOauth2SignupPage from './pages/user/UserOauth2SignupPage/UserOauth2Si
 import UserMypage from './pages/user/UserMypage/UserMypage';
 import UserCartPage from './pages/user/UserCartPage/UserCartPage';
 import UserOrderPage from './pages/user/UserOrderPage/UserOrderPage';
+import UserProductDetailPage from './pages/user/UserProductDetailPage/UserProductDetailPage';
 
 
 function App() {
@@ -92,6 +93,7 @@ function App() {
                 <Route path='/user' element={<UserMypage />} />
                 <Route path='/user/cart' element={<UserCartPage />} />
                 <Route path='/user/order' element={<UserOrderPage />} />
+                <Route path='/product' element={<UserProductDetailPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={

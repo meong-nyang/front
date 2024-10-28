@@ -78,6 +78,7 @@ export const paymentLayout = css`
         box-sizing: border-box;
         padding-bottom: 10px;
         border-bottom: 1px solid #e0e0e0;
+        font-size: 18px;
         font-weight: 600;
     }
 
