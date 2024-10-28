@@ -41,12 +41,14 @@ function ProductListPage() {
 
     const deleteProductsMutation = useMutation(
         async () => {
-            console.log(Array.from(checkedId));
-            return await instance.delete("/admin/products", {
-            params: {
-                productIds: Array.from(checkedId)
+            const arr = Array.from(checkedId);
+            let str = "productIds=";
+            for (let i of arr) {
+                str += i + ","
             }
-        })}
+            str = str.slice(0, str.length - 1);
+            return await instance.delete(`/admin/products?${str}`)
+        }
     );
 
     const handleDeleteButtonOnClick = () => {
