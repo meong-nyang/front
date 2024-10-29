@@ -3,6 +3,13 @@ import { css } from "@emotion/react";
 export const inputBox = css`
     box-sizing: border-box;
     color: #777777;
+
+    & input::-webkit-outer-spin-button,
+    & input::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+
     & > p {
         margin: 15px 0px 7px;
         font-size: 14px;
@@ -25,6 +32,7 @@ export const typeBox = css`
     box-sizing: border-box;
     display: flex;
     width: 100%;
+    justify-content: space-between;
 
     & > label{
         cursor: pointer;
@@ -34,13 +42,12 @@ export const typeBox = css`
     }
 
     & > input {
-        flex-shrink:0; 
         display: none;
         appearance: none;
 
         & + label {
             box-sizing: border-box;
-            flex-grow: 1;
+            width: 49%;
             display: flex;
             justify-content: center;
             align-items: center;

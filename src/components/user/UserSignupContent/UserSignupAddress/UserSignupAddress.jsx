@@ -73,6 +73,7 @@ function UserSignupAddress({ order, setOrder, userSignupFormData, setUserSignupF
                     name="addressDefault"
                     value={userSignupFormData.addressDefault} 
                     placeholder="기본주소"
+                    disabled={true}
                     readOnly
                 />
                 <input 
