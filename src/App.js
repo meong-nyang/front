@@ -30,6 +30,7 @@ import UserOrderPage from './pages/user/UserOrderPage/UserOrderPage';
 import UserProductDetailPage from './pages/user/UserProductDetailPage/UserProductDetailPage';
 import AdminStatisticsPage from './pages/admin/AdminStatisticsPage/AdminStatisticsPage';
 import AdminSiteSettingPage from './pages/admin/AdminSiteSettingPage/AdminSiteSettingPage';
+import UserProductListPage from './pages/user/UserProductListPage/UserProductListPage';
 
 function App() {
 
@@ -95,6 +96,7 @@ function App() {
                 <Route path='/user/cart' element={<UserCartPage />} />
                 <Route path='/user/order' element={<UserOrderPage />} />
                 <Route path='/product' element={<UserProductDetailPage />} />
+                <Route path='/product/list' element={<UserProductListPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={

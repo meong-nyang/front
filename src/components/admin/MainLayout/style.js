@@ -79,6 +79,7 @@ export const mainContainer = css`
 
     & > main {
         width: 1650px;
+        height: 700px;
         box-sizing: border-box;
         padding-left: 20px;
         padding-top: 20px;

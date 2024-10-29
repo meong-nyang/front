@@ -5,7 +5,7 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { useEffect, useState } from "react";
 
-function Paginate({ address, totalCount, limit, onChange }) {
+function Paginate({ address, totalCount, limit }) {
     const [ searchParams, setSearchParams ] = useSearchParams();
     const navigate = useNavigate();
 
@@ -13,7 +13,6 @@ function Paginate({ address, totalCount, limit, onChange }) {
 
     const handlePageOnChange = (event) => {
         navigate(`${address}?page=${event.selected + 1}`);
-        onChange();
     }
 
     useEffect(() => {
@@ -21,7 +20,7 @@ function Paginate({ address, totalCount, limit, onChange }) {
             totalCount % limit === 0
             ? totalCount / limit
             : Math.floor(totalCount / limit) + 1)
-    }, []);
+    }, [totalCount]);
 
     return (
         <div css={s.paginateContainer}>

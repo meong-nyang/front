@@ -12,7 +12,7 @@ export const MENU_DATAS = [
     {
         menuId: 3,
         name: "재고관리",
-        address: "/admin/stock"
+        address: "/admin/stock?page=1"
     },
     {
         menuId: 4,
@@ -139,5 +139,20 @@ export const CUSTOMER_SEARCH_OPTIONS = [
     {
         id: "name",
         name: "이름"
+    },
+]
+
+export const STOCK_SEARCH_OPTIONS = [
+    {
+        id: "전체",
+        name: "전체"
+    },
+    {
+        id: "상품코드",
+        name: "상품코드"
+    },
+    {
+        id: "상품명",
+        name: "상품명"
     },
 ]

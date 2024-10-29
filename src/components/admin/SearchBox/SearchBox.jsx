@@ -32,7 +32,7 @@ function SearchBox({ searchOptions, searchData, setSearchData, onEnter }) {
     return (
         <div css={s.searchBox}>
             <div>
-                <button onClick={() => setOpen(true)}>{searchData.searchOptionName}</button>
+                <button onClick={() => setOpen(data => !data)}>{searchData.searchOptionName}</button>
                 <IoMdArrowDropdown />
             </div>
             {

@@ -26,13 +26,14 @@ export const layout = css`
         box-sizing: border-box;
         border: none;
         padding: 0px 10px;
-        width: 100%;
-        height: 28px;
+        margin-left: 1px;
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
         outline: none;
         font-size: 16px;
 
         &:focus {
-            outline: 2px solid black;
+            outline: 1px solid black;
         }
 
         &:disabled {
