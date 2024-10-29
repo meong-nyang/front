@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import * as s from "./style";
-import SearchBox from "../../../components/admin/SearchBox/SearchBox";
+import SearchBox from "../../../../components/admin/SearchBox/SearchBox";
 import { useQuery } from "react-query";
-import { instance } from "../../../apis/util/instance";
-import Paginate from "../../../components/admin/Paginate/Paginate";
+import { instance } from "../../../../apis/util/instance";
+import Paginate from "../../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { MENU_DATAS, ORDER_SEARCH_OPTIONS } from "../../../constants/options";
+import { MENU_DATAS, ORDER_SEARCH_OPTIONS } from "../../../../constants/options";
 
-function OrderManagementPage(props) {
+function OrderListPage(props) {
 
     const navigate = useNavigate();
 
@@ -21,7 +21,6 @@ function OrderManagementPage(props) {
         search: "",
         option: "",
         startDate: "",
-        endDate: "",
     }
 
     const [ searchData, setSearchData ] = useState({
@@ -66,9 +65,6 @@ function OrderManagementPage(props) {
                 <table css={s.mainTable}>
                     <thead>
                         <tr>
-                            <th>
-                                <input type="checkbox" />
-                            </th>
                             <th>주문번호</th> 
                             <th>주문날짜</th>
                             <th>상품코드</th>
@@ -79,14 +75,14 @@ function OrderManagementPage(props) {
                             <th>상태</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody css={s.tableBody}>
                         {
                             orderList?.data?.data.orderList.map(order => (
                                 <React.Fragment key={order.id}>
-                                    <tr>
-                                        <td rowSpan={order.orderDetails.length}>
+                                    <tr onClick={() => navigate("/admin/order/detail/" + order.id)}>
+                                        {/* <td rowSpan={order.orderDetails.length}>
                                             <input type="checkbox" />
-                                        </td>
+                                        </td> */}
                                         <td rowSpan={order.orderDetails.length}>{order.id}</td>
                                         <td rowSpan={order.orderDetails.length}>{order.orderDate}</td>
                                         <td>{order.orderDetails[0].productId}</td>
@@ -98,7 +94,9 @@ function OrderManagementPage(props) {
                                     </tr>
                                     {
                                         order.orderDetails.slice(1).map(product => (
-                                            <tr key={product.productId}>
+                                            <tr key={product.productId} 
+                                                onClick={() => navigate("/admin/order/detail/" + order.id)}
+                                                css={s.productCell} >
                                                 <td>{product.productId}</td>
                                                 <td>{product.product.productName}</td>
                                                 <td>{product.productPrice}</td>
@@ -116,4 +114,4 @@ function OrderManagementPage(props) {
         </>
     );
 }
-export default OrderManagementPage;
+export default OrderListPage;
