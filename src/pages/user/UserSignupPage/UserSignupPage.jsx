@@ -24,7 +24,6 @@ function UserSignupPage(props) {
         zipcode: "",
         addressDefault: "",
         addressDetail: "",
-        request: "",
         petName: "",
         petAge: "",
         petType: "",
@@ -76,6 +75,7 @@ function UserSignupPage(props) {
 
     const handleUserSignupSubmitClick = () => {
         userSignup.mutateAsync().catch(() => {});
+        console.log(userSignupFormData)
     };
     
     return (

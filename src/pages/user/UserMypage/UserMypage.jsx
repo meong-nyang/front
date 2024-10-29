@@ -17,35 +17,31 @@ import { useParams } from 'react-router-dom';
 function UserMypage(props) {
     const [ selectOption, setSelectOption ] = useState(0);
     const queryClient = useQueryClient();
-    const params = useParams();
-    const userId = params.userId;
     const userInfoData = queryClient.getQueryData("userInfoQuery");
 
-
     const [ userInfo, setUserInfo ] = useState({
-        userId: userId,
+        id: "",
         username: "",
         name: "",
         phone: "",
         zipcode: "",
         addressDefault: "",
         addressDetail: "",
+        petId: "",
         petName: "",
         petAge: "",
         petType: "",
-    })
+    });
 
-    const userInfoQuery = useQuery(
-        ["userInfoQuery"],
-        async () => {
-            const response = await instance.get(`/user/${userId}`);
-            return response.data;
-        },
+    const myPageDataQuery = useQuery(
+        ["myPageDataQuery"],
+        async () => await instance.get(`/user/${userInfoData.data.id}`),
         {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: response => { 
                 console.log(response)
+                setUserInfo(response.data); 
             },
         }
     );
@@ -78,9 +74,9 @@ function UserMypage(props) {
                 {
                     selectOption === 0 &&
                     <>
-                        <UserInfoDetail />
-                        <UserInfoPassword />
-                        <UserInfoPet />
+                        <UserInfoDetail userInfo={userInfo} setUserInfo={setUserInfo}/>
+                        <UserInfoPassword userInfo={userInfo} setUserInfo={setUserInfo}/>
+                        <UserInfoPet userInfo={userInfo} setUserInfo={setUserInfo}/>
                     </>
                 }
                 {
