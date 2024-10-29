@@ -43,7 +43,6 @@ export const typeBox = css`
 
     & > input {
         display: none;
-        appearance: none;
 
         & + label {
             box-sizing: border-box;

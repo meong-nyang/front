@@ -15,7 +15,7 @@ function AdminSigninPage(props) {
     });
 
     const loginMutation = useMutation(
-        async () => await instance.post("/auth/admin/signin", loginData)
+        async () => await instance.post("/auth/admin/signin", loginData),
     );
 
     const handleInputOnChange = (e) => {
