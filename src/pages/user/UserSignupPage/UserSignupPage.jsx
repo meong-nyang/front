@@ -21,12 +21,12 @@ function UserSignupPage(props) {
         checkPassword: "",
         name: "",
         phone: "",
-        zipcode: 0,
+        zipcode: "",
         addressDefault: "",
         addressDetail: "",
         request: "",
         petName: "",
-        petAge: 0,
+        petAge: "",
         petType: "",
     }); 
 
@@ -74,7 +74,7 @@ function UserSignupPage(props) {
         }
     );
 
-    const handleUserSignupSubmitClick = () => { 
+    const handleUserSignupSubmitClick = () => {
         userSignup.mutateAsync().catch(() => {});
     };
     

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
 import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 import UserMypageController from '../../../components/user/UserMypage/UserMypageController/UserMypageController';
@@ -9,11 +9,46 @@ import UserInfoPet from '../../../components/user/UserMypage/UserInfoPet/UserInf
 import UserOrderDetail from '../../../components/user/UserMypage/UserOrderDetail/UserOrderDetail';
 import UserInfoPassword from '../../../components/user/UserMypage/UserInfoPassword/UserInfoPassword';
 import { MYPAGE_OPTION_LIST } from '../../../constants/SelectOption';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
+import { m } from 'framer-motion';
+import { useParams } from 'react-router-dom';
 
 function UserMypage(props) {
     const [ selectOption, setSelectOption ] = useState(0);
+    const queryClient = useQueryClient();
+    const params = useParams();
+    const userId = params.userId;
+    const userInfoData = queryClient.getQueryData("userInfoQuery");
+
+
+    const [ userInfo, setUserInfo ] = useState({
+        userId: userId,
+        username: "",
+        name: "",
+        phone: "",
+        zipcode: "",
+        addressDefault: "",
+        addressDetail: "",
+        petName: "",
+        petAge: "",
+        petType: "",
+    })
+
+    const userInfoQuery = useQuery(
+        ["userInfoQuery"],
+        async () => {
+            const response = await instance.get(`/user/${userId}`);
+            return response.data;
+        },
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => { 
+                console.log(response)
+            },
+        }
+    );
 
     // const userInfoQuery = useQuery(
     //     ["userInfoQuery"],

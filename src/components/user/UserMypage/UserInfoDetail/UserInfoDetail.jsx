@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserInfoLayout from '../UserInfoLayout/UserInfoLayout';
@@ -6,7 +6,8 @@ import DaumPostcode from 'react-daum-postcode';
 
 function UserInfoDetail(props) {
     const [ editMode, setEditMode ] = useState(true);
-    const [ addressSearchOpen, setAddressSearchOpen ] = useState(false);
+    const [ addressDefault, setAddressDefault ] = useState("");
+    const [ zipcode, setZipcode ] = useState("");
 
     const [ userInfoData, setUserInfoData ] = useState({
         username: "",
@@ -17,33 +18,41 @@ function UserInfoDetail(props) {
         addressDetail: "",
     });
 
+    useEffect(() => {
+        // 다음 주소 검색 API 스크립트를 동적으로 로드
+        const script = document.createElement('script');
+        script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+        script.async = true;
+        document.body.appendChild(script);
+        
+        return () => {
+            // 컴포넌트가 언마운트될 때 스크립트 제거
+            document.body.removeChild(script);
+        };
+    }, []);
+
+    const handleAddressSearchComplet = () => {
+        new window.daum.Postcode({
+            oncomplete: function (data) {
+                // 주소 검색 결과를 처리하는 로직
+                let fullAddress = data.address;
+                
+                setZipcode(data.zonecode);
+                setAddressDefault(fullAddress);
+                setUserInfoData((prevData) => ({
+                    ...prevData,
+                    zipcode: data.zonecode,
+                    addressDefault: fullAddress,
+                }));
+            },
+        }).open();
+    };
+
     const handleInputOnChange = (e) => {
         setUserInfoData(userInfo => ({
             ...userInfo,
             [e.target.name]: e.target.value
         }));
-    };
-
-    const handleAddressSearchOpen = () => {
-        setAddressSearchOpen(isOpen=> !isOpen);
-    };
-
-    const handleAddressSearchComplet = (data) => {
-        const { address, zonecode } = data;
-        setUserInfoData(userInfo => ({
-            ...userInfo,
-            zipcode: zonecode,
-            addressDefault: address
-        }));
-        setAddressSearchOpen(false);
-    };
-
-    const handleAddressSearchClose = (state) => {
-        if (state === 'FORCE_CLOSE') {
-            setAddressSearchOpen(false);
-        } else if (state === 'COMPLETE_CLOSE') {
-            setAddressSearchOpen(false);
-        }
     };
 
     return (
@@ -77,15 +86,7 @@ function UserInfoDetail(props) {
                     :
                         <div css={s.searchAddressBox}>
                             <input name='zipcode' type="text" value={userInfoData.zipcode} disabled='true'/>
-                            <button onClick={handleAddressSearchOpen}>주소검색</button>
-                            {
-                                addressSearchOpen &&
-                                <div css={s.addressApiLayout}>
-                                    <DaumPostcode 
-                                        onComplete={handleAddressSearchComplet}
-                                        onClose={handleAddressSearchClose} />
-                                </div>
-                            }
+                            <button onClick={handleAddressSearchComplet}>주소검색</button>
                         </div>
                 }
                 <input name='addressDefault' type="text" 
