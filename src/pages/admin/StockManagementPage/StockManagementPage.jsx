@@ -2,14 +2,12 @@
 import { useState } from "react";
 import * as s from "./style";
 
-import { IoMdArrowDropdown } from "react-icons/io";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import SearchBox from "../../../components/admin/SearchBox/SearchBox";
 import { MENU_DATAS, STOCK_SEARCH_OPTIONS } from "../../../constants/options";
 import Paginate from "../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { noDate } from "../../../styles/common";
 
 function StockManagementPage(props) {
 
@@ -142,8 +140,8 @@ function StockManagementPage(props) {
                                         <input type="date"
                                             name="arrivalDate" 
                                             value={stock.arrivalDate}
-                                            onChange={(e) => handleInputOnChange(e, index)}
-                                            css={stock.arrivalDate === "" ? noDate : s.emtpyCss} />
+                                            css={s.dateInput(stock.arrivalDate === "")}
+                                            onChange={(e) => handleInputOnChange(e, index)} />
                                     </td>
                                     <td>
                                         <input type="number"

@@ -212,6 +212,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                                 <input type="date" name="arrivalDate"
                                     disabled={disabled}
                                     value={productData.arrivalDate}
+                                    css={s.dateInput(productData.arrivalDate === "")}
                                     onChange={handleProductDataOnChange}
                                 />
                             </td>
