@@ -31,6 +31,7 @@ import UserProductDetailPage from './pages/user/UserProductDetailPage/UserProduc
 import AdminStatisticsPage from './pages/admin/AdminStatisticsPage/AdminStatisticsPage';
 import AdminSiteSettingPage from './pages/admin/AdminSiteSettingPage/AdminSiteSettingPage';
 import UserProductListPage from './pages/user/UserProductListPage/UserProductListPage';
+import UserOauth2SigninPage from './pages/user/UserOauth2SigninPage/UserOauth2SigninPage';
 
 function App() {
 
@@ -92,6 +93,7 @@ function App() {
                 <Route path='/user/signup' element={<UserSignupPage />} />
                 <Route path='/user/signin' element={<UserSigninPage />} />
                 <Route path='/user/signup/oauth2' element={<UserOauth2SignupPage />} />
+                <Route path='/user/signin/oauth2' element={<UserOauth2SigninPage />} />
                 <Route path='/user' element={<UserMypage />} />
                 <Route path='/user/cart' element={<UserCartPage />} />
                 <Route path='/user/order' element={<UserOrderPage />} />

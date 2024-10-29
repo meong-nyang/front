@@ -34,9 +34,7 @@ export const typeBox = css`
     }
 
     & > input {
-        flex-shrink:0; 
         display: none;
-        appearance: none;
 
         & + label {
             box-sizing: border-box;
