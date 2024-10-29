@@ -7,11 +7,13 @@
     import { useQuery } from 'react-query';
     import { instance } from '../../../apis/util/instance';
     import Paginate from '../../../components/admin/Paginate/Paginate';
-    import { useSearchParams } from 'react-router-dom';
+    import { useParams, useSearchParams } from 'react-router-dom';
     import UserCategoryLayout from '../../../components/user/UserCategoryLayout/UserCategoryLayout';
 
     function UserProductListPage(props) {
         const limit = 10;
+        const param = useParams();
+        console.log(param);
         const [ searchParams, setSearchParams ] = useSearchParams();
         const [ categoryData, setCategoryData ] = useState({
             petGroupId: 0,
@@ -26,7 +28,7 @@
                 params: {
                     page: searchParams.get("page"),
                     limit: limit,
-                    petGroupId: categoryData.petGroupId,
+                    petGroupId: param.petGroupId,
                     categoryId: categoryData.categoryId
                 }
             }),
@@ -78,7 +80,7 @@
                         )
                     }
                 </div>
-                <Paginate address={"/product/list"} totalCount={productListCount?.data?.data} limit={limit} />
+                <Paginate address={`/product/list`} totalCount={productListCount?.data?.data} limit={limit} />
             </UserBackgoundLayout>
 
         );

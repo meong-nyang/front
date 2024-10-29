@@ -18,21 +18,21 @@
         const accessTokenValidationQuery = queryClient.getQueryData("accessTokenValidationQuery");
         const accessTokenValidationQueryState = queryClient.getQueryState("accessTokenValidationQuery");
         
-        // const [ loginStatus, setLoginStatus ] = useState(accessTokenValidationQueryState?.status === "success" ? accessTokenValidationQuery?.data : false);
+        const [ loginStatus, setLoginStatus ] = useState(accessTokenValidationQueryState?.status === "success" ? accessTokenValidationQuery?.data : false);
 
         const handleLogoutClick = () => {
             localStorage.removeItem("accessToken");
             window.location.replace("/");
-            //navigate("/", {replace: true});
-            // setLoginStatus(false);
+            // navigate("/", {replace: true});
+            setLoginStatus(false);
         };
 
         const handleCategoryOnCilck = (petGroupId) => {
-            // setCategoryData(category => ({
-            //     ...category,
-            //     petGroupId
-            // }));
-            navigate("/product/list");
+            setCategoryData(category => ({
+                ...category,
+                petGroupId
+            }));
+            //navigate("/product/list");
         };
 
         return (
@@ -41,15 +41,15 @@
                     <NavLink to={'/'}><img src={logoImg} /></NavLink>
                 </div>
                 <div>
-                    <button onClick={() => handleCategoryOnCilck(0)}>전체</button>
+                    <Link to={'/product/list/0?page=1'} onClick={() => handleCategoryOnCilck(0)}>전체</Link>
                     {
                         categoryQuery?.data?.petGroupList.map(petGroup => 
                             <>
-                                <button key={petGroup.id} onClick={() => handleCategoryOnCilck(petGroup.id)}>{petGroup.categoryGroupName}</button>
+                                <Link to={`/product/list/${petGroup.id}?page=1`} key={petGroup.id} onClick={() => handleCategoryOnCilck(petGroup.id)}>{petGroup.categoryGroupName}</Link>
                             </>
                         )
                     }
-                    <button onClick={() => handleCategoryOnCilck(3)}>추천상품</button>
+                    <Link to={'/product/list/3?page=1'} onClick={() => handleCategoryOnCilck(3)}>추천상품</Link>
                 </div>
                 <div>
                     {
