@@ -74,8 +74,6 @@ function StockManagementPage(props) {
     }
 
     const handleInputOnEnter = () => {
-        console.log(searchData.searchValue);
-        console.log(searchData.searchOptionId);
         navigate(MENU_DATAS[2].address);
         stockDatas.refetch();
     }

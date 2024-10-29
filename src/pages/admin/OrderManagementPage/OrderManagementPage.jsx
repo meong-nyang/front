@@ -5,13 +5,15 @@ import SearchBox from "../../../components/admin/SearchBox/SearchBox";
 import { useQuery } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import Paginate from "../../../components/admin/Paginate/Paginate";
-import { useSearchParams } from "react-router-dom";
-import { ORDER_SEARCH_OPTIONS } from "../../../constants/options";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { MENU_DATAS, ORDER_SEARCH_OPTIONS } from "../../../constants/options";
 
 function OrderManagementPage(props) {
 
-    const limit = 2;
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const navigate = useNavigate();
+
+    const limit = 20;
+    const [ searchParams ] = useSearchParams();
 
     const emptySearchRange = {
         page: searchParams.get("page"),
@@ -27,17 +29,6 @@ function OrderManagementPage(props) {
         searchOptionName: "전체",
         searchValue: ""
     });
-    const [ totalCount, setTotalCount ] = useState();
-
-    const totalProductCount = useQuery(
-        ["totalProductCountQuery"],
-        async () => await instance.get("/admin/order/product/all"),
-        {
-            retry: 0,
-            refetchOnWindowFocus: false,
-            onSuccess:  success => console.log(success)
-        }
-    );
 
     const orderList = useQuery(
         ["orderListQuery", searchParams.get("page")],
@@ -55,23 +46,22 @@ function OrderManagementPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: success => {
                 console.log(success.data);
-                let count = 0;
-                for(let i of success.data.orderList) {
-                    count += i.orderDetails.length - 1;
-                    count++;
-                }
-                setTotalCount(count);
             },
             onError: error => console.log(error.response)
         }
     );
+
+    const handleOnEnter = () => {
+        navigate(MENU_DATAS[3].address);
+        orderList.refetch();
+    }
 
     return (
         <>
             <div css={s.header}>
                 <span>총 {orderList?.data?.data.orderListCount}개</span>
             </div>
-            <SearchBox searchOptions={ORDER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => orderList.refetch()}/>
+            <SearchBox searchOptions={ORDER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={handleOnEnter}/>
             <div css={s.tableLayout}>
                 <table css={s.mainTable}>
                     <thead>
@@ -122,7 +112,7 @@ function OrderManagementPage(props) {
                     </tbody>
                 </table>
             </div>
-            <Paginate address={"/admin/order"} totalCount={totalProductCount?.data?.data} limit={limit} />
+            <Paginate address={"/admin/order"} totalCount={orderList?.data?.data.productCount} limit={limit} />
         </>
     );
 }
