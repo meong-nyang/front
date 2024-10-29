@@ -85,6 +85,17 @@ function App() {
         }
     );
 
+    const categoryList = useQuery(
+        ["categoryListQuery"],
+        async () => await instance.get("/product/categorys"),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => console.log(response),
+            onError: error => console.log(error)
+        }
+    );
+
     return (
         <>
             <Global styles={reset} />
@@ -97,7 +108,7 @@ function App() {
                 <Route path='/user' element={<UserMypage />} />
                 <Route path='/user/cart' element={<UserCartPage />} />
                 <Route path='/user/order' element={<UserOrderPage />} />
-                <Route path='/product' element={<UserProductDetailPage />} />
+                <Route path='/product/:productId' element={<UserProductDetailPage />} />
                 <Route path='/product/list' element={<UserProductListPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />

@@ -29,6 +29,7 @@ export const imgLayout = css`
         box-sizing: border-box;
         width: 100%;
         height: 100%;
+        object-fit: contain; 
         background-color: #777777;
     }
 `;
