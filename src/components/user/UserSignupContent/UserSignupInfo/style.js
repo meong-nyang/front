@@ -7,6 +7,13 @@ export const inputBox = css`
         margin: 10px 0px 7px;
         font-size: 14px;
         font-weight: 600;
+
+        & > p {
+            display: inline-block;
+            margin-left: 12px;
+            font-size: 14px;
+            color: red;
+        }
     }
 
     & > input {
@@ -28,7 +35,7 @@ export const locationBox = css`
     align-items: flex-end;
     color: #777777;
     font-weight: 600;
-    & > p{
+    & > p {
         display: flex;
         align-items: center;
         cursor: pointer;
