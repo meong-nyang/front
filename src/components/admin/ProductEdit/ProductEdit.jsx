@@ -24,7 +24,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
 
     const getCategoryList = useQuery(
         ["categoryListQuery"],
-        async () => await instance.get("/admin/categorys"),
+        async () => await instance.get("/product/categorys"),
         {
             retry: 0,
             refetchOnWindowFocus: false,
@@ -88,7 +88,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td css={s.modal}>
                                 <div css={s.categorySelect}>
                                     <button type="button" onClick={handleModalChangeOnClick}>
-                                        {selectedCategoryName.petGroupId + " > " + selectedCategoryName.categoryId}
+                                        {productData?.petGroup?.categoryGroupName + " > " + productData?.category?.categoryName}
                                     </button>
                                     <IoMdArrowDropdown />
                                 </div>
@@ -212,6 +212,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                                 <input type="date" name="arrivalDate"
                                     disabled={disabled}
                                     value={productData.arrivalDate}
+                                    css={s.dateInput(productData.arrivalDate === "")}
                                     onChange={handleProductDataOnChange}
                                 />
                             </td>

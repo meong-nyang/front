@@ -1,4 +1,6 @@
 import { css } from "@emotion/react";
+import { NO_INPUT_DATE_DEFAULT_VALUE, NO_INPUT_NUMBER_SPINNER } from "../../../constants/style/inputStyleProperties";
+import { noDate } from "../../../styles/common";
 
 export const header = css`
     display: flex;
@@ -156,11 +158,7 @@ export const mainTable = css`
 
 export const productLine = (isModified) => css`
 
-    & input::-webkit-outer-spin-button,
-    & input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+    ${NO_INPUT_NUMBER_SPINNER}
 
     & > td {
         padding: 0;
@@ -184,4 +182,6 @@ export const productLine = (isModified) => css`
     border: ${isModified ? "2px solid red" : "none"};
 `;
 
-export const emtpyCss = css``;
+export const dateInput = (isShow) => css`
+    ${isShow && NO_INPUT_DATE_DEFAULT_VALUE}
+`;

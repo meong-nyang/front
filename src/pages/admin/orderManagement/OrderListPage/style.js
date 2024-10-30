@@ -26,20 +26,14 @@ export const tableLayout = css`
 
 export const mainTable = css`
     border-collapse: collapse;
-    width: 300px;
-
-    & input[type="checkbox"] {
-        width: 15px !important;
-        height: 15px !important;
-        cursor: pointer;
-    }
+    width: 100%;
 
     & th, td {
         text-align: center;
     }
 
     & tr *:nth-of-type(1) {
-        width: 2%;
+        width: 10%;
     }
 
     & tr *:nth-of-type(2) {
@@ -51,11 +45,11 @@ export const mainTable = css`
     }
 
     & tr *:nth-of-type(4) {
-        width: 10%;
+        width: 30%;
     }
 
     & tr *:nth-of-type(5) {
-        width: 28%;
+        width: 10%;
     }
 
     & tr *:nth-of-type(6) {
@@ -69,8 +63,16 @@ export const mainTable = css`
     & tr *:nth-of-type(8) {
         width: 10%;
     }
+`;
 
-    & tr *:nth-of-type(9) {
-        width: 10%;
+export const tableBody = css`
+    & tr {
+        cursor: pointer;
+    }
+`;
+
+export const productCell = css`
+    & > td {
+        width: 10% !important;
     }
 `;

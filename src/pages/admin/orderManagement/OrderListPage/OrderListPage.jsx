@@ -1,17 +1,19 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from "react";
 import * as s from "./style";
-import SearchBox from "../../../components/admin/SearchBox/SearchBox";
+import SearchBox from "../../../../components/admin/SearchBox/SearchBox";
 import { useQuery } from "react-query";
-import { instance } from "../../../apis/util/instance";
-import Paginate from "../../../components/admin/Paginate/Paginate";
-import { useSearchParams } from "react-router-dom";
-import { ORDER_SEARCH_OPTIONS } from "../../../constants/options";
+import { instance } from "../../../../apis/util/instance";
+import Paginate from "../../../../components/admin/Paginate/Paginate";
+import { useNavigate, useSearchParams } from "react-router-dom";
+import { MENU_DATAS, ORDER_SEARCH_OPTIONS } from "../../../../constants/options";
 
-function OrderManagementPage(props) {
+function OrderListPage(props) {
 
-    const limit = 2;
-    const [ searchParams, setSearchParams ] = useSearchParams();
+    const navigate = useNavigate();
+
+    const limit = 20;
+    const [ searchParams ] = useSearchParams();
 
     const emptySearchRange = {
         page: searchParams.get("page"),
@@ -19,7 +21,6 @@ function OrderManagementPage(props) {
         search: "",
         option: "",
         startDate: "",
-        endDate: "",
     }
 
     const [ searchData, setSearchData ] = useState({
@@ -27,17 +28,6 @@ function OrderManagementPage(props) {
         searchOptionName: "전체",
         searchValue: ""
     });
-    const [ totalCount, setTotalCount ] = useState();
-
-    const totalProductCount = useQuery(
-        ["totalProductCountQuery"],
-        async () => await instance.get("/admin/order/product/all"),
-        {
-            retry: 0,
-            refetchOnWindowFocus: false,
-            onSuccess:  success => console.log(success)
-        }
-    );
 
     const orderList = useQuery(
         ["orderListQuery", searchParams.get("page")],
@@ -55,30 +45,26 @@ function OrderManagementPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: success => {
                 console.log(success.data);
-                let count = 0;
-                for(let i of success.data.orderList) {
-                    count += i.orderDetails.length - 1;
-                    count++;
-                }
-                setTotalCount(count);
             },
             onError: error => console.log(error.response)
         }
     );
+
+    const handleOnEnter = () => {
+        navigate(MENU_DATAS[3].address);
+        orderList.refetch();
+    }
 
     return (
         <>
             <div css={s.header}>
                 <span>총 {orderList?.data?.data.orderListCount}개</span>
             </div>
-            <SearchBox searchOptions={ORDER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => orderList.refetch()}/>
+            <SearchBox searchOptions={ORDER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={handleOnEnter}/>
             <div css={s.tableLayout}>
                 <table css={s.mainTable}>
                     <thead>
                         <tr>
-                            <th>
-                                <input type="checkbox" />
-                            </th>
                             <th>주문번호</th> 
                             <th>주문날짜</th>
                             <th>상품코드</th>
@@ -89,14 +75,14 @@ function OrderManagementPage(props) {
                             <th>상태</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody css={s.tableBody}>
                         {
                             orderList?.data?.data.orderList.map(order => (
                                 <React.Fragment key={order.id}>
-                                    <tr>
-                                        <td rowSpan={order.orderDetails.length}>
+                                    <tr onClick={() => navigate("/admin/order/detail/" + order.id)}>
+                                        {/* <td rowSpan={order.orderDetails.length}>
                                             <input type="checkbox" />
-                                        </td>
+                                        </td> */}
                                         <td rowSpan={order.orderDetails.length}>{order.id}</td>
                                         <td rowSpan={order.orderDetails.length}>{order.orderDate}</td>
                                         <td>{order.orderDetails[0].productId}</td>
@@ -108,7 +94,9 @@ function OrderManagementPage(props) {
                                     </tr>
                                     {
                                         order.orderDetails.slice(1).map(product => (
-                                            <tr key={product.productId}>
+                                            <tr key={product.productId} 
+                                                onClick={() => navigate("/admin/order/detail/" + order.id)}
+                                                css={s.productCell} >
                                                 <td>{product.productId}</td>
                                                 <td>{product.product.productName}</td>
                                                 <td>{product.productPrice}</td>
@@ -122,8 +110,8 @@ function OrderManagementPage(props) {
                     </tbody>
                 </table>
             </div>
-            <Paginate address={"/admin/order"} totalCount={totalProductCount?.data?.data} limit={limit} />
+            <Paginate address={"/admin/order"} totalCount={orderList?.data?.data.productCount} limit={limit} />
         </>
     );
 }
-export default OrderManagementPage;
+export default OrderListPage;

@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { IoMdArrowDropleft, IoMdArrowDropright } from "react-icons/io";
 import * as s from "./style";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import ReactPaginate from "react-paginate";
 import { useEffect, useState } from "react";
 
@@ -9,11 +9,19 @@ function Paginate({ address, totalCount, limit }) {
     const [ searchParams, setSearchParams ] = useSearchParams();
     const navigate = useNavigate();
 
+    const page = searchParams.get("page") === undefined || 1;
+
     const [ totalPageCount, setTotalPageCount ] = useState(1);
 
     const handlePageOnChange = (event) => {
         navigate(`${address}?page=${event.selected + 1}`);
     }
+
+    // useEffect(() => {
+    //     if (!searchParams.get('page')) {
+    //         setSearchParams({ page: '1' });
+    //     }
+    // }, [searchParams, setSearchParams]);
 
     useEffect(() => {
         setTotalPageCount(
@@ -33,7 +41,7 @@ function Paginate({ address, totalCount, limit }) {
                 pageRangeDisplayed={5}
                 activeClassName="active"
                 onPageChange={handlePageOnChange}
-                forcePage={parseInt(searchParams.get("page")) - 1}
+                forcePage={parseInt(page - 1)}
             />
         </div>
     );
