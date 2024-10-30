@@ -9,9 +9,26 @@ import UserInfoPet from '../../../components/user/UserMypage/UserInfoPet/UserInf
 import UserOrderDetail from '../../../components/user/UserMypage/UserOrderDetail/UserOrderDetail';
 import UserInfoPassword from '../../../components/user/UserMypage/UserInfoPassword/UserInfoPassword';
 import { MYPAGE_OPTION_LIST } from '../../../constants/SelectOption';
+import { useQuery } from 'react-query';
+import { instance } from '../../../apis/util/instance';
 
 function UserMypage(props) {
     const [ selectOption, setSelectOption ] = useState(0);
+
+    // const userInfoQuery = useQuery(
+    //     ["userInfoQuery"],
+    //     async () => await instance.get(`/user/${userId}`),
+    //     {
+    //         retry: 0,
+    //         refetchOnWindowFocus: false,
+    //         onSuccess: response => {
+
+    //         },
+    //         onError: error => {
+
+    //         }
+    //     }
+    // );
     return (
         <UserBackgoundLayout>
             <UserHeaderLayout />

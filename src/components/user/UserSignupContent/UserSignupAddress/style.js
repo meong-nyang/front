@@ -7,6 +7,13 @@ export const inputBox = css`
         margin: 15px 0px 7px;
         font-size: 14px;
         font-weight: 600;
+        
+        & > p {
+            display: inline-block;
+            margin-left: 12px;
+            font-size: 14px;
+            color: red;
+        }
     }
 
     & > div {

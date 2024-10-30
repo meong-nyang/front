@@ -67,3 +67,9 @@ export const searchAddressBox = css`
         cursor: pointer;
     }
 `;
+
+export const addressApiLayout = css`
+    position: absolute;
+    top: 450px;
+    right: 600px;
+`;

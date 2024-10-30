@@ -39,7 +39,7 @@ export const layout = css`
         display: flex;
         align-items: center;
         font-size: 14px;
-        width: 206px;
+        width: auto;
         & > a {
             margin-right: 20px;
             color: #777777;

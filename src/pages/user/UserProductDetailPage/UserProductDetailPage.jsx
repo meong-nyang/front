@@ -38,7 +38,6 @@ function UserProductDetailPage(props) {
                     </div>
                 </div>
             </div>
-            
         </UserBackgoundLayout>
     );
 }

@@ -32,6 +32,7 @@ import AdminSiteSettingPage from './pages/admin/AdminSiteSettingPage/AdminSiteSe
 import UserProductListPage from './pages/user/UserProductListPage/UserProductListPage';
 import OrderDetailPage from './pages/admin/orderManagement/OrderDetailPage/OrderDetailPage';
 import OrderListPage from './pages/admin/orderManagement/OrderListPage/OrderListPage';
+import UserOauth2SigninPage from './pages/user/UserOauth2SigninPage/UserOauth2SigninPage';
 
 function App() {
 
@@ -77,7 +78,7 @@ function App() {
                 for (let authPath of authPaths) {
                     if(location.pathname.startsWith(authPath)) {
                         alert("로그인이 필요한 페이지입니다. \n로그인페이지로 이동합니다.");
-                        navigate("/user/login");
+                        navigate("/user/signin");
                         break;
                     }
                 }
@@ -93,6 +94,7 @@ function App() {
                 <Route path='/user/signup' element={<UserSignupPage />} />
                 <Route path='/user/signin' element={<UserSigninPage />} />
                 <Route path='/user/signup/oauth2' element={<UserOauth2SignupPage />} />
+                <Route path='/user/signin/oauth2' element={<UserOauth2SigninPage />} />
                 <Route path='/user' element={<UserMypage />} />
                 <Route path='/user/cart' element={<UserCartPage />} />
                 <Route path='/user/order' element={<UserOrderPage />} />
