@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { useQuery } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import * as s from "./style";
 import { instance } from "../../../../apis/util/instance";
-import { useParams } from "react-router-dom";
+import { Navigate, useNavigate, useParams } from "react-router-dom";
 
 function OrderDetailPage(props) {
 
     const params = useParams();
+    const navigate = useNavigate();
 
     const orderDetailData = useQuery(
         ["orderDetailDataQuery"],
@@ -19,10 +20,25 @@ function OrderDetailPage(props) {
         }
     );
 
+    const orderDeleteMutation = useMutation(
+        async () => await instance.delete(`/admin/order/${params.id}`)
+    );
+
+    const handleOrderCancelOnClick = () => {
+        if(window.confirm("정말로 주문을 삭제하시겠습니까?")) {
+            orderDeleteMutation.mutateAsync()
+            .then(success => {
+                alert("삭제되었습니다.");
+                navigate("/admin/order?page=1");
+            })
+            .catch(error => alert("알수 없는 이유로 삭제에 실패했습니다."))
+        }
+    }
+
     return (
         <div css={s.layout}>
             <div css={s.buttons}>
-                <button>주문 취소</button>
+                <button onClick={handleOrderCancelOnClick}>주문 취소</button>
             </div>
             {
                 orderDetailData.isSuccess && !orderDetailData.isFetching &&
@@ -65,36 +81,39 @@ function OrderDetailPage(props) {
                             </tr>
                         </tbody>
                     </table>
-                    {
-                        orderDetailData.data.data.products.map((product, index) => (
-                            <>
-                                <span>{"상품" + index}</span>
-                                <div css={s.productTable}>
-                                    <img src={`http://localhost:8080/images/${product.imgName}`} />
-                                    <table>
-                                        <tbody>
-                                            <tr>
-                                                <th>상품명</th>
-                                                <td colSpan={3}>{product.productName}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>상품코드</th>
-                                                <td>{product.id}</td>
-                                                <th>판매가격</th>
-                                                <td>{product.productPrice}</td>
-                                            </tr>
-                                            <tr>
-                                                <th>개수</th>
-                                                <td>{product.productCount}</td>
-                                                <th>합계</th>
-                                                <td>{parseInt(product.productPrice) * parseInt(product.productCount)}</td>
-                                            </tr>
-                                        </tbody>
-                                    </table>
+                    <span>주문 상풍 목록</span>
+                    <div css={s.productList}>
+                        {
+                            orderDetailData.data.data.products.map((product, index) => (
+                                <div>
+                                    <span>{"상품" + (index + 1)}</span>
+                                    <div css={s.productTable}>
+                                        <img src={`http://localhost:8080/images/${product.imgName}`} />
+                                        <table>
+                                            <tbody>
+                                                <tr>
+                                                    <th>상품명</th>
+                                                    <td colSpan={3}>{product.productName}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>상품코드</th>
+                                                    <td>{product.id}</td>
+                                                    <th>판매가격</th>
+                                                    <td>{product.productPrice}</td>
+                                                </tr>
+                                                <tr>
+                                                    <th>개수</th>
+                                                    <td>{product.productCount}</td>
+                                                    <th>합계</th>
+                                                    <td>{parseInt(product.productPrice) * parseInt(product.productCount)}</td>
+                                                </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
                                 </div>
-                            </>
-                        ))
-                    }
+                            ))
+                        }
+                    </div>
                 </>
             }
         </div>

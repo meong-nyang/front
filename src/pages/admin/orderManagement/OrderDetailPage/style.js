@@ -19,8 +19,39 @@ export const buttons = css`
     justify-content: end;
 `;
 
+export const productList = css`
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    flex-wrap: wrap;
+
+    & > div {
+        box-sizing: border-box;
+        padding-bottom: 20px;
+        width: 48%;
+        
+    }
+
+    & > div:nth-of-type(even) {
+        margin-left: 4%;
+    }
+`;
+
 export const productTable = css`
     display: flex;
+
+    & table {
+        /* table-layout: fixed; */
+        width: 100%;
+
+        & th {
+            width: 15%;
+        }
+
+        % td {
+            width: 35%;
+        }
+    }
 
     & img {
         width: 90px;
