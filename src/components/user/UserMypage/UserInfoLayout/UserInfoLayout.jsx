@@ -1,21 +1,20 @@
 import React, { Children, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../../apis/util/instance';
-import { m } from 'framer-motion';
-import { useQuery } from 'react-query';
+import UserInfoPassword from '../UserInfoPassword/UserInfoPassword';
 
-function UserInfoLayout({ children, title, editMode, setEditMode, userInfo, setUserInfo }) {
+function UserInfoLayout({ children, title, editMode, setEditMode, handleConfirmButtonClick }) {
 
-    const handleEditOnClick = () => {
-        setEditMode(mode => !mode);
+    const queryClient = useQueryClient();
+
+    const handleEditClick = () => {
+        setEditMode(mode => !mode); 
     };
     
-    const handleConfirmButtonOnClick = () => {
-        setEditMode(mode => !mode);
-    };
-
-    const handleCancelButtonOnClick = () => {
+    const handleCancelButtonClick = () => {
+        queryClient.invalidateQueries(["myPageDataQuery"])
         setEditMode(mode => !mode);
     };
 
@@ -27,12 +26,13 @@ function UserInfoLayout({ children, title, editMode, setEditMode, userInfo, setU
                     editMode 
                     ?
                         <div css={s.buttonLayout}>
-                            <p onClick={handleEditOnClick}>수정하기</p>
+                            <p onClick={handleConfirmButtonClick}>확인</p>
+                            <p onClick={handleCancelButtonClick}>취소</p>
                         </div>
+                        
                     :
                         <div css={s.buttonLayout}>
-                            <p onClick={handleConfirmButtonOnClick}>확인</p>
-                            <p onClick={handleCancelButtonOnClick}>취소</p>
+                            <p onClick={handleEditClick}>수정하기</p>
                         </div>
                 }
             </div>

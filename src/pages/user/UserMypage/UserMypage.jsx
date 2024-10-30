@@ -40,26 +40,11 @@ function UserMypage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: response => { 
-                console.log(response)
                 setUserInfo(response.data); 
             },
         }
     );
 
-    // const userInfoQuery = useQuery(
-    //     ["userInfoQuery"],
-    //     async () => await instance.get(`/user/${userId}`),
-    //     {
-    //         retry: 0,
-    //         refetchOnWindowFocus: false,
-    //         onSuccess: response => {
-
-    //         },
-    //         onError: error => {
-
-    //         }
-    //     }
-    // );
     return (
         <UserBackgoundLayout>
             <UserHeaderLayout />
@@ -75,7 +60,7 @@ function UserMypage(props) {
                     selectOption === 0 &&
                     <>
                         <UserInfoDetail userInfo={userInfo} setUserInfo={setUserInfo}/>
-                        <UserInfoPassword userInfo={userInfo} setUserInfo={setUserInfo}/>
+                        <UserInfoPassword/>
                         <UserInfoPet userInfo={userInfo} setUserInfo={setUserInfo}/>
                     </>
                 }

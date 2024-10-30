@@ -3,11 +3,21 @@ import React, { useEffect, useState } from 'react';
 import * as s from "./style";
 import UserInfoLayout from '../UserInfoLayout/UserInfoLayout';
 import DaumPostcode from 'react-daum-postcode';
+import { useMutation } from 'react-query';
+import { instance } from '../../../../apis/util/instance';
 
 function UserInfoDetail({ userInfo, setUserInfo }) {
-    const [ editMode, setEditMode ] = useState(true);
+    const [ editMode, setEditMode ] = useState(false);
     const [ addressDefault, setAddressDefault ] = useState("");
     const [ zipcode, setZipcode ] = useState("");
+    const [ editUserInfoData, setEditUserInfoData ] = useState({
+        id: 0,
+        name: "",
+        phone: "",
+        zipcode: "",
+        addressDefault: "",
+        addressDetail: "",
+    });
 
     useEffect(() => {
         // 다음 주소 검색 API 스크립트를 동적으로 로드
@@ -39,41 +49,85 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
         }).open();
     };
 
+    const addHyphenToPhoneNumber = (phoneNumber) => {
+        const numbers = phoneNumber.replace(/[^0-9]/g, "").slice(0,11)
+            .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+        return numbers;
+    };
+
     const handleInputOnChange = (e) => {
+        const formattedValue = e.target.name === "phone"
+            ? addHyphenToPhoneNumber(e.target.value)
+            : e.target.value
+
         setUserInfo(userInfo => ({
             ...userInfo,
-            [e.target.name]: e.target.value
+            [e.target.name]: formattedValue
         }));
     };
 
+    const editUserInfoMutation = useMutation(
+        async () => await instance.put(`/user/${userInfo.id}`, userInfo),
+        {
+            onSuccess: () => {
+                setEditUserInfoData({
+                    ...userInfo,
+                    userInfo: editUserInfoData
+                });
+                
+                alert("수정 되었습니다");
+
+                console.log("수정된 userinfo : ", userInfo);
+            },
+            onError: error => {
+                console.log(error);
+                alert("")
+            }
+        }
+    );
+
+    const handleConfirmButtonClick = () => {
+        console.log(userInfo);
+        editUserInfoMutation.mutateAsync();
+        console.log("수정된 userinfo : ", userInfo);
+        setEditMode(mode => false);
+    };
+
     return (
-       <UserInfoLayout title="회원정보" editMode={editMode} setEditMode={setEditMode}>
+        <UserInfoLayout 
+            title="회원정보" 
+            editMode={editMode} 
+            setEditMode={setEditMode} 
+            userInfo={userInfo} 
+            setUserInfo={setUserInfo}
+            handleConfirmButtonClick={handleConfirmButtonClick}
+            >
             <div css={s.inputBox}>
                 <p>아이디</p>
                 <input 
-                    name='username' 
+                    name="username" 
                     type="text" 
                     value={userInfo.username} 
-                    disabled='true'
+                    disabled="true"
                 />
             </div>
             <div css={s.inputBox}>
                 <p>이름</p>
                 <input 
-                    name='name' 
+                    name="name" 
                     type="text" 
                     value={userInfo.name} 
-                    disabled={editMode}
+                    disabled={!editMode}
                     onChange={handleInputOnChange} 
                 />
             </div>
             <div css={s.inputBox}>
                 <p>전화번호</p>
                 <input 
-                    name='phone' 
+                    name="phone" 
                     type="text" 
                     value={userInfo.phone} 
-                    disabled={editMode}
+                    disabled={!editMode}
                     onChange={handleInputOnChange} 
                 />
             </div>
@@ -82,24 +136,35 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
                 {
                     editMode
                     ?
-                        <input name='zipcode' type="text" value={userInfo.zipcode} disabled='true' />
-                    :
                         <div css={s.searchAddressBox}>
-                            <input name='zipcode' type="text" value={userInfo.zipcode} disabled='true'/>
+                            <input 
+                                name="zipcode" 
+                                type="text" 
+                                value={userInfo.zipcode} 
+                                disabled="true"
+                            />
                             <button onClick={handleAddressSearchComplet}>주소검색</button>
                         </div>
+                        
+                    :
+                        <input 
+                            name="zipcode" 
+                            type="text" 
+                            value={userInfo.zipcode} 
+                            disabled="true" 
+                    />
                 }
                 <input 
-                    name='addressDefault' 
+                    name="addressDefault"
                     type="text" 
                     value={userInfo.addressDefault} 
-                    disabled='true'
+                    disabled="true"
                 />
                 <input 
-                    name='addressDetail' 
+                    name="addressDetail" 
                     type="text" 
                     value={userInfo.addressDetail} 
-                    disabled={editMode}
+                    disabled={!editMode}
                     onChange={handleInputOnChange} 
                 />
             </div>

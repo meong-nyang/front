@@ -46,12 +46,10 @@ function UserSignupPage(props) {
             address:<></>,
         };
 
-        // const errors = Array.isArray(fieldErrors) ? fieldErrors : [];
-
         for (let fieldError of fieldErrors) {
             emptyFieldErrors = {
                 ...emptyFieldErrors,
-                [fieldError.field]: <p>{fieldError.defaultMessage}</p>
+                [fieldError.field]: <>{fieldError.defaultMessage}</>
             }
         }
         setFieldErrorMessages(emptyFieldErrors);
@@ -67,7 +65,6 @@ function UserSignupPage(props) {
             onError: error => {
                 console.log(error.response.data);
                 showFieldErrorMessage(error.response.data);
-                alert("입력한 정보를 다시 확인해 주세요." + error.resposen?.data.message || error.message);
                 setOrder(order => order -2);
             }
         }
