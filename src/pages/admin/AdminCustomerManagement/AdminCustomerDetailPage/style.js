@@ -16,8 +16,49 @@ export const buttons = css`
     justify-content: end;
 `;
 
-export const basicInfo = css`
+export const membershipCell = css`
+    position: relative;
+    cursor: pointer;
 
+    & > svg {
+        position: absolute;
+        right: 10px;
+    }
+`;
+
+export const backClick = css`
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
+`;
+
+export const modal = css`
+    position: absolute;
+    box-sizing: border-box;
+    top: 28px;
+    left: 0px;
+    border: 1px solid #dbdbdb;
+    box-shadow: 2px 2px 5px #00000055;
+    width: 100%;
+    background-color: white;
+    cursor: pointer;
+
+    & > button {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 100%;
+        height: 30px;
+        background-color: white;
+        cursor: pointer;
+
+        &:hover {
+            background-color: #dbdbdb;
+        }
+    }
 `;
 
 export const petInfo = css`
@@ -33,8 +74,7 @@ export const petInfo = css`
 
     & table {
         border-collapse: collapse;
-        width: 500px;
-
+        width: 400px;
     }
 `;
 
@@ -58,17 +98,15 @@ export const productTable = css`
     }
 
     & tr > *:nth-of-type(1) {
-        padding: 0;
-        width: 2%;
-        cursor: default;
-    }
-
-    & tr > *:nth-of-type(2) {
         width: 15%;
     }
 
-    & tr > *:nth-of-type(3) {
+    & tr > *:nth-of-type(2) {
         width: 40%;
+    }
+
+    & tr > *:nth-of-type(3) {
+        width: 10%;
     }
 
     & tr > *:nth-of-type(4) {
@@ -80,10 +118,6 @@ export const productTable = css`
     }
 
     & tr > *:nth-of-type(6) {
-        width: 10%;
-    }
-
-    & tr > *:nth-of-type(7) {
-        width: 13%;
+        width: 15%;
     }
 `;

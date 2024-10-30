@@ -108,7 +108,7 @@ function OrderDetailPage(props) {
                                                     <td>{parseInt(product.productPrice) * parseInt(product.productCount)}</td>
                                                 </tr>
                                             </tbody>
-                                        </table>
+                                        </table> 
                                     </div>
                                 </div>
                             ))
