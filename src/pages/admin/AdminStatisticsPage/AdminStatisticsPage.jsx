@@ -1,6 +1,8 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
 import * as s from "./style";
+import { useQuery } from "react-query";
+import { instance } from "../../../apis/util/instance";
 
 function AdminStatisticsPage(props) {
 
@@ -13,25 +15,44 @@ function AdminStatisticsPage(props) {
     }
 
     const [ selectedDate, setSelectedDate ] = useState({
-        start: todayDate(),
-        end: todayDate(),
+        startDate: todayDate(),
+        endDate: todayDate()
     });
 
+    const statisticsDatas = useQuery(
+        ["statisticsDatasQuery"],
+        async () => await instance.get("/admin/statistics", { params: 
+            {
+                startDate: selectedDate.startDate,
+                endDate: selectedDate.endDate
+            }}),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: success => console.log(success),
+            onError: error => console.log(error)
+        }
+    );
+
     const handleDateInputOnChange = (e) => {
-        console.log(selectedDate);
         setSelectedDate(date => ({
             ...date,
             [e.target.name]: e.target.value
         }))
     }
 
+    const handleRefetchOnClick = () => {
+        statisticsDatas.refetch();
+    }
+
     return (
         <div css={s.layout}>
             <div css={s.selectTime}>
-                <span>조회일자</span>
-                <input type="date" name="start" value={selectedDate.start} onChange={handleDateInputOnChange}/>
+                <span>조회일자 :</span>
+                <input type="date" name="startDate" value={selectedDate.startDate} onChange={handleDateInputOnChange}/>
                 <span>~</span>
-                <input type="date" name="end" value={selectedDate.end} onChange={handleDateInputOnChange}/>
+                <input type="date" name="endDate" value={selectedDate.endDate} onChange={handleDateInputOnChange}/>
+                <button onClick={handleRefetchOnClick}>조회</button>
             </div>
             <table css={s.mainTable}>
                 <thead>
@@ -41,9 +62,9 @@ function AdminStatisticsPage(props) {
                         <th>결제건수</th>
                         <th>환불액</th>
                         <th>취소건 수</th>
-                        <th>평균 매출</th>
-                        <th>최소 매출</th>
-                        <th>최대 매출</th>
+                        <th>하루 최소 매출</th>
+                        <th>하루 평균 매출</th>
+                        <th>하루 최대 매출</th>
                     </tr>
                 </thead>
                 <tbody>

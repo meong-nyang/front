@@ -34,6 +34,11 @@ export const selectTime = css`
         background-color: #FFB69C;
         color: #FFB69C;
     }
+
+    & > button {
+        margin-left: 20px;
+        width: 50px;
+    }
 `;
 
 export const mainTable = css`

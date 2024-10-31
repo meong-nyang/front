@@ -110,7 +110,7 @@ export const mainContainer = css`
         }
 
         &:active {
-            background-color: #c4c4c4;
+            background-color: #878787;
         }
     }
 
