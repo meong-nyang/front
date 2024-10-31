@@ -62,7 +62,7 @@ function AdminCustomerDetailPage(props) {
     return (
         <div css={s.layout}>
             <div css={s.buttons}>
-                <button>정보 수정 요청</button>
+                <button onClick={() => alert("기능 구현 예정")}>정보 수정 요청</button>
             </div>
             <span>기본정보</span>
             <table>
