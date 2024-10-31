@@ -27,29 +27,21 @@
             setLoginStatus(false);
         };
 
-        const handleCategoryOnCilck = (petGroupId) => {
-            setCategoryData(category => ({
-                ...category,
-                petGroupId
-            }));
-            //navigate("/product/list");
-        };
-
         return (
             <div css={s.layout}>
                 <div>
                     <NavLink to={'/'}><img src={logoImg} /></NavLink>
                 </div>
                 <div>
-                    <Link to={'/product/list/0?page=1'} onClick={() => handleCategoryOnCilck(0)}>전체</Link>
+                    <Link to={'/product/list/all?page=1'}>전체</Link>
                     {
                         categoryQuery?.data?.petGroupList.map(petGroup => 
                             <>
-                                <Link to={`/product/list/${petGroup.id}?page=1`} key={petGroup.id} onClick={() => handleCategoryOnCilck(petGroup.id)}>{petGroup.categoryGroupName}</Link>
+                                <Link to={`/product/list/${petGroup.id == 1 ? "dog" : "cat"}?page=1`} key={petGroup.id}>{petGroup.categoryGroupName}</Link>
                             </>
                         )
                     }
-                    <Link to={'/product/list/3?page=1'} onClick={() => handleCategoryOnCilck(3)}>추천상품</Link>
+                    <Link to={'/product/list/recommend?page=1'}>추천상품</Link>
                 </div>
                 <div>
                     {

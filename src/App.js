@@ -109,7 +109,7 @@ function App() {
                 <Route path='/user/cart' element={<UserCartPage />} />
                 <Route path='/user/order' element={<UserOrderPage />} />
                 <Route path='/product/detail/:productId' element={<UserProductDetailPage />} />
-                <Route path='/product/list/:petGroupId' element={<UserProductListPage />} />
+                <Route path='/product/list/:groupName' element={<UserProductListPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={

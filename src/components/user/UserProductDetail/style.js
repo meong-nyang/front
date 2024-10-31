@@ -8,16 +8,14 @@ export const layout = css`
     width: 400px;
     height: 600px;
     margin: 20px;
-    & > button {
+    & > div{
         box-sizing: border-box;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         width: 100%;
-        height: 55px;
-        color: #777777;
-        font-weight: 600;
-        background-color: #ffffff;
-        border: 1px solid #e0e0e0;
+        height: 100%;
     }
-
 `;
 
 export const imgLayout = css`
@@ -54,4 +52,14 @@ export const contentLayout = css`
             font-weight: 400;
         }
     }
+`;
+
+export const addCartButton = css`
+    box-sizing: border-box;
+    width: 100%;
+    height: 55px;
+    color: #777777;
+    font-weight: 600;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
 `;

@@ -13,22 +13,36 @@
     function UserProductListPage(props) {
         const limit = 10;
         const param = useParams();
-        console.log(param);
+        
         const [ searchParams, setSearchParams ] = useSearchParams();
         const [ categoryData, setCategoryData ] = useState({
-            petGroupId: 0,
+            groupName: "",
             categoryId: 0
         });
+
+        useEffect(() => {
+            console.log("파라미터변경" + param.groupName);
+            setCategoryData(category => ({
+                ...category,
+                groupName: param.groupName
+            }))
+        }, [param.groupName]);
+
+        useEffect(() => {
+            console.log("카테고리 변경")
+            productList.refetch();
+            productListCount.refetch();
+        }, [categoryData]);
 
         console.log(categoryData);
 
         const productList = useQuery(
-            ["userProductListQuery", searchParams.get("page")],
+            ["userProductListQuery", searchParams.get("page"), categoryData ],
             async () => await instance.get("/products", {
                 params: {
                     page: searchParams.get("page"),
                     limit: limit,
-                    petGroupId: param.petGroupId,
+                    groupName: param.groupName,
                     categoryId: categoryData.categoryId
                 }
             }),
@@ -41,8 +55,13 @@
         );
 
         const productListCount = useQuery(
-            ["productListCountQuery"],
-            async () => await instance.get("/products/count"),
+            ["productListCountQuery", categoryData ],
+            async () => await instance.get("/products/count", {
+                params: {
+                    groupName: param.groupName,
+                    categoryId: categoryData.categoryId
+                }
+            }),
             {
                 retry:0,
                 refetchOnWindowFocus: false,
@@ -80,7 +99,7 @@
                         )
                     }
                 </div>
-                <Paginate address={`/product/list`} totalCount={productListCount?.data?.data} limit={limit} />
+                <Paginate address={`/product/list/${param.groupName}`} totalCount={productListCount?.data?.data} limit={limit} />
             </UserBackgoundLayout>
 
         );

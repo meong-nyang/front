@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { useQueryClient } from 'react-query';
+import { useSearchParams } from 'react-router-dom';
 
 function UserCategoryLayout({ setCategoryData }) {
+    const [ searchParams, setSearchParams ] = useSearchParams();
     const queryClient = useQueryClient();
     const categoryQuery = queryClient.getQueryData("categoryListQuery");
 
@@ -12,7 +14,6 @@ function UserCategoryLayout({ setCategoryData }) {
             ...category,
             categoryId
         }));
-        console.log(categoryId);
     };
 
     return (
