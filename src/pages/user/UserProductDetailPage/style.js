@@ -14,10 +14,26 @@ export const imgLayout = css`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    justify-content: flex-start;
+    justify-content: center;
+    align-items: center;
     & > img {
         width: 465px;
         height: 465px;
+        object-fit: contain; 
+        background-color: aliceblue;
+    }
+`;
+
+export const subImgLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    width: 90%;
+    flex-wrap: wrap;
+    & > img {
+        width: 60px;
+        height: 60px;
+        margin: 10px;
+        object-fit: contain; 
         background-color: aliceblue;
     }
 `;
@@ -25,7 +41,7 @@ export const imgLayout = css`
 export const detailLayout = css`
     box-sizing: border-box;
     display: flex;
-    height: 100%;
+    height: 465px;
     flex-direction: column;
     justify-content: space-around;
     align-items: flex-start;
@@ -65,10 +81,15 @@ export const countLayout = css`
     & > div {
         box-sizing: border-box;
         display: flex;
-        justify-content: center;
-        align-items: center;
-        & > p {
-            margin: 0px 15px;
+        margin: 0 auto;
+        & > input {
+            box-sizing: border-box;
+            display: flex;
+            width: 25px;
+            justify-content: center;
+            align-items: center;
+            border: none;
+            outline: none;
             font-size: 18px;
             font-weight: 600;
             color: #777777;

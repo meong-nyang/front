@@ -5,6 +5,7 @@ import UserInfoLayout from '../UserInfoLayout/UserInfoLayout';
 
 function UserInfoPet(props) {
     const [ editMode, setEditMode ] = useState(true);
+    const age = "";
 
     return (
         <UserInfoLayout title="반려동물 정보" editMode={editMode} setEditMode={setEditMode}>
@@ -14,7 +15,7 @@ function UserInfoPet(props) {
             </div>
             <div css={s.inputBox}>
                 <p>반려동물 나이</p>
-                <input type="number" placeholder='나이를 입력하세요' disabled={editMode}/>
+                <input type="number" value={age} placeholder='나이를 입력하세요' disabled={editMode}/>
             </div>
             <div css={s.typeInputBox}>
                 <p>반려동물 종류</p>
