@@ -43,6 +43,60 @@ export const selectLayout = css`
     }
 `;
 
+export const checkboxStyle = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #777777;
+    & svg {
+        position: absolute;
+        font-size: 14px;
+        color: #e0e0e0;
+    }
+    & > input {
+        display: none;
+    }
+
+    & > input + label {
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 50%;
+        color: #e0e0e0;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    & > input:checked + label::after {
+        box-sizing: border-box;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: #FFB69C;
+        content:"✔";
+        color: #ffffff;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        left: -10;
+        top:-1;
+        & > svg {
+            color: #ffffff;
+            z-index: 100;
+        }
+    }
+`;
+
 export const titleLayout = css`
     box-sizing: border-box;
     display: flex;

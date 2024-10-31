@@ -4,6 +4,7 @@ export const layout = css`
     box-sizing: border-box;
     position: relative;
     display: flex;
+    flex-grow: 1;
     width: 100%;
     flex-direction: column;
     justify-content: center;
