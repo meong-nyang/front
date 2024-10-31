@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { useState } from 'react';
-import { IoMdArrowDropdown } from "react-icons/io";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
 function SearchBox({ searchOptions, searchData, setSearchData, onEnter }) {
 
@@ -33,7 +33,9 @@ function SearchBox({ searchOptions, searchData, setSearchData, onEnter }) {
         <div css={s.searchBox}>
             <div>
                 <button onClick={() => setOpen(data => !data)}>{searchData.searchOptionName}</button>
-                <IoMdArrowDropdown />
+                {
+                    isOpen ? <IoMdArrowDropup /> : <IoMdArrowDropdown />
+                }
             </div>
             {
                 isOpen &&

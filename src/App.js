@@ -20,7 +20,6 @@ import StockManagementPage from './pages/admin/StockManagementPage/StockManageme
 
 import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
 
-import AdminCustomerManagementPage from './pages/admin/AdminCustomerManagement/AdminCustomerManagementPage/AdminCustomerManagementPage';
 import AdminCustomerDetailPage from './pages/admin/AdminCustomerManagement/AdminCustomerDetailPage/AdminCustomerDetailPage';
 import UserOauth2SignupPage from './pages/user/UserOauth2SignupPage/UserOauth2SignupPage';
 import UserMypage from './pages/user/UserMypage/UserMypage';
@@ -33,6 +32,7 @@ import UserProductListPage from './pages/user/UserProductListPage/UserProductLis
 import OrderDetailPage from './pages/admin/orderManagement/OrderDetailPage/OrderDetailPage';
 import OrderListPage from './pages/admin/orderManagement/OrderListPage/OrderListPage';
 import UserOauth2SigninPage from './pages/user/UserOauth2SigninPage/UserOauth2SigninPage';
+import AdminCustomerListPage from './pages/admin/AdminCustomerManagement/AdminCustomerListPage/AdminCustomerListPage';
 
 function App() {
 
@@ -124,8 +124,8 @@ function App() {
                             <Route path='/stock' element={<StockManagementPage />} />
                             <Route path='/order' element={<OrderListPage />} />
                             <Route path='/order/detail/:id' element={<OrderDetailPage />} />
-                            <Route path='/customer' element={<AdminCustomerManagementPage />} />
-                            <Route path='/customer/:id' element={<AdminCustomerDetailPage />} />
+                            <Route path='/customer/detail/:id' element={<AdminCustomerDetailPage />} />
+                            <Route path='/customer' element={<AdminCustomerListPage />} />
                             <Route path='/statistics' element={<AdminStatisticsPage />} />
                             <Route path='/setting' element={<AdminSiteSettingPage />} />
                             <Route path='/*' element={<NotFound />} />

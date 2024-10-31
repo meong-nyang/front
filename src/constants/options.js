@@ -73,6 +73,11 @@ export const LOCATION_DATAS = [
         name: "주문관리 > 주문목록"
     },
     {
+        address: "/admin/customer/detail",
+        menuId: 5,
+        name: "고객관리 > 상세"
+    },
+    {
         address: "/admin/customer",
         menuId: 5,
         name: "고객관리"
