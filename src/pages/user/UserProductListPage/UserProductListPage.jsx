@@ -9,6 +9,7 @@
     import Paginate from '../../../components/admin/Paginate/Paginate';
     import { useParams, useSearchParams } from 'react-router-dom';
     import UserCategoryLayout from '../../../components/user/UserCategoryLayout/UserCategoryLayout';
+    import { CATEGORY_GROUP, GROUP_LIST, PET_GROUP } from '../../../constants/category';
 
     function UserProductListPage(props) {
         const limit = 10;
@@ -70,34 +71,34 @@
             }
         );
 
-        // const handleCategorySelect = (categoryId) => {
-        //     if (categoryId) {
-        //         setSearchParams({ page: 1, petGroupId: searchParams.get("petGroupId"), categoryId }); // 페이지를 1로 설정하고 카테고리 ID 업데이트
-        //     } else {
-        //         setSearchParams({ page: 1 }); // 전체 카테고리 선택
-        //     }
+        const groupName = (groupName) => {
+            return PET_GROUP[groupName];
+        };
 
-        //     console.log(categoryId);
-        // };
-
-        // const handlePetGroupSelect = (petGroupId) => {
-        //     if (petGroupId) {
-        //         setSearchParams({ page: 1, petGroupId: petGroupId, categoryId: searchParams.get("categoryId") }); // petGroupId 업데이트
-        //     } else {
-        //         setSearchParams({ page: 1 }); // 전체 카테고리 선택
-        //     }
-        // };
+        const categoryName = (categoryId) => {
+            return CATEGORY_GROUP[categoryId];
+        };
 
         return (
             <UserBackgoundLayout>
                 <UserHeaderLayout setCategoryData={setCategoryData} />
                 <UserCategoryLayout setCategoryData={setCategoryData} />
                 <div css={s.layout}>
+                    <div css={s.hearderLayout}>
+                        <div css={s.navigateLayout}>
+                            <p>{groupName(categoryData.groupName)}</p>
+                            <p>{'>'}</p>
+                            <p>{categoryName(categoryData.categoryId)}</p>
+                        </div>
+                        <p>총 {productListCount?.data?.data}개</p>
+                    </div>
+                    <div css={s.listLayout}>
                     {
                         productList?.data?.data.productList.map(productInfo => 
                             <UserProductDetail key={productInfo.productId} productInfo={productInfo} />
                         )
                     }
+                    </div>
                 </div>
                 <Paginate address={`/product/list/${param.groupName}`} totalCount={productListCount?.data?.data} limit={limit} />
             </UserBackgoundLayout>

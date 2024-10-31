@@ -29,6 +29,7 @@ export const layout = css`
             margin-right: 50px;
             color: #777777;
             text-decoration: none;
+            font-size: 18px;
             &:nth-last-of-type(1) {
                 margin: 0px;
             }

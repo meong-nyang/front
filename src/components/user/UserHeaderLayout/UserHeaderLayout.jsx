@@ -3,15 +3,15 @@
     import * as s from "./style";
     import logoImg from "../../../assets/images/logo.png";
     import { CiSearch, CiShoppingCart } from "react-icons/ci";
-    import { Link, NavLink, useNavigate } from 'react-router-dom';
+    import { Link, NavLink } from 'react-router-dom';
     import { useQueryClient } from 'react-query';
 
-    function UserHeaderLayout({ setCategoryData }) {
+    function UserHeaderLayout() {
         const queryClient = useQueryClient();
-        const navigate = useNavigate();
         
         const activeStyle = {
             color: "#9d6c4c",
+            fontWeight: "bold"
         }
         
         const categoryQuery = queryClient.getQueryData("categoryListQuery");
@@ -33,15 +33,17 @@
                     <NavLink to={'/'}><img src={logoImg} /></NavLink>
                 </div>
                 <div>
-                    <Link to={'/product/list/all?page=1'}>전체</Link>
+                    <NavLink to={'/product/list/all?page=1'} style={({isActive}) => (isActive ? activeStyle : {})}>전체</NavLink>
                     {
                         categoryQuery?.data?.petGroupList.map(petGroup => 
                             <>
-                                <Link to={`/product/list/${petGroup.id == 1 ? "dog" : "cat"}?page=1`} key={petGroup.id}>{petGroup.categoryGroupName}</Link>
+                                <NavLink to={`/product/list/${petGroup.id == 1 ? "dog" : "cat"}?page=1`} 
+                                    style={({isActive}) => (isActive ? activeStyle : {})}
+                                    key={petGroup.id}>{petGroup.categoryGroupName}</NavLink>
                             </>
                         )
                     }
-                    <Link to={'/product/list/recommend?page=1'}>추천상품</Link>
+                    <NavLink to={'/product/list/recommend?page=1'} style={({isActive}) => (isActive ? activeStyle : {})}>추천상품</NavLink>
                 </div>
                 <div>
                     {

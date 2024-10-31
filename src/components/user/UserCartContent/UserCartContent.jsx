@@ -8,7 +8,7 @@ function UserCartContent(props) {
         <div css={s.contentLayout}>
                     <div css={s.checkboxStyle}>
                         <input type="checkbox" id='productSelect'/>
-                        <label htmlFor="productSelect"><IoCheckmarkSharp /></label>
+                        <label htmlFor="productSelect">✔</label>
                     </div>
                     <div css={s.productLayout}>
                         <img src="" />

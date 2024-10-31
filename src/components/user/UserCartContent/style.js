@@ -63,7 +63,7 @@ export const checkboxStyle = css`
         align-items: center;
         border-radius: 50%;
         background-color: #FFB69C;
-        content:"";
+        content:"✔";
         color: #ffffff;
         font-size: 12px;
         width: 18px;

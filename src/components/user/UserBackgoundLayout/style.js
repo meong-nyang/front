@@ -8,4 +8,6 @@ export const layout = css`
     height: 100%;
     //background-image: url("./images/Rectangle 47.svg");
     background-repeat: no-repeat; 
+    overflow: scroll;
+    
 `;
