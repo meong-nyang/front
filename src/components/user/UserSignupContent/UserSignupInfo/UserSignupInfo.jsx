@@ -33,8 +33,10 @@ function UserSignupInfo({ order, setOrder, userSignupFormData, setUserSignupForm
     return (
         <UserSignupLayout title="회원정보">
             <div css={s.inputBox}>
-                
-                <p>아이디 {fieldErrorMessages.username}</p> 
+                <div css={s.userInfoTag}>
+                    <p>아이디</p > 
+                    <p>{fieldErrorMessages.username}</p> 
+                </div>
                 <input type="text" 
                     name="username"
                     onChange={handleUserSignupDataChange}
@@ -43,8 +45,10 @@ function UserSignupInfo({ order, setOrder, userSignupFormData, setUserSignupForm
                 />
             </div>
             <div css={s.inputBox}>
-                
-                <p>비밀번호 {fieldErrorMessages.password}</p>
+                <div css={s.userInfoTag}>
+                    <p>비밀번호</p > 
+                    <p>{fieldErrorMessages.password}</p> 
+                </div>
                 <input type="password" 
                     name="password"
                     onChange={handleUserSignupDataChange}
@@ -53,27 +57,34 @@ function UserSignupInfo({ order, setOrder, userSignupFormData, setUserSignupForm
                 />
             </div>
             <div css={s.inputBox}>
-                <p>비밀번호 확인 {fieldErrorMessages.checkPassword}</p>
+                <div css={s.userInfoTag}>
+                    <p>비밀번호 확인</p > 
+                    <p>{fieldErrorMessages.checkPassword}</p> 
+                </div>
                 <input type="password" 
                     name="checkPassword"
                     onChange={handleUserSignupDataChange}
                     value={userSignupFormData.checkPassword}
                     placeholder="비밀번호를 확인해주세요"
                 />
-                
             </div>
             <div css={s.inputBox}>
-                <p>이름 {fieldErrorMessages.name}</p>
+                <div css={s.userInfoTag}>
+                    <p>이름</p > 
+                    <p>{fieldErrorMessages.phone}</p> 
+                </div>
                 <input type="text" 
                     name="name"
                     onChange={handleUserSignupDataChange}
                     value={userSignupFormData.name}
                     placeholder="이름을 입력하세요"
                 />
-                
             </div>
             <div css={s.inputBox}>
-                <p>전화번호 {fieldErrorMessages.phone}</p>
+                <div css={s.userInfoTag}>
+                    <p>전화번호</p > 
+                    <p>{fieldErrorMessages.name}</p> 
+                </div>
                 <input type="text" 
                     name="phone"
                     onChange={handleUserSignupDataChange}

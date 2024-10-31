@@ -19,6 +19,10 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
         addressDetail: "",
     });
 
+    const [ fieldErrorMessages, setFieldErrorMessages ] = useState({
+        
+    });
+
     useEffect(() => {
         // 다음 주소 검색 API 스크립트를 동적으로 로드
         const script = document.createElement('script');
@@ -74,10 +78,8 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
                     ...userInfo,
                     userInfo: editUserInfoData
                 });
-                
                 alert("수정 되었습니다");
-
-                console.log("수정된 userinfo : ", userInfo);
+                console.log("수정 후 userInfo", userInfo)
             },
             onError: error => {
                 console.log(error);
@@ -87,9 +89,7 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
     );
 
     const handleConfirmButtonClick = () => {
-        console.log(userInfo);
         editUserInfoMutation.mutateAsync();
-        console.log("수정된 userinfo : ", userInfo);
         setEditMode(mode => false);
     };
 

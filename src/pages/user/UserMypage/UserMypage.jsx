@@ -35,13 +35,19 @@ function UserMypage(props) {
 
     const myPageDataQuery = useQuery(
         ["myPageDataQuery"],
-        async () => await instance.get(`/user/${userInfoData.data.id}`),
+        async () => {
+            return await instance.get(`/user/${userInfoData?.data.id}`);
+        },
         {
+            enabled: !!userInfoData?.data,
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: response => { 
                 setUserInfo(response.data); 
             },
+            onError: error => {
+                console.log("error: ", error)
+            }
         }
     );
 

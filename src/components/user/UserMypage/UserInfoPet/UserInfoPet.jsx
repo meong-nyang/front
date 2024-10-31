@@ -49,9 +49,7 @@ function UserInfoPet({ userInfo, setUserInfo }) {
     );
 
     const handleConfirmButtonClick = () => {
-        console.log(userInfo);
         editPetInfoMutation.mutateAsync();
-        console.log("수정된 petinfo : ", userInfo);
         setEditMode(mode => false);
     };
  
