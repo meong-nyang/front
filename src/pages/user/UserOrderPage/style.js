@@ -9,6 +9,7 @@ export const layout = css`
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    margin-top: 80px;
     padding: 20px;
     & > p {
         font-size: 25px;
@@ -186,21 +187,19 @@ export const paymentMethod = css`
 export const paymentLayout = css`
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
 
     & button {
         box-sizing: border-box;
         width: 306px;
         height: 40px;
+        margin: 7px;
         border: 1px solid #e0e0e0;
         background-color: #ffffff;
         font-weight: 600;
         color: #777777;
-        &:nth-of-type(2) {
-            margin: 10px 20px;
-        }
     }
 `;
 

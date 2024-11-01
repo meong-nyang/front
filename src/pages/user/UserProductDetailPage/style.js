@@ -4,7 +4,8 @@ export const layout = css`
     box-sizing: border-box;
     display: flex;
     width: 1000px;
-    margin: 50px auto;
+    margin: 80px auto;
+    padding: 20px;
     & > div {
         flex-grow: 1;
     }

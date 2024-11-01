@@ -6,6 +6,8 @@ export const layout = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 80px;
+    padding: 20px;
     width: 100%;
     flex-grow: 1;
 `;

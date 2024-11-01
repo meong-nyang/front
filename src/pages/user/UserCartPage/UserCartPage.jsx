@@ -32,7 +32,6 @@ function UserCartPage(props) {
 
     const cartItemDeleteMutation = useMutation(
         async (deleteIds) => {
-            console.log(deleteIds);
             const arr = Array.from(deleteIds);
             let str = "cartIds=";
             for (let i of arr) {
@@ -76,7 +75,6 @@ function UserCartPage(props) {
 
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
             <div css={s.layout}>
                 <p>장바구니</p>
                 <div css={s.selectLayout}>

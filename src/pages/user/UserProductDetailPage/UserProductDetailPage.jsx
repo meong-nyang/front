@@ -8,12 +8,16 @@ import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from "sweetalert2";
+import { useRecoilState } from 'recoil';
+import { orderProuctListAtom } from '../../../atoms/orderAtom';
 
 function UserProductDetailPage(props) {
     const navigate = useNavigate();
     const param = useParams();
     const queryClient = useQueryClient();
     // const userInfo = queryClient.getQueryData("");
+    const [ orderProduct, setOrderProduct ] = useRecoilState(orderProuctListAtom);
+    
     const [ productDetailData, setProductDetailData ] = useState({
         id: "",
         productName: "",
@@ -22,7 +26,8 @@ function UserProductDetailPage(props) {
         productDetail: "",
         productPrice: "",
         productPriceDiscount: "",
-        imageNames: []
+        imgName: "",
+        imgNames: []
 
     });
 
@@ -45,7 +50,8 @@ function UserProductDetailPage(props) {
                     productDetail: response?.data.productDetail,
                     productPrice: response?.data.productPrice,
                     productPriceDiscount: response?.data.productPriceDiscount,
-                    imageNames: response?.data.imgNames
+                    imgName: response?.data.imgNames[0],
+                    imgNames: response?.data.imgNames
                 }))
             },
             onError: error => console.log(error)
@@ -66,6 +72,13 @@ function UserProductDetailPage(props) {
         // setProductCount(result);
         
     };
+
+    const hanelSubImgOnClick = (imgName) => {
+        setProductDetailData(product => ({
+            ...product,
+            imgName
+        }))
+    }
 
     const handlePlusOnClick = () => {
         setProductCount(count => count + 1);
@@ -98,8 +111,6 @@ function UserProductDetailPage(props) {
             title: "장바구니에 담겼습니다",
             text: "장바구니로 이동하시겠습니까?",
             icon: "success",
-            width: "600px",
-            heigth: "400px",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",
@@ -114,19 +125,35 @@ function UserProductDetailPage(props) {
     };
 
     const handleOrderOnClick = () => {
-
+        Swal.fire({
+            title: `${productDetailData.productName}을(를) 구매하시겠습니까?`,
+            icon: "success",
+            width: "600px",
+            heigth: "400px",
+            showCancelButton: true,
+            cancelButtonColor: "#777777",
+            cancelButtonText: "취소",
+            confirmButtonColor: "#9d6c4c",
+            confirmButtonText: "구매",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                setOrderProduct([param.productId]);
+                navigate("/user/order")
+            }
+        }
+        );
     }
 
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
             <div css={s.layout}>
                 <div css={s.imgLayout}>
-                    <img src={"http://localhost:8080/images/"  + productDetailData?.imageNames[0]} alt="" />
+                    <img src={"http://localhost:8080/images/"  + productDetailData.imgName} alt="" />
                     <div css={s.subImgLayout}>
                     {
-                        productDetailData?.imageNames.map(img =>
-                                <img src={"http://localhost:8080/images/" + img} />
+                        productDetailData?.imgNames.map(img =>
+                                <img src={"http://localhost:8080/images/" + img} 
+                                    onClick={() => hanelSubImgOnClick(img)}/>
                             )
                     }
                     </div> 

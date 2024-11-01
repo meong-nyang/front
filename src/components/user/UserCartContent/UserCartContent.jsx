@@ -41,29 +41,29 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
 
     return (
         <div css={s.contentLayout}>
-                    <div css={s.checkboxStyle}>
-                        <input type="checkbox" id={cartItem?.cartId} 
-                            onChange={handelItemCheck}
-                            checked={checkItems.includes(cartItem?.cartId) ? true : false}/>
-                        <label htmlFor={cartItem?.cartId}>✔</label>
-                    </div>
-                    <div css={s.productLayout}>
-                        <img src="" />
-                        <div>
-                            <p>{cartItem?.productName}</p>
-                            <p>[옵션]</p>
-                        </div>
-                    </div>
-                    <div css={s.countLayout}>
-                        <AiFillMinusCircle onClick={handleMinusOnClick} />
-                        <p>{cartItem?.productCount}</p>
-                        <AiFillPlusCircle onClick={handlePlusOnClick} />
-                    </div>
-                    <p>{priceFormet(cartItem?.productCount * cartItem?.productPrice)}원</p>
-                    <div>
-                        <RxCross2 onClick={handleCartItemDeleteOnClick}/>
-                    </div>
+            <div css={s.checkboxStyle}>
+                <input type="checkbox" id={cartItem?.cartId} 
+                    onChange={handelItemCheck}
+                    checked={checkItems.includes(cartItem?.cartId) ? true : false}/>
+                <label htmlFor={cartItem?.cartId}>✔</label>
+            </div>
+            <div css={s.productLayout}>
+                <img src="" />
+                <div>
+                    <p>{cartItem?.productName}</p>
+                    <p>[옵션]</p>
                 </div>
+            </div>
+            <div css={s.countLayout}>
+                <AiFillMinusCircle onClick={handleMinusOnClick} />
+                <p>{cartItem?.productCount}</p>
+                <AiFillPlusCircle onClick={handlePlusOnClick} />
+            </div>
+            <p>{priceFormet(cartItem?.productCount * cartItem?.productPrice)}원</p>
+            <div>
+                <RxCross2 onClick={handleCartItemDeleteOnClick}/>
+            </div>
+        </div>
     );
 }
 

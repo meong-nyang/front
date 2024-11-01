@@ -51,7 +51,6 @@ function UserSigninPage(props) {
 
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
             <div css={s.layout}>
                 <div css={s.signinContainer}>
                     <div>

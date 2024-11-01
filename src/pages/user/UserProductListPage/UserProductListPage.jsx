@@ -81,7 +81,6 @@
 
         return (
             <UserBackgoundLayout>
-                <UserHeaderLayout setCategoryData={setCategoryData} />
                 <UserCategoryLayout setCategoryData={setCategoryData} />
                 <div css={s.layout}>
                     <div css={s.hearderLayout}>

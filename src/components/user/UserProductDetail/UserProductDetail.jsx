@@ -32,16 +32,23 @@ function UserProductDetail({ productInfo }) {
         );
     };
 
+    const priceFormet = (price) => {
+        if (price == null || isNaN(price)) {
+            return '0';
+        }
+        return price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+    };
+    
     return (
         <div css={s.layout}>
             <div onClick={handleProductDetailOnClick}> 
                 <div css={s.imgLayout}>
-                    <img src={"http://localhost:8080/images/" + productInfo.imgNames[0]} alt="" />
+                    <img src={"http://localhost:8080/images/" + productInfo.imgName} alt="" />
                 </div>
                 <div css={s.contentLayout}>
                     <p>{productInfo.productName}</p>
                     <p>{productInfo.productDetail}</p>
-                    <p>{productInfo.productPrice}</p>
+                    <p>{priceFormet(productInfo.productPrice)}원</p>
                 </div>
             </div>
             <button css={s.addCartButton} onClick={handleAddCartOnClick}>Add to Cart</button>

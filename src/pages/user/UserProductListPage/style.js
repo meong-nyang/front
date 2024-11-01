@@ -3,7 +3,9 @@ import { css } from "@emotion/react";
 export const layout = css`
     box-sizing: border-box;
     display: flex;
+    flex-grow: 1;
     margin: 0 auto;
+    margin-top: 150px;
     width: 880px;
     flex-wrap: wrap;
 `;
