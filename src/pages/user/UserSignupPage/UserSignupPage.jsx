@@ -34,6 +34,7 @@ function UserSignupPage(props) {
         password:<></>,
         checkPassword:<></>,
         name:<></>,
+        phone:<></>,
         address:<></>,
     });
 
@@ -43,6 +44,7 @@ function UserSignupPage(props) {
             password:<></>,
             checkPassword:<></>,
             name:<></>,
+            phone:<></>,
             address:<></>,
         };
 

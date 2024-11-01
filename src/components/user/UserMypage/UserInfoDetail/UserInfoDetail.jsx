@@ -20,7 +20,8 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
     });
 
     const [ fieldErrorMessages, setFieldErrorMessages ] = useState({
-        
+        name: <></>,
+        phone: <></>,
     });
 
     useEffect(() => {
@@ -83,7 +84,7 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
             },
             onError: error => {
                 console.log(error);
-                alert("")
+                showFieldErrorMessages(error.resposne.data);
             }
         }
     );
@@ -92,6 +93,21 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
         editUserInfoMutation.mutateAsync();
         setEditMode(mode => false);
     };
+
+    const showFieldErrorMessages = (fieldErrors) => {
+        let emptyFieldErrors = {
+            name: <></>,
+            phone: <></>,
+        };
+
+        for (let fieldError of fieldErrors) {
+            emptyFieldErrors = {
+                ...emptyFieldErrors,
+                [fieldError.field]: <>{fieldError.defaultMessage}</>
+            }
+        }
+        setFieldErrorMessages(emptyFieldErrors);
+    }
 
     return (
         <UserInfoLayout 
@@ -112,7 +128,10 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
                 />
             </div>
             <div css={s.inputBox}>
-                <p>이름</p>
+                <div css={s.userInfoTag}>
+                    <p>이름</p>
+                    <p>{fieldErrorMessages.name}</p>
+                </div>
                 <input 
                     name="name" 
                     type="text" 
@@ -122,7 +141,10 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
                 />
             </div>
             <div css={s.inputBox}>
-                <p>전화번호</p>
+                <div css={s.userInfoTag}>
+                    <p>전화번호</p>
+                    <p>{fieldErrorMessages.phone}</p>
+                </div>
                 <input 
                     name="phone" 
                     type="text" 

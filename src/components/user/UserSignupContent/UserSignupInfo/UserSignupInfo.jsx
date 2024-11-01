@@ -9,7 +9,7 @@ function UserSignupInfo({ order, setOrder, userSignupFormData, setUserSignupForm
     // 핸드폰 번호 입력 시 하이픈 자동 생성
     const addHyphenToPhoneNumber = (phoneNumber) => {
         const numbers = phoneNumber.replace(/[^0-9]/g, "").slice(0,11)
-            .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+            .replace(/^(\d{3})(\d{3,4})(\d{4})$/, `010-$2-$3`);
         return numbers;
     };
 
@@ -71,7 +71,7 @@ function UserSignupInfo({ order, setOrder, userSignupFormData, setUserSignupForm
             <div css={s.inputBox}>
                 <div css={s.userInfoTag}>
                     <p>이름</p > 
-                    <p>{fieldErrorMessages.phone}</p> 
+                    <p>{fieldErrorMessages.name}</p> 
                 </div>
                 <input type="text" 
                     name="name"
@@ -83,7 +83,7 @@ function UserSignupInfo({ order, setOrder, userSignupFormData, setUserSignupForm
             <div css={s.inputBox}>
                 <div css={s.userInfoTag}>
                     <p>전화번호</p > 
-                    <p>{fieldErrorMessages.name}</p> 
+                    <p>{fieldErrorMessages.phone}</p> 
                 </div>
                 <input type="text" 
                     name="phone"

@@ -35,8 +35,9 @@ function UserSigninPage(props) {
                 navigate("/"); 
             },
             onError: error => {
-                console.log(error.response);
+                console.log(error.response.data);
                 showFieldErrorMessage(error.response.data);
+                alert("아이디와 비밀번호를 정확히 입력해 주세요");
             }
         }
     );
@@ -49,7 +50,7 @@ function UserSigninPage(props) {
     };
 
     const handleSigninButtonOnClick = () => {
-        loginMutation.mutateAsync();
+        loginMutation.mutateAsync().catch(() => {});
     };
 
     const handleSignupButtonOnClick = () => {
