@@ -3,19 +3,7 @@ import { css } from "@emotion/react";
 export const inputBox = css`
     box-sizing: border-box;
     color: #777777;
-    & > p {
-        margin: 10px 0px 7px;
-        font-size: 14px;
-        font-weight: 600;
-
-        & > p {
-            display: inline-block;
-            margin-left: 12px;
-            font-size: 14px;
-            color: red;
-        }
-    }
-
+    
     & > input {
         box-sizing: border-box;
         width: 100%;
@@ -41,3 +29,24 @@ export const locationBox = css`
         cursor: pointer;
     }
 `;
+
+export const userInfoTag = css`
+    display: flex;
+    box-sizing: border-box;
+    color: #777777;
+
+    & > p:nth-of-type(1) {
+        margin: 10px 0px 7px ;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    & > p:nth-last-of-type(1) {
+        margin-top: 10px;
+        margin-left: 12px;
+        font-size: 14px;
+        color: red;
+    }
+`;
+
+

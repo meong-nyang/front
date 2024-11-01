@@ -18,27 +18,59 @@ function UserOauth2SignupPage(props) {
         provider: searchParams.get("provider")
     });
 
+    const [ fieldErrorMessages, setFieldErrorMessages ] = useState({
+        name: <></>,
+        phone: <></>,
+    });
+
     const signupMutation = useMutation(
         async () => await instance.post("/auth/oauth2/signup", signupData),
         {
             onSuccess: response => {
                 alert("가입완료");
-                navigate("/user/signin");
+                window.location.replace("/user/signin");
             },
-            onError: error => console.log(error)
+            onError: error => {
+                showFieldErrorMessage(error.response.data);
+
+            }
         }
     );
 
-    console.log(signupData);
+    const addHyphenToPhoneNumber = (phoneNumber) => {
+        const numbers = phoneNumber.replace(/[^0-9]/g, "").slice(0,11)
+            .replace(/^(\d{3})(\d{3,4})(\d{4})$/, `010-$2-$3`);
+        return numbers;
+    };
+
     const handleInpuOnChange = (e) => {
+        const formattedValue = e.target.name === "phone"
+        ? addHyphenToPhoneNumber(e.target.value)
+        : e.target.value
+
         setSignupData(data => ({
             ...data,
-            [e.target.name]: e.target.value
+            [e.target.name]: formattedValue
         }))
     };
 
     const handleSignupButtonOnClick = () => {
-        signupMutation.mutateAsync();
+        signupMutation.mutateAsync().catch(() => {});
+    };
+
+    const showFieldErrorMessage = (fieldErrors) => {
+        let emptyFieldErrors = {
+            name: <></>,
+            phone: <></>,
+        };
+
+        for (let fieldError of fieldErrors) {
+            emptyFieldErrors = {
+                ...emptyFieldErrors,
+                [fieldError.field]: <>{fieldError.defaultMessage}</>
+            }
+        }
+        setFieldErrorMessages(emptyFieldErrors);
     };
 
     return (
@@ -52,15 +84,20 @@ function UserOauth2SignupPage(props) {
                 <div css={s.signuplayout}>
                     <p>회원가입</p>
                     <div css={s.inputBox}>
-                        <p>이름</p>
-                        <input name='name' type="text" placeholder='아이디를 입력하세요'
+                        <div css={s.userInfoTag}>
+                            <p>이름</p > 
+                            <p>{fieldErrorMessages.name}</p> 
+                        </div>
+                        <input name='name' type="text" placeholder="아이디를 입력하세요"
                             onChange={handleInpuOnChange} 
                             value={signupData.name}/>
                     </div>
-
                     <div css={s.inputBox}>
-                        <p>전화번호</p>
-                        <input name='phone' type="text" placeholder='비밀번호를 입력하세요'
+                        <div css={s.userInfoTag}>
+                            <p>전화번호</p > 
+                            <p>{fieldErrorMessages.phone}</p> 
+                        </div>
+                        <input name='phone' type="text" placeholder="하이픈( ' - ' ) 없이 전화번호를 입력하세요"
                             onChange={handleInpuOnChange} 
                             value={signupData.phone}/>
                     </div>
