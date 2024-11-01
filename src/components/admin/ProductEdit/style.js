@@ -1,15 +1,11 @@
 import { css } from "@emotion/react";
+import { NO_INPUT_DATE_DEFAULT_VALUE, NO_INPUT_NUMBER_SPINNER } from "../../../constants/style/inputStyleProperties";
 
 export const layout = css`
     margin-top: 20px;
     width: 100%;
 
-    // input type이 number인 경우 오른쪽에 생기는 화살표 제거
-    & input::-webkit-outer-spin-button,
-    & input::-webkit-inner-spin-button {
-        -webkit-appearance: none;
-        margin: 0;
-    }
+    ${NO_INPUT_NUMBER_SPINNER}
 
     & td {
         padding: 0px;
@@ -158,6 +154,10 @@ export const stockManagement = css`
         display: inline-block;
         margin-bottom: 5px;
     }
+`;
+
+export const dateInput = (isNone) => css`
+    ${isNone && NO_INPUT_DATE_DEFAULT_VALUE}
 `;
 
 export const productDetail = css`

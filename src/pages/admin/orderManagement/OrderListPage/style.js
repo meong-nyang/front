@@ -19,45 +19,60 @@ export const header = css`
     }
 `;
 
+export const tableLayout = css`
+    width: 100%;
+    height: 100%;
+`;
+
 export const mainTable = css`
     border-collapse: collapse;
     width: 100%;
-
-    & input[type="checkbox"] {
-        width: 15px !important;
-        height: 15px !important;
-        cursor: pointer;
-    }
 
     & th, td {
         text-align: center;
     }
 
     & tr *:nth-of-type(1) {
-        width: 2%;
+        width: 10%;
     }
 
     & tr *:nth-of-type(2) {
-        width: 15%;
+        width: 10%;
     }
 
     & tr *:nth-of-type(3) {
-        width: 23%;
+        width: 10%;
     }
 
     & tr *:nth-of-type(4) {
-        width: 15%;
+        width: 30%;
     }
 
     & tr *:nth-of-type(5) {
-        width: 15%;
+        width: 10%;
     }
 
     & tr *:nth-of-type(6) {
-        width: 15%;
+        width: 10%;
     }
 
     & tr *:nth-of-type(7) {
-        width: 15%;
+        width: 10%;
+    }
+
+    & tr *:nth-of-type(8) {
+        width: 10%;
+    }
+`;
+
+export const tableBody = css`
+    & tr {
+        cursor: pointer;
+    }
+`;
+
+export const productCell = css`
+    & > td {
+        width: 10% !important;
     }
 `;

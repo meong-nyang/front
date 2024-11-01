@@ -20,8 +20,6 @@ import StockManagementPage from './pages/admin/StockManagementPage/StockManageme
 
 import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
 
-import OrderManagementPage from './pages/admin/OrderManagementPage/OrderManagementPage';
-import AdminCustomerManagementPage from './pages/admin/AdminCustomerManagement/AdminCustomerManagementPage/AdminCustomerManagementPage';
 import AdminCustomerDetailPage from './pages/admin/AdminCustomerManagement/AdminCustomerDetailPage/AdminCustomerDetailPage';
 import UserOauth2SignupPage from './pages/user/UserOauth2SignupPage/UserOauth2SignupPage';
 import UserMypage from './pages/user/UserMypage/UserMypage';
@@ -31,7 +29,10 @@ import UserProductDetailPage from './pages/user/UserProductDetailPage/UserProduc
 import AdminStatisticsPage from './pages/admin/AdminStatisticsPage/AdminStatisticsPage';
 import AdminSiteSettingPage from './pages/admin/AdminSiteSettingPage/AdminSiteSettingPage';
 import UserProductListPage from './pages/user/UserProductListPage/UserProductListPage';
+import OrderDetailPage from './pages/admin/orderManagement/OrderDetailPage/OrderDetailPage';
+import OrderListPage from './pages/admin/orderManagement/OrderListPage/OrderListPage';
 import UserOauth2SigninPage from './pages/user/UserOauth2SigninPage/UserOauth2SigninPage';
+import AdminCustomerListPage from './pages/admin/AdminCustomerManagement/AdminCustomerListPage/AdminCustomerListPage';
 
 function App() {
 
@@ -95,6 +96,15 @@ function App() {
             // accessTokenValid.data의 값이 undefind이거나 null일 경우 뒤에 값을 참조하지 않음
             enabled: accessTokenValidation.isSuccess && accessTokenValidation.data?.data,
             refetchOnWindowFocus: false,
+
+    const categoryList = useQuery(
+        ["categoryListQuery"],
+        async () => await instance.get("/product/categorys"),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => console.log(response),
+            onError: error => console.log(error)
         }
     );
 
@@ -110,8 +120,8 @@ function App() {
                 <Route path='/user' element={<UserMypage />} />
                 <Route path='/user/cart' element={<UserCartPage />} />
                 <Route path='/user/order' element={<UserOrderPage />} />
-                <Route path='/product' element={<UserProductDetailPage />} />
-                <Route path='/product/list' element={<UserProductListPage />} />
+                <Route path='/product/detail/:productId' element={<UserProductDetailPage />} />
+                <Route path='/product/list/:groupName' element={<UserProductListPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={
@@ -123,9 +133,10 @@ function App() {
                             <Route path='/product/modify/:id' element={<ProductModifyPage />} />
                             <Route path='/product/detail/:id' element={<ProductDetailPage />} />
                             <Route path='/stock' element={<StockManagementPage />} />
-                            <Route path='/order' element={<OrderManagementPage />} />
-                            <Route path='/customer' element={<AdminCustomerManagementPage />} />
-                            <Route path='/customer/:id' element={<AdminCustomerDetailPage />} />
+                            <Route path='/order' element={<OrderListPage />} />
+                            <Route path='/order/detail/:id' element={<OrderDetailPage />} />
+                            <Route path='/customer/detail/:id' element={<AdminCustomerDetailPage />} />
+                            <Route path='/customer' element={<AdminCustomerListPage />} />
                             <Route path='/statistics' element={<AdminStatisticsPage />} />
                             <Route path='/setting' element={<AdminSiteSettingPage />} />
                             <Route path='/*' element={<NotFound />} />

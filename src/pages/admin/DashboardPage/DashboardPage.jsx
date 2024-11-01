@@ -97,7 +97,7 @@ function DashboardPage() {
                             </table>
                         </body>
                         <footer>
-                            <Link to="/admin/stock"><FaArrowRight />재고현황 보러가기</Link>
+                            <Link to="/admin/stock?page=1"><FaArrowRight />재고현황 보러가기</Link>
                         </footer>
                     </div>
                 </div>

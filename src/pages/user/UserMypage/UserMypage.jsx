@@ -50,7 +50,6 @@ function UserMypage(props) {
             }
         }
     );
-
     return (
         <UserBackgoundLayout>
             <UserHeaderLayout />

@@ -15,6 +15,22 @@ function ProductEdit({ productData, setProductData, disabled }) {
         categoryId: ""
     }
 
+    // const isNumber = (value) => {
+    //     return /^[1-9][0-9]*$/.test(value) || value === "";
+    // }
+
+    const isNumber = (value) => {
+        return /^[\d]+$/g.test(value);
+    }
+
+    const toNumericValue = (value) => {
+        return value.toString().replace(/[^0-9]/g, '');
+    }
+
+    const toCommaValue = (value) => {
+        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+    }
+
     const queryClient = useQueryClient();
     const categoryList = queryClient.getQueryData("categoryListQuery");
 
@@ -24,7 +40,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
 
     const getCategoryList = useQuery(
         ["categoryListQuery"],
-        async () => await instance.get("/admin/categorys"),
+        async () => await instance.get("/product/categorys"),
         {
             retry: 0,
             refetchOnWindowFocus: false,
@@ -42,6 +58,27 @@ function ProductEdit({ productData, setProductData, disabled }) {
             onError: error => console.log(error.response)
         }
     );
+
+    // 한글로 입력할 때 문제가 발생
+    const handleProductNumberDataOnChange = (e) => {
+        const value = toNumericValue(e.target.value.toString());
+        setProductData(data => {
+            console.log("set동작");
+            return ({
+                ...data,
+                [e.target.name]: value === "" ? "0" : value.replace(/^0+/, "")
+            })
+        });
+        // if(isNumber(value)) {
+        //     setProductData(data => {
+        //         console.log("set동작");
+        //         return ({
+        //             ...data,
+        //             [e.target.name]: value === "" ? "0" : value.replace(/^0+/, "")
+        //         })
+        //     });
+        // }
+    }
 
     const handleProductDataOnChange = (e) => {
         setProductData(data => ({
@@ -88,7 +125,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td css={s.modal}>
                                 <div css={s.categorySelect}>
                                     <button type="button" onClick={handleModalChangeOnClick}>
-                                        {selectedCategoryName.petGroupId + " > " + selectedCategoryName.categoryId}
+                                        {productData?.petGroup?.categoryGroupName + " > " + productData?.category?.categoryName}
                                     </button>
                                     <IoMdArrowDropdown />
                                 </div>
@@ -102,11 +139,10 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             </td>
                             <th>단가</th>
                             <td>
-                                <input type="number" name="productPrice"
+                                <input type="text" name="productPrice"
                                     disabled={disabled}
-                                    onFocus={(e) => e.target.select()}
-                                    value={productData.productPrice}
-                                    onChange={handleProductDataOnChange}
+                                    value={toCommaValue(productData.productPrice)}
+                                    onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
                             <th>추천상품</th>
@@ -157,18 +193,17 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             </td>
                             <th>할인금액</th>
                             <td>
-                                <input type="number" name="productPriceDiscount"
+                                <input type="text" name="productPriceDiscount"
                                     disabled={disabled}
-                                    onFocus={(e) => e.target.select()}
-                                    value={productData.productPriceDiscount}
-                                    onChange={handleProductDataOnChange}
+                                    value={toCommaValue(productData.productPriceDiscount)}
+                                    onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
                             <th>판매가격</th>
                             <td>
                                 <input type="text"
                                     disabled={true}
-                                    value={productData.productPrice - productData.productPriceDiscount} />
+                                    value={toCommaValue(productData.productPrice - productData.productPriceDiscount)} />
                             </td>
                         </tr>
                         <tr>
@@ -191,20 +226,18 @@ function ProductEdit({ productData, setProductData, disabled }) {
                         <tr>
                             <th>현재재고</th>
                             <td>
-                                <input type="number" name="currentStock"
+                                <input type="text" name="currentStock"
                                     disabled={disabled}
-                                    onFocus={(e) => e.target.select()}
-                                    value={productData.currentStock}
-                                    onChange={handleProductDataOnChange}
+                                    value={toCommaValue(productData.currentStock)}
+                                    onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
                             <th>가재고</th>
                             <td>
-                                <input type="number" name="expectedStock"
+                                <input type="text" name="expectedStock"
                                     disabled={disabled}
-                                    onFocus={(e) => e.target.select()}
-                                    value={productData.expectedStock}
-                                    onChange={handleProductDataOnChange}
+                                    value={toCommaValue(productData.expectedStock)}
+                                    onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
                             <th>입고 예정 일자</th>
@@ -212,16 +245,16 @@ function ProductEdit({ productData, setProductData, disabled }) {
                                 <input type="date" name="arrivalDate"
                                     disabled={disabled}
                                     value={productData.arrivalDate}
+                                    css={s.dateInput(productData.arrivalDate === "")}
                                     onChange={handleProductDataOnChange}
                                 />
                             </td>
                             <th>입고 수량</th>
                             <td>
-                                <input type="number" name="arrivalQuantity"
+                                <input type="text" name="arrivalQuantity"
                                     disabled={disabled}
-                                    onFocus={(e) => e.target.select()}
-                                    value={productData.arrivalQuantity}
-                                    onChange={handleProductDataOnChange}
+                                    value={toCommaValue(productData.arrivalQuantity)}
+                                    onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
                         </tr>
@@ -249,11 +282,10 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             </td>
                             <th>알림 수량</th>
                             <td>
-                                <input type="number" name="minAlertQuantity"
+                                <input type="text" name="minAlertQuantity"
                                     disabled={disabled}
-                                    onFocus={(e) => e.target.select()}
-                                    value={productData.minAlertQuantity}
-                                    onChange={handleProductDataOnChange}
+                                    value={toCommaValue(productData.minAlertQuantity)}
+                                    onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
                         </tr>

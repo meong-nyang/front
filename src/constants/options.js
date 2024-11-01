@@ -63,9 +63,19 @@ export const LOCATION_DATAS = [
         name: "재고관리"
     },
     {
+        address: "/admin/order/detail",
+        menuId: 4,
+        name: "주문관리 > 상세"
+    },
+    {
         address: "/admin/order",
         menuId: 4,
         name: "주문관리 > 주문목록"
+    },
+    {
+        address: "/admin/customer/detail",
+        menuId: 5,
+        name: "고객관리 > 상세"
     },
     {
         address: "/admin/customer",
@@ -117,14 +127,22 @@ export const ORDER_SEARCH_OPTIONS = [
         id: "number",
         name: "주문번호"
     },
+    // {
+    //     id: "date",
+    //     name: "주문날짜"
+    // },
     {
-        id: "name",
-        name: "주문자명"
+        id: "productId",
+        name: "상품코드"
     },
     {
-        id: "date",
-        name: "주문날짜"
+        id: "productName",
+        name: "상품명"
     },
+    {
+        id: "status",
+        name: "상태"
+    }
 ]
 
 export const CUSTOMER_SEARCH_OPTIONS = [
