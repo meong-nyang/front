@@ -30,7 +30,7 @@ function UserSigninPage(props) {
                 });    
                 navigate("/"); 
             },
-            onError: error => console.error(error)
+            onError: error => alert("로그인 실패!! \n로그인 정보를 확인하세요")
         }
     );
 
@@ -42,7 +42,7 @@ function UserSigninPage(props) {
     };
 
     const handleSigninButtonOnClick = () => {
-        loginMutation.mutateAsync();
+        loginMutation.mutateAsync().catch(() => {});
     };
 
     const handleSignupButtonOnClick = () => {

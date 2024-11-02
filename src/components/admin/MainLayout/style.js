@@ -142,3 +142,20 @@ export const head = css`
     display: flex;
     justify-content: space-between;
 `;
+
+export const logout = css`
+    display: flex;
+    align-items: center;
+
+    & > button {
+        margin-left: 20px;
+        background-color: white;
+        width: auto;
+        height: auto;
+
+        &:hover, &:active {
+            background-color: white;
+            text-decoration: underline;
+        }
+    }
+`;

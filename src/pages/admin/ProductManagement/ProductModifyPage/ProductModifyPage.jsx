@@ -42,6 +42,8 @@ function ProductModifyPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
+                console.log("urls");
+                console.log(success.data.imgUrls);
                 setBlobs([]);
                 for (let i of success.data.imgUrls) {
                     await addImgBlobFromUrl("/images/" + i.imgName);
@@ -78,6 +80,8 @@ function ProductModifyPage(props) {
     const addImgBlobFromUrl = async (url) => {
         try {
             const response = await instance.get(url, { responseType: "blob" });
+            console.log("blob");
+            console.log(response);
             setBlobs(blob => [...blob, response.data]);
         } catch(e) {
             console.log("이미지를 불러오는 중 에러가 발생하였습니다");

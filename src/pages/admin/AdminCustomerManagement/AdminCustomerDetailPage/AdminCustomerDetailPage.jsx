@@ -14,12 +14,6 @@ function AdminCustomerDetailPage(props) {
     const [ membership, setMembership] = useState([]);
     const [ selectedMembership, setSelectedMembership ] = useState();
 
-    useEffect(() => {
-        membershipChangeMutation.mutateAsync()
-            .then(() => customerDetailData.refetch())
-            .catch(error => console.log(error.response));
-    }, [selectedMembership]);
-
     const customerDetailData = useQuery(
         ["customerDetailDataQuery"],
         async () => await instance.get("/admin/user/" + params.id),
@@ -38,6 +32,7 @@ function AdminCustomerDetailPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: success => {
+                console.log("응답 왔음");
                 setMembership(success.data.membershipList);
             },
             onError: error => console.log(error.response)
@@ -45,7 +40,7 @@ function AdminCustomerDetailPage(props) {
     );
 
     const membershipChangeMutation = useMutation(
-        async () => await instance.put(`/admin/user/${params.id}/membership`, {userId: params.id, membershipId: selectedMembership.id})
+        async (membership) => await instance.put(`/admin/user/${params.id}/membership`, {userId: params.id, membershipId: membership.id})
     );
 
     const handleBackOnClick = (e) => {
@@ -57,6 +52,10 @@ function AdminCustomerDetailPage(props) {
         e.stopPropagation();
         setOpen(false);
         setSelectedMembership(membership);
+        
+        membershipChangeMutation.mutateAsync(membership)
+            .then(() => customerDetailData.refetch())
+            .catch(error => console.log(error.response));
     };
 
     return (

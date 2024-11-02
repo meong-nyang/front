@@ -18,6 +18,10 @@ function AdminStatisticsPage(props) {
         startDate: todayDate(),
         endDate: todayDate()
     });
+    const [ searchingDate, setSearchingDate ] = useState({
+        startDate: todayDate(),
+        endDate: todayDate()
+    })
 
     const statisticsDatas = useQuery(
         ["statisticsDatasQuery"],
@@ -42,6 +46,7 @@ function AdminStatisticsPage(props) {
     }
 
     const handleRefetchOnClick = () => {
+        setSearchingDate(selectedDate);
         statisticsDatas.refetch();
     }
 
@@ -69,14 +74,14 @@ function AdminStatisticsPage(props) {
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{searchingDate.startDate + " ~ " + searchingDate.endDate}</td>
+                        <td>{statisticsDatas?.data?.data.totalAmount || 0}</td>
+                        <td>{statisticsDatas?.data?.data.orderCount || 0}</td>
+                        <td>{statisticsDatas?.data?.data.refundAmount || 0}</td>
+                        <td>{statisticsDatas?.data?.data.refundCount || 0}</td>
+                        <td>{statisticsDatas?.data?.data.minDailyAmount || 0}</td>
+                        <td>{statisticsDatas?.data?.data.avgDailyAmount || 0}</td>
+                        <td>{statisticsDatas?.data?.data.maxDailyAmount || 0}</td>
                     </tr>
                 </tbody>
             </table>
@@ -95,46 +100,18 @@ function AdminStatisticsPage(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    {
+                        statisticsDatas?.data?.data?.bestProductsCounts?.map((product, index) => 
+                            <tr key={index}>
+                                <td>{index}</td>
+                                <td>{product.productName}</td>
+                                <td>{product.productCount}</td>
+                                <td>{index}</td>
+                                <td>{statisticsDatas?.data?.data.bestProductsAmounts[index].productName}</td>
+                                <td>{statisticsDatas?.data?.data.bestProductsAmounts[index].productPrice}</td>
+                            </tr>
+                        )
+                    }
                 </tbody>
             </table>
         </div>

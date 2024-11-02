@@ -75,6 +75,7 @@ function App() {
                 console.log("에러");
                 console.log(error.response);
                 const authPaths = ["/user/mypage"];
+                const adminAuthPaths = ["/admin"];
                 for (let authPath of authPaths) {
                     if(location.pathname.startsWith(authPath)) {
                         alert("로그인이 필요한 페이지입니다. \n로그인페이지로 이동합니다.");
@@ -82,6 +83,46 @@ function App() {
                         break;
                     }
                 }
+                for (let adminAuthPath of adminAuthPaths) {
+                    if(location.pathname.startsWith(adminAuthPath) && location.pathname !== "/admin/signin") {
+                        alert("로그인이 필요한 페이지입니다. \n로그인페이지로 이동합니다.");
+                        navigate("/admin/signin");
+                    }
+                }
+            }
+        }
+    );
+
+    const userInfo = useQuery(
+        ["userInfoQuery"],
+        async () => {
+            return await instance.get("/user/me");
+        },
+        {
+            // accessTokenValid가 성공했을 때 유효한 토큰을 가지고 있기 때문에 무조건 걸어줘야함
+            // accessTokenValid.data의 값이 undefind이거나 null일 경우 뒤에 값을 참조하지 않음
+            enabled: accessTokenValidation.isSuccess && accessTokenValidation.data?.data,
+            refetchOnWindowFocus: false,
+            onSuccess: success => {
+                const roles = success.data.userRoles;
+                if(roles.includes("ROLE_ADMIN")) {
+                    const allowPaths = ["/admin"];
+                    for (let allowPath of allowPaths) {
+                        if(!location.pathname.startsWith(allowPath)) {
+                            alert("로그아웃 후 이용해주세요");
+                            navigate("/admin");
+                        }
+                    }
+                } else if (roles.includes("ROLE_USER")) {
+                    const deniedPaths = ["/admin"];
+                    for (let deniedPath of deniedPaths) {
+                        if(location.pathname.startsWith(deniedPath)) {
+                            alert("잘못된 접근입니다.");
+                            navigate("/");
+                        }
+                    }
+                }
+                // const signedPath = ["/user/mypage"];
             }
         }
     );
@@ -91,9 +132,7 @@ function App() {
         async () => await instance.get("/product/categorys"),
         {
             retry: 0,
-            refetchOnWindowFocus: false,
-            onSuccess: response => console.log(response),
-            onError: error => console.log(error)
+            refetchOnWindowFocus: false
         }
     );
 
