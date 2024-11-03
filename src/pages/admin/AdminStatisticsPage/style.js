@@ -93,3 +93,30 @@ export const graph = css`
     width: 100%;
     height: 450px;
 `;
+
+export const subTable = css`
+    border-collapse: collapse;
+    width: 100%;
+
+    & input[type="checkbox"] {
+        width: 15px !important;
+        height: 15px !important;
+        cursor: pointer;
+    }
+
+    & th, td {
+        text-align: center;
+    }
+
+    & tr *:nth-of-type(3n - 2) {
+        width: 5%;
+    }
+
+    & tr *:nth-of-type(3n - 1) {
+        width: 30%;
+    }
+
+    & tr *:nth-of-type(3n) {
+        width: 15%;
+    }
+`;
