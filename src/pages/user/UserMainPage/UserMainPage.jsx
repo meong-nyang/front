@@ -8,41 +8,43 @@ import { RiNotionFill } from "react-icons/ri";
 import { BiLogoGithub } from "react-icons/bi";
 import Slider from "react-slick";
 
+import { SlArrowLeft, SlArrowRight  } from "react-icons/sl";
+
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
-import {
-    SliderContainer,
-    BodyContainer,
-    SliderContent,
-  } from './style'
-function UserMainPage(props) {
+import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
 
-    const list = [
-        {
-          content: 1,
-          color: '#FF5757',
-        },
-        {
-          content: 2,
-          color: '#FFBC57',
-        },
-        {
-          content: 3,
-          color: '#FFEE57',
-        },
-        {
-          content: 4,
-          color: '#57FF86',
-        },
-        {
-          content: 5,
-          color: '#5786FF',
-        },
-        {
-          content: 6,
-          color: '#8013D7',
-        },
-      ]
+function UserMainPage(props) {
+  const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) =>(
+	  <span {...props}>{children}</span>
+	);
+
+  const list = [
+    {
+      content: 1,
+      color: '#FF5757',
+    },
+    {
+      content: 2,
+      color: '#FFBC57',
+    },
+    {
+      content: 3,
+      color: '#FFEE57',
+    },
+    {
+      content: 4,
+      color: '#57FF86',
+    },
+    {
+      content: 5,
+      color: '#5786FF',
+    },
+    {
+      content: 6,
+      color: '#8013D7',
+    },
+  ]
 
     var settings = {
         dots: true,
@@ -50,23 +52,39 @@ function UserMainPage(props) {
         speed: 500,
         slidesToShow: 1,
         slidesToScroll: 1,
+        arrows: true,
+        autoplay: true,
+        nextArrow: (			//오른쪽 화살표
+          <SlickButtonFix>
+            <SlArrowRight />
+          </SlickButtonFix>
+        ),
+        prevArrow: (			//왼쪽 화살표
+          <SlickButtonFix>
+            <SlArrowLeft />
+          </SlickButtonFix>
+        )
       };
 
     return (
-        <UserBackgoundLayout>
+        <UserMainLayout>
             <div css={s.layout}>
                 <header>
-                    <Slider {...settings}>
-                        <div>
-                            <h3>1</h3>
+                  <div css={s.BodyContainer}>
+                    <div css={s.sliderContainer}>
+                      <Slider {...settings}>
+                      {list.map((value, index) => (
+                        <div>	
+                          <div css={s.sliderContent}
+                            $color={value.color}
+                            key={index}>
+                            {value.content}
+                          </div>
                         </div>
-                        <div>
-                            <h3>2</h3>
-                        </div>
-                        <div>
-                            <h3>3</h3>
-                        </div>
-                    </Slider>
+                      ))}
+                      </Slider>
+                    </div>
+                  </div>
                 </header>
                 <footer css={s.footerLayout}>
                     <div>
@@ -82,7 +100,7 @@ function UserMainPage(props) {
                 </footer>
             </div>
 
-        </UserBackgoundLayout>
+        </UserMainLayout>
     );
 }
 
