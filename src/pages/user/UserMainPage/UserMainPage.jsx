@@ -6,6 +6,8 @@ import * as s from "./style";
 import logoImg from "../../../assets/images/logo.png";
 import { RiNotionFill } from "react-icons/ri";
 import { BiLogoGithub } from "react-icons/bi";
+import Slider from "react-slick";
+
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import {
@@ -54,21 +56,17 @@ function UserMainPage(props) {
         <UserBackgoundLayout>
             <div css={s.layout}>
                 <header>
-                    <BodyContainer>
-                        <SliderContainer>
-                            <Slider {...settings}>
-                            {list.map((value, index) => (
-                                <div>
-                                <SliderContent
-                                    $color={value.color}
-                                    key={index}>
-                                    {value.content}
-                                </SliderContent>
-                                </div>
-                            ))}
-                            </Slider>
-                        </SliderContainer>
-                    </BodyContainer>
+                    <Slider {...settings}>
+                        <div>
+                            <h3>1</h3>
+                        </div>
+                        <div>
+                            <h3>2</h3>
+                        </div>
+                        <div>
+                            <h3>3</h3>
+                        </div>
+                    </Slider>
                 </header>
                 <footer css={s.footerLayout}>
                     <div>
