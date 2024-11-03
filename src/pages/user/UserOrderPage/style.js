@@ -14,7 +14,7 @@ export const layout = css`
     & > p {
         font-size: 25px;
         font-weight: 600;
-        color: #777777;
+        color: #9d6c4c;
         margin-bottom: 20px;
     }
 `;
@@ -191,8 +191,15 @@ export const paymentLayout = css`
     width: 100%;
     justify-content: flex-start;
 
-    & button {
+    & > input {
+        display: none;
+    }
+
+    & > label {
         box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 306px;
         height: 40px;
         margin: 7px;
@@ -201,6 +208,12 @@ export const paymentLayout = css`
         font-weight: 600;
         color: #777777;
     }
+
+    & > input:checked + label {
+        background-color: #FFF5D6;
+        border: none;
+    }
+
 `;
 
 export const orderButton = css`

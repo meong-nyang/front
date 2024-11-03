@@ -6,8 +6,13 @@ import * as s from "./style";
 import UserCartContent from '../../../components/user/UserCartContent/UserCartContent';
 import { useMutation, useQuery } from 'react-query';
 import { instance } from '../../../apis/util/instance';
+import Swal from "sweetalert2";
+import { useNavigate } from 'react-router-dom';
+import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
 
 function UserCartPage(props) {
+    const navigate = useNavigate();
+
     const [ checkItems, setCheckItems ] = useState([]);
     const [ totalPrice, setTotalPrice ] = useState(0);
 
@@ -63,7 +68,20 @@ function UserCartPage(props) {
     };
 
     const handleSelectDeleteOnClick = () => {
-        cartItemDeleteMutation.mutateAsync(checkItems);
+        Swal.fire({
+            title: "선택한 상품을 삭제하시겠습니까?",
+            icon: "question",
+            showCancelButton: true,
+            cancelButtonColor: "#777777",
+            cancelButtonText: "취소",
+            confirmButtonColor: "#9d6c4c",
+            confirmButtonText: "삭제",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cartItemDeleteMutation.mutateAsync(checkItems);
+                navigate("/user/cart");
+            }
+        });
     }
 
     const priceFormet = (price) => {
@@ -74,7 +92,7 @@ function UserCartPage(props) {
     };
 
     return (
-        <UserBackgoundLayout>
+        <UserMainLayout>
             <div css={s.layout}>
                 <p>장바구니</p>
                 <div css={s.selectLayout}>
@@ -85,7 +103,7 @@ function UserCartPage(props) {
                         <label htmlFor="allSelect" >✔</label>
                         <label htmlFor="allSelect" >전체선택</label>
                     </div>
-                    <button onClick={handleSelectDeleteOnClick}>선택삭제</button>
+                    <button onClick={handleSelectDeleteOnClick} disabled={checkItems.isNaN} >선택삭제</button>
                 </div>
                 <div css={s.titleLayout}>
                     <p>선택</p>
@@ -95,11 +113,14 @@ function UserCartPage(props) {
                     <p></p>
                 </div>
                 {
-                    cartItemList?.data?.data.map(cartItem => 
-                        <UserCartContent cartItem={cartItem} checkItems={checkItems} setCheckItems={setCheckItems} cartItemDeleteMutation={cartItemDeleteMutation}/>
-                    )
+                    cartItemList?.data?.data.length === 0 
+                    ?
+                        <p>장바구니가 비어있습니다.</p>
+                    :
+                        cartItemList?.data?.data.map(cartItem => 
+                            <UserCartContent cartItem={cartItem} checkItems={checkItems} setCheckItems={setCheckItems} cartItemDeleteMutation={cartItemDeleteMutation}/>
+                        )
                 }
-
                 <div css={s.paymentLayout}>
                     <p>결제정보</p>
                     <div css={s.priceLayout}>
@@ -126,7 +147,7 @@ function UserCartPage(props) {
                 </div>
 
             </div>
-        </UserBackgoundLayout>
+        </UserMainLayout>
     );
 }
 

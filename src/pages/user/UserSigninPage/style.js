@@ -66,7 +66,7 @@ export const signinBox = css`
         padding-top: 30px;
         font-size: 30px;
         font-weight: 600;
-        color: #777777;
+        color: #9d6c4c;
         font-family: "HakgyoansimDunggeunmisoTTF-B";
         @font-face {
             font-family: 'HakgyoansimDunggeunmisoTTF-B';
@@ -162,7 +162,7 @@ export const linkBox = css`
             justify-content: center;
             align-items: center;
             margin: 0;
-            color: #FFB69C;
+            color: #9d6c4c;
 
             &:nth-of-type(1) {
                 width: 50px;

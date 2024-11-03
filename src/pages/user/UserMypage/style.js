@@ -9,11 +9,12 @@ export const layout = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 80px;
     padding: 20px;
     & > p {
         font-size: 25px;
         font-weight: 600;
-        color: #777777;
+        color: #9d6c4c;
         margin-bottom: 20px;
     }
 `;

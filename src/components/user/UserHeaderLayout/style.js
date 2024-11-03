@@ -53,6 +53,7 @@ export const layout = css`
         & > a, button {
             margin-right: 20px;
             color: #777777;
+            font-size: 14px;
             text-decoration: none;
             &:nth-last-of-type(1) {
                 margin: 0;
@@ -62,7 +63,6 @@ export const layout = css`
         & > button {
             margin-right: 20px !important;
             border: none;
-            font-size: 16px;
             background-color: transparent;
         }
 

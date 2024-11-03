@@ -80,7 +80,6 @@ function UserSignupPage(props) {
     
     return (
         <UserBackgoundLayout>
-           
             <div css={s.layout}>
                 <div css={s.signupTitle}>
                     <p>회원가입</p>

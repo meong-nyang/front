@@ -24,8 +24,8 @@ export const listSelectLayout = css`
     margin-bottom: 15px;
     padding: 10px;
     border-radius: 5px;
-    background-color: #ffb69c25;
-    color: #FFB69C;
+    background-color: #9d6c4c25;
+    color: #9d6c4c;
     font-weight: 600;
     cursor: pointer;
     & > svg {

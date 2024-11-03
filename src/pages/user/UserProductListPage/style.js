@@ -16,7 +16,7 @@ export const hearderLayout = css`
     width: 100%;
     justify-content: space-between;
     align-items: center;
-    padding: 40px 20px 20px;
+    padding: 20px 20px 0px;
     & > p {
         font-size: 14px;
         color: #777777;

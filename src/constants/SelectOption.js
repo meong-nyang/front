@@ -20,7 +20,6 @@ export const PET_AGE_LIST = [
 export const MYPAGE_OPTION_LIST = [
     { icon: <FaUser /> , title: "회원정보"},
     { icon: <PiNoteFill /> , title: "주문/배송 내역 조회"},
-    { icon: <CiShoppingCart /> , title: "장바구니"},
 ];
 
 export const DELIVERY_STATUS_LIST = [

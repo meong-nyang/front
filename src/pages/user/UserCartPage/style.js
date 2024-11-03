@@ -14,7 +14,7 @@ export const layout = css`
     & > p {
         font-size: 25px;
         font-weight: 600;
-        color: #777777;
+        color: #9d6c4c;
         margin-bottom: 20px;
     }
 `;
@@ -83,7 +83,7 @@ export const checkboxStyle = css`
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        background-color: #FFB69C;
+        background-color: #9d6c4c;
         content:"✔";
         color: #ffffff;
         font-size: 12px;
