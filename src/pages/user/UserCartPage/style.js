@@ -9,11 +9,12 @@ export const layout = css`
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    margin-top: 80px;
     padding: 20px;
     & > p {
         font-size: 25px;
         font-weight: 600;
-        color: #777777;
+        color: #9d6c4c;
         margin-bottom: 20px;
     }
 `;
@@ -40,6 +41,60 @@ export const selectLayout = css`
         border-radius: 5px;
         padding: 7px 10px;
 
+    }
+`;
+
+export const checkboxStyle = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 14px;
+    color: #777777;
+    & svg {
+        position: absolute;
+        font-size: 14px;
+        color: #e0e0e0;
+    }
+    & > input {
+        display: none;
+    }
+
+    & > input + label {
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 50%;
+        color: #e0e0e0;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    & > input:checked + label::after {
+        box-sizing: border-box;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: #9d6c4c;
+        content:"✔";
+        color: #ffffff;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        left: -10;
+        top:-1;
+        & > svg {
+            color: #ffffff;
+            z-index: 100;
+        }
     }
 `;
 

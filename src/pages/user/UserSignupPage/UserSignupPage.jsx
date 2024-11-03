@@ -24,7 +24,6 @@ function UserSignupPage(props) {
         zipcode: "",
         addressDefault: "",
         addressDetail: "",
-        request: "",
         petName: "",
         petAge: "",
         petType: "",
@@ -35,6 +34,7 @@ function UserSignupPage(props) {
         password:<></>,
         checkPassword:<></>,
         name:<></>,
+        phone:<></>,
         address:<></>,
     });
 
@@ -44,15 +44,14 @@ function UserSignupPage(props) {
             password:<></>,
             checkPassword:<></>,
             name:<></>,
+            phone:<></>,
             address:<></>,
         };
-
-        // const errors = Array.isArray(fieldErrors) ? fieldErrors : [];
 
         for (let fieldError of fieldErrors) {
             emptyFieldErrors = {
                 ...emptyFieldErrors,
-                [fieldError.field]: <p>{fieldError.defaultMessage}</p>
+                [fieldError.field]: <>{fieldError.defaultMessage}</>
             }
         }
         setFieldErrorMessages(emptyFieldErrors);
@@ -68,22 +67,18 @@ function UserSignupPage(props) {
             onError: error => {
                 console.log(error.response.data);
                 showFieldErrorMessage(error.response.data);
-                alert("입력한 정보를 다시 확인해 주세요." + error.resposen?.data.message || error.message);
                 setOrder(order => order -2);
             }
         }
     );
 
-    const handleUserSignupSubmitClick = () => { 
+    const handleUserSignupSubmitClick = () => {
         userSignup.mutateAsync().catch(() => {});
+        console.log(userSignupFormData)
     };
     
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
-            {
-                console.log(fieldErrorMessages)
-            }
             <div css={s.layout}>
                 <div css={s.signupTitle}>
                     <p>회원가입</p>

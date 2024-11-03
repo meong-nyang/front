@@ -9,11 +9,12 @@ export const layout = css`
     justify-content: center;
     align-items: center;
     margin: 0 auto;
+    margin-top: 80px;
     padding: 20px;
     & > p {
         font-size: 25px;
         font-weight: 600;
-        color: #777777;
+        color: #9d6c4c;
         margin-bottom: 20px;
     }
 `;
@@ -186,22 +187,33 @@ export const paymentMethod = css`
 export const paymentLayout = css`
     box-sizing: border-box;
     display: flex;
-    flex-direction: column;
+    flex-wrap: wrap;
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
 
-    & button {
+    & > input {
+        display: none;
+    }
+
+    & > label {
         box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 306px;
         height: 40px;
+        margin: 7px;
         border: 1px solid #e0e0e0;
         background-color: #ffffff;
         font-weight: 600;
         color: #777777;
-        &:nth-of-type(2) {
-            margin: 10px 20px;
-        }
     }
+
+    & > input:checked + label {
+        background-color: #FFF5D6;
+        border: none;
+    }
+
 `;
 
 export const orderButton = css`

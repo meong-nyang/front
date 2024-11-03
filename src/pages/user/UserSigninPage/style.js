@@ -6,6 +6,8 @@ export const layout = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    margin-top: 80px;
+    padding: 20px;
     width: 100%;
     flex-grow: 1;
 `;
@@ -64,7 +66,7 @@ export const signinBox = css`
         padding-top: 30px;
         font-size: 30px;
         font-weight: 600;
-        color: #777777;
+        color: #9d6c4c;
         font-family: "HakgyoansimDunggeunmisoTTF-B";
         @font-face {
             font-family: 'HakgyoansimDunggeunmisoTTF-B';
@@ -90,13 +92,8 @@ export const inputBox = css`
     box-sizing: border-box;
     width: 100%;
     color: #777777;
-    & > p {
-        margin: 10px 0px 7px;
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    & > div {
+    
+    & > div:nth-last-of-type(1) {
         display: flex;
         justify-content: flex-end;
         width: 100%;
@@ -129,6 +126,26 @@ export const inputBox = css`
         background-color: #FFF5D6;
     }
 `;
+
+export const userInfoTag = css`
+    display: flex;
+    box-sizing: border-box;
+    color: #777777;
+
+    & > p:nth-of-type(1) {
+        margin: 10px 0px 7px ;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    & > p:nth-last-of-type(1) {
+        margin-top: 10px;
+        margin-left: 12px;
+        font-size: 14px;
+        color: red;
+    }
+`;
+
 export const snsBox = css`
     display: flex;
     flex-direction: column;
@@ -160,7 +177,7 @@ export const linkBox = css`
             justify-content: center;
             align-items: center;
             margin: 0;
-            color: #FFB69C;
+            color: #9d6c4c;
 
             &:nth-of-type(1) {
                 width: 50px;

@@ -4,7 +4,8 @@ export const layout = css`
     box-sizing: border-box;
     display: flex;
     width: 1000px;
-    margin: 50px auto;
+    margin: 80px auto;
+    padding: 20px;
     & > div {
         flex-grow: 1;
     }
@@ -74,20 +75,30 @@ export const countLayout = css`
     border-bottom: 1px solid #e0e0e0;
     border-top: 1px solid #e0e0e0;
     & > p {
+        display: flex;
+        width: 139px;
         color: #777777;
         font-size: 14px;
         font-weight: 600;
+        &:nth-of-type(1) {
+            justify-content: flex-start;
+        }
+        &:nth-last-of-type(1) {
+            justify-content: flex-end;
+        }
     }
     & > div {
         box-sizing: border-box;
         display: flex;
-        margin: 0 auto;
+        justify-content: center;
+        width: 139px;
         & > input {
             box-sizing: border-box;
             display: flex;
-            width: 25px;
-            justify-content: center;
+            width: 50px;
+            justify-content: center !important;
             align-items: center;
+            padding: 0px 10px;
             border: none;
             outline: none;
             font-size: 18px;
@@ -96,7 +107,7 @@ export const countLayout = css`
         }
         & > svg {
             font-size: 20px;
-            color: #FFB69C;
+            color: #9d6c4c;
         }
     }
 `;
@@ -105,7 +116,7 @@ export const totalLayout = css`
     box-sizing: border-box;
     display: flex;
     width: 100%;
-    justify-content: flex-end;
+    justify-content: space-between;
     padding: 20px 0px;
     & > p {
         margin-left: 10px;
@@ -127,14 +138,13 @@ export const buyLayout = css`
         height: 40px;
         border: none;
         border-radius: 5px;
-        font-weight: 600;
         &:nth-of-type(1) {
             background-color: #D9D9D9;
             color: #777777 ;
             margin-right: 20px;
         }
         &:nth-last-of-type(1) {
-            background-color: #FFB69C;
+            background-color: #9d6c4c;
             color: #ffffff;
         }
     }

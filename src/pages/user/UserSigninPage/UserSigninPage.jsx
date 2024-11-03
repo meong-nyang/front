@@ -13,14 +13,18 @@ import { instance } from '../../../apis/util/instance';
 
 function UserSigninPage(props) {
     const navigate = useNavigate();
-
-    const [ loginData, setLoginData ] = useState({
+    const [ fieldErrorMessages, setFieldErrorMessages ] = useState({
+        username: <></>,
+        password: <></>
+    });
+    const [ signinData, setSigninData ] = useState({
         username: "",
         password: ""
     });
 
+
     const loginMutation = useMutation(
-        async () => await instance.post("/auth/signin", loginData),
+        async () => await instance.post("/auth/signin", signinData),
         {
             onSuccess: response => {
                 localStorage.setItem("accessToken", "Bearer " + response.data.accessToken);
@@ -30,12 +34,16 @@ function UserSigninPage(props) {
                 });    
                 navigate("/"); 
             },
-            onError: error => alert("로그인 실패!! \n로그인 정보를 확인하세요")
+            onError: error => {
+                console.log(error.response.data);
+                showFieldErrorMessage(error.response.data);
+                alert("아이디와 비밀번호를 정확히 입력해 주세요");
+            }
         }
     );
 
     const handleInputOnChaange = (e) => {
-        setLoginData(data => ({
+        setSigninData(data => ({
             ...data,
             [e.target.name]: e.target.value
         }))
@@ -49,9 +57,23 @@ function UserSigninPage(props) {
         navigate("/user/signup");
     };
 
+    const showFieldErrorMessage = (fieldErrors) => {
+        let emptyFieldErrors = {
+            username: <></>,
+            password: <></>,
+        };
+
+        for (let fieldError of fieldErrors) {
+            emptyFieldErrors = {
+                ...emptyFieldErrors,
+                [fieldError.field]: <>{fieldError.defaultMessage}</>
+            }
+        }
+        setFieldErrorMessages(emptyFieldErrors);
+    };
+
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
             <div css={s.layout}>
                 <div css={s.signinContainer}>
                     <div>
@@ -64,15 +86,21 @@ function UserSigninPage(props) {
                     </div>
                     <div css={s.back}>
                         <div css={s.signinBox}>
-                        <p>로그인</p>
+                            <p>로그인</p>
                             <div css={s.inputBox}>
-                                <p>아이디</p>
+                                <div css={s.userInfoTag}>
+                                    <p>아이디</p > 
+                                    <p>{fieldErrorMessages.username}</p> 
+                                </div>
                                 <input name='username' type="text" placeholder='아이디를 입력하세요' 
-                                    value={loginData.username}
+                                    value={signinData.username}
                                     onChange={handleInputOnChaange}/>
-                                <p>비밀번호</p>
+                                <div css={s.userInfoTag}>
+                                    <p>비밀번호</p > 
+                                    <p>{fieldErrorMessages.password}</p> 
+                                </div>
                                 <input name='password' type="password" placeholder='비밀번호를 입력하세요' 
-                                    value={loginData.password}
+                                    value={signinData.password}
                                     onChange={handleInputOnChaange}/>
                                 <div>
                                     <p>비밀번호를 잊었나요?</p>

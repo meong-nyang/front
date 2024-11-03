@@ -36,7 +36,8 @@ export const productLayout = css`
     & > div {
         display: flex;
         flex-direction: column;
-        & > p:nth-of-type(2) {
+        justify-content: center;
+        & > p:nth-of-type(1) {
             color: #777777;
             font-size: 14px;
         }

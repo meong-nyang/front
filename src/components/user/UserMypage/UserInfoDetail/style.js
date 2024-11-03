@@ -33,6 +33,25 @@ export const inputBox = css`
     }
 `;
 
+export const userInfoTag = css`
+    display: flex;
+    box-sizing: border-box;
+    color: #777777;
+
+    & > p:nth-of-type(1) {
+        margin: 10px 0px 7px ;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    & > p:nth-last-of-type(1) {
+        margin-top: 10px;
+        margin-left: 12px;
+        font-size: 14px;
+        color: red;
+    }
+`;
+
 export const addressBox = css`
     & > input {
         margin-bottom: 10px; 

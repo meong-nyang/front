@@ -1,15 +1,17 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserInfoLayout from '../UserInfoLayout/UserInfoLayout';
 import DaumPostcode from 'react-daum-postcode';
+import { useMutation } from 'react-query';
+import { instance } from '../../../../apis/util/instance';
 
-function UserInfoDetail(props) {
-    const [ editMode, setEditMode ] = useState(true);
-    const [ addressSearchOpen, setAddressSearchOpen ] = useState(false);
-
-    const [ userInfoData, setUserInfoData ] = useState({
-        username: "",
+function UserInfoDetail({ userInfo, setUserInfo }) {
+    const [ editMode, setEditMode ] = useState(false);
+    const [ addressDefault, setAddressDefault ] = useState("");
+    const [ zipcode, setZipcode ] = useState("");
+    const [ editUserInfoData, setEditUserInfoData ] = useState({
+        id: 0,
         name: "",
         phone: "",
         zipcode: "",
@@ -17,84 +19,176 @@ function UserInfoDetail(props) {
         addressDetail: "",
     });
 
+    const [ fieldErrorMessages, setFieldErrorMessages ] = useState({
+        name: <></>,
+        phone: <></>,
+    });
+
+    useEffect(() => {
+        // 다음 주소 검색 API 스크립트를 동적으로 로드
+        const script = document.createElement('script');
+        script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+        script.async = true;
+        document.body.appendChild(script);
+        
+        return () => {
+            // 컴포넌트가 언마운트될 때 스크립트 제거
+            document.body.removeChild(script);
+        };
+    }, []);
+
+    const handleAddressSearchComplet = () => {
+        new window.daum.Postcode({
+            oncomplete: function (data) {
+                // 주소 검색 결과를 처리하는 로직
+                let fullAddress = data.address;
+                
+                setZipcode(data.zonecode);
+                setAddressDefault(fullAddress);
+                setUserInfo((prevData) => ({
+                    ...prevData,
+                    zipcode: data.zonecode,
+                    addressDefault: fullAddress,
+                }));
+            },
+        }).open();
+    };
+
+    const addHyphenToPhoneNumber = (phoneNumber) => {
+        const numbers = phoneNumber.replace(/[^0-9]/g, "").slice(0,11)
+            .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
+        return numbers;
+    };
+
     const handleInputOnChange = (e) => {
-        setUserInfoData(userInfo => ({
+        const formattedValue = e.target.name === "phone"
+            ? addHyphenToPhoneNumber(e.target.value)
+            : e.target.value
+
+        setUserInfo(userInfo => ({
             ...userInfo,
-            [e.target.name]: e.target.value
+            [e.target.name]: formattedValue
         }));
     };
 
-    const handleAddressSearchOpen = () => {
-        setAddressSearchOpen(isOpen=> !isOpen);
-    };
-
-    const handleAddressSearchComplet = (data) => {
-        const { address, zonecode } = data;
-        setUserInfoData(userInfo => ({
-            ...userInfo,
-            zipcode: zonecode,
-            addressDefault: address
-        }));
-        setAddressSearchOpen(false);
-    };
-
-    const handleAddressSearchClose = (state) => {
-        if (state === 'FORCE_CLOSE') {
-            setAddressSearchOpen(false);
-        } else if (state === 'COMPLETE_CLOSE') {
-            setAddressSearchOpen(false);
+    const editUserInfoMutation = useMutation(
+        async () => await instance.put(`/user/${userInfo.id}`, userInfo),
+        {
+            onSuccess: () => {
+                setEditUserInfoData({
+                    ...userInfo,
+                    userInfo: editUserInfoData
+                });
+                alert("수정 되었습니다");
+                console.log("수정 후 userInfo", userInfo)
+            },
+            onError: error => {
+                console.log(error);
+                showFieldErrorMessages(error.resposne.data);
+            }
         }
+    );
+
+    const handleConfirmButtonClick = () => {
+        editUserInfoMutation.mutateAsync();
+        setEditMode(mode => false);
     };
+
+    const showFieldErrorMessages = (fieldErrors) => {
+        let emptyFieldErrors = {
+            name: <></>,
+            phone: <></>,
+        };
+
+        for (let fieldError of fieldErrors) {
+            emptyFieldErrors = {
+                ...emptyFieldErrors,
+                [fieldError.field]: <>{fieldError.defaultMessage}</>
+            }
+        }
+        setFieldErrorMessages(emptyFieldErrors);
+    }
 
     return (
-       <UserInfoLayout title="회원정보" editMode={editMode} setEditMode={setEditMode}>
+        <UserInfoLayout 
+            title="회원정보" 
+            editMode={editMode} 
+            setEditMode={setEditMode} 
+            userInfo={userInfo} 
+            setUserInfo={setUserInfo}
+            handleConfirmButtonClick={handleConfirmButtonClick}
+            >
             <div css={s.inputBox}>
                 <p>아이디</p>
-                <input name='username' type="text" 
-                    value={userInfoData.username} 
-                    disabled='true'/>
+                <input 
+                    name="username" 
+                    type="text" 
+                    value={userInfo.username} 
+                    disabled="true"
+                />
             </div>
             <div css={s.inputBox}>
-                <p>이름</p>
-                <input name='name' type="text" 
-                    value={userInfoData.name} 
-                    disabled={editMode}
-                    onChange={handleInputOnChange} />
+                <div css={s.userInfoTag}>
+                    <p>이름</p>
+                    <p>{fieldErrorMessages.name}</p>
+                </div>
+                <input 
+                    name="name" 
+                    type="text" 
+                    value={userInfo.name} 
+                    disabled={!editMode}
+                    onChange={handleInputOnChange} 
+                />
             </div>
             <div css={s.inputBox}>
-                <p>전화번호</p>
-                <input name='phone' type="text" 
-                    value={userInfoData.phone} 
-                        disabled={editMode}
-                        onChange={handleInputOnChange} />
+                <div css={s.userInfoTag}>
+                    <p>전화번호</p>
+                    <p>{fieldErrorMessages.phone}</p>
+                </div>
+                <input 
+                    name="phone" 
+                    type="text" 
+                    value={userInfo.phone} 
+                    disabled={!editMode}
+                    onChange={handleInputOnChange} 
+                />
             </div>
             <div css={[s.addressBox, s.inputBox]}>
                 <p>주소</p>
                 {
                     editMode
                     ?
-                        <input name='zipcode' type="text" value={userInfoData.zipcode} disabled='true' />
-                    :
                         <div css={s.searchAddressBox}>
-                            <input name='zipcode' type="text" value={userInfoData.zipcode} disabled='true'/>
-                            <button onClick={handleAddressSearchOpen}>주소검색</button>
-                            {
-                                addressSearchOpen &&
-                                <div css={s.addressApiLayout}>
-                                    <DaumPostcode 
-                                        onComplete={handleAddressSearchComplet}
-                                        onClose={handleAddressSearchClose} />
-                                </div>
-                            }
+                            <input 
+                                name="zipcode" 
+                                type="text" 
+                                value={userInfo.zipcode} 
+                                disabled="true"
+                            />
+                            <button onClick={handleAddressSearchComplet}>주소검색</button>
                         </div>
+                        
+                    :
+                        <input 
+                            name="zipcode" 
+                            type="text" 
+                            value={userInfo.zipcode} 
+                            disabled="true" 
+                    />
                 }
-                <input name='addressDefault' type="text" 
-                    value={userInfoData.addressDefault} 
-                    disabled='true'/>
-                <input name='addressDetail' type="text" 
-                    value={userInfoData.addressDetail} 
-                    disabled={editMode}
-                    onChange={handleInputOnChange} />
+                <input 
+                    name="addressDefault"
+                    type="text" 
+                    value={userInfo.addressDefault} 
+                    disabled="true"
+                />
+                <input 
+                    name="addressDetail" 
+                    type="text" 
+                    value={userInfo.addressDetail} 
+                    disabled={!editMode}
+                    onChange={handleInputOnChange} 
+                />
             </div>
         </UserInfoLayout>
     );

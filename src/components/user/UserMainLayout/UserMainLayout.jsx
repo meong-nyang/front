@@ -3,7 +3,7 @@ import React from 'react';
 import * as s from "./style";
 import UserHeaderLayout from '../UserHeaderLayout/UserHeaderLayout';
 
-function UserBackgoundLayout({children}) {
+function UserMainLayout({children}) {
     return (
         <div css={s.layout}>
             <UserHeaderLayout />
@@ -12,4 +12,4 @@ function UserBackgoundLayout({children}) {
     );
 }
 
-export default UserBackgoundLayout;
+export default UserMainLayout;
