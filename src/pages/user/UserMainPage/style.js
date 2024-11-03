@@ -4,10 +4,12 @@ export const layout = css`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
     width: 100%;
     height: 100%;
     margin-top: 80px;
-    padding: 20px 0px;
+    padding-top: 20px;
+    
 `;
 
 export const footerLayout = css`
@@ -16,7 +18,7 @@ export const footerLayout = css`
     justify-content: center;
     align-items: center;
     width: 100%;
-    height: 500px;
+    height: 300px;
     background-color: #FFF5D6;
     & > div {
         box-sizing: border-box;
@@ -25,8 +27,8 @@ export const footerLayout = css`
         width: 950px;
     }
     &  img {
-        width: 350px;
-        height: 350px;
+        width: 200px;
+        height: 200px;
     }
 `;
 
@@ -54,4 +56,37 @@ export const infoLayout = css`
             text-decoration: none;
         }
     }
+`;
+
+export const sliderContainer = css`
+    margin-bottom: 50px;
+    .slick-prev:before,
+    .slick-next:before {
+        display: none;	
+    }
+    .slick-list{ 
+        width: 4000px;
+    }   
+    border: 1px solid #dbdbdb;
+    border-top-left-radius: 130px;
+    border-top-right-radius: 130px;
+`;
+
+export const sliderContent = css`
+    height: 500px;
+    color: white;
+    font-size: 100px;
+    line-height : 500px;
+    text-align : center;
+    width: 1000px;
+    margin: auto;
+`;
+
+export const BodyContainer = css`
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
 `;
