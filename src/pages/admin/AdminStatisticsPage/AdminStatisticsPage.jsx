@@ -1,37 +1,121 @@
 /** @jsxImportSource @emotion/react */
 import { useEffect, useState } from "react";
 import * as s from "./style";
+import { useQuery } from "react-query";
+import { instance } from "../../../apis/util/instance";
+import Graph from "../../../components/admin/Graph/Graph";
 
 function AdminStatisticsPage(props) {
 
+    const emptySummaryData = {
+        totalAmount: 0,
+        totalCount: 0,
+        refundAmount: 0,
+        refundCount: 0,
+        dailyMinAmount: 0,
+        dailyAvgAmount: 0,
+        dailyMaxAmount: 0
+    };
+    
     const todayDate = () => {
-        const now = new Date();
-        const year = now.getFullYear();
-        const month = now.getMonth() + 1 < 10 ? "0" + now.getMonth() + 1 : now.getMonth() + 1;
-        const day = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-        return year + "-" + month + "-" + day;
-    }
+        return new Date().toISOString().replace("T", " ").substring(0, 10);
+    };
+    
+    const before7DayDate = () => {
+        const now = new Date().getTime();
+        const day7 = 1000 * 60 * 60 * 24 * 7;
+        return new Date(now - day7).toISOString().replace("T", " ").substring(0, 10);
+    };
 
-    const [ selectedDate, setSelectedDate ] = useState({
-        start: todayDate(),
-        end: todayDate(),
+    const [ summaryData, setSummaryData ] = useState(emptySummaryData);
+    const [ graphData, setGraphData ] = useState({
+        date: [],
+        amount: [],
+        refundAmount: []
     });
 
+    const [ selectedDate, setSelectedDate ] = useState({
+        startDate: before7DayDate(),
+        endDate: todayDate()
+    });
+
+    const [ searchingDate, setSearchingDate ] = useState({
+        startDate: before7DayDate(),
+        endDate: todayDate()
+    });
+
+    const statisticsDatas = useQuery(
+        ["statisticsDatasQuery"],
+        async () => await instance.get("/admin/statistics", { params: 
+            {
+                startDate: selectedDate.startDate,
+                endDate: selectedDate.endDate
+            }}),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: success => {
+                console.log(success.data.summaryStatistics);
+                let tempSummaryData = {...emptySummaryData, dailyMinAmount: success.data.summaryStatistics[0].totalPrice};
+                let tempDate = [];
+                let tempAmount = [];
+                let tempRefundAmount = [];
+                let cnt = 0;
+                for (let data of success.data.summaryStatistics) {
+                    if(data.orderStatus === "결제완료") {
+                        tempSummaryData.totalAmount += data.totalPrice;
+                        tempSummaryData.totalCount += data.totalCount;
+                        tempSummaryData.dailyMinAmount = tempSummaryData.dailyMinAmount < data.totalPrice ? tempSummaryData.dailyMinAmount : data.totalPrice;
+                        tempSummaryData.dailyMaxAmount = tempSummaryData.dailyMaxAmount > data.totalPrice ? tempSummaryData.dailyMaxAmount : data.totalPrice;
+                        cnt++;
+
+                        tempDate.push(data.orderDate);
+                        tempAmount.push(data.totalPrice);
+                    } else if (data.orderStatus === "환불완료") {
+                        tempSummaryData.refundAmount += data.totalPrice;
+                        tempSummaryData.refundCount += data.totalCount;
+
+                        tempRefundAmount.push(data.totalPrice);
+                    }
+                    tempSummaryData.dailyAvgAmount = parseInt(tempSummaryData.totalAmount / cnt);
+                }
+                setSummaryData(tempSummaryData);
+                setGraphData({
+                    date: tempDate,
+                    amount: tempAmount,
+                    refundAmount: tempRefundAmount
+                });
+            },
+            onError: error => console.log(error)
+        }
+    );
+
     const handleDateInputOnChange = (e) => {
-        console.log(selectedDate);
+        if (e.target.name === "startDate" && e.target.value > selectedDate.endDate
+            || e.target.name === "endDate" && e.target.value < selectedDate.startDate
+        ) {
+            alert("올바른 범위를 입력해주세요");
+            return ;
+        }
         setSelectedDate(date => ({
             ...date,
             [e.target.name]: e.target.value
-        }))
+        }));
+    }
+
+    const handleRefetchOnClick = () => {
+        setSearchingDate(selectedDate);
+        statisticsDatas.refetch();
     }
 
     return (
         <div css={s.layout}>
             <div css={s.selectTime}>
-                <span>조회일자</span>
-                <input type="date" name="start" value={selectedDate.start} onChange={handleDateInputOnChange}/>
+                <span>조회일자 :</span>
+                <input type="date" name="startDate" value={selectedDate.startDate} onChange={handleDateInputOnChange}/>
                 <span>~</span>
-                <input type="date" name="end" value={selectedDate.end} onChange={handleDateInputOnChange}/>
+                <input type="date" name="endDate" value={selectedDate.endDate} onChange={handleDateInputOnChange}/>
+                <button onClick={handleRefetchOnClick}>조회</button>
             </div>
             <table css={s.mainTable}>
                 <thead>
@@ -41,28 +125,28 @@ function AdminStatisticsPage(props) {
                         <th>결제건수</th>
                         <th>환불액</th>
                         <th>취소건 수</th>
-                        <th>평균 매출</th>
-                        <th>최소 매출</th>
-                        <th>최대 매출</th>
+                        <th>하루 최소 매출</th>
+                        <th>하루 평균 매출</th>
+                        <th>하루 최대 매출</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
+                        <td>{searchingDate.startDate + " ~ " + searchingDate.endDate}</td>
+                        <td>{summaryData.totalAmount}</td>
+                        <td>{summaryData.totalCount}</td>
+                        <td>{summaryData.refundAmount}</td>
+                        <td>{summaryData.refundCount}</td>
+                        <td>{summaryData.dailyMinAmount}</td>
+                        <td>{summaryData.dailyAvgAmount}</td>
+                        <td>{summaryData.dailyMaxAmount}</td>
                     </tr>
                 </tbody>
             </table>
             <div css={s.graph}>
-                그래프자리
+                <Graph graphData={graphData} />
             </div>
-            <table>
+            <table css={s.subTable}>
                 <thead>
                     <tr>
                         <th>No</th>
@@ -74,46 +158,18 @@ function AdminStatisticsPage(props) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                    </tr>
+                    {
+                        statisticsDatas?.data?.data?.bestProductsCounts?.map((product, index) => 
+                            <tr key={index}>
+                                <td>{index + 1}</td>
+                                <td>{product.productName}</td>
+                                <td>{product.productCount}</td>
+                                <td>{index + 1}</td>
+                                <td>{statisticsDatas?.data?.data.bestProductsAmounts[index].productName}</td>
+                                <td>{statisticsDatas?.data?.data.bestProductsAmounts[index].productPrice}</td>
+                            </tr>
+                        )
+                    }
                 </tbody>
             </table>
         </div>

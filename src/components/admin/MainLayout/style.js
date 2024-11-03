@@ -110,7 +110,7 @@ export const mainContainer = css`
         }
 
         &:active {
-            background-color: #c4c4c4;
+            background-color: #878787;
         }
     }
 
@@ -141,4 +141,21 @@ export const mainContainer = css`
 export const head = css`
     display: flex;
     justify-content: space-between;
+`;
+
+export const logout = css`
+    display: flex;
+    align-items: center;
+
+    & > button {
+        margin-left: 20px;
+        background-color: white;
+        width: auto;
+        height: auto;
+
+        &:hover, &:active {
+            background-color: white;
+            text-decoration: underline;
+        }
+    }
 `;
