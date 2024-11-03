@@ -1,8 +1,9 @@
 import { css } from "@emotion/react";
-import { IoCheckmarkSharp } from "react-icons/io5";
+
 export const contentLayout = css`
     box-sizing: border-box;
     display: flex;
+    align-items: center;
     padding: 20px 0px;
     border-bottom: 1px solid #e0e0e0;
     & > div {
@@ -53,6 +54,7 @@ export const checkboxStyle = css`
         border-radius: 50%;
         color: #e0e0e0;
         font-size: 12px;
+        cursor: pointer;
     }
 
     & > input:checked + label::after {
@@ -63,7 +65,7 @@ export const checkboxStyle = css`
         align-items: center;
         border-radius: 50%;
         background-color: #FFB69C;
-        content:"";
+        content:"✔";
         color: #ffffff;
         font-size: 12px;
         width: 18px;
@@ -100,5 +102,29 @@ export const productLayout = css`
                 font-size: 14px;
             }
         }
+    }
+`;
+
+export const countLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 150px;
+    & > input {
+        box-sizing: border-box;
+        display: flex;
+        width: 25px;
+        justify-content: center;
+        align-items: center;
+        border: none;
+        outline: none;
+        font-size: 18px;
+        font-weight: 600;
+        color: #777777;
+    }
+    & > svg {
+        font-size: 20px;
+        color: #FFB69C;
     }
 `;

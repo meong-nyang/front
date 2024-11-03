@@ -4,8 +4,7 @@ export const layout = css`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
-    width: 1000px;
-    height: 600px;
+    margin: 0 auto;
     background-color: #ffffff;
 
     & > p:nth-of-type(1) {

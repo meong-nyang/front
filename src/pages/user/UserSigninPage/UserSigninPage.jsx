@@ -74,7 +74,6 @@ function UserSigninPage(props) {
 
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
             <div css={s.layout}>
                 <div css={s.signinContainer}>
                     <div>
@@ -87,7 +86,7 @@ function UserSigninPage(props) {
                     </div>
                     <div css={s.back}>
                         <div css={s.signinBox}>
-                        <p>로그인</p>
+                            <p>로그인</p>
                             <div css={s.inputBox}>
                                 <div css={s.userInfoTag}>
                                     <p>아이디</p > 

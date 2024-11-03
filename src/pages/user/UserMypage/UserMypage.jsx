@@ -9,16 +9,16 @@ import UserInfoPet from '../../../components/user/UserMypage/UserInfoPet/UserInf
 import UserOrderDetail from '../../../components/user/UserMypage/UserOrderDetail/UserOrderDetail';
 import UserInfoPassword from '../../../components/user/UserMypage/UserInfoPassword/UserInfoPassword';
 import { MYPAGE_OPTION_LIST } from '../../../constants/SelectOption';
+
 import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { m } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 
-function UserMypage(props) {
+function UserMypage() {
     const [ selectOption, setSelectOption ] = useState(0);
     const queryClient = useQueryClient();
     const userInfoData = queryClient.getQueryData("userInfoQuery");
-
     const [ userInfo, setUserInfo ] = useState({
         id: "",
         username: "",
@@ -52,7 +52,6 @@ function UserMypage(props) {
     );
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
             <div css={s.layout}>
                 <UserMypageController selectOption={selectOption} setSelectOption={setSelectOption}/>
                 {
@@ -71,10 +70,6 @@ function UserMypage(props) {
                 }
                 {
                     selectOption === 1 &&
-                    <UserOrderDetail />
-                }
-                {
-                    selectOption === 2 &&
                     <UserOrderDetail />
                 }
             </div>

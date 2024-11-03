@@ -5,6 +5,8 @@ export const layout = css`
     display: flex;
     flex-direction: column;
     width: 100%;
+    margin-top: 80px;
+    padding: 20px;
     flex-grow: 1;
 `;
 
@@ -13,15 +15,14 @@ export const signupTitle = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    width: 100%;
-    color: #777777;
+    color: #9d6c4c;
 
     & p {
         cursor: default;
     }
     & > p {
-        padding: 20px 0px 30px; 
-        font-size: 20px;
+        margin-bottom: 20px;
+        font-size: 25px;
         font-weight: 600;
     }
 `;

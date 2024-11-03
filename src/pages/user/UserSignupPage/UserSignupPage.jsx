@@ -79,10 +79,6 @@ function UserSignupPage(props) {
     
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
-            {
-                console.log(fieldErrorMessages)
-            }
             <div css={s.layout}>
                 <div css={s.signupTitle}>
                     <p>회원가입</p>

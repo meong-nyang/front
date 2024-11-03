@@ -32,7 +32,9 @@ import UserProductListPage from './pages/user/UserProductListPage/UserProductLis
 import OrderDetailPage from './pages/admin/orderManagement/OrderDetailPage/OrderDetailPage';
 import OrderListPage from './pages/admin/orderManagement/OrderListPage/OrderListPage';
 import UserOauth2SigninPage from './pages/user/UserOauth2SigninPage/UserOauth2SigninPage';
+import PortOneOrderPage from './pages/user/PortOneOrderPage/PortOneOrderPage';
 import AdminCustomerListPage from './pages/admin/AdminCustomerManagement/AdminCustomerListPage/AdminCustomerListPage';
+
 
 function App() {
 
@@ -122,6 +124,7 @@ function App() {
                 <Route path='/user/order' element={<UserOrderPage />} />
                 <Route path='/product/detail/:productId' element={<UserProductDetailPage />} />
                 <Route path='/product/list/:groupName' element={<UserProductListPage />} />
+                <Route path='/order' element={<PortOneOrderPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={
