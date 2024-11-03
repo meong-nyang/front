@@ -92,13 +92,8 @@ export const inputBox = css`
     box-sizing: border-box;
     width: 100%;
     color: #777777;
-    & > p {
-        margin: 10px 0px 7px;
-        font-size: 14px;
-        font-weight: 600;
-    }
-
-    & > div {
+    
+    & > div:nth-last-of-type(1) {
         display: flex;
         justify-content: flex-end;
         width: 100%;
@@ -131,6 +126,26 @@ export const inputBox = css`
         background-color: #FFF5D6;
     }
 `;
+
+export const userInfoTag = css`
+    display: flex;
+    box-sizing: border-box;
+    color: #777777;
+
+    & > p:nth-of-type(1) {
+        margin: 10px 0px 7px ;
+        font-size: 14px;
+        font-weight: 600;
+    }
+
+    & > p:nth-last-of-type(1) {
+        margin-top: 10px;
+        margin-left: 12px;
+        font-size: 14px;
+        color: red;
+    }
+`;
+
 export const snsBox = css`
     display: flex;
     flex-direction: column;

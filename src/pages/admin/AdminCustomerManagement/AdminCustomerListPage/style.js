@@ -29,12 +29,16 @@ export const mainTable = css`
         cursor: pointer;
     }
 
+    & > tbody tr {
+        cursor: pointer;
+    }
+
     & th, td {
         text-align: center;
     }
 
     & tr *:nth-of-type(1) {
-        width: 2%;
+        width: 15%;
     }
 
     & tr *:nth-of-type(2) {
@@ -42,7 +46,7 @@ export const mainTable = css`
     }
 
     & tr *:nth-of-type(3) {
-        width: 23%;
+        width: 25%;
     }
 
     & tr *:nth-of-type(4) {
@@ -54,10 +58,6 @@ export const mainTable = css`
     }
 
     & tr *:nth-of-type(6) {
-        width: 15%;
-    }
-
-    & tr *:nth-of-type(7) {
         width: 15%;
     }
 `;

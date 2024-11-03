@@ -20,7 +20,6 @@ import StockManagementPage from './pages/admin/StockManagementPage/StockManageme
 
 import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
 
-import AdminCustomerManagementPage from './pages/admin/AdminCustomerManagement/AdminCustomerManagementPage/AdminCustomerManagementPage';
 import AdminCustomerDetailPage from './pages/admin/AdminCustomerManagement/AdminCustomerDetailPage/AdminCustomerDetailPage';
 import UserOauth2SignupPage from './pages/user/UserOauth2SignupPage/UserOauth2SignupPage';
 import UserMypage from './pages/user/UserMypage/UserMypage';
@@ -34,6 +33,8 @@ import OrderDetailPage from './pages/admin/orderManagement/OrderDetailPage/Order
 import OrderListPage from './pages/admin/orderManagement/OrderListPage/OrderListPage';
 import UserOauth2SigninPage from './pages/user/UserOauth2SigninPage/UserOauth2SigninPage';
 import PortOneOrderPage from './pages/user/PortOneOrderPage/PortOneOrderPage';
+import AdminCustomerListPage from './pages/admin/AdminCustomerManagement/AdminCustomerListPage/AdminCustomerListPage';
+
 
 function App() {
 
@@ -87,6 +88,17 @@ function App() {
         }
     );
 
+    const userInfo = useQuery(
+        ["userInfoQuery"],
+        async () => {
+            return await instance.get("/user/me");
+        },
+        {
+            // accessTokenValid가 성공했을 때 유효한 토큰을 가지고 있기 때문에 무조건 걸어줘야함
+            // accessTokenValid.data의 값이 undefind이거나 null일 경우 뒤에 값을 참조하지 않음
+            enabled: accessTokenValidation.isSuccess && accessTokenValidation.data?.data,
+            refetchOnWindowFocus: false,
+
     const categoryList = useQuery(
         ["categoryListQuery"],
         async () => await instance.get("/product/categorys"),
@@ -126,8 +138,8 @@ function App() {
                             <Route path='/stock' element={<StockManagementPage />} />
                             <Route path='/order' element={<OrderListPage />} />
                             <Route path='/order/detail/:id' element={<OrderDetailPage />} />
-                            <Route path='/customer' element={<AdminCustomerManagementPage />} />
-                            <Route path='/customer/:id' element={<AdminCustomerDetailPage />} />
+                            <Route path='/customer/detail/:id' element={<AdminCustomerDetailPage />} />
+                            <Route path='/customer' element={<AdminCustomerListPage />} />
                             <Route path='/statistics' element={<AdminStatisticsPage />} />
                             <Route path='/setting' element={<AdminSiteSettingPage />} />
                             <Route path='/*' element={<NotFound />} />

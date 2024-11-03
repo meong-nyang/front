@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
 import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 import UserMypageController from '../../../components/user/UserMypage/UserMypageController/UserMypageController';
@@ -10,9 +10,46 @@ import UserOrderDetail from '../../../components/user/UserMypage/UserOrderDetail
 import UserInfoPassword from '../../../components/user/UserMypage/UserInfoPassword/UserInfoPassword';
 import { MYPAGE_OPTION_LIST } from '../../../constants/SelectOption';
 
+import { useQuery, useQueryClient } from 'react-query';
+import { instance } from '../../../apis/util/instance';
+import { m } from 'framer-motion';
+import { useParams } from 'react-router-dom';
+
 function UserMypage() {
     const [ selectOption, setSelectOption ] = useState(0);
+    const queryClient = useQueryClient();
+    const userInfoData = queryClient.getQueryData("userInfoQuery");
+    const [ userInfo, setUserInfo ] = useState({
+        id: "",
+        username: "",
+        name: "",
+        phone: "",
+        zipcode: "",
+        addressDefault: "",
+        addressDetail: "",
+        petId: "",
+        petName: "",
+        petAge: "",
+        petType: "",
+    });
 
+    const myPageDataQuery = useQuery(
+        ["myPageDataQuery"],
+        async () => {
+            return await instance.get(`/user/${userInfoData?.data.id}`);
+        },
+        {
+            enabled: !!userInfoData?.data,
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => { 
+                setUserInfo(response.data); 
+            },
+            onError: error => {
+                console.log("error: ", error)
+            }
+        }
+    );
     return (
         <UserBackgoundLayout>
             <div css={s.layout}>
@@ -26,9 +63,9 @@ function UserMypage() {
                 {
                     selectOption === 0 &&
                     <>
-                        <UserInfoDetail />
-                        <UserInfoPassword />
-                        <UserInfoPet />
+                        <UserInfoDetail userInfo={userInfo} setUserInfo={setUserInfo}/>
+                        <UserInfoPassword/>
+                        <UserInfoPet userInfo={userInfo} setUserInfo={setUserInfo}/>
                     </>
                 }
                 {
