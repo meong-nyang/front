@@ -12,6 +12,57 @@ export const layout = css`
     
 `;
 
+export const mainLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+    margin: 100px 0px;
+    
+`;
+
+export const BodyContainer = css`
+    box-sizing: border-box;
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    align-items: center;
+    overflow: hidden;
+`;
+
+export const sliderContainer = css`
+    margin-bottom: 50px;
+    .slick-prev:before,
+    .slick-next:before {
+        display: none;	
+    }
+    .slick-list{ 
+        width: 4000px;
+    }   
+`;
+
+export const sliderContent = css`
+    height: 500px;
+    color: white;
+    font-size: 100px;
+    line-height : 500px;
+    text-align : center;
+    width: 1500px;
+    margin: auto;
+    border: 1px solid #dbdbdb;
+    border-top-left-radius: 130px;
+    border-top-right-radius: 130px;
+    overflow: hidden;
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        display: block;
+        object-fit: contain; 
+    }
+`;
+
 export const footerLayout = css`
     box-sizing: border-box;
     display: flex;
@@ -19,6 +70,7 @@ export const footerLayout = css`
     align-items: center;
     width: 100%;
     height: 300px;
+    padding: 30px 0px;
     background-color: #FFF5D6;
     & > div {
         box-sizing: border-box;
@@ -36,6 +88,7 @@ export const infoLayout = css`
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
+    justify-content: center;
     color: #9D6C4C;
     font-weight: 600;
     & > p:nth-of-type(1) {
@@ -56,37 +109,4 @@ export const infoLayout = css`
             text-decoration: none;
         }
     }
-`;
-
-export const sliderContainer = css`
-    margin-bottom: 50px;
-    .slick-prev:before,
-    .slick-next:before {
-        display: none;	
-    }
-    .slick-list{ 
-        width: 4000px;
-    }   
-    border: 1px solid #dbdbdb;
-    border-top-left-radius: 130px;
-    border-top-right-radius: 130px;
-`;
-
-export const sliderContent = css`
-    height: 500px;
-    color: white;
-    font-size: 100px;
-    line-height : 500px;
-    text-align : center;
-    width: 1000px;
-    margin: auto;
-`;
-
-export const BodyContainer = css`
-    box-sizing: border-box;
-    display: flex;
-    position: relative;
-    flex-direction: column;
-    align-items: center;
-    overflow: hidden;
 `;

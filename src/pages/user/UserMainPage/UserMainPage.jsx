@@ -8,6 +8,9 @@ import { RiNotionFill } from "react-icons/ri";
 import { BiLogoGithub } from "react-icons/bi";
 import Slider from "react-slick";
 
+import frame from "../../../assets/images/Frame 114.png";
+import img from "../../../assets/images/Frame 117.png";
+
 import { SlArrowLeft, SlArrowRight  } from "react-icons/sl";
 
 import "slick-carousel/slick/slick.css"; 
@@ -75,10 +78,8 @@ function UserMainPage(props) {
                       <Slider {...settings}>
                       {list.map((value, index) => (
                         <div>	
-                          <div css={s.sliderContent}
-                            $color={value.color}
-                            key={index}>
-                            {value.content}
+                          <div css={s.sliderContent} key={index}>
+                            <img src={frame} />
                           </div>
                         </div>
                       ))}
@@ -86,6 +87,10 @@ function UserMainPage(props) {
                     </div>
                   </div>
                 </header>
+                <main css={s.mainLayout}>
+                    <h2>추천상품</h2>
+                    <img src={img} />
+                </main>
                 <footer css={s.footerLayout}>
                     <div>
                         <div css={s.infoLayout}>
