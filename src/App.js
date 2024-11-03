@@ -98,7 +98,9 @@ function App() {
             // accessTokenValid.data의 값이 undefind이거나 null일 경우 뒤에 값을 참조하지 않음
             enabled: accessTokenValidation.isSuccess && accessTokenValidation.data?.data,
             refetchOnWindowFocus: false,
-
+        }
+    );
+    
     const categoryList = useQuery(
         ["categoryListQuery"],
         async () => await instance.get("/product/categorys"),
