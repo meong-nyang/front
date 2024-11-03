@@ -129,18 +129,18 @@ function App() {
         }
     );
 
-    const userInfo = useQuery(
-        ["userInfoQuery"],
-        async () => {
-            return await instance.get("/user/me");
-        },
-        {
-            // accessTokenValid가 성공했을 때 유효한 토큰을 가지고 있기 때문에 무조건 걸어줘야함
-            // accessTokenValid.data의 값이 undefind이거나 null일 경우 뒤에 값을 참조하지 않음
-            enabled: accessTokenValidation.isSuccess && accessTokenValidation.data?.data,
-            refetchOnWindowFocus: false,
-        }
-    );
+    // const userInfo = useQuery(
+    //     ["userInfoQuery"],
+    //     async () => {
+    //         return await instance.get("/user/me");
+    //     },
+    //     {
+    //         // accessTokenValid가 성공했을 때 유효한 토큰을 가지고 있기 때문에 무조건 걸어줘야함
+    //         // accessTokenValid.data의 값이 undefind이거나 null일 경우 뒤에 값을 참조하지 않음
+    //         enabled: accessTokenValidation.isSuccess && accessTokenValidation.data?.data,
+    //         refetchOnWindowFocus: false,
+    //     }
+    // );
     
     const categoryList = useQuery(
         ["categoryListQuery"],
@@ -155,7 +155,7 @@ function App() {
         <>
             <Global styles={reset} />
             <Routes>
-                <Route path='/' element={<UserMainPage />} />
+                <Route path='/' element={<></>} />
                 <Route path='/user/signup' element={<UserSignupPage />} />
                 <Route path='/user/signin' element={<UserSigninPage />} />
                 <Route path='/user/signup/oauth2' element={<UserOauth2SignupPage />} />
