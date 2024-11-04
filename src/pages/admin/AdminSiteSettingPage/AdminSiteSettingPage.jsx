@@ -1,21 +1,23 @@
 /** @jsxImportSource @emotion/react */
-import { useMutation, useQuery } from "react-query";
+import { useMutation, useQuery, useQueryClient } from "react-query";
 import * as s from "./style";
-import { instance } from "../../../apis/util/instance";
+import { IMAGE_ADDRESS, instance } from "../../../apis/util/instance";
 import { useRef, useState } from "react";
 import { isNumber, onlyNumber } from "../../../utils/checkFormat";
-import { v4 as uuidv4 } from 'uuid';
 
 function AdminSiteSettingPage(props) {
 
     const inputFileRef = useRef();
+
+    const queryClient = useQueryClient();
 
     const [ isModify, setModify ] = useState(false);
     const [ siteData, setSiteData ] = useState({
         siteName: "",
         siteAddress: "",
         sitePhone: "",
-        defaultDeliverCost: ""
+        defaultDeliverCost: "",
+        imgSrc: ""
     });
     const [ logo, setLogo ] = useState();
 
@@ -26,26 +28,35 @@ function AdminSiteSettingPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: success => {
-                setSiteData(success.data);
+                setSiteData({
+                    siteName: success.data.siteName,
+                    siteAddress: success.data.siteAddress,
+                    sitePhone: success.data.sitePhone,
+                    defaultDeliverCost: success.data.defaultDeliverCost,
+                    imgSrc: IMAGE_ADDRESS + success.data.imgName
+                });
             },
-            onError: error => console.log(error.response)
+            onError: error => {
+                if(error.response.data === "noData") {
+                    alert("등록된 정보가 없습니다. 정보를 등록해주세요");
+                    setModify(true);
+                }
+            }
         }
     );
 
     const modifySiteSettingMutation = useMutation(
-        async () => await instance.put("/admin/setting", siteData)
-    );
-
-    const modifySiteLogoMutation = useMutation(
         async () => {
             const formData = new FormData();
-            console.log("site_logo." + logo.name.split(".").pop());
-            formData.append("logo", logo, "site_logo." + logo.name.split(".").pop());
-            await instance.post("/admin/setting/logo", formData, {
-                headers: {
-                    "Content-Type": "multipart/form-data"
-                }
-            });
+            const siteDataEntries = Object.entries(siteData);
+            for (let i of siteDataEntries) {
+                formData.append(i[0], i[1]);
+            }
+            console.log(logo);
+            if (!!logo) {
+                formData.append("logo", logo, "site_logo." + logo.name.split(".").pop());
+            }
+            return await instance.put("/admin/setting", formData);
         }
     );
 
@@ -53,9 +64,7 @@ function AdminSiteSettingPage(props) {
         if(!isModify) {
             return;
         }
-        if(window.confirm("사이트 로고를 변경하시겠습니까?")) {
-            inputFileRef.current.click();
-        }
+        inputFileRef.current.click();
     }
 
     const handleModifyButtonOnClick = () => {
@@ -65,18 +74,12 @@ function AdminSiteSettingPage(props) {
     const handleSaveButtonOnClick = () => {
         modifySiteSettingMutation.mutateAsync()
             .then(success => {
-                modifySiteLogoMutation.mutateAsync()
-                    .then(success => {
-                        alert("수정되었습니다.");
-                        getSiteSettingData.refetch();
-                    })
-                    .catch(error => {
-                        alert("알수 없는 이유로 수정에 실패하였습니다.");
-                        getSiteSettingData.refetch();
-                    });
+                alert("저장되었습니다.");
+                getSiteSettingData.refetch();
+                queryClient.invalidateQueries("siteLogoQuery");
             })
             .catch(error => {
-                alert("알수 없는 이유로 수정에 실패하였습니다.");
+                alert("저장에 실패하였습니다.");
                 getSiteSettingData.refetch();
             });
         setModify(false);
@@ -103,8 +106,11 @@ function AdminSiteSettingPage(props) {
     }
 
     const handleFileOnChange = (e) => {
+        setSiteData(data => ({
+            ...data,
+            imgSrc: URL.createObjectURL(e.target.files[0])
+        }));
         setLogo(e.target.files[0]);
-        console.log(e.target.files[0].name.split(".").pop());
     }
 
     return (
@@ -123,8 +129,7 @@ function AdminSiteSettingPage(props) {
             </div>
             <div css={s.information}>
                 <div css={s.imageLayout(isModify)}>
-                    <img src={!!logo && URL.createObjectURL(logo)} onClick={handleImgOnClick} />
-                    
+                    <img src={siteData.imgSrc} onClick={handleImgOnClick} />
                 </div>
                 <input type="file" css={s.fileInput} ref={inputFileRef} onChange={handleFileOnChange}/>
                 <table>
