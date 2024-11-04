@@ -1,5 +1,5 @@
 import PortOne from '@portone/browser-sdk/v2';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import Swal from "sweetalert2";
@@ -7,9 +7,11 @@ import { productLayout } from '../UserOrderPage/style';
 
 function PortOneOrderPage({portEtcData}) {
     console.log(portEtcData);
+    //order_tb에 저장할 데이터
     const [ orderData, setOrderData ] = useState({
         userId: 0,
-        totalPrice: 10000,
+        products: [],
+        totalPrice: 0,
         orderItemCount: 0,
         // orderStatus: "",
         orderName: "",
@@ -19,9 +21,10 @@ function PortOneOrderPage({portEtcData}) {
         phone: "",
         request: "",
         paymentId: "", //포트원에서 받아온 아이디
-        paymentMethodId: 0
+        paymentMethodId: ""
     });
 
+console.log(orderData);
     const portoneData = {
         storeId: "store-a497dea2-bbec-4135-8fb2-c2283879a5b9", 
         customer: {},           // 줘야해
@@ -36,35 +39,57 @@ function PortOneOrderPage({portEtcData}) {
         products: [],             // 줘야해
     };
 
-    const isEmpty = () => {
-        console.log(portEtcData);
-        if(!portEtcData.orderName | !portEtcData.orderPhone 
-            | !portEtcData.orderZipcode | !portEtcData.orderAddressDefault 
-            | !portEtcData.orderEmail) {
-                Swal.fire({
-                    icon:"error",
-                    text: "주문정보를 확인하세요",
-                    confirmButtonColor: "#9d6c4c",
-                    confirmButtonText: "확인",
-                });
-                return true;
-        }
-        if (!portEtcData.paymentMethod | !portEtcData.paymentChannelKey) {
-            Swal.fire({
-                icon:"error",
-                text: "결제방법을 선택하세요",
-                confirmButtonColor: "#9d6c4c",
-                confirmButtonText: "확인",
+    useEffect(() => {
+        if (portEtcData) {
+            setOrderData({
+                userId: 0,
+                products: portEtcData.products.map(product => ({
+                    productId: product.id,
+                    productCount: product.count
+                })),
+                totalPrice: portEtcData.products.reduce((sum, { amount }) => sum + amount, 0),
+                orderItemCount: portEtcData.products.length,
+                orderName: portEtcData.orderName,
+                zipcode: portEtcData.orderZipcode,
+                addressDefault: portEtcData.orderAddressDefault,
+                addressDetail: portEtcData.orderAddressDetail,
+                phone: portEtcData.orderPhone,
+                request: portEtcData.request,
+                paymentId: "", // 포트원에서 받아온 아이디
+                paymentMethodId: portEtcData.paymentMethod
             });
-            return true;
         }
-        return false;
-    }
+    }, [portEtcData]);
+
+    // const isEmpty = () => {
+    //     console.log(portEtcData);
+    //     if(!portEtcData.orderName | !portEtcData.orderPhone 
+    //         | !portEtcData.orderZipcode | !portEtcData.orderAddressDefault 
+    //         | !portEtcData.orderEmail) {
+    //             Swal.fire({
+    //                 icon:"error",
+    //                 text: "주문정보를 확인하세요",
+    //                 confirmButtonColor: "#9d6c4c",
+    //                 confirmButtonText: "확인",
+    //             });
+    //             return true;
+    //     }
+    //     if (!portEtcData.paymentMethod | !portEtcData.paymentChannelKey) {
+    //         Swal.fire({
+    //             icon:"error",
+    //             text: "결제방법을 선택하세요",
+    //             confirmButtonColor: "#9d6c4c",
+    //             confirmButtonText: "확인",
+    //         });
+    //         return true;
+    //     }
+    //     return false;
+    // }
 
     const handlePaymentButtonOnClick = () => {
-        if (isEmpty()) {
-            return; // 빈 값이 있으면 함수 종료
-        }
+        // if (isEmpty()) {
+        //     return; // 빈 값이 있으면 함수 종료
+        // }
         const requestData = {
             ...portoneData,
             paymentId: crypto.randomUUID(),
@@ -84,7 +109,7 @@ function PortOneOrderPage({portEtcData}) {
             })),
             productType: "PRODUCT_TYPE_REAL",
         }
-        console.log("!!!!", requestData);
+        console.log("!!" + requestData);
         PortOne.requestPayment(requestData).then(response =>
             setOrderData(order => ({
                 ...order,
@@ -94,8 +119,7 @@ function PortOneOrderPage({portEtcData}) {
     };
 
     return (
-            <button css={s.orderButton} onClick={handlePaymentButtonOnClick}>결제</button>    
-
+        <button css={s.orderButton} onClick={handlePaymentButtonOnClick}>결제</button>    
     );
 }
 

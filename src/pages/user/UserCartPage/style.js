@@ -121,6 +121,9 @@ export const titleLayout = css`
         }
     }
 `;
+export const blankText = css`
+    padding-top: 80px;
+`;
 
 export const paymentLayout = css`
     box-sizing: border-box;

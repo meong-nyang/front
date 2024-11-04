@@ -14,6 +14,7 @@ function UserOrderPage(props) {
     const navigate = useNavigate();
     //장바구니나 상세페이지에서 넘어온 상품 리스트
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
+    console.log(orderProductList);
     //주문페이지로 전달할 상품리스트 + 주문정보
     const [ orderData, setOrderData ] = useState({
         userId: 0,
@@ -28,6 +29,8 @@ function UserOrderPage(props) {
         paymentMethod: "",
         paymentChannelKey: ""
     });
+    console.log(orderData);
+
     const checkProductList = useQuery(
         ["checkProductListQuery"],
         async () => {
@@ -45,7 +48,7 @@ function UserOrderPage(props) {
                 setOrderData(order => ({
                     ...order,
                     products: response?.data?.checkProducts.map(product => ({
-                        id: product.productId,
+                        id: product.productId.toString(),
                         name: product.productName,
                         count: orderProductList
                         .filter(orderProduct => product.productId === parseInt(orderProduct.productId))[0].productCount,

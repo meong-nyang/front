@@ -3,12 +3,26 @@ import React, { useState } from 'react';
 import * as s from "./style";
 import { RxCross2 } from "react-icons/rx";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
+import Swal from "sweetalert2";
 
 function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMutation }) {
     const [ productCount, setProductCount ] = useState(1);
 
     const handleCartItemDeleteOnClick = () => {
-        cartItemDeleteMutation.mutateAsync([cartItem?.cartId]);
+        Swal.fire({
+            title: "선택한 상품을 삭제하시겠습니까?",
+            icon: "question",
+            showCancelButton: true,
+            cancelButtonColor: "#777777",
+            cancelButtonText: "취소",
+            confirmButtonColor: "#9d6c4c",
+            confirmButtonText: "삭제",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                cartItemDeleteMutation.mutateAsync([cartItem?.cartId]);
+            }
+        });
+        
     };
 
     const handelItemCheck = (e) => {

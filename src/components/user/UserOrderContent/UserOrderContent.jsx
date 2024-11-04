@@ -21,7 +21,7 @@ function UserOrderContent({productInfo, count}) {
                 </div>
             </div>
             <p>{count}</p>
-            <p>{priceFormet(productInfo.productPrice)}원</p>
+            <p>{priceFormet(productInfo.productPrice * count)}원</p>
         </div>
     );
 }

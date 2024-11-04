@@ -110,15 +110,13 @@ function UserProductDetailPage(props) {
     };
 
     const totalPrice = (price) => { 
-        console.log(price);
         return parseInt(price) * parseInt(productCount);
     };
 
     const handleAddCartOnClick = () => {
         const addProductData = {
-            userId: 0,
-            // productId: productDetail.productId,
-            productId: 1,
+            userId: 2,
+            productId: productDetailData.id,
             productCount
         }
         addProductMutation.mutateAsync(addProductData);
@@ -135,7 +133,7 @@ function UserProductDetailPage(props) {
             confirmButtonText: "이동",
         }).then((result) => {
             if (result.isConfirmed) {
-                navigate("/user/cart")
+                navigate("/user/cart?page=1")
             }
         }
         );
@@ -157,7 +155,7 @@ function UserProductDetailPage(props) {
                     productName: productDetailData.productName,
                     productCount: productCount,
                     productPrice: productDetailData.productPrice,
-                    productTotal: productCount * parseInt(productDetailData.productPrice)
+                    productTotal: parseInt(productCount) * parseInt(productDetailData.productPrice)
                 }]);
                 navigate("/user/order")
             }

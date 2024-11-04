@@ -61,7 +61,7 @@
                         
                     }
                 
-                    <Link to={'/user/cart'}><CiShoppingCart /></Link>
+                    <Link to={'/user/cart?page=1'}><CiShoppingCart /></Link>
                     <Link to={'/'}><CiSearch /></Link>
                 </div>
             </div>

@@ -64,7 +64,7 @@ export const checkboxStyle = css`
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        background-color: #FFB69C;
+        background-color: #9d6c4c;
         content:"✔";
         color: #ffffff;
         font-size: 12px;
@@ -111,7 +111,7 @@ export const countLayout = css`
     justify-content: center;
     align-items: center;
     width: 150px;
-    & > input {
+    & > p {
         box-sizing: border-box;
         display: flex;
         width: 25px;
@@ -119,12 +119,10 @@ export const countLayout = css`
         align-items: center;
         border: none;
         outline: none;
-        font-size: 18px;
-        font-weight: 600;
         color: #777777;
     }
     & > svg {
         font-size: 20px;
-        color: #FFB69C;
+        color: #9d6c4c;
     }
 `;
