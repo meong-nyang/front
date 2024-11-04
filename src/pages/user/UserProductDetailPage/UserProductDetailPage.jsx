@@ -89,14 +89,14 @@ function UserProductDetailPage(props) {
     }
 
     const handlePlusOnClick = () => {
-        setProductCount(count => count + 1);
+        setProductCount(count => parseInt(count) + 1);
     };
 
     const handleMinusOnClick = () => {
         setProductCount(count => {
             // 1 미만으로 내려가지 않도록 설정
             if (count > 1) {
-                return count - 1;
+                return parseInt(count) - 1;
             }
             return count; // 1 이하로는 내려가지 않음
         });
@@ -124,9 +124,10 @@ function UserProductDetailPage(props) {
         addProductMutation.mutateAsync(addProductData);
 
         Swal.fire({
+            icon:"success",
             title: "장바구니에 담겼습니다",
             text: "장바구니로 이동하시겠습니까?",
-            icon: "success",
+            height: "500px",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",
@@ -142,10 +143,8 @@ function UserProductDetailPage(props) {
 
     const handleOrderOnClick = () => {
         Swal.fire({
-            title: `${productDetailData.productName} ${productCount}개를 구매하시겠습니까?`,
+            text: `${productDetailData.productName} ${productCount}개를 구매하시겠습니까?`,
             icon: "success",
-            width: "600px",
-            heigth: "400px",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",

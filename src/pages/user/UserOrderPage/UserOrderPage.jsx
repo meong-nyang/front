@@ -9,29 +9,32 @@ import { orderProuctListAtom } from '../../../atoms/orderAtom';
 import { useQuery } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate } from 'react-router-dom';
+import PortOneOrderPage from '../PortOneOrderPage/PortOneOrderPage';
+import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
+import { CiEdit } from 'react-icons/ci';
 
 function UserOrderPage(props) {
     const navigate = useNavigate();
-    const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
+    const [ checkOrderList, setCheckOrderList ] = useRecoilState(orderProuctListAtom);
     const [ orderList, setOrderList ] = useState({
-        products: [{
-            id: 0,
-            count: 0
-        }],
+        userId: 0,
+        products: [],
         orderName: "",
         orderPhone: "",
+        orderEmail: "",
         orderZipcode: "",
         orderAddressDefault: "",
         orderAddressDetail: "",
         request: "",
-        paymentId: 0
+        paymentMethod: "",
+        paymentChannelKey: ""
     });
-
+    
+    console.log(orderList);
     const checkProductList = useQuery(
         ["checkProductListQuery"],
         async () => {
-            const arr = Array.from(orderProductList.map(order => order.productId));
-            console.log(arr);
+            const arr = Array.from(checkOrderList.map(order => order.productId));
             let str = "productIds=";
             for (let i of arr) {
                 str += i + ","
@@ -40,7 +43,18 @@ function UserOrderPage(props) {
             return await instance.get(`/user/check/product?${str}`)
         },
         {
-            onSuccess: response => console.log(response),
+            onSuccess: response => {
+                console.log(response);
+                setOrderList(order => ({
+                    ...order,
+                    products: response?.data?.checkProducts.map(product => ({
+                        id: product.productId,
+                        name: product.productName,
+                        count: checkOrderList.filter(checkOrder => checkOrder.productId === product.productId).productCount, 
+                        amount: parseInt(product.productPrice) * parseInt(checkOrderList.productCount)
+                    }))
+                }))
+            },
             onError: error => console.log(error)
         }
     );
@@ -61,18 +75,22 @@ function UserOrderPage(props) {
         }));
     };
 
+    const handlePaymentOnChange = (method, channelKey) => {
+        setOrderList(order => ({
+            ...order,
+            paymentMethod: method,
+            paymentChannelKey: channelKey
+        }));
+    };
+
     const addHyphenToPhoneNumber = (phoneNumber) => {
         const numbers = phoneNumber.replace(/[^0-9]/g, "").slice(0,11)
             .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
         return numbers;
     };
 
-    const handleOrderOnClick = () => {
-        navigate("/order")
-    }
-
     return (
-        <UserBackgoundLayout>
+        <UserMainLayout>
             <div css={s.layout}>
                 <p>주문하기</p>    
                 <div css={s.productLayout}>
@@ -93,7 +111,7 @@ function UserOrderPage(props) {
                 </div>
 
                 <div css={s.infoLayout}>
-                    <p>배송정보</p>
+                    <p>주문정보</p>
                     <div css={s.inputBox}>
                         <p>받는사람</p>
                         <input type="text" name="orderName" onChange={handleInputOnChange} value={orderList.orderName} />
@@ -101,6 +119,10 @@ function UserOrderPage(props) {
                     <div css={s.inputBox}>
                         <p>전화번호</p>
                         <input type="text" name="orderPhone" onChange={handleInputOnChange} value={addHyphenToPhoneNumber(orderList.orderPhone)} />
+                    </div>
+                    <div css={s.inputBox}>
+                        <p>이메일</p>
+                        <input type="text" name="orderEmail" onChange={handleInputOnChange} value={orderList.orderEmail} />
                     </div>
                     <div css={s.addressInputBox}>
                         <p>주소</p>
@@ -137,16 +159,16 @@ function UserOrderPage(props) {
                         {
                             paymentList?.data?.data.map(payment => 
                                 <>
-                                    <input type="radio" id={payment.id} name="payment" onChange={handleInputOnChange} value={payment.id}/>
+                                    <input type="radio" id={payment.id} name="payment" onChange={() => handlePaymentOnChange(payment.paymentMethod ,payment.paymentChannelKey)} value={payment.paymentMethod}/>
                                     <label htmlFor={payment.id} >{payment.paymentName}</label>
                                 </>
                             )
                         }
                     </div>
                 </div>
-                <button css={s.orderButton} onClick={handleOrderOnClick}>13,000원 결제하기</button>
+                <PortOneOrderPage portEtcData={orderList}/>
             </div>
-        </UserBackgoundLayout>
+        </UserMainLayout>
     );
 }
 

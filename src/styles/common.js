@@ -22,7 +22,7 @@ export const reset = css`
         height: 100%;
         font-family: 'IBMPlexSansKR-Regular';
     }
-    div, p, label {
+    p, label {
         margin: 0;
         padding: 0;
     }

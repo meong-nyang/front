@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
-import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import logoImg from "../../../assets/images/logo.png";
