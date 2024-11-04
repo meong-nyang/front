@@ -2,6 +2,8 @@ import PortOne from '@portone/browser-sdk/v2';
 import React, { useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
+import Swal from "sweetalert2";
+import { productLayout } from '../UserOrderPage/style';
 
 function PortOneOrderPage({portEtcData}) {
     console.log(portEtcData);
@@ -34,7 +36,35 @@ function PortOneOrderPage({portEtcData}) {
         products: [],             // 줘야해
     };
 
-    const handleOnClick = () => {
+    const isEmpty = () => {
+        console.log(portEtcData);
+        if(!portEtcData.orderName | !portEtcData.orderPhone 
+            | !portEtcData.orderZipcode | !portEtcData.orderAddressDefault 
+            | !portEtcData.orderEmail) {
+                Swal.fire({
+                    icon:"error",
+                    text: "주문정보를 확인하세요",
+                    confirmButtonColor: "#9d6c4c",
+                    confirmButtonText: "확인",
+                });
+                return true;
+        }
+        if (!portEtcData.paymentMethod | !portEtcData.paymentChannelKey) {
+            Swal.fire({
+                icon:"error",
+                text: "결제방법을 선택하세요",
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "확인",
+            });
+            return true;
+        }
+        return false;
+    }
+
+    const handlePaymentButtonOnClick = () => {
+        if (isEmpty()) {
+            return; // 빈 값이 있으면 함수 종료
+        }
         const requestData = {
             ...portoneData,
             paymentId: crypto.randomUUID(),
@@ -64,7 +94,7 @@ function PortOneOrderPage({portEtcData}) {
     };
 
     return (
-            <button css={s.orderButton} onClick={handleOnClick}>결제</button>    
+            <button css={s.orderButton} onClick={handlePaymentButtonOnClick}>결제</button>    
 
     );
 }

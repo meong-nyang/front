@@ -1,7 +1,5 @@
-import React, { useState } from 'react';
-import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
-import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 /** @jsxImportSource @emotion/react */
+import React, { useState } from 'react';
 import * as s from "./style";
 import UserOrderContent from '../../../components/user/UserOrderContent/UserOrderContent';
 import { useRecoilState } from 'recoil';
@@ -11,12 +9,13 @@ import { instance } from '../../../apis/util/instance';
 import { useNavigate } from 'react-router-dom';
 import PortOneOrderPage from '../PortOneOrderPage/PortOneOrderPage';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
-import { CiEdit } from 'react-icons/ci';
 
 function UserOrderPage(props) {
     const navigate = useNavigate();
-    const [ checkOrderList, setCheckOrderList ] = useRecoilState(orderProuctListAtom);
-    const [ orderList, setOrderList ] = useState({
+    //장바구니나 상세페이지에서 넘어온 상품 리스트
+    const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
+    //주문페이지로 전달할 상품리스트 + 주문정보
+    const [ orderData, setOrderData ] = useState({
         userId: 0,
         products: [],
         orderName: "",
@@ -29,12 +28,10 @@ function UserOrderPage(props) {
         paymentMethod: "",
         paymentChannelKey: ""
     });
-    
-    console.log(orderList);
     const checkProductList = useQuery(
         ["checkProductListQuery"],
         async () => {
-            const arr = Array.from(checkOrderList.map(order => order.productId));
+            const arr = Array.from(orderProductList.map(order => order.productId));
             let str = "productIds=";
             for (let i of arr) {
                 str += i + ","
@@ -45,13 +42,15 @@ function UserOrderPage(props) {
         {
             onSuccess: response => {
                 console.log(response);
-                setOrderList(order => ({
+                setOrderData(order => ({
                     ...order,
                     products: response?.data?.checkProducts.map(product => ({
                         id: product.productId,
                         name: product.productName,
-                        count: checkOrderList.filter(checkOrder => checkOrder.productId === product.productId).productCount, 
-                        amount: parseInt(product.productPrice) * parseInt(checkOrderList.productCount)
+                        count: orderProductList
+                        .filter(orderProduct => product.productId === parseInt(orderProduct.productId))[0].productCount,
+                        amount: orderProductList
+                        .filter(orderProduct => product.productId === parseInt(orderProduct.productId))[0].productTotal
                     }))
                 }))
             },
@@ -69,14 +68,14 @@ function UserOrderPage(props) {
     );
 
     const handleInputOnChange = (e) => {
-        setOrderList(order => ({
+        setOrderData(order => ({
             ...order,
             [e.target.name]: e.target.value
         }));
     };
 
     const handlePaymentOnChange = (method, channelKey) => {
-        setOrderList(order => ({
+        setOrderData(order => ({
             ...order,
             paymentMethod: method,
             paymentChannelKey: channelKey
@@ -105,7 +104,8 @@ function UserOrderPage(props) {
                     </div>
                     {
                         checkProductList?.data?.data?.checkProducts.map(product => 
-                            <UserOrderContent productInfo={product}/>
+                            <UserOrderContent productInfo={product} count={orderProductList
+                                .filter(orderProduct => product.productId === parseInt(orderProduct.productId))[0].productCount}/>
                         )
                     }
                 </div>
@@ -114,28 +114,28 @@ function UserOrderPage(props) {
                     <p>주문정보</p>
                     <div css={s.inputBox}>
                         <p>받는사람</p>
-                        <input type="text" name="orderName" onChange={handleInputOnChange} value={orderList.orderName} />
+                        <input type="text" name="orderName" onChange={handleInputOnChange} value={orderData.orderName} />
                     </div>
                     <div css={s.inputBox}>
                         <p>전화번호</p>
-                        <input type="text" name="orderPhone" onChange={handleInputOnChange} value={addHyphenToPhoneNumber(orderList.orderPhone)} />
+                        <input type="text" name="orderPhone" onChange={handleInputOnChange} value={addHyphenToPhoneNumber(orderData.orderPhone)} />
                     </div>
                     <div css={s.inputBox}>
                         <p>이메일</p>
-                        <input type="text" name="orderEmail" onChange={handleInputOnChange} value={orderList.orderEmail} />
+                        <input type="text" name="orderEmail" onChange={handleInputOnChange} value={orderData.orderEmail} />
                     </div>
                     <div css={s.addressInputBox}>
                         <p>주소</p>
                         <div>
-                            <input type="text" name="orderZipcode" placeholder='우편번호'onChange={handleInputOnChange} value={orderList.orderZipcode} />
+                            <input type="text" name="orderZipcode" placeholder='우편번호'onChange={handleInputOnChange} value={orderData.orderZipcode} />
                             <button>주소검색</button>
                         </div>
-                        <input type="text" name="orderAddressDefault" placeholder='기본주소' onChange={handleInputOnChange} value={orderList.orderAddressDefault} />
-                        <input type="text" name="orderAddressDetail" placeholder='상세주소' onChange={handleInputOnChange} value={orderList.orderAddressDetail} />
+                        <input type="text" name="orderAddressDefault" placeholder='기본주소' onChange={handleInputOnChange} value={orderData.orderAddressDefault} />
+                        <input type="text" name="orderAddressDetail" placeholder='상세주소' onChange={handleInputOnChange} value={orderData.orderAddressDetail} />
                     </div>
                     <div css={s.inputBox}>
                         <p>요청사항</p>
-                        <input type="text" name='request' onChange={handleInputOnChange}  value={orderList.request} />
+                        <input type="text" name='request' onChange={handleInputOnChange}  value={orderData.request} />
                     </div>
                 </div>
                 <div css={s.infoLayout}>
@@ -166,7 +166,7 @@ function UserOrderPage(props) {
                         }
                     </div>
                 </div>
-                <PortOneOrderPage portEtcData={orderList}/>
+                <PortOneOrderPage portEtcData={orderData}/>
             </div>
         </UserMainLayout>
     );

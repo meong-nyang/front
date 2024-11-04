@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
-import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
@@ -16,9 +14,11 @@ function UserProductDetailPage(props) {
     const navigate = useNavigate();
     const param = useParams();
     const queryClient = useQueryClient();
-    // const userInfo = queryClient.getQueryData("");
-    const [ orderProduct, setOrderProduct ] = useRecoilState(orderProuctListAtom);
+
+    const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
+
     const [ productCount, setProductCount ] = useState(1);
+
     const [ productDetailData, setProductDetailData ] = useState({
         id: "",
         productName: "",
@@ -152,9 +152,12 @@ function UserProductDetailPage(props) {
             confirmButtonText: "구매",
         }).then((result) => {
             if (result.isConfirmed) {
-                setOrderProduct([{
+                setOrderProductList([{
                     productId: param.productId,
-                    productCount: productCount
+                    productName: productDetailData.productName,
+                    productCount: productCount,
+                    productPrice: productDetailData.productPrice,
+                    productTotal: productCount * parseInt(productDetailData.productPrice)
                 }]);
                 navigate("/user/order")
             }
