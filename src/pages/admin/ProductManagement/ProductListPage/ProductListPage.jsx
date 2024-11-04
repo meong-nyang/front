@@ -79,7 +79,6 @@ function ProductListPage() {
     }
     
     const handleCheckboxOnChange = (e) => {
-        console.log(checkedId);
         const temp = new Set(checkedId);
         const checkboxId = e.target.name;
         if (temp.has(checkboxId)) {
@@ -93,7 +92,7 @@ function ProductListPage() {
     return (
         <>
             <div css={s.header}>
-                <span>총 10개의 상품</span>
+                <span>{"총 " + productList?.data?.data.productListCount + "개의 상품"}</span>
                 <div>
                     {
                         checkedId.size !== 0 &&

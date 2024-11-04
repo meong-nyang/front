@@ -4,6 +4,7 @@ import * as s from "./style";
 import { IMAGE_ADDRESS, instance } from "../../../apis/util/instance";
 import { useRef, useState } from "react";
 import { isNumber, onlyNumber } from "../../../utils/checkFormat";
+import { changeFormatToPhoneNumber } from "../../../utils/changeStringFormat";
 
 function AdminSiteSettingPage(props) {
 
@@ -96,6 +97,12 @@ function AdminSiteSettingPage(props) {
             setSiteData(data => ({
                 ...data,
                 defaultDeliverCost: value === "" ? "0" : value.replace(/^0+/, "")
+            }));
+            return;
+        } else if (e.target.name === "sitePhone") {
+            setSiteData(data => ({
+                ...data,
+                sitePhone: changeFormatToPhoneNumber(e.target.value)
             }));
             return;
         }
