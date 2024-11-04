@@ -14,15 +14,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
         petGroupId: "",
         categoryId: ""
     }
-
-    // const isNumber = (value) => {
-    //     return /^[1-9][0-9]*$/.test(value) || value === "";
-    // }
-
-    const isNumber = (value) => {
-        return /^[\d]+$/g.test(value);
-    }
-
+    
     const toNumericValue = (value) => {
         return value.toString().replace(/[^0-9]/g, '');
     }
