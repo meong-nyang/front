@@ -10,6 +10,7 @@
     import { useParams, useSearchParams } from 'react-router-dom';
     import UserCategoryLayout from '../../../components/user/UserCategoryLayout/UserCategoryLayout';
     import { CATEGORY_GROUP, GROUP_LIST, PET_GROUP } from '../../../constants/category';
+import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
 
     function UserProductListPage(props) {
         const limit = 10;
@@ -80,7 +81,7 @@
         };
 
         return (
-            <UserBackgoundLayout>
+            <UserMainLayout>
                 <UserCategoryLayout setCategoryData={setCategoryData} />
                 <div css={s.layout}>
                     <div css={s.hearderLayout}>
@@ -100,7 +101,7 @@
                     </div>
                 </div>
                 <Paginate address={`/product/list/${param.groupName}`} totalCount={productListCount?.data?.data} limit={limit} />
-            </UserBackgoundLayout>
+            </UserMainLayout>
 
         );
     }

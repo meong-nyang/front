@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 
-function UserOrderContent({productInfo}) {
+function UserOrderContent({productInfo, count}) {
 
     const priceFormet = (price) => {
         if (price == null || isNaN(price)) {
@@ -20,8 +20,8 @@ function UserOrderContent({productInfo}) {
                     <p>{productInfo.productName}</p>
                 </div>
             </div>
-            <p>1</p>
-            <p>{priceFormet(productInfo.productPrice)}원</p>
+            <p>{count}</p>
+            <p>{priceFormet(productInfo.productPrice * count)}원</p>
         </div>
     );
 }

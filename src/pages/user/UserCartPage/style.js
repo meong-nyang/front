@@ -83,9 +83,9 @@ export const checkboxStyle = css`
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        background-color: #9d6c4c;
+        background-color: #FFF5D6;
         content:"✔";
-        color: #ffffff;
+        color: #9d6c4c;
         font-size: 12px;
         width: 18px;
         height: 18px;
@@ -120,6 +120,9 @@ export const titleLayout = css`
             width: 90px;
         }
     }
+`;
+export const blankText = css`
+    padding-top: 80px;
 `;
 
 export const paymentLayout = css`
@@ -180,8 +183,8 @@ export const orderButtonLayout = css`
         height: 40px;
         padding: 10px;
         border: none;
+        border-radius: 5px;
         color: #777777;
-        font-weight: 600;
         &:nth-of-type(1) {
             color: #777777;
             background-color: #E7E7E7;
@@ -190,7 +193,7 @@ export const orderButtonLayout = css`
 
         &:nth-last-of-type(1) {
             color: #ffffff;
-            background-color: #FFB69C;
+            background-color: #9d6c4c;
             
         }
     }

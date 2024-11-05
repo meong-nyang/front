@@ -18,12 +18,12 @@ export const PET_AGE_LIST = [
 ];
 
 export const MYPAGE_OPTION_LIST = [
-    { icon: <FaUser /> , title: "회원정보"},
-    { icon: <PiNoteFill /> , title: "주문/배송 내역 조회"},
+    { icon: <FaUser /> , title: "회원정보", address: "info"},
+    { icon: <PiNoteFill /> , title: "주문/배송 내역 조회", address: "orderlist"},
 ];
 
-export const DELIVERY_STATUS_LIST = [
-    "배송중", "배송완료", "배송대기"
+export const PAYMENT_STATUS_LIST = [
+    "전체", "결제완료", "환불완료"
 ];
 
     

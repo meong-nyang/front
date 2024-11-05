@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@emotion/react": "^11.13.3",
+    "@portone/browser-sdk": "^0.0.10",
     "@splidejs/splide": "^4.1.4",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
@@ -26,7 +27,6 @@
     "react-scripts": "5.0.1",
     "react-select": "^5.8.2",
     "react-slick": "^0.30.2",
-    "react-sweet-progress": "^1.1.2",
     "react-sweetalert2": "^0.6.0",
     "recoil": "^0.7.7",
     "slick-carousel": "^1.8.1",

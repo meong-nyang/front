@@ -7,6 +7,16 @@ export const layout = css`
     margin-top: 30px;
     padding: 20px;
     border: 1px solid #e0e0e0;
+    background-color: white;
+    & > button {
+        box-sizing: border-box;
+        width: 100%;
+        margin-top: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        background-color: white;
+        padding: 5px;
+    }
 `;
 
 export const headerLayout = css`

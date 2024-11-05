@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
-import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
@@ -16,9 +14,11 @@ function UserProductDetailPage(props) {
     const navigate = useNavigate();
     const param = useParams();
     const queryClient = useQueryClient();
-    // const userInfo = queryClient.getQueryData("");
-    const [ orderProduct, setOrderProduct ] = useRecoilState(orderProuctListAtom);
+
+    const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
+
     const [ productCount, setProductCount ] = useState(1);
+
     const [ productDetailData, setProductDetailData ] = useState({
         id: "",
         productName: "",
@@ -89,14 +89,14 @@ function UserProductDetailPage(props) {
     }
 
     const handlePlusOnClick = () => {
-        setProductCount(count => count + 1);
+        setProductCount(count => parseInt(count) + 1);
     };
 
     const handleMinusOnClick = () => {
         setProductCount(count => {
             // 1 미만으로 내려가지 않도록 설정
             if (count > 1) {
-                return count - 1;
+                return parseInt(count) - 1;
             }
             return count; // 1 이하로는 내려가지 않음
         });
@@ -110,23 +110,22 @@ function UserProductDetailPage(props) {
     };
 
     const totalPrice = (price) => { 
-        console.log(price);
         return parseInt(price) * parseInt(productCount);
     };
 
     const handleAddCartOnClick = () => {
         const addProductData = {
-            userId: 0,
-            // productId: productDetail.productId,
-            productId: 1,
+            userId: 2,
+            productId: productDetailData.id,
             productCount
         }
         addProductMutation.mutateAsync(addProductData);
 
         Swal.fire({
+            icon:"success",
             title: "장바구니에 담겼습니다",
             text: "장바구니로 이동하시겠습니까?",
-            icon: "success",
+            height: "500px",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",
@@ -134,7 +133,7 @@ function UserProductDetailPage(props) {
             confirmButtonText: "이동",
         }).then((result) => {
             if (result.isConfirmed) {
-                navigate("/user/cart")
+                navigate("/user/cart?page=1")
             }
         }
         );
@@ -142,10 +141,8 @@ function UserProductDetailPage(props) {
 
     const handleOrderOnClick = () => {
         Swal.fire({
-            title: `${productDetailData.productName} ${productCount}개를 구매하시겠습니까?`,
-            icon: "success",
-            width: "600px",
-            heigth: "400px",
+            text: `${productDetailData.productName} ${productCount}개를 구매하시겠습니까?`,
+            icon: "question",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",
@@ -153,9 +150,12 @@ function UserProductDetailPage(props) {
             confirmButtonText: "구매",
         }).then((result) => {
             if (result.isConfirmed) {
-                setOrderProduct([{
+                setOrderProductList([{
                     productId: param.productId,
-                    productCount: productCount
+                    productName: productDetailData.productName,
+                    productCount: productCount,
+                    productPrice: productDetailData.productPrice,
+                    productTotal: parseInt(productCount) * parseInt(productDetailData.productPrice)
                 }]);
                 navigate("/user/order")
             }
