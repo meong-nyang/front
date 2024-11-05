@@ -26,13 +26,15 @@ function DashboardPage() {
                 setGraphData();
                 let tempDate = [];
                 let tempAmount = [];
+                let tempRefundAmount = [];
                 for(let daily of success.data.statisticsStatusList) {
                     tempDate.push(daily.date);
                     tempAmount.push(daily.orderAmount);
+                    tempRefundAmount.push(daily.refundAmount);
                 }
                 setGraphData({
-                    date: tempDate,
-                    amount: tempAmount
+                    date: tempDate.reverse(),
+                    amount: tempAmount.reverse()
                 });
             },
             onError: error => console.log(error.response)
@@ -154,7 +156,7 @@ function DashboardPage() {
                                 </tbody>
                             </table>
                             <div css={s.graph}>
-                                <Graph graphData={graphData} />
+                                <Graph graphData={graphData} showRefund={false}/>
                             </div>
                         </body>
                         <footer>

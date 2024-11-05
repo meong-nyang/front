@@ -104,7 +104,7 @@ function StockManagementPage(props) {
     return (
         <>
             <div css={s.header}>
-                <span>총 {stockDatas?.data?.data.stockListCount}개의 상품</span>
+                <span>총 {stockDatas?.data?.data.stockListCount || 0}개</span>
                 <button onClick={handleSaveButtonOnClick}>변경사항 저장</button>
             </div>
             <SearchBox searchOptions={STOCK_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={handleInputOnEnter}/>

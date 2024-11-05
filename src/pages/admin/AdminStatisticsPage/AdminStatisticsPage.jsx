@@ -56,7 +56,7 @@ function AdminStatisticsPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: success => {
                 console.log(success.data.summaryStatistics);
-                let tempSummaryData = {...emptySummaryData, dailyMinAmount: success.data.summaryStatistics[0].totalPrice};
+                let tempSummaryData = {...emptySummaryData, dailyMinAmount: success.data.summaryStatistics[0]?.totalPrice};
                 let tempDate = [];
                 let tempAmount = [];
                 let tempRefundAmount = [];
@@ -133,18 +133,18 @@ function AdminStatisticsPage(props) {
                 <tbody>
                     <tr>
                         <td>{searchingDate.startDate + " ~ " + searchingDate.endDate}</td>
-                        <td>{summaryData.totalAmount}</td>
-                        <td>{summaryData.totalCount}</td>
-                        <td>{summaryData.refundAmount}</td>
-                        <td>{summaryData.refundCount}</td>
-                        <td>{summaryData.dailyMinAmount}</td>
-                        <td>{summaryData.dailyAvgAmount}</td>
-                        <td>{summaryData.dailyMaxAmount}</td>
+                        <td>{summaryData?.totalAmount}</td>
+                        <td>{summaryData?.totalCount}</td>
+                        <td>{summaryData?.refundAmount}</td>
+                        <td>{summaryData?.refundCount}</td>
+                        <td>{summaryData?.dailyMinAmount}</td>
+                        <td>{summaryData?.dailyAvgAmount}</td>
+                        <td>{summaryData?.dailyMaxAmount}</td>
                     </tr>
                 </tbody>
             </table>
             <div css={s.graph}>
-                <Graph graphData={graphData} />
+                <Graph graphData={graphData} showRefund={true} />
             </div>
             <table css={s.subTable}>
                 <thead>

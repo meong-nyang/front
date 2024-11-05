@@ -32,7 +32,6 @@ function AdminCustomerDetailPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: success => {
-                console.log("응답 왔음");
                 setMembership(success.data.membershipList);
             },
             onError: error => console.log(error.response)

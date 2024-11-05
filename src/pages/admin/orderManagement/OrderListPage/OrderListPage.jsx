@@ -58,7 +58,7 @@ function OrderListPage(props) {
     return (
         <>
             <div css={s.header}>
-                <span>총 {orderList?.data?.data.orderListCount}개</span>
+                <span>총 {orderList?.data?.data.orderListCount || 0}개</span>
             </div>
             <SearchBox searchOptions={ORDER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={handleOnEnter}/>
             <div css={s.tableLayout}>

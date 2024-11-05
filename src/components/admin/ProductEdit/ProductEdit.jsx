@@ -41,17 +41,19 @@ function ProductEdit({ productData, setProductData, disabled }) {
                     petGroupId: success.data.petGroupList[0].categoryGroupName,
                     categoryId: success.data.categoryList[0].categoryName
                 });
-                setProductData(data => ({
-                    ...data,
-                    petGroupId: success.data.petGroupList[0].id,
-                    categoryId: success.data.categoryList[0].id
-                }));
             },
             onError: error => console.log(error.response)
         }
     );
 
-    // 한글로 입력할 때 문제가 발생
+    useEffect(() => {
+        console.log(productData);
+        setSelectedCategoryName({
+            petGroupId: productData?.petGroup?.categoryGroupName || getCategoryList?.data?.data.petGroupList[0].categoryGroupName,
+            categoryId: productData?.category?.categoryName || getCategoryList?.data?.data.categoryList[0].categoryName
+        });
+    }, [productData.category]);
+
     const handleProductNumberDataOnChange = (e) => {
         const value = toNumericValue(e.target.value.toString());
         setProductData(data => {
@@ -61,15 +63,6 @@ function ProductEdit({ productData, setProductData, disabled }) {
                 [e.target.name]: value === "" ? "0" : value.replace(/^0+/, "")
             })
         });
-        // if(isNumber(value)) {
-        //     setProductData(data => {
-        //         console.log("set동작");
-        //         return ({
-        //             ...data,
-        //             [e.target.name]: value === "" ? "0" : value.replace(/^0+/, "")
-        //         })
-        //     });
-        // }
     }
 
     const handleProductDataOnChange = (e) => {
@@ -117,7 +110,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td css={s.modal}>
                                 <div css={s.categorySelect}>
                                     <button type="button" onClick={handleModalChangeOnClick}>
-                                        {productData?.petGroup?.categoryGroupName + " > " + productData?.category?.categoryName}
+                                        {selectedCategoryName.petGroupId + " > " + selectedCategoryName.categoryId}
                                     </button>
                                     <IoMdArrowDropdown />
                                 </div>

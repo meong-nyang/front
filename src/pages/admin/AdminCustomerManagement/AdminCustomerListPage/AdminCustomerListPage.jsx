@@ -31,7 +31,7 @@ function AdminCustomerListPage(props) {
     return (
         <>
             <div css={s.header}>
-                <span>{"총 " + userInfoDatas?.data?.data.userListCount + "명"}</span>
+                <span>총 {userInfoDatas?.data?.data.userListCount || 0}명</span>
             </div>
             <SearchBox searchOptions={CUSTOMER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData}/>
             <table css={s.mainTable}>
