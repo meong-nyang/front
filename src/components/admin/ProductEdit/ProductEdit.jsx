@@ -7,6 +7,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
+import { convertToCommaValue, convertToNumericValue } from "../../../utils/changeStringFormat";
 
 function ProductEdit({ productData, setProductData, disabled }) {
 
@@ -15,14 +16,6 @@ function ProductEdit({ productData, setProductData, disabled }) {
         categoryId: ""
     }
     
-    const toNumericValue = (value) => {
-        return value.toString().replace(/[^0-9]/g, '');
-    }
-
-    const toCommaValue = (value) => {
-        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-
     const queryClient = useQueryClient();
     const categoryList = queryClient.getQueryData("categoryListQuery");
 
@@ -55,9 +48,8 @@ function ProductEdit({ productData, setProductData, disabled }) {
     }, [productData.category]);
 
     const handleProductNumberDataOnChange = (e) => {
-        const value = toNumericValue(e.target.value.toString());
+        const value = convertToNumericValue(e.target.value.toString());
         setProductData(data => {
-            console.log("set동작");
             return ({
                 ...data,
                 [e.target.name]: value === "" ? "0" : value.replace(/^0+/, "")
@@ -126,7 +118,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="productPrice"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.productPrice)}
+                                    value={convertToCommaValue(productData.productPrice)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -180,7 +172,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="productPriceDiscount"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.productPriceDiscount)}
+                                    value={convertToCommaValue(productData.productPriceDiscount)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -188,7 +180,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text"
                                     disabled={true}
-                                    value={toCommaValue(productData.productPrice - productData.productPriceDiscount)} />
+                                    value={convertToCommaValue(productData.productPrice - productData.productPriceDiscount)} />
                             </td>
                         </tr>
                         <tr>
@@ -213,7 +205,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="currentStock"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.currentStock)}
+                                    value={convertToCommaValue(productData.currentStock)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -221,7 +213,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="expectedStock"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.expectedStock)}
+                                    value={convertToCommaValue(productData.expectedStock)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -238,7 +230,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="arrivalQuantity"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.arrivalQuantity)}
+                                    value={convertToCommaValue(productData.arrivalQuantity)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -269,7 +261,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="minAlertQuantity"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.minAlertQuantity)}
+                                    value={convertToCommaValue(productData.minAlertQuantity)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>

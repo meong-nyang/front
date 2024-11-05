@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as s from "./style";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import ProductEdit from "../../../../components/admin/ProductEdit/ProductEdit";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import { v4 as uuidv4 } from 'uuid';

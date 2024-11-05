@@ -6,6 +6,7 @@ import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import { MENU_DATAS } from "../../../../constants/options";
+import { convertToCommaValue } from "../../../../utils/changeStringFormat";
 
 function ProductDetailPage(props) {
     const params = useParams();
@@ -89,7 +90,7 @@ function ProductDetailPage(props) {
                                 <th>카테고리</th>
                                 <td colSpan={3}>{productDetail.data.data.petGroup.categoryGroupName + " > " + productDetail.data.data.category.categoryName}</td>
                                 <th>단가</th>
-                                <td>{productDetail.data.data.productPrice}</td>
+                                <td>{convertToCommaValue(productDetail.data.data.productPrice)}</td>
                                 <th>추천상품</th>
                                 <td>
                                     <div css={s.recommendBox}>
@@ -124,9 +125,9 @@ function ProductDetailPage(props) {
                                 <th>제조일</th>
                                 <td>{ }</td>
                                 <th>할인금액</th>
-                                <td>{productDetail.data.data.productPriceDiscount}</td>
+                                <td>{convertToCommaValue(productDetail.data.data.productPriceDiscount)}</td>
                                 <th>판매가격</th>
-                                <td>{productDetail.data.data.productPrice - productDetail.data.data.productPriceDiscount}</td>
+                                <td>{convertToCommaValue(productDetail.data.data.productPrice - productDetail.data.data.productPriceDiscount)}</td>
                             </tr>
                             <tr>
                                 <th>메모</th>
@@ -139,13 +140,13 @@ function ProductDetailPage(props) {
                         <tbody>
                             <tr>
                                 <th>현재재고</th>
-                                <td>{productDetail.data.data.currentStock}</td>
+                                <td>{convertToCommaValue(productDetail.data.data.currentStock)}</td>
                                 <th>가재고</th>
-                                <td>{productDetail.data.data.expectedStock}</td>
+                                <td>{convertToCommaValue(productDetail.data.data.expectedStock)}</td>
                                 <th>입고 예정 일자</th>
                                 <td>{productDetail.data.data.arrivalDate}</td>
                                 <th>입고수량</th>
-                                <td>{productDetail.data.data.arrivalQuantity}</td>
+                                <td>{convertToCommaValue(productDetail.data.data.arrivalQuantity)}</td>
                             </tr>
                             <tr>
                                 <th>재고 알림 설정</th>
@@ -166,7 +167,7 @@ function ProductDetailPage(props) {
                                     </div>
                                 </td>
                                 <th>알림 수량</th>
-                                <td>{productDetail.data.data.minAlertQuantity}</td>
+                                <td>{convertToCommaValue(productDetail.data.data.minAlertQuantity)}</td>
                             </tr>
                         </tbody>
                     </table>

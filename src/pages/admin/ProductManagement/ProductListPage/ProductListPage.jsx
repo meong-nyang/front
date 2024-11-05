@@ -7,6 +7,7 @@ import { instance } from "../../../../apis/util/instance";
 import SearchBox from "../../../../components/admin/SearchBox/SearchBox";
 import { PRODUCT_SEARCH_OPTIONS } from "../../../../constants/options";
 import Paginate from "../../../../components/admin/Paginate/Paginate";
+import { convertToCommaValue } from "../../../../utils/changeStringFormat";
 
 function ProductListPage() {
 
@@ -65,7 +66,10 @@ function ProductListPage() {
     );
 
     const handleDeleteButtonOnClick = () => {
-        console.log(checkedId);
+        if(checkedId.size === 0) {
+            alert("삭제할 항목이 없습니다.");
+            return;
+        }
         if(window.confirm("정말 삭제하시겠습니까?")) {
             deleteProductsMutation.mutateAsync()
                 .then(success => {
@@ -107,10 +111,7 @@ function ProductListPage() {
             <div css={s.header}>
                 <span>총 {productList?.data?.data.productListCount || 0}개</span>
                 <div>
-                    {
-                        checkedId.size !== 0 &&
-                        <button onClick={handleDeleteButtonOnClick}>선택항목 삭제</button>
-                    }
+                    <button onClick={handleDeleteButtonOnClick}>선택항목 삭제</button>
                     <button onClick={() => navigate("/admin/product/register")}>상품등록</button>
                 </div>
             </div>
@@ -145,8 +146,8 @@ function ProductListPage() {
                                     <td>{product.id}</td>
                                     <td>{product.petGroup.categoryGroupName + " > " + product.category.categoryName}</td>
                                     <td>{product.productName}</td>
-                                    <td>{product.productPrice}</td>
-                                    <td>{product.productPrice - product.productPriceDiscount}</td>
+                                    <td>{convertToCommaValue(product.productPrice)}</td>
+                                    <td>{convertToCommaValue(product.productPrice - product.productPriceDiscount)}</td>
                                     <td>{product.productMemo}</td>
                                 </tr>
                             )

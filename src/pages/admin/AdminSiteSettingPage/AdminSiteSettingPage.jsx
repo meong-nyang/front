@@ -3,8 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import * as s from "./style";
 import { IMAGE_ADDRESS, instance } from "../../../apis/util/instance";
 import { useRef, useState } from "react";
-import { isNumber, onlyNumber } from "../../../utils/checkFormat";
-import { changeFormatToPhoneNumber } from "../../../utils/changeStringFormat";
+import { changeFormatToPhoneNumber, onlyNumber } from "../../../utils/changeStringFormat";
 
 function AdminSiteSettingPage(props) {
 

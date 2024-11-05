@@ -4,6 +4,7 @@ import * as s from "./style";
 import { useQuery } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import Graph from "../../../components/admin/Graph/Graph";
+import { convertToCommaValue } from "../../../utils/changeStringFormat";
 
 function AdminStatisticsPage(props) {
 
@@ -133,13 +134,13 @@ function AdminStatisticsPage(props) {
                 <tbody>
                     <tr>
                         <td>{searchingDate.startDate + " ~ " + searchingDate.endDate}</td>
-                        <td>{summaryData?.totalAmount}</td>
-                        <td>{summaryData?.totalCount}</td>
-                        <td>{summaryData?.refundAmount}</td>
-                        <td>{summaryData?.refundCount}</td>
-                        <td>{summaryData?.dailyMinAmount}</td>
-                        <td>{summaryData?.dailyAvgAmount}</td>
-                        <td>{summaryData?.dailyMaxAmount}</td>
+                        <td>{convertToCommaValue(summaryData?.totalAmount)}</td>
+                        <td>{convertToCommaValue(summaryData?.totalCount)}</td>
+                        <td>{convertToCommaValue(summaryData?.refundAmount)}</td>
+                        <td>{convertToCommaValue(summaryData?.refundCount)}</td>
+                        <td>{convertToCommaValue(summaryData?.dailyMinAmount)}</td>
+                        <td>{convertToCommaValue(summaryData?.dailyAvgAmount)}</td>
+                        <td>{convertToCommaValue(summaryData?.dailyMaxAmount)}</td>
                     </tr>
                 </tbody>
             </table>
@@ -163,10 +164,10 @@ function AdminStatisticsPage(props) {
                             <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td>{product.productName}</td>
-                                <td>{product.productCount}</td>
+                                <td>{convertToCommaValue(product.productCount)}</td>
                                 <td>{index + 1}</td>
                                 <td>{statisticsDatas?.data?.data.bestProductsAmounts[index].productName}</td>
-                                <td>{statisticsDatas?.data?.data.bestProductsAmounts[index].productPrice}</td>
+                                <td>{convertToCommaValue(statisticsDatas?.data?.data.bestProductsAmounts[index].productPrice)}</td>
                             </tr>
                         )
                     }
