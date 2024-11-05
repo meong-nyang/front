@@ -33,7 +33,7 @@ function ProductModifyPage(props) {
     const navigate = useNavigate();
     
     const [ productData, setProductData ] = useState(emptyProductData);
-    const [ blobs, setBlobs ] = useState([]);
+    const [ imgName, setImgName ] = useState([]);
 
     const productModify = useQuery(
         ["productModifyQuery"],
@@ -42,13 +42,8 @@ function ProductModifyPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
-                console.log("urls");
-                console.log(success.data.imgUrls);
-                setBlobs([]);
-                for (let i of success.data.imgUrls) {
-                    await addImgBlobFromUrl("/images/" + i.imgName);
-                }
-                console.log(success.data);
+                const tempImgName = success.data.imgUrls.map(data => data.imgName);
+                setImgName(tempImgName);
                 setProductData(success.data);
             },
             onError: error => {
@@ -63,7 +58,7 @@ function ProductModifyPage(props) {
         for (let i of productEntries) {
             formData.append(i[0], i[1]);
         }
-        for (let i of blobs) {
+        for (let i of imgName) {
             formData.append('productImage', i, uuidv4() + "_" + i.name);
         }
         return formData;
@@ -76,18 +71,6 @@ function ProductModifyPage(props) {
             }
         })
     );
-
-    const addImgBlobFromUrl = async (url) => {
-        try {
-            const response = await instance.get(url, { responseType: "blob" });
-            console.log("blob");
-            console.log(response);
-            setBlobs(blob => [...blob, response.data]);
-        } catch(e) {
-            console.log("이미지를 불러오는 중 에러가 발생하였습니다");
-            console.log(e.response);
-        }
-    }
 
     const handleModifyButtonOnClick = () => {
         console.log(productData);
@@ -104,18 +87,21 @@ function ProductModifyPage(props) {
 
     return (
         <div css={s.layout}>
-            <div css={s.buttons}>
-                {
-                    <>
-                        <button onClick={handleModifyButtonOnClick}>저장</button>
-                        <button onClick={() => navigate(`/admin/product/detail/${params.id}`)}>취소</button>
-                    </>
-                }
+            <div css={s.head}>
+                <span>상품 이미지</span>
+                <div css={s.buttons}>
+                    {
+                        <>
+                            <button onClick={handleModifyButtonOnClick}>저장</button>
+                            <button onClick={() => navigate(`/admin/product/detail/${params.id}`)}>취소</button>
+                        </>
+                    }
+                </div>
             </div>
             {
                 productModify.isSuccess && productData &&
                 <>
-                    <ProductImages blobs={blobs} setBlobs={setBlobs} isModify={true} />
+                    <ProductImages imgSource={imgName} setImgSource={setImgName} isModify={true} />
                     <ProductEdit productData={productData} setProductData={setProductData} disabled={false} />
                 </>
             }

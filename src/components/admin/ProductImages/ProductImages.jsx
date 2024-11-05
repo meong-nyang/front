@@ -3,15 +3,28 @@ import { useEffect, useState } from "react";
 import * as s from "./style";
 import { RiImageAddLine } from "react-icons/ri";
 import { GiCancel } from "react-icons/gi";
+import { IMAGE_ADDRESS } from "../../../apis/util/instance";
 
-function ProductImages({blobs, setBlobs, isModify}) {
+function ProductImages({imgSource, setImgSource, isModify}) {
     
-    const [ imgsPreview, setImgsPreview ] = useState([]);
+    const [ preview, setPreview ] = useState([]);
+    const [ deleteImgNames, setDeleteImgNames ] = useState({
+        addImgData: [],
+        deleteImgName: []
+    });
 
     useEffect(() => {
-        const urls = blobs.map(blob => URL.createObjectURL(blob));
-        setImgsPreview(urls);
-    }, [blobs]);
+        console.log(imgSource);
+        let tempPreview = [];
+        for (let i of imgSource) {
+            if (i instanceof Blob) {
+                tempPreview.push(URL.createObjectURL(i));
+            } else {
+                tempPreview.push(IMAGE_ADDRESS + i);
+            }
+        }
+        setPreview(tempPreview);
+    }, [imgSource]);
 
     const handleImageChangeOnClick = () => {
         const fileInput = document.createElement("input");
@@ -21,29 +34,27 @@ function ProductImages({blobs, setBlobs, isModify}) {
         fileInput.click();
 
         fileInput.onchange = (e) => {
-            if (blobs.length + e.target.files.length > 10) {
+            if (imgSource.length + e.target.files.length > 10) {
                 return alert("이미지는 최대 10개까지만 등록이 가능합니다");
             }
             for (let i of e.target.files) {
-                setBlobs(file => [...file, i]);
+                setImgSource(file => [...file, i]);
             }
         }
     }
 
     const handleImageDeleteOnClick = (index) => {
-        const newFiles = []
-        for (let i = 0; i < blobs.length; i++) {
-            if (i !== index) {
-                newFiles.push(blobs[i]);
-            }
-        }
-        setBlobs(newFiles);
+        setImgSource(img => {
+            const temp = [...img];
+            console.log(temp);
+            return 
+        });
     }
 
     return (
         <div css={s.images}>
             {
-                imgsPreview.map((img, index) =>
+                preview.map((img, index) =>
                     <span key={index}>
                         <img src={img}/>
                         {
@@ -54,7 +65,7 @@ function ProductImages({blobs, setBlobs, isModify}) {
                 )
             }
             {
-                imgsPreview.length < 10 && isModify &&
+                imgSource.length < 10 && isModify &&
                 <div onClick={handleImageChangeOnClick}><RiImageAddLine /></div>
             }
         </div>

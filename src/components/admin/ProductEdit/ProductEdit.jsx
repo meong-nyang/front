@@ -270,13 +270,11 @@ function ProductEdit({ productData, setProductData, disabled }) {
                 </table>
             </div>
             <div css={s.productDetail}>
-                {
-                    productDetailModalOpen &&
-                    <ProductDetailModal setProductDetailModalOpen={setProductDetailModalOpen} />
-                }
-                <button onClick={() => setProductDetailModalOpen(true)}>상세정보 미리보기 <FiExternalLink /></button>
-                <div>
-
+                <span>제품설명</span>
+                <textarea></textarea>
+                <span>상세정보 이미지</span>
+                <div css={s.detailImages}>
+                    <img src="" alt="" />
                 </div>
             </div>
         </div>

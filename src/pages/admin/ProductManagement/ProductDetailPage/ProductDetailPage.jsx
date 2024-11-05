@@ -68,9 +68,12 @@ function ProductDetailPage(props) {
 
     return (
         <div css={s.layout}>
-            <div css={s.buttons}>
-                <button onClick={handleDeleteButtonOnClick}>삭제</button>
-                <button onClick={() => navigate(`/admin/product/modify/${params.id}`)}>수정</button>
+            <div css={s.head}>
+                <span>상품 이미지</span>
+                <div css={s.buttons}>
+                    <button onClick={handleDeleteButtonOnClick}>삭제</button>
+                    <button onClick={() => navigate(`/admin/product/modify/${params.id}`)}>수정</button>
+                </div>
             </div>
             {
                 console.log(productDetail.isFetching)
@@ -171,8 +174,14 @@ function ProductDetailPage(props) {
                             </tr>
                         </tbody>
                     </table>
-                    <span>상세정보 미리보기</span>
-                    <div css={s.detail}></div>
+                    <div css={s.productDetail}>
+                    <span>제품설명</span>
+                    <textarea></textarea>
+                    <span>상세정보 이미지</span>
+                    <div css={s.detailImages}>
+                        <img src="" alt="" />
+                    </div>
+                </div>
                 </>
             }
         </div>
