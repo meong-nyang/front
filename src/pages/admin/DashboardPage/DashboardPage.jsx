@@ -2,12 +2,42 @@
 import { FaArrowRight } from "react-icons/fa6";
 import * as s from "./style";
 import { Link } from "react-router-dom";
+import { useQuery } from "react-query";
+import { instance } from "../../../apis/util/instance";
+import Graph from "../../../components/admin/Graph/Graph";
+import { useState } from "react";
 
 function DashboardPage() {
 
-    const orderData = [];
-    const stockData = [];
-    const statisticsData = [];
+    const [ graphData, setGraphData ] = useState({
+        date: [],
+        amount: [],
+        refundAmount: []
+    });
+
+    const dashboardData = useQuery(
+        ["dashboardDataQuery"],
+        async () => await instance.get("/admin/dashboard"),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: success => {
+                console.log(success.data.statisticsStatusList);
+                setGraphData();
+                let tempDate = [];
+                let tempAmount = [];
+                for(let daily of success.data.statisticsStatusList) {
+                    tempDate.push(daily.date);
+                    tempAmount.push(daily.orderAmount);
+                }
+                setGraphData({
+                    date: tempDate,
+                    amount: tempAmount
+                });
+            },
+            onError: error => console.log(error.response)
+        }
+    );
 
     return (
         <>
@@ -17,23 +47,23 @@ function DashboardPage() {
                     <tbody>
                         <tr>
                             <th>총 매출</th>
-                            <td>data</td>
+                            <td>{dashboardData?.data?.data.totalPrice}</td>
                             <th>총 주문건수</th>
-                            <td>data</td>
-                            <th>총 취소건수</th>
-                            <td>data</td>
+                            <td>{dashboardData?.data?.data.totalCount}</td>
+                            <th>총 취소금액</th>
+                            <td>{dashboardData?.data?.data.refundPrice}</td>
                             <th>전체 회원</th>
-                            <td>data</td>
+                            <td>{dashboardData?.data?.data.totalCustomerCount}</td>
                         </tr>
                         <tr>
                             <th>오늘 매출</th>
-                            <td>data</td>
+                            <td>{dashboardData?.data?.data.todayTotalPrice}</td>
                             <th>오늘 주문건수</th>
-                            <td>data</td>
-                            <th>오늘 취소건수</th>
-                            <td>data</td>
+                            <td>{dashboardData?.data?.data.todayTotalCount}</td>
+                            <th>오늘 취소금액</th>
+                            <td>{dashboardData?.data?.data.todayRefundPrice}</td>
                             <th>신규 회원</th>
-                            <td>data</td>
+                            <td>{dashboardData?.data?.data.todayJoinCustomerCount}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -48,18 +78,16 @@ function DashboardPage() {
                                     <tr>
                                         <th>고객명</th>
                                         <th>주문날짜</th>
-                                        <th>결제상태</th>
-                                        <th>배송상태</th>
+                                        <th>주문상태</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        orderData.map(data => (
-                                            <tr key={data.id}>
-                                                <td>{data.customerName}</td>
+                                        dashboardData?.data?.data.orderStatusList.map((data, index) => (
+                                            <tr key={index}>
+                                                <td>{data.orderName}</td>
                                                 <td>{data.orderDate}</td>
-                                                <td>{data.payStatus}</td>
-                                                <td>{data.deliveryStatus}</td>
+                                                <td>{data.orderStatus}</td>
                                             </tr>
                                         ))
                                     }
@@ -84,9 +112,9 @@ function DashboardPage() {
                                 </thead>
                                 <tbody>
                                     {
-                                        stockData.map(data => (
-                                            <tr key={data.id}>
-                                                <td>{data.productCode}</td>
+                                        dashboardData?.data?.data.stockStatusList.map((data, index) => (
+                                            <tr key={index}>
+                                                <td>{data.productId}</td>
                                                 <td>{data.productName}</td>
                                                 <td>{data.expectedStock}</td>
                                                 <td>{data.currentStock}</td>
@@ -104,31 +132,29 @@ function DashboardPage() {
                 <div css={s.rightInfo}>
                     <div css={s.card}>
                         <header>통계</header>
-                        <body>
+                        <body css={s.statisticsLayout}>
                             <table>
                                 <thead>
                                     <tr>
                                         <th>일자</th>
                                         <th>주문건수</th>
                                         <th>매출액</th>
-                                        <th>취소건수</th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     {
-                                        statisticsData.map(data => (
-                                            <tr key={data.id}>
+                                        dashboardData?.data?.data.statisticsStatusList.map((data, index) => (
+                                            <tr key={index}>
                                                 <td>{data.date}</td>
                                                 <td>{data.orderCount}</td>
-                                                <td>{data.sales}</td>
-                                                <td>{data.cancelCount}</td>
+                                                <td>{data.orderAmount}</td>
                                             </tr>
                                         ))
                                     }
                                 </tbody>
                             </table>
                             <div css={s.graph}>
-                                그래프자리
+                                <Graph graphData={graphData} />
                             </div>
                         </body>
                         <footer>

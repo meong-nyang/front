@@ -156,7 +156,7 @@ function App() {
         <>
             <Global styles={reset} />
             <Routes>
-                <Route path='/' element={<UserMainPage />} />
+                <Route path='/' element={<></>} />
                 <Route path='/user/signup' element={<UserSignupPage />} />
                 <Route path='/user/signin' element={<UserSigninPage />} />
                 <Route path='/user/signup/oauth2' element={<UserOauth2SignupPage />} />

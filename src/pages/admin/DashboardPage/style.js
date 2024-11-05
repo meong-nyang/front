@@ -94,9 +94,15 @@ export const card = css`
     }
 
     td {
-        padding: 5px 0px;
-        font-size: 15px;
+        padding: 0;
+        font-size: 14px;
     }
+`;
+
+export const statisticsLayout = css`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 `;
 
 export const graph = css`
