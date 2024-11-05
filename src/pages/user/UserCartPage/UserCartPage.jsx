@@ -4,7 +4,7 @@ import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHead
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserCartContent from '../../../components/user/UserCartContent/UserCartContent';
-import { useMutation, useQuery } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import Swal from "sweetalert2";
 import { useNavigate, useSearchParams } from 'react-router-dom';
@@ -15,30 +15,51 @@ import { orderProuctListAtom } from '../../../atoms/orderAtom';
 
 function UserCartPage(props) {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    const userInfo = queryClient.getQueryData("userInfoQuery");
     const [ searchParams, setSearchParams ] = useSearchParams();
     const limit = 10;
     const [ checkItems, setCheckItems ] = useState([]);
     const [ totalPrice, setTotalPrice ] = useState(0);
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
 
+    console.log(userInfo?.data?.id);
+    useEffect(() => {
+        console.log(cartItemList?.data?.data?.cartList.map(item => item.cartId));
+        // setCheckItems(cartItemList?.data?.data?.cartList.map(item => item.cartId));
+    }, []);
+
+    useEffect(() => {
+        let total = 0;
+        if(checkItems.length !== 0) {
+            total = cartItemList?.data?.data?.cartList
+            .filter(item => checkItems.includes(item.cartId))
+                .reduce((acc, { productPrice, productCount }) => {
+                    return acc + (productPrice * productCount);
+                }, 0);
+        }
+        console.log(total);
+        setTotalPrice(total);
+        
+    }, [checkItems]);
+
+    console.log(checkItems);
     const cartItemList = useQuery(
         ["cartItemListQuery"],
         async () => await instance.get("/user/cart", {
             params: {
-                userId: 2,
+                userId: userInfo?.data?.id,
                 page: searchParams.get("page"),
                 limit: limit,
             } 
         }),
         {
+            enabled: !!userInfo?.data?.id,
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 console.log(response.data);
-                const total = response.data.cartList.reduce((acc, { productPrice, productCount }) => {
-                    return acc + productPrice * productCount;
-                }, 0);
-                setTotalPrice(total);
+                setCheckItems(cartItemList?.data?.data?.cartList.map(item => item.cartId));
             } ,
             onError: error => console.error(error)
         }
@@ -52,8 +73,7 @@ function UserCartPage(props) {
                 str += i + ","
             }
             str = str.slice(0, str.length - 1);
-            //(수정) userId 받아오기
-            return await instance.delete(`/user/cart?userId=2&${str}`)
+            return await instance.delete(`/user/cart?userId=${userInfo?.data?.id}&${str}`)
         },
         {
             onSuccess: response => cartItemList.refetch(),
@@ -98,6 +118,16 @@ function UserCartPage(props) {
     };
 
     const handleSelectProductOrderOnClick = () => {
+        if(checkItems.length === 0) {
+            Swal.fire({
+                text: "선택한상품이 없습니다. ",
+                icon: "error",
+                timer: 1500,
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "닫기",
+            });
+            return;
+        }
         Swal.fire({
             text: `선택한 상품 ${checkItems.length}개를 구매하시겠습니까?`,
             icon: "success",
@@ -157,7 +187,7 @@ function UserCartPage(props) {
                         <label htmlFor="allSelect" >✔</label>
                         <label htmlFor="allSelect" >전체선택</label>
                     </div>
-                    <button onClick={handleSelectDeleteOnClick} disabled={checkItems.isNaN} >선택삭제</button>
+                    <button onClick={handleSelectDeleteOnClick} disabled={checkItems.length === 0} >선택삭제</button>
                 </div>
                 <div css={s.titleLayout}>
                     <p>선택</p>

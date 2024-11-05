@@ -12,11 +12,11 @@ import { MYPAGE_OPTION_LIST } from '../../../constants/SelectOption';
 
 import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
-import { m } from 'framer-motion';
 import { useParams } from 'react-router-dom';
 
 function UserMypage() {
-    const [ selectOption, setSelectOption ] = useState(0);
+    const param = useParams();
+    const [ selectOption, setSelectOption ] = useState(param.controllerName);
     const queryClient = useQueryClient();
     const userInfoData = queryClient.getQueryData("userInfoQuery");
     const [ userInfo, setUserInfo ] = useState({
@@ -56,12 +56,12 @@ function UserMypage() {
                 <UserMypageController selectOption={selectOption} setSelectOption={setSelectOption}/>
                 {
                     MYPAGE_OPTION_LIST.map((option,index) => (
-                        selectOption === index &&
+                        selectOption === option.address &&
                         <p>{option.title}</p>
                     ))
                 }
                 {
-                    selectOption === 0 &&
+                    param.controllerName === "info" &&
                     <>
                         <UserInfoDetail userInfo={userInfo} setUserInfo={setUserInfo}/>
                         <UserInfoPassword/>
@@ -69,7 +69,7 @@ function UserMypage() {
                     </>
                 }
                 {
-                    selectOption === 1 &&
+                   param.controllerName === "orderlist" &&
                     <UserOrderDetail />
                 }
             </div>

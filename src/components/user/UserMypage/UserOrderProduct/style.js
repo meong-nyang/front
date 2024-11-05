@@ -53,13 +53,14 @@ export const deliveryLayout = css`
     & > p {
         color: #04B500;
         margin-bottom: 5px;
-        &:nth-of-type(2) {
-            box-sizing: border-box;
-            padding: 7px 10px;
-            color: #000000;
-            font-size: 12px;
-            background-color: #f0f0f0;
-            border-radius: 5px;
-        }
+    }
+    & > button {
+        box-sizing: border-box;
+        padding: 7px 10px;
+        border: none;
+        color: #000000;
+        font-size: 12px;
+        background-color: #f0f0f0;
+        border-radius: 5px;
     }
 `;

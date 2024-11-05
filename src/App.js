@@ -34,6 +34,7 @@ import OrderListPage from './pages/admin/orderManagement/OrderListPage/OrderList
 import UserOauth2SigninPage from './pages/user/UserOauth2SigninPage/UserOauth2SigninPage';
 import PortOneOrderPage from './pages/user/PortOneOrderPage/PortOneOrderPage';
 import AdminCustomerListPage from './pages/admin/AdminCustomerManagement/AdminCustomerListPage/AdminCustomerListPage';
+import UserOrderSuccessPage from './pages/user/UserOrderSuccessPage/UserOrderSuccessPage';
 
 
 function App() {
@@ -160,12 +161,13 @@ function App() {
                 <Route path='/user/signin' element={<UserSigninPage />} />
                 <Route path='/user/signup/oauth2' element={<UserOauth2SignupPage />} />
                 <Route path='/user/signin/oauth2' element={<UserOauth2SigninPage />} />
-                <Route path='/user' element={<UserMypage />} />
+                <Route path='/user/:controllerName' element={<UserMypage />} />
                 <Route path='/user/cart' element={<UserCartPage />} />
                 <Route path='/user/order' element={<UserOrderPage />} />
                 <Route path='/product/detail/:productId' element={<UserProductDetailPage />} />
                 <Route path='/product/list/:groupName' element={<UserProductListPage />} />
                 <Route path='/order' element={<PortOneOrderPage />} />
+                <Route path='/order/success' element={<UserOrderSuccessPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={

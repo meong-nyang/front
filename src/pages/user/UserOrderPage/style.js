@@ -65,23 +65,51 @@ export const infoLayout = css`
     width: 100%;
     margin-top: 30px;
     & > p {
+        padding: 30px 10px 10px;
         width: 100%;
-        padding: 30px 0px 10px;
-        border-bottom: 1px solid #e0e0e0;
         font-size: 18px;
         font-weight: 600;
+        border-bottom: 1px solid #e0e0e0;
     }
+    & > div:nth-of-type(1) {
+        box-sizing: border-box;
+        display: flex;
+        width: 100%;
+        /* justify-content: space-between; */
+        align-items: center;
+        /* border-bottom: 1px solid #e0e0e0; */
+        & > p {
+            padding: 30px 10px 10px;
+            font-size: 18px;
+            font-weight: 600;
+        }
+        & > p:nth-last-of-type(1) {
+            padding: 30px 0px 10px;
+            font-size: 14px;
+            color: #777777;
+            font-weight: 400;
+        }
+    }
+    
 `;
 
 export const inputBox = css`
     box-sizing: border-box;
     width: 700px;
     color: #777777;
-    & > p {
-        margin: 10px 0px 7px;
-        font-size: 14px;
-        font-weight: 600;
+    & > div {
+        box-sizing: border-box;
+        display: flex;
+        & > p {
+            margin: 10px 10px 7px 0px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        & > p:nth-last-of-type(1) {
+            color: red;
+        }
     }
+    
 
     & > input {
         box-sizing: border-box;
@@ -98,10 +126,17 @@ export const addressInputBox = css`
     box-sizing: border-box;
     width: 700px;
     color: #777777;
-    & > p {
-        margin: 15px 0px 7px;
-        font-size: 14px;
-        font-weight: 600;
+    & > div:nth-of-type(1) {
+        box-sizing: border-box;
+        display: flex;
+        & > p {
+            margin: 10px 10px 7px 0px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        & > p:nth-last-of-type(1) {
+            color: red;
+        }
     }
 
     & > div {
@@ -150,6 +185,7 @@ export const priceLayout = css`
     display: flex;
     flex-direction: column;
     width: 100%;
+    padding-bottom: 10px;
     & > div {
         box-sizing: border-box;
         display: flex;
@@ -171,17 +207,33 @@ export const totalPriceLayout = css`
     box-sizing: border-box;
     display: flex;
     justify-content: space-between;
+    align-items: center;
     width: 100%;
+    padding-bottom: 10px;
     border-bottom: 1px solid #e0e0e0;
     & > p {
-        padding: 30px 0px 10px;
-        font-size: 18px;
+        padding: 10px 0px 10px;
+        font-size: 16px;
         font-weight: 600;
     }
 `;
 
-export const paymentMethod = css`
-    border-bottom: none !important;
+export const paymentMethodLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    & > p {
+        padding: 30px 10px 10px 0px;
+        font-size: 18px;
+        font-weight: 600;
+    }
+
+    & > p:nth-last-of-type(1) {
+        font-size: 14px;
+        font-weight: 400;
+        color: #777777;
+    }
 `;
 
 export const paymentLayout = css`
@@ -205,7 +257,6 @@ export const paymentLayout = css`
         margin: 7px;
         border: 1px solid #e0e0e0;
         background-color: #ffffff;
-        font-weight: 600;
         color: #777777;
     }
 

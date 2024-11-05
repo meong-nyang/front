@@ -5,7 +5,6 @@ export const layout = css`
     display: flex;
     flex-direction: column;
     margin: 0 auto;
-    background-color: #ffffff;
 
     & > p:nth-of-type(1) {
         font-size: 18px;

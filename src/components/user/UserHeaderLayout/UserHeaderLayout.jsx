@@ -50,7 +50,7 @@
                         accessTokenValidationQuery?.data
                         ?
                         <>
-                            <Link to={'/user'}>마이페이지</Link>
+                            <Link to={'/user/info'}>마이페이지</Link>
                             <button onClick={handleLogoutClick} >로그아웃</button>
                         </>
                         :

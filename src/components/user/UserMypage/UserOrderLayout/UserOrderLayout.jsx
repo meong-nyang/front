@@ -2,8 +2,16 @@ import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserOrderProduct from '../UserOrderProduct/UserOrderProduct';
+import axios from 'axios';
+import { useMutation } from 'react-query';
 
 function UserOrderLayout(props) {
+    const portonePaymentCancelMutation = useMutation(
+        async () => await axios.post("https://api.portone.io/payments/paymentId/cancel")
+    );
+    const handlePaymentCancelOnClick = () => {
+
+    };
     return (
         <div css={s.layout}>
             <div css={s.headerLayout}>
@@ -18,11 +26,13 @@ function UserOrderLayout(props) {
                 <p>상품명/옵션</p>
                 <p>수량</p>
                 <p>결제금액</p>
-                <p>배송상태</p>
+                <p>결제상태</p>
             </div>
             <UserOrderProduct />
             <UserOrderProduct />
             <UserOrderProduct />
+
+            <button onClick={handlePaymentCancelOnClick}>주문취소</button>
         </div>
     );
 }

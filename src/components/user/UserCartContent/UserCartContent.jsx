@@ -1,12 +1,29 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { RxCross2 } from "react-icons/rx";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
+import { useMutation, useQueryClient } from 'react-query';
+import { instance } from '../../../apis/util/instance';
 
 function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMutation }) {
-    const [ productCount, setProductCount ] = useState(1);
+    console.log(cartItem);
+    const queryClient = useQueryClient();
+    const [ productCount, setProductCount ] = useState(0);
+    console.log(cartItem.productName + productCount);
+
+    useEffect(() => {
+        setProductCount(cartItem.productCount)
+    }, [cartItem]);
+
+    const modifyCartItemCountMutation = useMutation(
+        async (modifyCartItemData) => await instance.put(`/user/${cartItem.cartId}/count`, modifyCartItemData),
+        {
+            onSuccess: response => queryClient.invalidateQueries('cartItemListQuery'),
+            onError: error => console.log(error)
+        }
+    );
 
     const handleCartItemDeleteOnClick = () => {
         Swal.fire({
@@ -41,15 +58,32 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
     };
 
     const handlePlusOnClick = () => {
-        setProductCount(count => count + 1);
+        setProductCount(count => {
+            const updatedCount = count + 1;
+            const modifyCartItemData = {
+                cartId: cartItem.cartId,
+                userId: 2,
+                productCount: updatedCount
+            }
+            modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
+           
+            return updatedCount;
+        });
     };
 
     const handleMinusOnClick = () => {
         setProductCount(count => {
+            let updatedCount = count;
             if (count > 1) {
-                return count - 1;
+                updatedCount = count - 1;
             }
-            return count;
+            const modifyCartItemData = {
+                cartId: cartItem.cartId,
+                userId: 2,
+                productCount: updatedCount
+            }
+            modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
+            return updatedCount;
         });
     };
 
@@ -62,7 +96,8 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
                 <label htmlFor={cartItem?.cartId}>✔</label>
             </div>
             <div css={s.productLayout}>
-                <img src="" />
+                {/* 이미지 추가하기 */}
+                <img src={"http://localhost:8080/images/" + cartItem.imgName} />
                 <div>
                     <p>{cartItem?.productName}</p>
                     <p>[옵션]</p>
@@ -70,10 +105,10 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             </div>
             <div css={s.countLayout}>
                 <AiFillMinusCircle onClick={handleMinusOnClick} />
-                <p>{cartItem?.productCount}</p>
+                <p>{productCount}</p>
                 <AiFillPlusCircle onClick={handlePlusOnClick} />
             </div>
-            <p>{priceFormet(cartItem?.productCount * cartItem?.productPrice)}원</p>
+            <p>{priceFormet(productCount * cartItem?.productPrice)}원</p>
             <div>
                 <RxCross2 onClick={handleCartItemDeleteOnClick}/>
             </div>

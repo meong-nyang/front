@@ -142,7 +142,7 @@ function UserProductDetailPage(props) {
     const handleOrderOnClick = () => {
         Swal.fire({
             text: `${productDetailData.productName} ${productCount}개를 구매하시겠습니까?`,
-            icon: "success",
+            icon: "question",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",

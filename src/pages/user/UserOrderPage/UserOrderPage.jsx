@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import * as s from "./style";
 import UserOrderContent from '../../../components/user/UserOrderContent/UserOrderContent';
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
-import { useQuery } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate } from 'react-router-dom';
 import PortOneOrderPage from '../PortOneOrderPage/PortOneOrderPage';
@@ -12,12 +12,15 @@ import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayo
 
 function UserOrderPage(props) {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    const userInfo = queryClient.getQueryData("userInfoQuery");
+    console.log(userInfo?.data?.id);
     //장바구니나 상세페이지에서 넘어온 상품 리스트
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
     console.log(orderProductList);
     //주문페이지로 전달할 상품리스트 + 주문정보
     const [ orderData, setOrderData ] = useState({
-        userId: 0,
+        userId: userInfo?.data?.id,
         products: [],
         orderName: "",
         orderPhone: "",
@@ -30,6 +33,19 @@ function UserOrderPage(props) {
         paymentChannelKey: ""
     });
     console.log(orderData);
+
+    useEffect(() => {
+        // 다음 주소 검색 API 스크립트를 동적으로 로드
+        const script = document.createElement('script');
+        script.src = "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+        script.async = true;
+        document.body.appendChild(script);
+        
+        return () => {
+            // 컴포넌트가 언마운트될 때 스크립트 제거
+            document.body.removeChild(script);
+        };
+    }, []);
 
     const checkProductList = useQuery(
         ["checkProductListQuery"],
@@ -48,7 +64,7 @@ function UserOrderPage(props) {
                 setOrderData(order => ({
                     ...order,
                     products: response?.data?.checkProducts.map(product => ({
-                        id: product.productId.toString(),
+                        id: product.productId,
                         name: product.productName,
                         count: orderProductList
                         .filter(orderProduct => product.productId === parseInt(orderProduct.productId))[0].productCount,
@@ -91,6 +107,19 @@ function UserOrderPage(props) {
         return numbers;
     };
 
+    const handleSearchAddress = () => {
+        new window.daum.Postcode({
+            oncomplete: function (data) {
+                let fullAddress = data.address;
+                setOrderData(orderData => ({
+                    ...orderData,
+                    orderZipcode: data.zonecode,
+                    orderAddressDefault: data.address,
+                }));
+            },
+        }).open();
+    };
+
     return (
         <UserMainLayout>
             <div css={s.layout}>
@@ -114,30 +143,48 @@ function UserOrderPage(props) {
                 </div>
 
                 <div css={s.infoLayout}>
-                    <p>주문정보</p>
+                    <div>
+                        <p>주문정보</p>
+                        <p>(*은 필수정보입니다.)</p>
+                    </div>
                     <div css={s.inputBox}>
-                        <p>받는사람</p>
+                        <div>
+                            <p>받는사람</p>
+                            <p>*</p>
+                        </div>
                         <input type="text" name="orderName" onChange={handleInputOnChange} value={orderData.orderName} />
                     </div>
                     <div css={s.inputBox}>
-                        <p>전화번호</p>
+                        <div>
+                            <p>전화번호</p>
+                            <p>*</p>
+                        </div>
                         <input type="text" name="orderPhone" onChange={handleInputOnChange} value={addHyphenToPhoneNumber(orderData.orderPhone)} />
                     </div>
                     <div css={s.inputBox}>
-                        <p>이메일</p>
+                        <div>
+                            <p>이메일</p>
+                            <p>*</p>
+                        </div>
                         <input type="text" name="orderEmail" onChange={handleInputOnChange} value={orderData.orderEmail} />
                     </div>
                     <div css={s.addressInputBox}>
-                        <p>주소</p>
                         <div>
-                            <input type="text" name="orderZipcode" placeholder='우편번호'onChange={handleInputOnChange} value={orderData.orderZipcode} />
-                            <button>주소검색</button>
+                            <p>주소</p>
+                            <p>*</p>
                         </div>
-                        <input type="text" name="orderAddressDefault" placeholder='기본주소' onChange={handleInputOnChange} value={orderData.orderAddressDefault} />
+                        <div>
+                            <input type="text" name="orderZipcode" placeholder='우편번호'onChange={handleInputOnChange} value={orderData.orderZipcode} disabled='true'/>
+                            <button onClick={handleSearchAddress}>주소검색</button>
+                        </div>
+                        <input type="text" name="orderAddressDefault" placeholder='기본주소' onChange={handleInputOnChange} value={orderData.orderAddressDefault} disabled='true'/>
                         <input type="text" name="orderAddressDetail" placeholder='상세주소' onChange={handleInputOnChange} value={orderData.orderAddressDetail} />
                     </div>
                     <div css={s.inputBox}>
-                        <p>요청사항</p>
+                        <div>
+                            <p>요청사항</p>
+                            <p></p>
+                        </div>
                         <input type="text" name='request' onChange={handleInputOnChange}  value={orderData.request} />
                     </div>
                 </div>
@@ -157,7 +204,10 @@ function UserOrderPage(props) {
                         <p>결제예정금액</p>
                         <p>13,000원</p>
                     </div>
-                    <p css={s.paymentMethod}>결제수단</p>
+                    <div css={s.paymentMethodLayout}>
+                        <p>결제수단</p>
+                        <p>(결제수단은 필수옵션입니다.)</p>
+                    </div>
                     <div css={s.paymentLayout}>
                         {
                             paymentList?.data?.data.map(payment => 

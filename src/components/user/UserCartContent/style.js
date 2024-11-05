@@ -64,9 +64,9 @@ export const checkboxStyle = css`
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        background-color: #9d6c4c;
+        background-color: #FFF5D6;
         content:"✔";
-        color: #ffffff;
+        color: #9d6c4c;
         font-size: 12px;
         width: 18px;
         height: 18px;
@@ -90,7 +90,9 @@ export const productLayout = css`
         margin: 0px 20px;
         width: 50px;
         height: 50px;
+        object-fit: contain; 
         background-color: red;
+
     }
     & > div {
         display: flex;
