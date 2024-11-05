@@ -9,10 +9,10 @@ import { useNavigate, useSearchParams } from "react-router-dom";
 import { MENU_DATAS, ORDER_SEARCH_OPTIONS } from "../../../../constants/options";
 
 function OrderListPage(props) {
+    const limit = 20;
 
     const navigate = useNavigate();
 
-    const limit = 20;
     const [ searchParams ] = useSearchParams();
 
     const emptySearchRange = {

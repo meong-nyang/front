@@ -12,7 +12,7 @@ function ProductListPage() {
 
     const navigate = useNavigate();
     const [ searchParams ] = useSearchParams();
-    const limit = 10;
+    const limit = 20;
 
     const [ searchData, setSearchData ] = useState({
         searchOptionId: "all",

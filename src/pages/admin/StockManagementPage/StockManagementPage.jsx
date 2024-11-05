@@ -10,7 +10,6 @@ import Paginate from "../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
 
 function StockManagementPage(props) {
-
     const limit = 20;
 
     const [ searchParams, setSearchParams ] = useSearchParams();
