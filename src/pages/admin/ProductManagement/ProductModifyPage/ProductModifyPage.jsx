@@ -33,7 +33,8 @@ function ProductModifyPage(props) {
     const navigate = useNavigate();
     
     const [ productData, setProductData ] = useState(emptyProductData);
-    const [ blobs, setBlobs ] = useState([]);
+    const [ imgName, setImgName ] = useState([]);
+    const [ originalImgName, setOriginalImgName ] = useState(new Set());
 
     const productModify = useQuery(
         ["productModifyQuery"],
@@ -42,13 +43,10 @@ function ProductModifyPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
-                console.log("urls");
-                console.log(success.data.imgUrls);
-                setBlobs([]);
-                for (let i of success.data.imgUrls) {
-                    await addImgBlobFromUrl("/images/" + i.imgName);
-                }
-                console.log(success.data);
+                console.log(success);
+                const tempImgName = success.data.imgUrls.map(data => data.imgName);
+                setImgName(tempImgName);
+                setOriginalImgName(new Set(tempImgName));
                 setProductData(success.data);
             },
             onError: error => {
@@ -57,14 +55,36 @@ function ProductModifyPage(props) {
         }
     );
 
+    const findChangedImgs = () => {
+        const changeData = {
+            deletedImgName: [],
+            addedImgFiles: []
+        }
+        const temp = new Set(originalImgName);
+        for (let source of imgName) {
+            console.log("이미지" + source);
+            if (source instanceof Blob) {
+                changeData.addedImgFiles.push(source);
+            } else {
+                temp.delete(source);
+            }
+        }
+        changeData.deletedImgName = Array.from(temp);
+        return changeData;
+    }
+
     const formData = () => {
         const formData = new FormData();
         const productEntries = Object.entries(productData);
+        const imgs = findChangedImgs();
         for (let i of productEntries) {
             formData.append(i[0], i[1]);
         }
-        for (let i of blobs) {
+        for (let i of imgs.addedImgFiles) {
             formData.append('productImage', i, uuidv4() + "_" + i.name);
+        }
+        for (let i of imgs.deletedImgName) {
+            formData.append('deleteImgList', i);
         }
         return formData;
     }
@@ -77,20 +97,7 @@ function ProductModifyPage(props) {
         })
     );
 
-    const addImgBlobFromUrl = async (url) => {
-        try {
-            const response = await instance.get(url, { responseType: "blob" });
-            console.log("blob");
-            console.log(response);
-            setBlobs(blob => [...blob, response.data]);
-        } catch(e) {
-            console.log("이미지를 불러오는 중 에러가 발생하였습니다");
-            console.log(e.response);
-        }
-    }
-
     const handleModifyButtonOnClick = () => {
-        console.log(productData);
         productModifyMutation.mutateAsync()
             .then(success => {
                 alert("수정에 성공하였습니다");
@@ -104,18 +111,21 @@ function ProductModifyPage(props) {
 
     return (
         <div css={s.layout}>
-            <div css={s.buttons}>
-                {
-                    <>
-                        <button onClick={handleModifyButtonOnClick}>저장</button>
-                        <button onClick={() => navigate(`/admin/product/detail/${params.id}`)}>취소</button>
-                    </>
-                }
+            <div css={s.head}>
+                <span>상품 이미지</span>
+                <div css={s.buttons}>
+                    {
+                        <>
+                            <button onClick={handleModifyButtonOnClick}>저장</button>
+                            <button onClick={() => navigate(`/admin/product/detail/${params.id}`)}>취소</button>
+                        </>
+                    }
+                </div>
             </div>
             {
                 productModify.isSuccess && productData &&
                 <>
-                    <ProductImages blobs={blobs} setBlobs={setBlobs} isModify={true} />
+                    <ProductImages imgSource={imgName} setImgSource={setImgName} isModify={true} />
                     <ProductEdit productData={productData} setProductData={setProductData} disabled={false} />
                 </>
             }

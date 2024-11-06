@@ -3,6 +3,7 @@ import { useMutation, useQuery } from "react-query";
 import * as s from "./style";
 import { instance } from "../../../../apis/util/instance";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { convertToCommaValue } from "../../../../utils/changeStringFormat";
 
 function OrderDetailPage(props) {
 
@@ -71,9 +72,9 @@ function OrderDetailPage(props) {
                                 <th>주문날짜</th>
                                 <td>{orderDetailData.data.data.orderDate}</td>
                                 <th>총 개수</th>
-                                <td>{orderDetailData.data.data.orderItemCount}</td>
+                                <td>{convertToCommaValue(orderDetailData.data.data.orderItemCount)}</td>
                                 <th>총 금액</th>
-                                <td>{orderDetailData.data.data.totalPrice}</td>
+                                <td>{convertToCommaValue(orderDetailData.data.data.totalPrice)}</td>
                             </tr>
                             <tr>
                                 <th>배송지</th>
@@ -81,7 +82,7 @@ function OrderDetailPage(props) {
                             </tr>
                         </tbody>
                     </table>
-                    <span>주문 상풍 목록</span>
+                    <span>주문 상품 목록 (최근 6개)</span>
                     <div css={s.productList}>
                         {
                             orderDetailData.data.data.products.map((product, index) => (
@@ -99,13 +100,13 @@ function OrderDetailPage(props) {
                                                     <th>상품코드</th>
                                                     <td>{product.id}</td>
                                                     <th>판매가격</th>
-                                                    <td>{product.productPrice}</td>
+                                                    <td>{convertToCommaValue(product.productPrice)}</td>
                                                 </tr>
                                                 <tr>
                                                     <th>개수</th>
-                                                    <td>{product.productCount}</td>
+                                                    <td>{convertToCommaValue(product.productCount)}</td>
                                                     <th>합계</th>
-                                                    <td>{parseInt(product.productPrice) * parseInt(product.productCount)}</td>
+                                                    <td>{convertToCommaValue(parseInt(product.productPrice) * parseInt(product.productCount))}</td>
                                                 </tr>
                                             </tbody>
                                         </table> 

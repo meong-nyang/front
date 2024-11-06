@@ -88,10 +88,6 @@ export const productTable = css`
         cursor: pointer;
     }
 
-    & > tbody tr {
-        cursor: pointer;
-    }
-
     & th, td {
         border: 1px solid black;
         text-align: center;

@@ -11,13 +11,26 @@ export const layout = css`
     }
 `;
 
+export const head = css`
+    display: flex;
+    justify-content: space-between;
+
+    & > span {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        width: 200px;
+    }
+`;
+
+
 export const buttons = css`
     display: flex;
     justify-content: end;
     margin-bottom: 5px;
 
     & > button {
-        margin-left: 10px;
+        margin-left: 5px;
     }
 `;
 
@@ -70,5 +83,39 @@ export const recommendBox = css`
 
     span {
         margin-left: 5px;
+    }
+`;
+
+export const productDetail = css`
+    margin-top: 20px;
+    height: 300px;
+
+    & > span {
+        display: inline-block;
+        margin-bottom: 5px;
+    }
+
+    & > textarea {
+        box-sizing: border-box;
+        border: 1px solid black;
+        outline: none;
+        margin-bottom: 20px;
+        padding: 10px;
+        font-size: 16px;
+        width: 100%;
+        height: 100px;
+        resize: none;
+    }
+`;
+
+export const detailImages = css`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+
+    & > img {
+        width: 100px;
+        height: 100px;
     }
 `;

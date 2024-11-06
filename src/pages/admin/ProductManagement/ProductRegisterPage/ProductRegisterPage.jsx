@@ -37,18 +37,6 @@ function ProductRegisterPage() {
 
     const navigate = useNavigate();
 
-    // useState(() => {
-    //     const now = new Date();
-    //     const year = now.getFullYear();
-    //     const month = now.getMonth() + 1 < 10 ? "0" + now.getMonth() + 1 : now.getMonth() + 1;
-    //     const day = now.getDate() < 10 ? "0" + now.getDate() : now.getDate();
-    //     const date = year + "-" + month + "-" + day
-    //     setProductData(data => ({
-    //         ...data,
-    //         arrivalDate: date
-    //     }));
-    // }, []);
-
     const formData = () => {
         const formData = new FormData();
         const productEntries = Object.entries(productData);
@@ -82,8 +70,11 @@ function ProductRegisterPage() {
 
     return (
         <div css={s.layout}>
-            <div css={s.buttons}>
-                <button onClick={handleRegisterButtonOnClick}>등록</button>
+            <div css={s.head}>
+                <span>상품 이미지</span>
+                <div css={s.buttons}>
+                    <button onClick={handleRegisterButtonOnClick}>등록</button>
+                </div>
             </div>
             <ProductImages blobs={selectedFiles} setBlobs={setSelectedFiles} isModify={true}/>
             <ProductEdit productData={productData} setProductData={setProductData} disabled={false}/>

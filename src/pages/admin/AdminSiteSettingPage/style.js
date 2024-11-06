@@ -10,13 +10,32 @@ export const layout = css`
     }
 `;
 
+export const title = css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+
+    & button {
+        margin-left: 5px;
+    }
+`;
+
 export const information = css`
     display: flex;
     margin-bottom: 50px;
-    
-    & > img {
-        width: 90px;
-        height: 90px;
+
+    & input {
+        box-sizing: border-box;
+        border: none;
+        outline: none;
+        padding: 0px 10px;
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+
+        &:focus {
+            outline: 1px solid black;
+        }
     }
 
     & > table {
@@ -25,6 +44,7 @@ export const information = css`
 
         & th, td {
             text-align: center;
+            padding: 0px;
         }
 
         & th {
@@ -34,6 +54,21 @@ export const information = css`
         & td {
             width: 40%;
         }
+    }
+`;
+
+export const fileInput = css`
+    display: none;
+`;
+
+export const imageLayout = (isModify) => css`
+    width: 90px;
+    height: 90px;
+
+    & > img {
+        width: 100%;
+        height: 100%;
+        cursor: ${isModify ? "pointer" : "default"};
     }
 `;
 

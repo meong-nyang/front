@@ -5,6 +5,18 @@ export const layout = css`
     height: 100%;
 `;
 
+export const head = css`
+    display: flex;
+    justify-content: space-between;
+
+    & > span {
+        display: flex;
+        justify-content: start;
+        align-items: center;
+        width: 200px;
+    }
+`;
+
 export const buttons = css`
     display: flex;
     justify-content: end;

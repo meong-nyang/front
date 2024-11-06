@@ -2,12 +2,13 @@
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import * as s from "./style";
 import { LOCATION_DATAS, MENU_DATAS } from "../../../constants/options";
-import logoImg from "../../../assets/images/logo.png";
 import { useQueryClient } from "react-query";
+import { IMAGE_ADDRESS } from "../../../apis/util/instance";
 
 function MainLayout({ children }) {
     const addressLocation = useLocation();
     const navigate = useNavigate();
+
     let result = LOCATION_DATAS.filter(data => addressLocation.pathname.startsWith(data.address))[0];
 
     if (result === undefined) {
@@ -19,6 +20,7 @@ function MainLayout({ children }) {
     
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
+    const siteLogo = queryClient.getQueryData("siteLogoQuery");
 
      const handleLogoutOnClick = () => {
         localStorage.removeItem("accessToken");
@@ -29,7 +31,7 @@ function MainLayout({ children }) {
         <div css={s.layout}>
             <div css={s.menuList(result.menuId)}>
                 <div css={s.logo}>
-                    <img src={logoImg} alt="" />
+                    <img src={IMAGE_ADDRESS + siteLogo?.data} />
                 </div>
                 {
                     MENU_DATAS.map(menu => (

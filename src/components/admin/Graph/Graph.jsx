@@ -12,7 +12,7 @@ import {
 } from 'chart.js';
 import { Line } from 'react-chartjs-2';
 
-function Graph({ graphData }) {
+function Graph({ graphData, showRefund }) {
     ChartJS.register(
         CategoryScale,
         LinearScale,
@@ -25,6 +25,13 @@ function Graph({ graphData }) {
 
     const options = {
         responsive: true,
+        maintainAspectRatio: false,
+        scales: {
+            y: {
+                beginAtZero: true,
+                min: 0,
+            },
+        },
         plugins: {
             legend: {
                 position: 'top',
@@ -36,22 +43,29 @@ function Graph({ graphData }) {
         },
     };
 
-    // const labels = ['January', 'February', 'March', 'April', 'May', 'June', 'July']; //x축 기준
-
-    const data = {
+    const Alldata = {
         labels: graphData.date,
         datasets: [
             {
-                label: '매출', //그래프 분류되는 항목
-                // data: [1, 2, 3, 40000, 5, 6, 7], //실제 그려지는 데이터(Y축 숫자)
-                data: graphData.amount, //실제 그려지는 데이터(Y축 숫자)
-                borderColor: '#0000ff', //그래프 선 color
-                // backgroundColor: 'rgba(255, 99, 132, 0.5)', //마우스 호버시 나타나는 분류네모 표시 bg
+                label: '매출',
+                data: graphData.amount,
+                borderColor: '#0000ff',
             },
             {
                 label: "환불액",
                 data: graphData.refundAmount,
-                borderColor: '#ff0000'
+                borderColor: '#ff0000',
+            }
+        ]
+    };
+
+    const Amountdata = {
+        labels: graphData.date,
+        datasets: [
+            {
+                label: '매출',
+                data: graphData.amount,
+                borderColor: '#0000ff',
             }
         ]
     };
@@ -59,8 +73,11 @@ function Graph({ graphData }) {
     return (
         <div css={s.layout}>
             {
+                console.log(graphData)
+            }
+            {
                 graphData.date.length !== 0 &&
-                <Line options={options} data={data} />
+                <Line options={options} data={showRefund ? Alldata : Amountdata} />
             }
         </div>
     );

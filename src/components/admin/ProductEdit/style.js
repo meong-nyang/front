@@ -164,29 +164,32 @@ export const productDetail = css`
     margin-top: 20px;
     height: 300px;
 
-    & > button {
-        box-sizing: border-box;
-        display: flex;
-        align-items: center;
+    & > span {
+        display: inline-block;
         margin-bottom: 5px;
-        padding: 0;
-        width: 160px;
-        background-color: white;
-        cursor: pointer;
-        font-size: 16px;
-
-        & > svg {
-            margin-left: 5px;
-        }
-
-        &:hover, &:active {
-            background-color: white;
-        }
     }
 
-    & > div {
+    & > textarea {
+        box-sizing: border-box;
         border: 1px solid black;
+        outline: none;
+        margin-bottom: 20px;
+        padding: 10px;
+        font-size: 16px;
         width: 100%;
-        height: 100%;
+        height: 100px;
+        resize: none;
+    }
+`;
+
+export const detailImages = css`
+    display: flex;
+    align-items: center;
+    width: 100%;
+    height: 100px;
+
+    & > img {
+        width: 100px;
+        height: 100px;
     }
 `;

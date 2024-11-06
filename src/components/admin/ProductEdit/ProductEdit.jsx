@@ -7,6 +7,7 @@ import { IoMdArrowDropdown } from "react-icons/io";
 import { useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
+import { convertToCommaValue, convertToNumericValue } from "../../../utils/changeStringFormat";
 
 function ProductEdit({ productData, setProductData, disabled }) {
 
@@ -14,23 +15,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
         petGroupId: "",
         categoryId: ""
     }
-
-    // const isNumber = (value) => {
-    //     return /^[1-9][0-9]*$/.test(value) || value === "";
-    // }
-
-    const isNumber = (value) => {
-        return /^[\d]+$/g.test(value);
-    }
-
-    const toNumericValue = (value) => {
-        return value.toString().replace(/[^0-9]/g, '');
-    }
-
-    const toCommaValue = (value) => {
-        return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-
+    
     const queryClient = useQueryClient();
     const categoryList = queryClient.getQueryData("categoryListQuery");
 
@@ -49,35 +34,27 @@ function ProductEdit({ productData, setProductData, disabled }) {
                     petGroupId: success.data.petGroupList[0].categoryGroupName,
                     categoryId: success.data.categoryList[0].categoryName
                 });
-                setProductData(data => ({
-                    ...data,
-                    petGroupId: success.data.petGroupList[0].id,
-                    categoryId: success.data.categoryList[0].id
-                }));
             },
             onError: error => console.log(error.response)
         }
     );
 
-    // 한글로 입력할 때 문제가 발생
+    useEffect(() => {
+        console.log(productData);
+        setSelectedCategoryName({
+            petGroupId: productData?.petGroup?.categoryGroupName || getCategoryList?.data?.data.petGroupList[0].categoryGroupName,
+            categoryId: productData?.category?.categoryName || getCategoryList?.data?.data.categoryList[0].categoryName
+        });
+    }, [productData.category]);
+
     const handleProductNumberDataOnChange = (e) => {
-        const value = toNumericValue(e.target.value.toString());
+        const value = convertToNumericValue(e.target.value.toString());
         setProductData(data => {
-            console.log("set동작");
             return ({
                 ...data,
                 [e.target.name]: value === "" ? "0" : value.replace(/^0+/, "")
             })
         });
-        // if(isNumber(value)) {
-        //     setProductData(data => {
-        //         console.log("set동작");
-        //         return ({
-        //             ...data,
-        //             [e.target.name]: value === "" ? "0" : value.replace(/^0+/, "")
-        //         })
-        //     });
-        // }
     }
 
     const handleProductDataOnChange = (e) => {
@@ -125,7 +102,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td css={s.modal}>
                                 <div css={s.categorySelect}>
                                     <button type="button" onClick={handleModalChangeOnClick}>
-                                        {productData?.petGroup?.categoryGroupName + " > " + productData?.category?.categoryName}
+                                        {selectedCategoryName.petGroupId + " > " + selectedCategoryName.categoryId}
                                     </button>
                                     <IoMdArrowDropdown />
                                 </div>
@@ -141,7 +118,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="productPrice"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.productPrice)}
+                                    value={convertToCommaValue(productData.productPrice)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -195,7 +172,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="productPriceDiscount"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.productPriceDiscount)}
+                                    value={convertToCommaValue(productData.productPriceDiscount)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -203,7 +180,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text"
                                     disabled={true}
-                                    value={toCommaValue(productData.productPrice - productData.productPriceDiscount)} />
+                                    value={convertToCommaValue(productData.productPrice - productData.productPriceDiscount)} />
                             </td>
                         </tr>
                         <tr>
@@ -228,7 +205,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="currentStock"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.currentStock)}
+                                    value={convertToCommaValue(productData.currentStock)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -236,7 +213,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="expectedStock"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.expectedStock)}
+                                    value={convertToCommaValue(productData.expectedStock)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -253,7 +230,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="arrivalQuantity"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.arrivalQuantity)}
+                                    value={convertToCommaValue(productData.arrivalQuantity)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -284,7 +261,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
                             <td>
                                 <input type="text" name="minAlertQuantity"
                                     disabled={disabled}
-                                    value={toCommaValue(productData.minAlertQuantity)}
+                                    value={convertToCommaValue(productData.minAlertQuantity)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
@@ -293,13 +270,11 @@ function ProductEdit({ productData, setProductData, disabled }) {
                 </table>
             </div>
             <div css={s.productDetail}>
-                {
-                    productDetailModalOpen &&
-                    <ProductDetailModal setProductDetailModalOpen={setProductDetailModalOpen} />
-                }
-                <button onClick={() => setProductDetailModalOpen(true)}>상세정보 미리보기 <FiExternalLink /></button>
-                <div>
-
+                <span>제품설명</span>
+                <textarea></textarea>
+                <span>상세정보 이미지</span>
+                <div css={s.detailImages}>
+                    <img src="" alt="" />
                 </div>
             </div>
         </div>

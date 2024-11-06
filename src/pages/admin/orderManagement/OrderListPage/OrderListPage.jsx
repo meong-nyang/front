@@ -7,12 +7,13 @@ import { instance } from "../../../../apis/util/instance";
 import Paginate from "../../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { MENU_DATAS, ORDER_SEARCH_OPTIONS } from "../../../../constants/options";
+import { convertToCommaValue } from "../../../../utils/changeStringFormat";
 
 function OrderListPage(props) {
+    const limit = 20;
 
     const navigate = useNavigate();
 
-    const limit = 20;
     const [ searchParams ] = useSearchParams();
 
     const emptySearchRange = {
@@ -58,7 +59,7 @@ function OrderListPage(props) {
     return (
         <>
             <div css={s.header}>
-                <span>총 {orderList?.data?.data.orderListCount}개</span>
+                <span>총 {orderList?.data?.data.orderListCount || 0}개</span>
             </div>
             <SearchBox searchOptions={ORDER_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={handleOnEnter}/>
             <div css={s.tableLayout}>
@@ -87,9 +88,9 @@ function OrderListPage(props) {
                                         <td rowSpan={order.orderDetails.length}>{order.orderDate}</td>
                                         <td>{order.orderDetails[0].productId}</td>
                                         <td>{order.orderDetails[0].product.productName}</td>
-                                        <td>{order.orderDetails[0].productPrice}</td>
-                                        <td>{order.orderDetails[0].productCount}</td>
-                                        <td rowSpan={order.orderDetails.length}>{order.totalPrice}</td>
+                                        <td>{convertToCommaValue(order.orderDetails[0].productPrice)}</td>
+                                        <td>{convertToCommaValue(order.orderDetails[0].productCount)}</td>
+                                        <td rowSpan={order.orderDetails.length}>{convertToCommaValue(order.totalPrice)}</td>
                                         <td rowSpan={order.orderDetails.length}>{order.orderStatus}</td>
                                     </tr>
                                     {
@@ -99,8 +100,8 @@ function OrderListPage(props) {
                                                 css={s.productCell} >
                                                 <td>{product.productId}</td>
                                                 <td>{product.product.productName}</td>
-                                                <td>{product.productPrice}</td>
-                                                <td>{product.productCount}</td>
+                                                <td>{convertToCommaValue(product.productPrice)}</td>
+                                                <td>{convertToCommaValue(product.productCount)}</td>
                                             </tr>
                                         ))
                                     }

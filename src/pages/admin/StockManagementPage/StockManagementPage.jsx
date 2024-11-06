@@ -8,10 +8,10 @@ import SearchBox from "../../../components/admin/SearchBox/SearchBox";
 import { MENU_DATAS, STOCK_SEARCH_OPTIONS } from "../../../constants/options";
 import Paginate from "../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { convertToCommaValue, convertToNumericValue, onlyNumber } from "../../../utils/changeStringFormat";
 
 function StockManagementPage(props) {
-
-    const limit = 10;
+    const limit = 20;
 
     const [ searchParams, setSearchParams ] = useSearchParams();
 
@@ -38,7 +38,6 @@ function StockManagementPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: success => {
-                console.log(success.data);
                 setStockData(success.data.stockList.map(data => ({
                     ...data,
                     isModified: false
@@ -60,6 +59,11 @@ function StockManagementPage(props) {
     );
 
     const handleSaveButtonOnClick = () => {
+        const isModify = stockData.filter(data => data.isModified === true).length !== 0;
+        if (!isModify) {
+            alert("변경할 항목이 없습니다.");
+            return;
+        }
         updateStocksMutation.mutateAsync()
             .then(success => {
                 alert("변경되었습니다");
@@ -77,11 +81,15 @@ function StockManagementPage(props) {
     }
 
     const handleInputOnChange = (e, index) => {
+        let value = e.target.value;
+        if (e.target.type === 'text') {
+            value = onlyNumber(convertToNumericValue(e.target.value));
+        }
         setStockData(data => {
             const result = [...data];
             result[index] = {
                 ...result[index],
-                [e.target.name]: e.target.value,
+                [e.target.name]: value,
                 isModified: true
             };
             return result;
@@ -96,7 +104,6 @@ function StockManagementPage(props) {
                 [e.target.name]: result[index][e.target.name] === 2 ? 1 : 2,
                 isModified: true
             };
-            console.log(result);
             return result;
         })
     }
@@ -104,7 +111,7 @@ function StockManagementPage(props) {
     return (
         <>
             <div css={s.header}>
-                <span>총 {stockDatas?.data?.data.stockListCount}개의 상품</span>
+                <span>총 {stockDatas?.data?.data.stockListCount || 0}개</span>
                 <button onClick={handleSaveButtonOnClick}>변경사항 저장</button>
             </div>
             <SearchBox searchOptions={STOCK_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={handleInputOnEnter}/>
@@ -130,9 +137,9 @@ function StockManagementPage(props) {
                                     <td>{stock.productId}</td>
                                     <td>{stock.productName}</td>
                                     <td>
-                                        <input type="number" 
+                                        <input type="text" 
                                             name="currentStock" 
-                                            value={stock.currentStock} 
+                                            value={convertToCommaValue(stock.currentStock)} 
                                             onChange={(e) => handleInputOnChange(e, index)} />
                                     </td>
                                     <td>{stock.expectedStock}</td>
@@ -144,15 +151,15 @@ function StockManagementPage(props) {
                                             onChange={(e) => handleInputOnChange(e, index)} />
                                     </td>
                                     <td>
-                                        <input type="number"
+                                        <input type="text"
                                             name="arrivalQuantity"
-                                            value={stock.arrivalQuantity}
+                                            value={convertToCommaValue(stock.arrivalQuantity)}
                                             onChange={(e) => handleInputOnChange(e, index)} />
                                     </td>
                                     <td>
-                                        <input type="number"
+                                        <input type="text"
                                             name="minAlertQuantity"
-                                            value={stock.minAlertQuantity}
+                                            value={convertToCommaValue(stock.minAlertQuantity)}
                                             onChange={(e) => handleInputOnChange(e, index)} />
                                     </td>
                                     <td>

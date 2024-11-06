@@ -5,6 +5,7 @@ import { instance } from "../../../../apis/util/instance";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
+import { convertToCommaValue } from "../../../../utils/changeStringFormat";
 
 function AdminCustomerDetailPage(props) {
 
@@ -32,7 +33,6 @@ function AdminCustomerDetailPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: success => {
-                console.log("응답 왔음");
                 setMembership(success.data.membershipList);
             },
             onError: error => console.log(error.response)
@@ -104,7 +104,7 @@ function AdminCustomerDetailPage(props) {
                         <th>최근 구매일자</th>
                         <td>{customerDetailData?.data?.data.userPurchaseData?.recentlyPurchaseDate || "-"}</td>
                         <th>소비금액</th>
-                        <td>{customerDetailData?.data?.data.userPurchaseData?.totalPrice || "0"}</td>
+                        <td>{convertToCommaValue(customerDetailData?.data?.data.userPurchaseData?.totalPrice || "0")}</td>
                     </tr>
                     <tr>
                         <th>배송지</th>
@@ -152,9 +152,9 @@ function AdminCustomerDetailPage(props) {
                             <tr key={product.productId}>
                                 <td>{product.productId}</td>
                                 <td>{product.productName}</td>
-                                <td>{product.count}</td>
-                                <td>{product.productPrice}</td>
-                                <td>{product.totalPrice}</td>
+                                <td>{convertToCommaValue(product.count)}</td>
+                                <td>{convertToCommaValue(product.productPrice)}</td>
+                                <td>{convertToCommaValue(product.totalPrice)}</td>
                                 <td>{product.recentlyPurchaseDate}</td>
                             </tr>
                         ))

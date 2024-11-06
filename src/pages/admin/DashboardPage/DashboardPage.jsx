@@ -6,6 +6,7 @@ import { useQuery } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import Graph from "../../../components/admin/Graph/Graph";
 import { useState } from "react";
+import { convertToCommaValue } from "../../../utils/changeStringFormat";
 
 function DashboardPage() {
 
@@ -26,13 +27,15 @@ function DashboardPage() {
                 setGraphData();
                 let tempDate = [];
                 let tempAmount = [];
+                let tempRefundAmount = [];
                 for(let daily of success.data.statisticsStatusList) {
                     tempDate.push(daily.date);
                     tempAmount.push(daily.orderAmount);
+                    tempRefundAmount.push(daily.refundAmount);
                 }
                 setGraphData({
-                    date: tempDate,
-                    amount: tempAmount
+                    date: tempDate.reverse(),
+                    amount: tempAmount.reverse()
                 });
             },
             onError: error => console.log(error.response)
@@ -47,23 +50,23 @@ function DashboardPage() {
                     <tbody>
                         <tr>
                             <th>총 매출</th>
-                            <td>{dashboardData?.data?.data.totalPrice}</td>
+                            <td>{convertToCommaValue(dashboardData?.data?.data.totalPrice)}</td>
                             <th>총 주문건수</th>
-                            <td>{dashboardData?.data?.data.totalCount}</td>
+                            <td>{convertToCommaValue(dashboardData?.data?.data.totalCount)}</td>
                             <th>총 취소금액</th>
-                            <td>{dashboardData?.data?.data.refundPrice}</td>
+                            <td>{convertToCommaValue(dashboardData?.data?.data.refundPrice)}</td>
                             <th>전체 회원</th>
-                            <td>{dashboardData?.data?.data.totalCustomerCount}</td>
+                            <td>{convertToCommaValue(dashboardData?.data?.data.totalCustomerCount)}</td>
                         </tr>
                         <tr>
                             <th>오늘 매출</th>
-                            <td>{dashboardData?.data?.data.todayTotalPrice}</td>
+                            <td>{convertToCommaValue(dashboardData?.data?.data.todayTotalPrice)}</td>
                             <th>오늘 주문건수</th>
-                            <td>{dashboardData?.data?.data.todayTotalCount}</td>
+                            <td>{convertToCommaValue(dashboardData?.data?.data.todayTotalCount)}</td>
                             <th>오늘 취소금액</th>
-                            <td>{dashboardData?.data?.data.todayRefundPrice}</td>
+                            <td>{convertToCommaValue(dashboardData?.data?.data.todayRefundPrice)}</td>
                             <th>신규 회원</th>
-                            <td>{dashboardData?.data?.data.todayJoinCustomerCount}</td>
+                            <td>{convertToCommaValue(dashboardData?.data?.data.todayJoinCustomerCount)}</td>
                         </tr>
                     </tbody>
                 </table>
@@ -116,8 +119,8 @@ function DashboardPage() {
                                             <tr key={index}>
                                                 <td>{data.productId}</td>
                                                 <td>{data.productName}</td>
-                                                <td>{data.expectedStock}</td>
-                                                <td>{data.currentStock}</td>
+                                                <td>{convertToCommaValue(data.expectedStock)}</td>
+                                                <td>{convertToCommaValue(data.currentStock)}</td>
                                             </tr>
                                         ))
                                     }
@@ -146,15 +149,15 @@ function DashboardPage() {
                                         dashboardData?.data?.data.statisticsStatusList.map((data, index) => (
                                             <tr key={index}>
                                                 <td>{data.date}</td>
-                                                <td>{data.orderCount}</td>
-                                                <td>{data.orderAmount}</td>
+                                                <td>{convertToCommaValue(data.orderCount)}</td>
+                                                <td>{convertToCommaValue(data.orderAmount)}</td>
                                             </tr>
                                         ))
                                     }
                                 </tbody>
                             </table>
                             <div css={s.graph}>
-                                <Graph graphData={graphData} />
+                                <Graph graphData={graphData} showRefund={false}/>
                             </div>
                         </body>
                         <footer>

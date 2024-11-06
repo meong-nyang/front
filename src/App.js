@@ -129,23 +129,19 @@ function App() {
             }
         }
     );
-
-    // const userInfo = useQuery(
-    //     ["userInfoQuery"],
-    //     async () => {
-    //         return await instance.get("/user/me");
-    //     },
-    //     {
-    //         // accessTokenValid가 성공했을 때 유효한 토큰을 가지고 있기 때문에 무조건 걸어줘야함
-    //         // accessTokenValid.data의 값이 undefind이거나 null일 경우 뒤에 값을 참조하지 않음
-    //         enabled: accessTokenValidation.isSuccess && accessTokenValidation.data?.data,
-    //         refetchOnWindowFocus: false,
-    //     }
-    // );
     
     const categoryList = useQuery(
         ["categoryListQuery"],
         async () => await instance.get("/product/categorys"),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false
+        }
+    );
+
+    const siteLogo = useQuery(
+        ["siteLogoQuery"],
+        async () => await instance.get("/logo"),
         {
             retry: 0,
             refetchOnWindowFocus: false
