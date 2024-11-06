@@ -8,22 +8,20 @@ import { IMAGE_ADDRESS } from "../../../apis/util/instance";
 function ProductImages({imgSource, setImgSource, isModify}) {
     
     const [ preview, setPreview ] = useState([]);
-    const [ deleteImgNames, setDeleteImgNames ] = useState({
-        addImgData: [],
-        deleteImgName: []
-    });
 
     useEffect(() => {
         console.log(imgSource);
-        let tempPreview = [];
-        for (let i of imgSource) {
-            if (i instanceof Blob) {
-                tempPreview.push(URL.createObjectURL(i));
-            } else {
-                tempPreview.push(IMAGE_ADDRESS + i);
+        if(!!imgSource) {
+            let tempPreview = [];
+            for (let i of imgSource) {
+                if (i instanceof Blob) {
+                    tempPreview.push(URL.createObjectURL(i));
+                } else {
+                    tempPreview.push(IMAGE_ADDRESS + i);
+                }
             }
+            setPreview(tempPreview);
         }
-        setPreview(tempPreview);
     }, [imgSource]);
 
     const handleImageChangeOnClick = () => {
@@ -44,17 +42,13 @@ function ProductImages({imgSource, setImgSource, isModify}) {
     }
 
     const handleImageDeleteOnClick = (index) => {
-        setImgSource(img => {
-            const temp = [...img];
-            console.log(temp);
-            return 
-        });
+        setImgSource(img => img.filter((data, i) => i !== index));
     }
 
     return (
         <div css={s.images}>
             {
-                preview.map((img, index) =>
+                preview.map((img, index) => 
                     <span key={index}>
                         <img src={img}/>
                         {
@@ -65,7 +59,7 @@ function ProductImages({imgSource, setImgSource, isModify}) {
                 )
             }
             {
-                imgSource.length < 10 && isModify &&
+                 isModify && imgSource.length < 10 &&
                 <div onClick={handleImageChangeOnClick}><RiImageAddLine /></div>
             }
         </div>

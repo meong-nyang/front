@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import * as s from "./style";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import ProductEdit from "../../../../components/admin/ProductEdit/ProductEdit";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import { v4 as uuidv4 } from 'uuid';
@@ -34,6 +34,7 @@ function ProductModifyPage(props) {
     
     const [ productData, setProductData ] = useState(emptyProductData);
     const [ imgName, setImgName ] = useState([]);
+    const [ originalImgName, setOriginalImgName ] = useState(new Set());
 
     const productModify = useQuery(
         ["productModifyQuery"],
@@ -42,8 +43,10 @@ function ProductModifyPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
+                console.log(success);
                 const tempImgName = success.data.imgUrls.map(data => data.imgName);
                 setImgName(tempImgName);
+                setOriginalImgName(new Set(tempImgName));
                 setProductData(success.data);
             },
             onError: error => {
@@ -52,14 +55,36 @@ function ProductModifyPage(props) {
         }
     );
 
+    const findChangedImgs = () => {
+        const changeData = {
+            deletedImgName: [],
+            addedImgFiles: []
+        }
+        const temp = new Set(originalImgName);
+        for (let source of imgName) {
+            console.log("이미지" + source);
+            if (source instanceof Blob) {
+                changeData.addedImgFiles.push(source);
+            } else {
+                temp.delete(source);
+            }
+        }
+        changeData.deletedImgName = Array.from(temp);
+        return changeData;
+    }
+
     const formData = () => {
         const formData = new FormData();
         const productEntries = Object.entries(productData);
+        const imgs = findChangedImgs();
         for (let i of productEntries) {
             formData.append(i[0], i[1]);
         }
-        for (let i of imgName) {
+        for (let i of imgs.addedImgFiles) {
             formData.append('productImage', i, uuidv4() + "_" + i.name);
+        }
+        for (let i of imgs.deletedImgName) {
+            formData.append('deleteImgList', i);
         }
         return formData;
     }
@@ -73,7 +98,6 @@ function ProductModifyPage(props) {
     );
 
     const handleModifyButtonOnClick = () => {
-        console.log(productData);
         productModifyMutation.mutateAsync()
             .then(success => {
                 alert("수정에 성공하였습니다");

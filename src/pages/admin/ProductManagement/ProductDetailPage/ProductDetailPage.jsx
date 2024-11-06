@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import * as s from "./style";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useMutation, useQuery } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import { MENU_DATAS } from "../../../../constants/options";
@@ -12,7 +12,7 @@ function ProductDetailPage(props) {
     const params = useParams();
     const navigate = useNavigate();
 
-    const [blobs, setBlobs] = useState([]);
+    const [imgName, setImgName] = useState([]);
 
     const productDetail = useQuery(
         ["productDetailQuery"],
@@ -21,10 +21,7 @@ function ProductDetailPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
-                setBlobs([]);
-                for (let i of success.data.imgUrls) {
-                    await addImgBlobFromUrl("/images/" + i.imgName);
-                }
+                setImgName(success.data.imgUrls.map(data => data.imgName));
             },
             onError: error => {
                 console.log("정보 들고오기 실패");
@@ -40,16 +37,6 @@ function ProductDetailPage(props) {
             }
         })
     );
-
-    const addImgBlobFromUrl = async (url) => {
-        try {
-            const response = await instance.get(url, { responseType: "blob" });
-            setBlobs(blob => [...blob, response.data]);
-        } catch (e) {
-            console.log("이미지를 불러오는 중 에러가 발생하였습니다");
-            console.log(e.response);
-        }
-    }
 
     const handleDeleteButtonOnClick = () => {
         if (window.confirm("정말로 작제하시겠습니까?")) {
@@ -76,12 +63,9 @@ function ProductDetailPage(props) {
                 </div>
             </div>
             {
-                console.log(productDetail.isFetching)
-            }
-            {
                 productDetail.isSuccess && !productDetail.isFetching &&
                 <>
-                    <ProductImages blobs={blobs} setBlobs={setBlobs} isModify={false} />
+                    <ProductImages imgSource={imgName} setImgSource={setImgName} isModify={false} />
                     <span>상품 정보</span>
                     <table>
                         <tbody>
