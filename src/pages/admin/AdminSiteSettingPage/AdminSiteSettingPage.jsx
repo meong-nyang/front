@@ -3,7 +3,7 @@ import { useMutation, useQuery, useQueryClient } from "react-query";
 import * as s from "./style";
 import { IMAGE_ADDRESS, instance } from "../../../apis/util/instance";
 import { useRef, useState } from "react";
-import { changeFormatToPhoneNumber, onlyNumber } from "../../../utils/changeStringFormat";
+import { changeFormatToPhoneNumber, convertToCommaValue, convertToNumericValue, onlyNumber } from "../../../utils/changeStringFormat";
 
 function AdminSiteSettingPage(props) {
 
@@ -17,7 +17,8 @@ function AdminSiteSettingPage(props) {
         siteAddress: "",
         sitePhone: "",
         defaultDeliverCost: "",
-        imgSrc: ""
+        imgSrc: "",
+        deleteImgName: ""
     });
     const [ logo, setLogo ] = useState();
 
@@ -33,7 +34,8 @@ function AdminSiteSettingPage(props) {
                     siteAddress: success.data.siteAddress,
                     sitePhone: success.data.sitePhone,
                     defaultDeliverCost: success.data.defaultDeliverCost,
-                    imgSrc: IMAGE_ADDRESS + success.data.imgName
+                    imgSrc: IMAGE_ADDRESS + success.data.imgName,
+                    deleteImgName: success.data.imgName
                 });
             },
             onError: error => {
@@ -77,12 +79,11 @@ function AdminSiteSettingPage(props) {
                 alert("저장되었습니다.");
                 getSiteSettingData.refetch();
                 queryClient.invalidateQueries("siteLogoQuery");
+                setModify(false);
             })
             .catch(error => {
                 alert("저장에 실패하였습니다.");
-                getSiteSettingData.refetch();
             });
-        setModify(false);
     }
 
     const handleCancelButtonOnClick = () => {
@@ -92,7 +93,7 @@ function AdminSiteSettingPage(props) {
 
     const handleInputOnChange = (e) => {
         if(e.target.name === "defaultDeliverCost") {
-            const value = onlyNumber(e.target.value);
+            const value = convertToNumericValue(e.target.value);
             setSiteData(data => ({
                 ...data,
                 defaultDeliverCost: value === "" ? "0" : value.replace(/^0+/, "")
@@ -175,7 +176,7 @@ function AdminSiteSettingPage(props) {
                                     disabled={!isModify}
                                     onChange={handleInputOnChange}
                                     name="defaultDeliverCost"
-                                    value={siteData.defaultDeliverCost} />
+                                    value={convertToCommaValue(siteData.defaultDeliverCost)} />
                             </td>
                         </tr>
                     </tbody>

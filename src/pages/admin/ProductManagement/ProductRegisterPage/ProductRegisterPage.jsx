@@ -76,7 +76,7 @@ function ProductRegisterPage() {
                     <button onClick={handleRegisterButtonOnClick}>등록</button>
                 </div>
             </div>
-            <ProductImages blobs={selectedFiles} setBlobs={setSelectedFiles} isModify={true}/>
+            <ProductImages imgSource={selectedFiles} setImgSource={setSelectedFiles} isModify={true}/>
             <ProductEdit productData={productData} setProductData={setProductData} disabled={false}/>
         </div>
     );
