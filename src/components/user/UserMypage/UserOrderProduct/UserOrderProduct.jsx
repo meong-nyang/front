@@ -5,22 +5,22 @@ import { useMutation } from 'react-query';
 import { instance } from '../../../../apis/util/instance';
 import axios from 'axios';
 
-function UserOrderProduct(props) {
+function UserOrderProduct({orderDetailData}) {
     
     return (
         <div css={s.contentLayout}>
                 <div css={s.productLayout}>
                     <img src="" />
                     <div>
-                        <p>상품이름</p>
+                        <p>{orderDetailData.productName}</p>
                         <p>[옵션]</p>
                     </div>
                 </div>
                 <div>
-                    <p>1개</p>
+                    <p>{orderDetailData.productCount}개</p>
                 </div>
                 <div>
-                    <p>7,500원</p>
+                    <p>{orderDetailData.productPrice * orderDetailData.productCount}원</p>
                 </div>
                 <div css={s.deliveryLayout}>
                     <p>결제완료</p>

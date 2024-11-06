@@ -14,6 +14,7 @@ function UserProductDetailPage(props) {
     const navigate = useNavigate();
     const param = useParams();
     const queryClient = useQueryClient();
+    const userInfo = queryClient.getQueryData("userInfoQuery");
 
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
 
@@ -115,7 +116,7 @@ function UserProductDetailPage(props) {
 
     const handleAddCartOnClick = () => {
         const addProductData = {
-            userId: 2,
+            userId: userInfo?.data?.id,
             productId: productDetailData.id,
             productCount
         }

@@ -25,20 +25,21 @@ function UserCartPage(props) {
 
     console.log(userInfo?.data?.id);
     useEffect(() => {
+        searchParams.set("page", "1");
+        setSearchParams(searchParams);
         console.log(cartItemList?.data?.data?.cartList.map(item => item.cartId));
         // setCheckItems(cartItemList?.data?.data?.cartList.map(item => item.cartId));
     }, []);
 
     useEffect(() => {
         let total = 0;
-        if(checkItems.length !== 0) {
+        if(checkItems?.length !== 0) {
             total = cartItemList?.data?.data?.cartList
-            .filter(item => checkItems.includes(item.cartId))
+            .filter(item => checkItems?.includes(item.cartId))
                 .reduce((acc, { productPrice, productCount }) => {
                     return acc + (productPrice * productCount);
                 }, 0);
         }
-        console.log(total);
         setTotalPrice(total);
         
     }, [checkItems]);
@@ -183,11 +184,11 @@ function UserCartPage(props) {
                     <div css={s.checkboxStyle}>
                         <input type="checkbox" id='allSelect' 
                             onChange={handleAllCheck}
-                            checked={checkItems.length === cartItemList?.data?.data?.cartListCount & checkItems.length !== 0 ? true : false}/>
+                            checked={checkItems?.length === cartItemList?.data?.data?.cartListCount && checkItems?.length !== 0 ? true : false}/>
                         <label htmlFor="allSelect" >✔</label>
                         <label htmlFor="allSelect" >전체선택</label>
                     </div>
-                    <button onClick={handleSelectDeleteOnClick} disabled={checkItems.length === 0} >선택삭제</button>
+                    <button onClick={handleSelectDeleteOnClick} disabled={checkItems?.length === 0} >선택삭제</button>
                 </div>
                 <div css={s.titleLayout}>
                     <p>선택</p>

@@ -3,15 +3,33 @@ import React from 'react';
 import * as s from "./style";
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
+import { useMutation, useQueryClient } from 'react-query';
+import { instance } from '../../../apis/util/instance';
 
 function UserProductDetail({ productInfo }) {
     const navigate = useNavigate();
-
+    const queryClient = useQueryClient();
+    const userInfo = queryClient.getQueryData("userInfoQuery");
+    console.log(productInfo);
     const handleProductDetailOnClick = () => {
         navigate(`/product/detail/${productInfo.productId}`)
     };
 
+    const addProductMutation = useMutation(
+        async (addProductData) => await instance.post("/user/cart", addProductData),
+        {
+            onSuccess: response => console.log(response),
+            onError: error => console.log(error)
+        }
+    );
+
     const handleAddCartOnClick = () => {
+        const addProductData = {
+            userId: userInfo?.data?.id,
+            productId: productInfo.productId,
+            productCount: 1
+        };
+        addProductMutation.mutateAsync(addProductData);
         Swal.fire({
             title: "장바구니에 담겼습니다",
             text: "장바구니로 이동하시겠습니까?",
@@ -25,6 +43,7 @@ function UserProductDetail({ productInfo }) {
             confirmButtonText: "이동",
         }).then((result) => {
             if (result.isConfirmed) {
+               
                 navigate("/user/cart")
             }
         }

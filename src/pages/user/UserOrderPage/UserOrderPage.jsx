@@ -14,10 +14,12 @@ function UserOrderPage(props) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
-    console.log(userInfo?.data?.id);
+    console.log(userInfo);
     //장바구니나 상세페이지에서 넘어온 상품 리스트
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
     console.log(orderProductList);
+    //기존 정보 사용하겠다(true) / 새로운 정보쓰겠다(false)
+    const [ selectedOldInfo, setSelectedOldInfo ] = useState(false);
     //주문페이지로 전달할 상품리스트 + 주문정보
     const [ orderData, setOrderData ] = useState({
         userId: userInfo?.data?.id,
@@ -33,7 +35,21 @@ function UserOrderPage(props) {
         paymentChannelKey: ""
     });
     console.log(orderData);
+    console.log(selectedOldInfo);
 
+    useEffect(() => {
+        if(selectedOldInfo) {
+            setOrderData(orderData => ({
+                ...orderData,
+                orderName: userInfoData?.data?.data?.name,
+                orderPhone: userInfoData?.data?.data?.phone,
+                orderZipcode: userInfoData?.data?.data?.zipcode,
+                orderAddressDefault: userInfoData?.data?.data?.addressDefault,
+                orderAddressDetail: userInfoData?.data?.data?.addressDetail
+            }));
+        }
+    }, [selectedOldInfo]);
+    
     useEffect(() => {
         // 다음 주소 검색 API 스크립트를 동적으로 로드
         const script = document.createElement('script');
@@ -46,6 +62,18 @@ function UserOrderPage(props) {
             document.body.removeChild(script);
         };
     }, []);
+    
+    const userInfoData = useQuery(
+        ["orderUserInfoDataQuery"],
+        async () => await instance.get(`/user/${userInfo?.data?.id}`),
+        {
+            enabled: !!userInfo?.data?.id,
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => console.log(response),
+            onError: error => console.log(error)
+        }
+    );
 
     const checkProductList = useQuery(
         ["checkProductListQuery"],
@@ -101,6 +129,10 @@ function UserOrderPage(props) {
         }));
     };
 
+    const handleSelectInfoOptionOnChange = () => {
+        setSelectedOldInfo(select => !select);
+    }
+
     const addHyphenToPhoneNumber = (phoneNumber) => {
         const numbers = phoneNumber.replace(/[^0-9]/g, "").slice(0,11)
             .replace(/^(\d{2,3})(\d{3,4})(\d{4})$/, `$1-$2-$3`);
@@ -143,9 +175,16 @@ function UserOrderPage(props) {
                 </div>
 
                 <div css={s.infoLayout}>
-                    <div>
-                        <p>주문정보</p>
-                        <p>(*은 필수정보입니다.)</p>
+                    <div css={s.orderInfoLayout}>
+                        <div>
+                            <p>주문정보</p>
+                            <p>(*은 필수정보입니다.)</p>
+                        </div>
+                        <div css={s.checkBoxLayout}>
+                            <input type="checkbox" id='oldInfo' checked={selectedOldInfo} onChange={handleSelectInfoOptionOnChange}/>
+                            <label htmlFor="oldInfo" >✔</label>
+                            <label htmlFor="oldInfo">회원정보와 동일</label>
+                        </div>
                     </div>
                     <div css={s.inputBox}>
                         <div>
@@ -166,7 +205,7 @@ function UserOrderPage(props) {
                             <p>이메일</p>
                             <p>*</p>
                         </div>
-                        <input type="text" name="orderEmail" onChange={handleInputOnChange} value={orderData.orderEmail} />
+                        <input type="text" name="orderEmail" placeholder='이메일형식으로 작성해주세요' onChange={handleInputOnChange} value={orderData.orderEmail} />
                     </div>
                     <div css={s.addressInputBox}>
                         <div>
@@ -185,7 +224,7 @@ function UserOrderPage(props) {
                             <p>요청사항</p>
                             <p></p>
                         </div>
-                        <input type="text" name='request' onChange={handleInputOnChange}  value={orderData.request} />
+                        <input type="text" name='request' placeholder="요청사항을 작성해주세요" onChange={handleInputOnChange}  value={orderData.request} />
                     </div>
                 </div>
                 <div css={s.infoLayout}>

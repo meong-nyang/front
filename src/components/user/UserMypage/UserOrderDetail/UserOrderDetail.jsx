@@ -34,7 +34,7 @@ function UserOrderDetail(props) {
 
     const orderList = useQuery(
         ["userOrderListQuery"],
-        async () => await instance.get("/user/", {
+        async () => await instance.get("/user/orderlist", {
             params: {
                 userId: userInfoData?.data?.id,
                 page: searchParams.get("page"),
@@ -45,10 +45,17 @@ function UserOrderDetail(props) {
             }
         }),
         {
+            enabled: !!userInfoData?.data?.id,
+            retry: 0,
+            refetchOnWindowFocus: false,
             onSuccess: response => console.log(response),
             onError: error => console.log(error)
         }
     );
+
+    const handleInqueryOnClick = () => {
+        orderList.refetch();
+    }
 
     console.log(inquiryData);
 
@@ -65,11 +72,14 @@ function UserOrderDetail(props) {
                     <input type="date" name='startDate' onChange={handleInquiryDataOnChange}/>
                     <p>~</p>
                     <input type="date" name='endDate' onChange={handleInquiryDataOnChange}/>
-                    <button>조회</button>
+                    <button onClick={handleInqueryOnClick}>조회</button>
                 </div>
             </div>
-            <UserOrderLayout />
-            <UserOrderLayout />
+            {
+                orderList?.data?.data?.orderList.map(order => 
+                    <UserOrderLayout key={order.orderId} orderData={order}/>
+                )
+            }
             <Paginate address={"/user/orderlist"} limit={limit} totalCount={null}/>
         </div>
     );

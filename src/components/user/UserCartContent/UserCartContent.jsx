@@ -27,7 +27,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
 
     const handleCartItemDeleteOnClick = () => {
         Swal.fire({
-            title: "선택한 상품을 삭제하시겠습니까?",
+            text: "선택한 상품을 삭제하시겠습니까?",
             icon: "question",
             showCancelButton: true,
             cancelButtonColor: "#777777",
@@ -92,7 +92,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             <div css={s.checkboxStyle}>
                 <input type="checkbox" id={cartItem?.cartId} 
                     onChange={handelItemCheck}
-                    checked={checkItems.includes(cartItem?.cartId) ? true : false}/>
+                    checked={checkItems?.includes(cartItem?.cartId) ? true : false}/>
                 <label htmlFor={cartItem?.cartId}>✔</label>
             </div>
             <div css={s.productLayout}>
