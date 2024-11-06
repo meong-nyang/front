@@ -105,6 +105,7 @@ export const productDetail = css`
         width: 100%;
         height: 100px;
         resize: none;
+        background-color: white;
     }
 `;
 

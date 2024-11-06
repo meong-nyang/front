@@ -159,13 +159,13 @@ function ProductDetailPage(props) {
                         </tbody>
                     </table>
                     <div css={s.productDetail}>
-                    <span>제품설명</span>
-                    <textarea></textarea>
-                    <span>상세정보 이미지</span>
-                    <div css={s.detailImages}>
-                        <img src="" alt="" />
+                        <span>제품설명</span>
+                        <textarea disabled={true}>{productDetail.data.data.productDetail}</textarea>
+                        <span>상세정보 이미지</span>
+                        <div css={s.detailImages}>
+                            <img src="" alt="" />
+                        </div>
                     </div>
-                </div>
                 </>
             }
         </div>

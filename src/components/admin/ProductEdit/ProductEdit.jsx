@@ -271,7 +271,11 @@ function ProductEdit({ productData, setProductData, disabled }) {
             </div>
             <div css={s.productDetail}>
                 <span>제품설명</span>
-                <textarea></textarea>
+                <textarea 
+                    disabled={disabled}
+                    name="productDetail"
+                    value={productData.productDetail}
+                    onChange={handleProductDataOnChange} />
                 <span>상세정보 이미지</span>
                 <div css={s.detailImages}>
                     <img src="" alt="" />
