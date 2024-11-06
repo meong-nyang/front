@@ -71,17 +71,22 @@ export const infoLayout = css`
         font-weight: 600;
         border-bottom: 1px solid #e0e0e0;
     }
-    & > div:nth-of-type(1) {
+`;
+
+export const orderInfoLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    /* border-bottom: 1px solid #e0e0e0; */
+    & > div {
         box-sizing: border-box;
         display: flex;
-        width: 100%;
-        /* justify-content: space-between; */
-        align-items: center;
-        /* border-bottom: 1px solid #e0e0e0; */
         & > p {
-            padding: 30px 10px 10px;
-            font-size: 18px;
-            font-weight: 600;
+        padding: 30px 10px 10px;
+        font-size: 18px;
+        font-weight: 600;
         }
         & > p:nth-last-of-type(1) {
             padding: 30px 0px 10px;
@@ -90,7 +95,57 @@ export const infoLayout = css`
             font-weight: 400;
         }
     }
-    
+`;
+
+export const checkBoxLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 30px 0px 10px;
+    font-size: 14px;
+    color: #777777;
+    & > input {
+        display: none;
+    }
+
+    & > input + label {
+        box-sizing: border-box;
+        position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+        border: 1.5px solid #e0e0e0;
+        border-radius: 50%;
+        color: #e0e0e0;
+        font-size: 12px;
+        cursor: pointer;
+    }
+
+    & > input:checked + label::after {
+        box-sizing: border-box;
+        position: absolute;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 50%;
+        background-color: #FFF5D6;
+        content:"✔";
+        color: #9d6c4c;
+        font-size: 12px;
+        width: 18px;
+        height: 18px;
+        left: -10;
+        top:-1;
+        & > svg {
+            color: #ffffff;
+            z-index: 100;
+        }
+    }
+
 `;
 
 export const inputBox = css`

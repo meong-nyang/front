@@ -35,6 +35,7 @@ import UserOauth2SigninPage from './pages/user/UserOauth2SigninPage/UserOauth2Si
 import PortOneOrderPage from './pages/user/PortOneOrderPage/PortOneOrderPage';
 import AdminCustomerListPage from './pages/admin/AdminCustomerManagement/AdminCustomerListPage/AdminCustomerListPage';
 import UserOrderSuccessPage from './pages/user/UserOrderSuccessPage/UserOrderSuccessPage';
+import UserSearchProductPage from './pages/user/UserSearchProductPage/UserSearchProductPage';
 
 
 function App() {
@@ -152,7 +153,7 @@ function App() {
         <>
             <Global styles={reset} />
             <Routes>
-                <Route path='/' element={<></>} />
+                <Route path='/' element={<UserMainPage />} />
                 <Route path='/user/signup' element={<UserSignupPage />} />
                 <Route path='/user/signin' element={<UserSigninPage />} />
                 <Route path='/user/signup/oauth2' element={<UserOauth2SignupPage />} />
@@ -164,6 +165,7 @@ function App() {
                 <Route path='/product/list/:groupName' element={<UserProductListPage />} />
                 <Route path='/order' element={<PortOneOrderPage />} />
                 <Route path='/order/success' element={<UserOrderSuccessPage />} />
+                <Route path='/search' element={<UserSearchProductPage />} />
 
                 <Route path='/admin/signin' element={<AdminSigninPage />} />
                 <Route path='/admin/*' element={

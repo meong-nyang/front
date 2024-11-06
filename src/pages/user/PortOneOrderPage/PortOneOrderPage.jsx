@@ -4,16 +4,18 @@ import React, { useEffect, useState } from 'react';
 import * as s from "./style";
 import Swal from "sweetalert2";
 import { productLayout } from '../UserOrderPage/style';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate } from 'react-router-dom';
 
 function PortOneOrderPage({portEtcData}) {
     const navigate = useNavigate();
+    const queryClient = useQueryClient();
+    const userInfo = queryClient.getQueryData("userInfoQuery");
     console.log(portEtcData);
     //order_tb에 저장할 데이터
     const [ orderData, setOrderData ] = useState({
-        userId: 0,
+        userId: userInfo?.data?.id,
         products: [],
         totalPrice: 0,
         orderItemCount: 0,
@@ -47,7 +49,7 @@ console.log(orderData);
     useEffect(() => {
         if (portEtcData) {
             setOrderData({
-                userId: 0,
+                userId: userInfo?.data?.id,
                 products: portEtcData.products.map(product => ({
                     productId: product.id,
                     productCount: product.count
@@ -113,7 +115,7 @@ console.log(orderData);
             payMethod: portEtcData.paymentMethod,
             // totalAmount: , 추가해야됨
             customer: {
-                userId: 2,
+                userId: userInfo?.data?.id,
                 fullName: portEtcData.orderName,
                 phoneNumber: portEtcData.orderPhone,
                 email: portEtcData.orderEmail,
@@ -138,28 +140,30 @@ console.log(orderData);
                     ...orderData,
                     paymentId: response.paymentId
                 }
-                // registerOrderMutaion.mutateAsync(registerOrderData);
+                console.log(registerOrderData);
+
+                registerOrderMutaion.mutateAsync(registerOrderData);
                 
                 let timerInterval;
-                Swal.fire({
-                    title: "결제가 완료되었습니다!",
-                    color: "#9d6c4c",
-                    html: "<b>5</b>초 뒤 자동으로 홈화면으로 이동합니다!",
-                    timer: 5000,
-                    timerProgressBar: true,
-                    showConfirmButton: false,
-                    didOpen: () => {
-                        const b = Swal.getHtmlContainer().querySelector('b');
-                        timerInterval = setInterval(() => {
-                            b.textContent = Math.ceil(Swal.getTimerLeft()/1000);
-                        }, 1000)
-                    },
-                    willClose: () => {
-                        clearInterval(timerInterval);  
-                    }
-                }).then(result => {
-                    navigate("/");
-                })
+                // Swal.fire({
+                //     title: "결제가 완료되었습니다!",
+                //     color: "#9d6c4c",
+                //     html: "<b>5</b>초 뒤 자동으로 홈화면으로 이동합니다!",
+                //     timer: 5000,
+                //     timerProgressBar: true,
+                //     showConfirmButton: false,
+                //     didOpen: () => {
+                //         const b = Swal.getHtmlContainer().querySelector('b');
+                //         timerInterval = setInterval(() => {
+                //             b.textContent = Math.ceil(Swal.getTimerLeft()/1000);
+                //         }, 1000)
+                //     },
+                //     willClose: () => {
+                //         clearInterval(timerInterval);  
+                //     }
+                // }).then(result => {
+                //     navigate("/");
+                // })
             }
         }
         ).catch(error => {
