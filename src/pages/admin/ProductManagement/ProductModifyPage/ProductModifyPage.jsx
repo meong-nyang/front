@@ -4,7 +4,7 @@ import * as s from "./style";
 import ProductImages from "../../../../components/admin/ProductImages/ProductImages";
 import ProductEdit from "../../../../components/admin/ProductEdit/ProductEdit";
 import { useEffect, useState } from "react";
-import { useMutation, useQuery, useQueryClient } from "react-query";
+import { useMutation, useQuery } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,6 +35,12 @@ function ProductModifyPage(props) {
     const [ productData, setProductData ] = useState(emptyProductData);
     const [ imgName, setImgName ] = useState([]);
     const [ originalImgName, setOriginalImgName ] = useState(new Set());
+    const [ productDetailImgName, setProductDetailImgName ] = useState([]);
+    const [ originalDetailImgName, setOriginalDetailImgName ] = useState();
+
+    useEffect(() => {
+        console.log(productDetailImgName);
+    }, [productDetailImgName]);
 
     const productModify = useQuery(
         ["productModifyQuery"],
@@ -43,11 +49,14 @@ function ProductModifyPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
-                console.log(success);
+                console.log(success.data);
                 const tempImgName = success.data.imgUrls.map(data => data.imgName);
+                const tempDetailImgName = success.data.productDetailImgUrls.map(data => data.imgName);
                 setImgName(tempImgName);
                 setOriginalImgName(new Set(tempImgName));
                 setProductData(success.data);
+                setProductDetailImgName(tempDetailImgName);
+                setOriginalDetailImgName(tempDetailImgName);
             },
             onError: error => {
                 console.log(error.response);
@@ -55,14 +64,13 @@ function ProductModifyPage(props) {
         }
     );
 
-    const findChangedImgs = () => {
+    const findChangedImgs = (ImgList, originalImgList) => {
         const changeData = {
             deletedImgName: [],
             addedImgFiles: []
         }
-        const temp = new Set(originalImgName);
-        for (let source of imgName) {
-            console.log("이미지" + source);
+        const temp = new Set(originalImgList);
+        for (let source of ImgList) {
             if (source instanceof Blob) {
                 changeData.addedImgFiles.push(source);
             } else {
@@ -76,7 +84,8 @@ function ProductModifyPage(props) {
     const formData = () => {
         const formData = new FormData();
         const productEntries = Object.entries(productData);
-        const imgs = findChangedImgs();
+        const imgs = findChangedImgs(imgName, originalImgName);
+        const detailImgs = findChangedImgs(productDetailImgName, originalDetailImgName);
         for (let i of productEntries) {
             formData.append(i[0], i[1]);
         }
@@ -85,6 +94,12 @@ function ProductModifyPage(props) {
         }
         for (let i of imgs.deletedImgName) {
             formData.append('deleteImgList', i);
+        }
+        for (let i of detailImgs.addedImgFiles) {
+            formData.append('productDetailImage', i, uuidv4() + "_" + i.name);
+        }
+        for (let i of detailImgs.deletedImgName) {
+            formData.append('deleteProductDetailImgList', i);
         }
         return formData;
     }
@@ -126,7 +141,7 @@ function ProductModifyPage(props) {
                 productModify.isSuccess && productData &&
                 <>
                     <ProductImages imgSource={imgName} setImgSource={setImgName} isModify={true} />
-                    <ProductEdit productData={productData} setProductData={setProductData} disabled={false} />
+                    <ProductEdit detailImg={productDetailImgName} setDetailImg={setProductDetailImgName} productData={productData} setProductData={setProductData} disabled={false} />
                 </>
             }
         </div>

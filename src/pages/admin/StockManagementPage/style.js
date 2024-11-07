@@ -179,7 +179,10 @@ export const productLine = (isModified) => css`
         }
     }
 
-    border: ${isModified ? "2px solid red" : "none"};
+    & > * {
+        background-color: ${isModified ? "#FFF5D6" : "white"};
+    }
+
 `;
 
 export const dateInput = (isShow) => css`

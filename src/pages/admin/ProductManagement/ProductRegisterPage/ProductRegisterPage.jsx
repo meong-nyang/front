@@ -32,8 +32,7 @@ function ProductRegisterPage() {
 
     const [ productData, setProductData ] = useState(emptyProductData);
     const [ selectedFiles, setSelectedFiles ] = useState([]);
-
-    useEffect(() => console.log(selectedFiles), [selectedFiles]);
+    const [ detailImg, setDetailImg ] = useState([]);
 
     const navigate = useNavigate();
 
@@ -45,6 +44,9 @@ function ProductRegisterPage() {
         }
         for (let i of selectedFiles) {
             formData.append('productImage', i, uuidv4() + "_" + i.name);
+        }
+        for (let i of detailImg) {
+            formData.append('productDetailImg', i, uuidv4() + "_" + i.name);
         }
         return formData;
     }
@@ -58,12 +60,17 @@ function ProductRegisterPage() {
     );
     
     const handleRegisterButtonOnClick = () => {
+        if (!productData.productName || !productData.productPrice) {
+            alert("필수정보를 입력하세요");
+            return;
+        }
+
         registerProductMutation.mutateAsync()
         .then(success => {
             alert("등록되었습니다.");
             navigate(MENU_DATAS[1].address);
         }).catch(error => {
-            alert("필수정보를 입력해주세요");
+            alert("등록에 실패하였습니다.");
             console.log(error.response);
         });
     }
@@ -77,7 +84,12 @@ function ProductRegisterPage() {
                 </div>
             </div>
             <ProductImages imgSource={selectedFiles} setImgSource={setSelectedFiles} isModify={true}/>
-            <ProductEdit productData={productData} setProductData={setProductData} disabled={false}/>
+            <ProductEdit
+                detailImg={detailImg}
+                setDetailImg={setDetailImg}
+                productData={productData}
+                setProductData={setProductData}
+                disabled={false} />
         </div>
     );
 }

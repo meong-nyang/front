@@ -13,6 +13,7 @@ function ProductDetailPage(props) {
     const navigate = useNavigate();
 
     const [imgName, setImgName] = useState([]);
+    const [productDetailImgName, setProductDetailImgName ] = useState([]);
 
     const productDetail = useQuery(
         ["productDetailQuery"],
@@ -22,6 +23,7 @@ function ProductDetailPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
                 setImgName(success.data.imgUrls.map(data => data.imgName));
+                setProductDetailImgName(success.data.productDetailImgUrls.map(data => data.imgName));
             },
             onError: error => {
                 console.log("정보 들고오기 실패");
@@ -163,7 +165,7 @@ function ProductDetailPage(props) {
                         <textarea disabled={true}>{productDetail.data.data.productDetail}</textarea>
                         <span>상세정보 이미지</span>
                         <div css={s.detailImages}>
-                            <img src="" alt="" />
+                            <ProductImages imgSource={productDetailImgName} setImgSource={setProductDetailImgName} isModify={false} />
                         </div>
                     </div>
                 </>
