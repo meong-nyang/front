@@ -4,7 +4,7 @@ export const layout = css`
     box-sizing: border-box;
     display: flex;
     width: 1000px;
-    margin: 80px auto;
+    margin: 20px auto;
     padding: 20px;
     & > div {
         flex-grow: 1;
@@ -48,20 +48,35 @@ export const detailLayout = css`
     align-items: flex-start;
     padding-left: 40px;
     & > p {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         padding: 10px 0px;
-        color: #777777;
-        
         &:nth-of-type(1) {
-            font-size: 20px;
+            font-size: 25px;
             font-weight: 600;
         }
-        &:nth-of-type(2), :nth-last-of-type(1) {
-            font-size: 14px;
+        &:nth-of-type(3), :nth-last-of-type(2) {
+            padding-left: 10px;
+            font-size: 16px;
             font-weight: 400;
+            & > svg {
+                padding-right: 5px;
+                font-size: 18px;
+                color: #777777;
+            }
         }
-        &:nth-last-of-type(2) {
+        &:nth-of-type(2) {
             font-size: 18px;
             font-weight: 600;
+            & > svg {
+                padding-right: 5px;
+                color: #777777;
+            }
+        }
+        &:nth-last-of-type(1) {
+            padding: 0;
         }
     }
 `;
@@ -72,12 +87,11 @@ export const countLayout = css`
     width: 100%;
     justify-content: space-between;
     padding: 20px 0px;
-    border-bottom: 1px solid #e0e0e0;
-    border-top: 1px solid #e0e0e0;
+    border-bottom: 2px solid #e0e0e0;
+    border-top: 2px solid #e0e0e0;
     & > p {
         display: flex;
         width: 139px;
-        color: #777777;
         font-size: 14px;
         font-weight: 600;
         &:nth-of-type(1) {
@@ -103,7 +117,6 @@ export const countLayout = css`
             outline: none;
             font-size: 18px;
             font-weight: 600;
-            color: #777777;
         }
         & > svg {
             font-size: 20px;
@@ -122,7 +135,6 @@ export const totalLayout = css`
         margin-left: 10px;
         font-size: 18px;
         font-weight: 600;
-        color: #777777;
     }
 `;
 
@@ -134,10 +146,11 @@ export const buyLayout = css`
     align-items: center;
 
     & > button {
-        width: 180px;
+        width: 50%;
         height: 40px;
         border: none;
         border-radius: 5px;
+        font-size: 16px;
         &:nth-of-type(1) {
             background-color: #D9D9D9;
             color: #777777 ;
@@ -146,6 +159,7 @@ export const buyLayout = css`
         &:nth-last-of-type(1) {
             background-color: #9d6c4c;
             color: #ffffff;
+            font-weight: 600;
         }
     }
 

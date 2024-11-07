@@ -7,10 +7,9 @@ export const layout = css`
     flex-grow: 1;
     width: 100%;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
-    margin-top: 80px;
     padding: 20px;
+    /* background-color: #FFF5D6; */
     & > p {
         font-size: 25px;
         font-weight: 600;

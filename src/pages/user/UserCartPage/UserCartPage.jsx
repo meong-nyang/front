@@ -23,7 +23,7 @@ function UserCartPage(props) {
     const [ totalPrice, setTotalPrice ] = useState(0);
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
 
-    console.log(userInfo?.data?.id);
+    console.log(checkItems);
     useEffect(() => {
         searchParams.set("page", "1");
         setSearchParams(searchParams);
@@ -44,7 +44,6 @@ function UserCartPage(props) {
         
     }, [checkItems]);
 
-    console.log(checkItems);
     const cartItemList = useQuery(
         ["cartItemListQuery"],
         async () => await instance.get("/user/cart", {
@@ -60,7 +59,7 @@ function UserCartPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: response => {
                 console.log(response.data);
-                setCheckItems(cartItemList?.data?.data?.cartList.map(item => item.cartId));
+                setCheckItems(response?.data.cartList.map(item => item.cartId));
             } ,
             onError: error => console.error(error)
         }
@@ -84,12 +83,8 @@ function UserCartPage(props) {
 
     const handleAllCheck = (e) => {
         if(e.target.checked) {
-            cartItemList?.data?.data?.cartList.map(({cartId}) => {
-                setCheckItems(item => ([
-                    ...item,
-                    cartId
-                ]))
-            })
+            const allCartIds = cartItemList?.data?.data?.cartList.map(({ cartId }) => cartId) || [];
+            setCheckItems(allCartIds);
         } else {
             setCheckItems([]);
         }
@@ -119,7 +114,7 @@ function UserCartPage(props) {
     };
 
     const handleSelectProductOrderOnClick = () => {
-        if(checkItems.length === 0) {
+        if(checkItems?.length === 0) {
             Swal.fire({
                 text: "선택한상품이 없습니다. ",
                 icon: "error",
@@ -131,7 +126,7 @@ function UserCartPage(props) {
         }
         Swal.fire({
             text: `선택한 상품 ${checkItems.length}개를 구매하시겠습니까?`,
-            icon: "success",
+            icon: "question",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",
@@ -142,6 +137,7 @@ function UserCartPage(props) {
                 const selectedProducts = cartItemList?.data?.data?.cartList
                     .filter(item => checkItems.includes(item.cartId)) // checkItems에 있는 상품 ID로 필터링
                     .map(item => ({
+                        cartId: item.cartId,
                         productId: item.productId,
                         productName: item.productName,
                         productCount: item.productCount,
@@ -154,9 +150,19 @@ function UserCartPage(props) {
     };
 
     const handleAllProductOrderOnClick = () => {
+        if(checkItems?.length === 0) {
+            Swal.fire({
+                text: "선택한상품이 없습니다. ",
+                icon: "error",
+                timer: 1500,
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "닫기",
+            });
+            return;
+        }
         Swal.fire({
             text: `전체 상품을 구매하시겠습니까?`,
-            icon: "success",
+            icon: "question",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",
@@ -166,6 +172,7 @@ function UserCartPage(props) {
             if (result.isConfirmed) {
                 setOrderProductList(cartItemList?.data?.data?.cartList
                     .map(item => ({
+                        cartId: item.cartId,
                         productId: item.productId,
                         productName: item.productName,
                         productCount: item.productCount,
@@ -221,12 +228,12 @@ function UserCartPage(props) {
                         <p>+</p>
                         <div>
                             <p>배송비</p>
-                            <p>2,500원</p>
+                            <p>{checkItems?.length === 0 ? "0" : "2,500"}원</p>
                         </div>
                         <p>=</p>
                         <div>
                             <p>결제 예정 금액</p>
-                            <p>{priceFormet(totalPrice + 2500)}원</p>
+                            <p>{checkItems?.length === 0 ? priceFormet(totalPrice) : priceFormet(totalPrice + 2500)}원</p>
                         </div>
                     </div>
                 </div>

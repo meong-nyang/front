@@ -6,15 +6,12 @@ import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
 import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
-import { useNavigate } from 'react-router-dom';
 import PortOneOrderPage from '../PortOneOrderPage/PortOneOrderPage';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
 
 function UserOrderPage(props) {
-    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
-    console.log(userInfo);
     //장바구니나 상세페이지에서 넘어온 상품 리스트
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
     console.log(orderProductList);
@@ -34,8 +31,6 @@ function UserOrderPage(props) {
         paymentMethod: "",
         paymentChannelKey: ""
     });
-    console.log(orderData);
-    console.log(selectedOldInfo);
 
     useEffect(() => {
         if(selectedOldInfo) {
@@ -46,6 +41,15 @@ function UserOrderPage(props) {
                 orderZipcode: userInfoData?.data?.data?.zipcode,
                 orderAddressDefault: userInfoData?.data?.data?.addressDefault,
                 orderAddressDetail: userInfoData?.data?.data?.addressDetail
+            }));
+        } else {
+            setOrderData(orderData => ({
+                ...orderData,
+                orderName: "",
+                orderPhone: "",
+                orderZipcode: "",
+                orderAddressDefault: "",
+                orderAddressDetail: ""
             }));
         }
     }, [selectedOldInfo]);
@@ -167,98 +171,100 @@ function UserOrderPage(props) {
                         <p>결제금액</p>
                     </div>
                     {
-                        checkProductList?.data?.data?.checkProducts.map(product => 
-                            <UserOrderContent productInfo={product} count={orderProductList
-                                .filter(orderProduct => product.productId === parseInt(orderProduct.productId))[0].productCount}/>
+                        checkProductList?.data?.data?.checkProducts.map(product =>   
+                            <UserOrderContent productInfo={product} count={
+                                orderProductList?.filter(orderProduct => product.productId === parseInt(orderProduct.productId))[0]?.productCount
+                            }/>
                         )
                     }
                 </div>
-
-                <div css={s.infoLayout}>
-                    <div css={s.orderInfoLayout}>
-                        <div>
-                            <p>주문정보</p>
-                            <p>(*은 필수정보입니다.)</p>
+                <div css={s.inputLayout}>
+                    <div css={s.infoLayout}>
+                        <div css={s.orderInfoLayout}>
+                            <div>
+                                <p>주문정보</p>
+                                <p>(*은 필수정보입니다.)</p>
+                            </div>
+                            <div css={s.checkBoxLayout}>
+                                <input type="checkbox" id='oldInfo' checked={selectedOldInfo} onChange={handleSelectInfoOptionOnChange}/>
+                                <label htmlFor="oldInfo" >✔</label>
+                                <label htmlFor="oldInfo">회원정보와 동일</label>
+                            </div>
                         </div>
-                        <div css={s.checkBoxLayout}>
-                            <input type="checkbox" id='oldInfo' checked={selectedOldInfo} onChange={handleSelectInfoOptionOnChange}/>
-                            <label htmlFor="oldInfo" >✔</label>
-                            <label htmlFor="oldInfo">회원정보와 동일</label>
+                        <div css={s.inputBox}>
+                            <div>
+                                <p>받는사람</p>
+                                <p>*</p>
+                            </div>
+                            <input type="text" name="orderName" onChange={handleInputOnChange} value={orderData.orderName} />
+                        </div>
+                        <div css={s.inputBox}>
+                            <div>
+                                <p>전화번호</p>
+                                <p>*</p>
+                            </div>
+                            <input type="text" name="orderPhone" onChange={handleInputOnChange} value={addHyphenToPhoneNumber(orderData.orderPhone)} />
+                        </div>
+                        <div css={s.inputBox}>
+                            <div>
+                                <p>이메일</p>
+                                <p>*</p>
+                            </div>
+                            <input type="text" name="orderEmail" placeholder='이메일형식으로 작성해주세요' onChange={handleInputOnChange} value={orderData.orderEmail} />
+                        </div>
+                        <div css={s.addressInputBox}>
+                            <div>
+                                <p>주소</p>
+                                <p>*</p>
+                            </div>
+                            <div>
+                                <input type="text" name="orderZipcode" placeholder='우편번호'onChange={handleInputOnChange} value={orderData.orderZipcode} disabled='true'/>
+                                <button onClick={handleSearchAddress}>주소검색</button>
+                            </div>
+                            <input type="text" name="orderAddressDefault" placeholder='기본주소' onChange={handleInputOnChange} value={orderData.orderAddressDefault} disabled='true'/>
+                            <input type="text" name="orderAddressDetail" placeholder='상세주소' onChange={handleInputOnChange} value={orderData.orderAddressDetail} />
+                        </div>
+                        <div css={s.inputBox}>
+                            <div>
+                                <p>요청사항</p>
+                                <p></p>
+                            </div>
+                            <input type="text" name='request' placeholder="요청사항을 작성해주세요" onChange={handleInputOnChange}  value={orderData.request} />
                         </div>
                     </div>
-                    <div css={s.inputBox}>
-                        <div>
-                            <p>받는사람</p>
-                            <p>*</p>
+                    <div css={s.infoLayout2}>
+                        <div css={s.paymentMethodLayout}>
+                            <p>결제수단</p>
+                            <p>(결제수단은 필수옵션입니다.)</p>
                         </div>
-                        <input type="text" name="orderName" onChange={handleInputOnChange} value={orderData.orderName} />
-                    </div>
-                    <div css={s.inputBox}>
-                        <div>
-                            <p>전화번호</p>
-                            <p>*</p>
+                        <div css={s.paymentLayout}>
+                            {
+                                paymentList?.data?.data.map(payment => 
+                                    <>
+                                        <input type="radio" id={payment.id} name="payment" onChange={() => handlePaymentOnChange(payment.paymentMethod ,payment.paymentChannelKey)} value={payment.paymentMethod}/>
+                                        <label htmlFor={payment.id} >{payment.paymentName}</label>
+                                    </>
+                                )
+                            }
                         </div>
-                        <input type="text" name="orderPhone" onChange={handleInputOnChange} value={addHyphenToPhoneNumber(orderData.orderPhone)} />
-                    </div>
-                    <div css={s.inputBox}>
-                        <div>
-                            <p>이메일</p>
-                            <p>*</p>
+                        <p>결제정보</p>
+                        <div css={s.priceLayout}>
+                            <div>
+                                <p>총 주문금액</p>
+                                <p>10,000원</p>
+                            </div>
+                            <div>
+                                <p>배송비</p>
+                                <p>3,000원</p>
+                            </div>
                         </div>
-                        <input type="text" name="orderEmail" placeholder='이메일형식으로 작성해주세요' onChange={handleInputOnChange} value={orderData.orderEmail} />
-                    </div>
-                    <div css={s.addressInputBox}>
-                        <div>
-                            <p>주소</p>
-                            <p>*</p>
+                        <div css={s.totalPriceLayout}>
+                            <p>결제예정금액</p>
+                            <p>13,000원</p>
                         </div>
-                        <div>
-                            <input type="text" name="orderZipcode" placeholder='우편번호'onChange={handleInputOnChange} value={orderData.orderZipcode} disabled='true'/>
-                            <button onClick={handleSearchAddress}>주소검색</button>
-                        </div>
-                        <input type="text" name="orderAddressDefault" placeholder='기본주소' onChange={handleInputOnChange} value={orderData.orderAddressDefault} disabled='true'/>
-                        <input type="text" name="orderAddressDetail" placeholder='상세주소' onChange={handleInputOnChange} value={orderData.orderAddressDetail} />
-                    </div>
-                    <div css={s.inputBox}>
-                        <div>
-                            <p>요청사항</p>
-                            <p></p>
-                        </div>
-                        <input type="text" name='request' placeholder="요청사항을 작성해주세요" onChange={handleInputOnChange}  value={orderData.request} />
+                        <PortOneOrderPage portEtcData={orderData}/>
                     </div>
                 </div>
-                <div css={s.infoLayout}>
-                    <p>결제정보</p>
-                    <div css={s.priceLayout}>
-                        <div>
-                            <p>총 주문금액</p>
-                            <p>10,000원</p>
-                        </div>
-                        <div>
-                            <p>배송비</p>
-                            <p>3,000원</p>
-                        </div>
-                    </div>
-                    <div css={s.totalPriceLayout}>
-                        <p>결제예정금액</p>
-                        <p>13,000원</p>
-                    </div>
-                    <div css={s.paymentMethodLayout}>
-                        <p>결제수단</p>
-                        <p>(결제수단은 필수옵션입니다.)</p>
-                    </div>
-                    <div css={s.paymentLayout}>
-                        {
-                            paymentList?.data?.data.map(payment => 
-                                <>
-                                    <input type="radio" id={payment.id} name="payment" onChange={() => handlePaymentOnChange(payment.paymentMethod ,payment.paymentChannelKey)} value={payment.paymentMethod}/>
-                                    <label htmlFor={payment.id} >{payment.paymentName}</label>
-                                </>
-                            )
-                        }
-                    </div>
-                </div>
-                <PortOneOrderPage portEtcData={orderData}/>
             </div>
         </UserMainLayout>
     );

@@ -3,19 +3,21 @@ import { css } from "@emotion/react";
 export const contentLayout = css`
     box-sizing: border-box;
     display: flex;
+    width: 100%;
     align-items: center;
     padding: 20px 0px;
     border-bottom: 1px solid #e0e0e0;
     & > div {
+        width: 10%;
         &:nth-of-type(1), :nth-last-of-type(1) {
             box-sizing: border-box;
             display: flex;
             justify-content: center;
             align-items: center;
-            width: 90px;
+            width: 5%;
         }
         &:nth-of-type(2) {
-            width: 478px;
+            width: 70%;
         }
     }
     & > p {
@@ -23,9 +25,10 @@ export const contentLayout = css`
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 150px;
+        width: 10%;
     }
     & svg {
+        /* width: 5%; */
         cursor: pointer;
     }
     
@@ -64,9 +67,9 @@ export const checkboxStyle = css`
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        background-color: #FFF5D6;
+        background-color: #9d6c4c;
         content:"✔";
-        color: #9d6c4c;
+        color: #FFF5D6;
         font-size: 12px;
         width: 18px;
         height: 18px;
@@ -82,9 +85,9 @@ export const checkboxStyle = css`
 export const productLayout = css`
     box-sizing: border-box;
     display: flex;
+    width: 100%;
     flex-direction: row !important;
     justify-content: flex-start !important;
-    width: 478px !important;
 
     & > img {
         margin: 0px 20px;
@@ -98,14 +101,16 @@ export const productLayout = css`
         display: flex;
         flex-direction: column;
         & > p {
-            
+            font-weight: 600;
             &:nth-of-type(2) {
                 color: #777777;
                 font-size: 14px;
+                font-weight: 400;
             }
         }
     }
 `;
+
 
 export const countLayout = css`
     box-sizing: border-box;

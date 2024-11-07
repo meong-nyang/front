@@ -2,14 +2,13 @@ import { css } from "@emotion/react";
 
 export const layout = css`
     box-sizing: border-box;
-    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
+    margin-bottom: 15px;
     padding: 20px;
     width: 100%;
-    height: auto;
-    margin-top: 80px;
+    height: 66px;
     background-color: #FFF5D6;
 
     & > button {

@@ -2,12 +2,13 @@
     /** @jsxImportSource @emotion/react */
     import * as s from "./style";
     import logoImg from "../../../assets/images/logo.png";
-    import { CiSearch, CiShoppingCart } from "react-icons/ci";
+    import { CiSearch, CiShoppingCart, CiLogout } from "react-icons/ci";
     import { Link, NavLink } from 'react-router-dom';
     import { useQueryClient } from 'react-query';
 
     function UserHeaderLayout() {
         const queryClient = useQueryClient();
+        const userInfo = queryClient.getQueryData("userInfoQuery");
         
         const activeStyle = {
             color: "#9d6c4c",
@@ -50,8 +51,8 @@
                         accessTokenValidationQuery?.data
                         ?
                         <>
-                            <Link to={'/user/info'}>마이페이지</Link>
-                            <button onClick={handleLogoutClick} >로그아웃</button>
+                            <Link to={'/user/info'}>{userInfo?.data?.name}님</Link>
+                            <button onClick={handleLogoutClick} ><CiLogout /></button>
                         </>
                         :
                         <>
@@ -60,7 +61,6 @@
                         </>
                         
                     }
-                
                     <Link to={'/user/cart?page=1'}><CiShoppingCart /></Link>
                     <Link to={'/search'}><CiSearch /></Link>
                 </div>

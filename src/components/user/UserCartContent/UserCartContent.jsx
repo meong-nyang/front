@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { RxCross2 } from "react-icons/rx";
+import { AiTwotoneDelete } from "react-icons/ai";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from 'react-query';
@@ -44,9 +44,9 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
 
     const handelItemCheck = (e) => {
         if(e.target.checked) {
-            setCheckItems(item => [...item, cartItem?.cartId]);
+            setCheckItems(items => [...items, cartItem?.cartId]);
         } else {
-            setCheckItems(checkItems.filter(id => id != cartItem?.cartId))
+            setCheckItems(items => items?.filter(id => id !== cartItem?.cartId))
         }
     };
 
@@ -110,7 +110,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             </div>
             <p>{priceFormet(productCount * cartItem?.productPrice)}원</p>
             <div>
-                <RxCross2 onClick={handleCartItemDeleteOnClick}/>
+                <AiTwotoneDelete onClick={handleCartItemDeleteOnClick}/>
             </div>
         </div>
     );

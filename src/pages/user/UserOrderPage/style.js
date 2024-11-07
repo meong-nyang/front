@@ -9,7 +9,6 @@ export const layout = css`
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    margin-top: 80px;
     padding: 20px;
     & > p {
         font-size: 25px;
@@ -48,13 +47,23 @@ export const categoryLayout = css`
     & > p {
         box-sizing: border-box;
         display: flex;
-        width: 205px;
+        width: 10%;
         justify-content: center;
         align-items: center;
         &:nth-of-type(1) {
-            width: 550px !important;
+            width: 75% !important;
+        }
+        &:nth-last-of-type(1) {
+            width: 15%;
         }
     }
+`;
+
+export const inputLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
 `;
 
 export const infoLayout = css`
@@ -62,10 +71,27 @@ export const infoLayout = css`
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 100%;
+    width: 70%;
+    padding-right: 100px;
     margin-top: 30px;
     & > p {
-        padding: 30px 10px 10px;
+        padding: 30px 10px 10px 10px;
+        width: 100%;
+        font-size: 18px;
+        font-weight: 600;
+        border-bottom: 1px solid #e0e0e0;
+    }
+`;
+
+export const infoLayout2 = css`
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 30%;
+    margin-top: 30px;
+    & > p {
+        padding: 30px 10px 10px 10px;
         width: 100%;
         font-size: 18px;
         font-weight: 600;
@@ -83,8 +109,9 @@ export const orderInfoLayout = css`
     & > div {
         box-sizing: border-box;
         display: flex;
+        align-items: center;
         & > p {
-        padding: 30px 10px 10px;
+        padding: 30px 10px 10px 0px;
         font-size: 18px;
         font-weight: 600;
         }
@@ -109,6 +136,11 @@ export const checkBoxLayout = css`
         display: none;
     }
 
+    & > label {
+        font-size: 16px;
+        cursor: pointer;
+    }
+
     & > input + label {
         box-sizing: border-box;
         position: relative;
@@ -117,11 +149,10 @@ export const checkBoxLayout = css`
         align-items: center;
         width: 18px;
         height: 18px;
-        margin-right: 10px;
+        margin-right: 5px;
         border: 1.5px solid #e0e0e0;
         border-radius: 50%;
         color: #e0e0e0;
-        font-size: 12px;
         cursor: pointer;
     }
 
@@ -132,9 +163,9 @@ export const checkBoxLayout = css`
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        background-color: #FFF5D6;
+        background-color: #9d6c4c;
         content:"✔";
-        color: #9d6c4c;
+        color: #FFF5D6;
         font-size: 12px;
         width: 18px;
         height: 18px;
@@ -150,14 +181,14 @@ export const checkBoxLayout = css`
 
 export const inputBox = css`
     box-sizing: border-box;
-    width: 700px;
+    width: 100%;
     color: #777777;
     & > div {
         box-sizing: border-box;
         display: flex;
         & > p {
             margin: 10px 10px 7px 0px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
         }
         & > p:nth-last-of-type(1) {
@@ -179,14 +210,14 @@ export const inputBox = css`
 
 export const addressInputBox = css`
     box-sizing: border-box;
-    width: 700px;
+    width: 100%;
     color: #777777;
     & > div:nth-of-type(1) {
         box-sizing: border-box;
         display: flex;
         & > p {
             margin: 10px 10px 7px 0px;
-            font-size: 14px;
+            font-size: 16px;
             font-weight: 600;
         }
         & > p:nth-last-of-type(1) {
@@ -247,13 +278,8 @@ export const priceLayout = css`
         justify-content: space-between;
         width: 100%;
         margin-top: 20px;
-        & > p:nth-of-type(1) {
-            font-size: 14px;
-            color: #777777;
-        }
-        & > p:nth-of-type(2) {
+        & > p {
             font-size: 16px;
-            font-weight: 600;
         }
     }
 `;
@@ -268,7 +294,7 @@ export const totalPriceLayout = css`
     border-bottom: 1px solid #e0e0e0;
     & > p {
         padding: 10px 0px 10px;
-        font-size: 16px;
+        font-size: 18px;
         font-weight: 600;
     }
 `;
@@ -276,10 +302,10 @@ export const totalPriceLayout = css`
 export const paymentMethodLayout = css`
     box-sizing: border-box;
     display: flex;
-    align-items: center;
+    flex-direction: column;
     width: 100%;
+    padding-top: 20px;
     & > p {
-        padding: 30px 10px 10px 0px;
         font-size: 18px;
         font-weight: 600;
     }
@@ -288,6 +314,7 @@ export const paymentMethodLayout = css`
         font-size: 14px;
         font-weight: 400;
         color: #777777;
+        padding-bottom: 20px;
     }
 `;
 
@@ -309,15 +336,19 @@ export const paymentLayout = css`
         align-items: center;
         width: 306px;
         height: 40px;
-        margin: 7px;
-        border: 1px solid #e0e0e0;
-        background-color: #ffffff;
+        border: none;
+        border-radius: 5px;
+        background-color: #f5f5f5;
         color: #777777;
+        margin-bottom: 15px;
+        cursor: pointer;
     }
 
     & > input:checked + label {
         background-color: #FFF5D6;
         border: none;
+        font-weight: 600;
+        color: #9d6c4c;
     }
 
 `;

@@ -2,6 +2,9 @@ import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
+import { IoIosPricetags } from "react-icons/io";
+import { IoPricetagsOutline } from "react-icons/io5";
+import { TbTruckDelivery } from "react-icons/tb";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -124,8 +127,7 @@ function UserProductDetailPage(props) {
 
         Swal.fire({
             icon:"success",
-            title: "장바구니에 담겼습니다",
-            text: "장바구니로 이동하시겠습니까?",
+            html: "<p>장바구니에 담겼습니다.</p> <p>장바구니로 이동하시겠습니까?</p>",
             height: "500px",
             showCancelButton: true,
             cancelButtonColor: "#777777",
@@ -180,9 +182,10 @@ function UserProductDetailPage(props) {
                 </div>
                 <div css={s.detailLayout}>
                     <p>{productDetailData.productName}</p>
+                    <p><IoPricetagsOutline/>{priceFormet(productDetailData.productPrice)}원</p>
                     <p>{productDetailData.productDetail}</p>
-                    <p>{priceFormet(productDetailData.productPrice)}원</p>
-                    <p>배송비 : 3,000원</p>
+                    <p><TbTruckDelivery/>배송비 : 3,000원</p>
+                    <p>선택</p>
                     <div css={s.countLayout}>
                         <p>{productDetailData.productName}</p>
                         <div>

@@ -2,8 +2,6 @@ import React, { Children, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { instance } from '../../../../apis/util/instance';
-import UserInfoPassword from '../UserInfoPassword/UserInfoPassword';
 
 function UserInfoLayout({ children, title, editMode, setEditMode, handleConfirmButtonClick }) {
 
@@ -26,13 +24,13 @@ function UserInfoLayout({ children, title, editMode, setEditMode, handleConfirmB
                     editMode 
                     ?
                         <div css={s.buttonLayout}>
-                            <p onClick={handleConfirmButtonClick}>확인</p>
-                            <p onClick={handleCancelButtonClick}>취소</p>
+                            <button onClick={handleConfirmButtonClick}>확인</button>
+                            <button onClick={handleCancelButtonClick}>취소</button>
                         </div>
                         
                     :
                         <div css={s.buttonLayout}>
-                            <p onClick={handleEditClick}>수정하기</p>
+                            <button onClick={handleEditClick}>수정하기</button>
                         </div>
                 }
             </div>

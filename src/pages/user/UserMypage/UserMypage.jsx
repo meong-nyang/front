@@ -62,15 +62,19 @@ function UserMypage() {
                 }
                 {
                     param.controllerName === "info" &&
-                    <>
                         <UserInfoDetail userInfo={userInfo} setUserInfo={setUserInfo}/>
-                        <UserInfoPassword/>
-                        <UserInfoPet userInfo={userInfo} setUserInfo={setUserInfo}/>
-                    </>
                 }
                 {
-                   param.controllerName === "orderlist" &&
-                    <UserOrderDetail />
+                    param.controllerName === "pw" &&
+                        <UserInfoPassword/>
+                }
+                {
+                    param.controllerName === "pet" &&
+                        <UserInfoPet userInfo={userInfo} setUserInfo={setUserInfo}/>
+                }
+                {
+                    param.controllerName === "orderlist" &&
+                        <UserOrderDetail />
                 }
             </div>
         </UserBackgoundLayout>

@@ -33,7 +33,7 @@ function UserOrderDetail(props) {
     }
 
     const orderList = useQuery(
-        ["userOrderListQuery"],
+        ["userOrderListQuery", searchParams.get("page")],
         async () => await instance.get("/user/orderlist", {
             params: {
                 userId: userInfoData?.data?.id,
@@ -53,11 +53,20 @@ function UserOrderDetail(props) {
         }
     );
 
+    const orderListCount = useQuery(
+        ["userOrderListCountQuery"],
+        async () => await instance.get("/user/orderlist/count"),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => console.log(response),
+            onError: error => console.log(error)
+        }
+    );
+
     const handleInqueryOnClick = () => {
         orderList.refetch();
     }
-
-    console.log(inquiryData);
 
     return (
         <div css={s.layout}>
@@ -75,12 +84,14 @@ function UserOrderDetail(props) {
                     <button onClick={handleInqueryOnClick}>조회</button>
                 </div>
             </div>
+            <div css={s.orderListLayout}>
             {
                 orderList?.data?.data?.orderList.map(order => 
                     <UserOrderLayout key={order.orderId} orderData={order}/>
                 )
             }
-            <Paginate address={"/user/orderlist"} limit={limit} totalCount={null}/>
+            </div>
+            <Paginate address={"/user/orderlist"} limit={limit} totalCount={orderListCount?.data?.data}/>
         </div>
     );
 }

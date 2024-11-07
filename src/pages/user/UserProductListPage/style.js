@@ -3,20 +3,24 @@ import { css } from "@emotion/react";
 export const layout = css`
     box-sizing: border-box;
     display: flex;
-    flex-grow: 1;
     margin: 0 auto;
-    margin-top: 150px;
-    width: 880px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    width: 1200px;
+    height: 100%;
+    overflow: auto;
+    ::-webkit-scrollbar {
+        display: none;
+    }
 `;
+
 
 export const hearderLayout = css`
     box-sizing: border-box;
     display: flex;
     width: 100%;
+    min-height: 50px;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 20px 0px;
     & > p {
         font-size: 14px;
         color: #777777;
@@ -45,6 +49,7 @@ export const navigateLayout = css`
 export const listLayout = css`
     box-sizing: border-box;
     display: flex;
+    flex-grow: 1;
     width: 100%;
     flex-wrap: wrap;
 `;
