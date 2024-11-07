@@ -6,10 +6,7 @@ export const layout = css`
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    height: 100%;
-    margin-top: 80px;
-    padding-top: 20px;
-    
+    overflow: auto;
 `;
 
 export const mainLayout = css`
@@ -43,16 +40,16 @@ export const sliderContainer = css`
 `;
 
 export const sliderContent = css`
-    height: 500px;
+    height: 370px;
     color: white;
     font-size: 100px;
     line-height : 500px;
     text-align : center;
-    width: 1500px;
+    width: 100%;
     margin: auto;
-    border: 1px solid #dbdbdb;
+    /* border: 1px solid #dbdbdb;
     border-top-left-radius: 130px;
-    border-top-right-radius: 130px;
+    border-top-right-radius: 130px; */
     overflow: hidden;
 
     & > img {

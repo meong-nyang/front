@@ -13,7 +13,7 @@ import { CATEGORY_GROUP, GROUP_LIST, PET_GROUP } from '../../../constants/catego
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
 
 function UserProductListPage(props) {
-    const limit = 10;
+    const limit = 12;
     const param = useParams();
 
     const [searchParams, setSearchParams] = useSearchParams();

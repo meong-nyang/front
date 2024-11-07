@@ -18,5 +18,8 @@ export const layout = css`
         margin-left: 50px;
         color: #9d6c4c;
         cursor: pointer;
+        &:nth-of-type(1) {
+            margin: 0;
+        }
     }
 `;

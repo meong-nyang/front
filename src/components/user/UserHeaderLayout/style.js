@@ -1,15 +1,25 @@
 import { css } from "@emotion/react";
 
-export const layout = css`
+export const allLayout = css`
     box-sizing: border-box;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 10px 30px;
     width: 100%;
     min-height: 80px;
     background-color: #FFF5D6;
+    box-shadow: 2px 2px 5px #00000033;
+`;
 
+export const layout = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    width: 1200px;
+    height: 100%;
     & > div:nth-of-type(1) {
         width: 206px;
         &  img {
@@ -61,7 +71,10 @@ export const layout = css`
         }
 
         & svg {
-            font-size: 23px;
+            font-size: 30px;
+            &:hover {
+                color: #9d6c4c;
+            }
         }
     }
 `;

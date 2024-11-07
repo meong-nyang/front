@@ -9,6 +9,7 @@ import { BiLogoGithub } from "react-icons/bi";
 import Slider from "react-slick";
 
 import frame from "../../../assets/images/Frame 114.png";
+import frame1 from "../../../assets/images/img1.png";
 import img from "../../../assets/images/Frame 117.png";
 
 import { SlArrowLeft, SlArrowRight  } from "react-icons/sl";
@@ -79,7 +80,7 @@ function UserMainPage(props) {
                       {list.map((value, index) => (
                         <div>	
                           <div css={s.sliderContent} key={index}>
-                            <img src={frame} />
+                            <img src={frame1} />
                           </div>
                         </div>
                       ))}

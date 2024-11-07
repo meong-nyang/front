@@ -9,7 +9,7 @@ export const layout = css`
     justify-content: center;
     align-items: center;
     margin: 0 auto;
-    padding: 20px;
+    padding: 20px 20px 50px;
     & > p {
         font-size: 25px;
         font-weight: 600;

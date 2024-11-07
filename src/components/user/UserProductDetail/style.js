@@ -6,7 +6,7 @@ export const layout = css`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 250px;
+    width: 260px;
     height: 400px;
     margin: 20px;
     & > div{

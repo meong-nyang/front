@@ -64,11 +64,27 @@ export const typeBox = css`
     }
 `;
 
+export const buttonLayout = css`
+    width: 100%;
+    margin-top: 100px;
+    margin: 80px auto 0px;
+    & > button {
+        box-sizing: border-box;
+        width: 100%;
+        padding: 10px 100px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #ffffff;
+        background-color: #9d6c4c;
+    }
+`;
+
 export const locationBox = css`
     box-sizing: border-box;
     flex-grow: 1;
     display: flex;
-    justify-content: start;
+    justify-content: space-between;
     align-items: end;
     color: #777777;
     font-weight: 600;
@@ -76,6 +92,16 @@ export const locationBox = css`
         display: flex;
         align-items: center;
         cursor: pointer;
+    }
+    & > button {
+        box-sizing: border-box;
+        width: 290px;
+        padding: 10px 100px;
+        border: none;
+        border-radius: 5px;
+        font-size: 16px;
+        color: #ffffff;
+        background-color: #9d6c4c;
     }
 `;
 

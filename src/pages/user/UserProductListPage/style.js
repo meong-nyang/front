@@ -21,8 +21,9 @@ export const hearderLayout = css`
     min-height: 50px;
     justify-content: space-between;
     align-items: center;
+    padding: 0px 20px;
     & > p {
-        font-size: 14px;
+        font-size: 16px;
         color: #777777;
     }
 `;
