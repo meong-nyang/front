@@ -8,5 +8,5 @@ export const layout = css`
     height: 100%;
     background-image: url("/images/background.svg");
     background-repeat: no-repeat; 
-    overflow: scroll;
+    /* overflow: scroll; */
 `;

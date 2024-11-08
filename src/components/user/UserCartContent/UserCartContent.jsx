@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { RxCross2 } from "react-icons/rx";
+import { AiTwotoneDelete } from "react-icons/ai";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from 'react-query';
@@ -10,8 +10,8 @@ import { instance } from '../../../apis/util/instance';
 function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMutation }) {
     console.log(cartItem);
     const queryClient = useQueryClient();
+    const userInfo = queryClient.getQueryData("userInfoQuery");
     const [ productCount, setProductCount ] = useState(0);
-    console.log(cartItem.productName + productCount);
 
     useEffect(() => {
         setProductCount(cartItem.productCount)
@@ -44,9 +44,9 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
 
     const handelItemCheck = (e) => {
         if(e.target.checked) {
-            setCheckItems(item => [...item, cartItem?.cartId]);
+            setCheckItems(items => [...items, cartItem?.cartId]);
         } else {
-            setCheckItems(checkItems.filter(id => id != cartItem?.cartId))
+            setCheckItems(items => items?.filter(id => id !== cartItem?.cartId))
         }
     };
 
@@ -62,7 +62,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             const updatedCount = count + 1;
             const modifyCartItemData = {
                 cartId: cartItem.cartId,
-                userId: 2,
+                userId: userInfo?.data?.id,
                 productCount: updatedCount
             }
             modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
@@ -79,7 +79,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             }
             const modifyCartItemData = {
                 cartId: cartItem.cartId,
-                userId: 2,
+                userId: userInfo?.data?.id,
                 productCount: updatedCount
             }
             modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
@@ -110,7 +110,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             </div>
             <p>{priceFormet(productCount * cartItem?.productPrice)}원</p>
             <div>
-                <RxCross2 onClick={handleCartItemDeleteOnClick}/>
+                <AiTwotoneDelete onClick={handleCartItemDeleteOnClick}/>
             </div>
         </div>
     );

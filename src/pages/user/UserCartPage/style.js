@@ -6,10 +6,8 @@ export const layout = css`
     display: flex;
     width: 1000px;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     margin: 0 auto;
-    margin-top: 80px;
     padding: 20px;
     & > p {
         font-size: 25px;
@@ -60,6 +58,11 @@ export const checkboxStyle = css`
         display: none;
     }
 
+    & > label {
+        font-size: 16px;
+        font-weight: 600;
+    }
+
     & > input + label {
         box-sizing: border-box;
         position: relative;
@@ -72,7 +75,6 @@ export const checkboxStyle = css`
         border: 1.5px solid #e0e0e0;
         border-radius: 50%;
         color: #e0e0e0;
-        font-size: 12px;
         cursor: pointer;
     }
 
@@ -83,9 +85,9 @@ export const checkboxStyle = css`
         justify-content: center;
         align-items: center;
         border-radius: 50%;
-        background-color: #FFF5D6;
+        background-color: #9d6c4c;
         content:"✔";
-        color: #9d6c4c;
+        color: #fff5d6;
         font-size: 12px;
         width: 18px;
         height: 18px;
@@ -101,6 +103,7 @@ export const checkboxStyle = css`
 export const titleLayout = css`
     box-sizing: border-box;
     display: flex;
+    width: 100%;
     margin-top: 30px;
     padding-bottom: 10px;
     border-bottom: 1px solid #e0e0e0;
@@ -109,15 +112,15 @@ export const titleLayout = css`
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 150px;
+        width: 10%;
         &:nth-of-type(1) {
-            width: 90px;
+            width: 5%;
         }
         &:nth-of-type(2) {
-            width: 478px;
+            width: 70%;
         }
         &:nth-last-of-type(1) {
-            width: 90px;
+            width: 5%;
         }
     }
 `;
@@ -160,10 +163,11 @@ export const priceLayout = css`
         & > p {
             &:nth-of-type(1) {
                 margin-bottom: 30px;
-                font-size: 14px;
+                font-size: 16px;
                 color: #777777;
             }
             &:nth-last-of-type(1) {
+                font-size: 18px;
                 font-weight: 600;
             }
         }
@@ -179,12 +183,11 @@ export const orderButtonLayout = css`
 
     & > button {
         box-sizing: border-box;
-        width: 280px;
-        height: 40px;
-        padding: 10px;
+        padding: 10px 100px;
         border: none;
         border-radius: 5px;
         color: #777777;
+        font-size: 18px;
         &:nth-of-type(1) {
             color: #777777;
             background-color: #E7E7E7;
@@ -194,6 +197,7 @@ export const orderButtonLayout = css`
         &:nth-last-of-type(1) {
             color: #ffffff;
             background-color: #9d6c4c;
+            font-weight: 600;
             
         }
     }

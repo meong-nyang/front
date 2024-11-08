@@ -2,12 +2,12 @@ import { css } from "@emotion/react";
 
 export const layout = css`
     box-sizing: border-box;
-    position: absolute;
-    top: 20px;
-    left: 20px;
-    width: 250px;
-    height: 300px;
+    min-width: 250px;
+    height: auto;
+    margin-top: 70px;
     padding: 20px;
+    background-color: white;
+    border-radius: 10px;
 
     & svg {
         &:nth-of-type(2) {

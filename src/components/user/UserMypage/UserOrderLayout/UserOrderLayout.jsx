@@ -1,21 +1,54 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserOrderProduct from '../UserOrderProduct/UserOrderProduct';
 import axios from 'axios';
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
+import Swal from "sweetalert2";
+import { instance } from '../../../../apis/util/instance';
 
 function UserOrderLayout({orderData}) {
-     
+    const queryClient = useQueryClient();
+    const userInfo = queryClient.getQueryData("userInfoQuery");
+
+    //주문상세보기여부
+    const [ isorderDetailShow, setOrderDetailShow ] = useState(false);
+    //주문취소가능여부
+    const [ isPaymentCancel, setPaymentCancel ] = useState(true);
+    const [ paymentCancelData, setPaymentCancelData] = useState({
+        id: orderData?.orderId,
+        userId: userInfo?.data?.id
+    });
+
+    useEffect(() => {
+        let orderDate = new Date(orderData.orderDate);
+
+        // 오늘 날짜를 가져옵니다.
+        let today = new Date();
+        console.log(today.toString());
+        // 오늘 날짜에서 7일을 더한 날짜 계산
+        let sevenDaysAgo = new Date(today);
+        sevenDaysAgo.setDate(today.getDate() - 7);
+        console.log(sevenDaysAgo);
+
+        // 주문 날짜가 7일 이상 지났는지 확인
+        if (orderDate <= sevenDaysAgo) {
+            // 7일 이상 지난 경우 실행할 작업
+            setPaymentCancel(false);
+        }
+    }, [orderData]);
+
+    console.log(orderData.orderId);
+    console.log(isPaymentCancel);
+
+    console.log(orderData);
     const accessTokenMutaion = useMutation(
         async () => await axios.post("https://api.portone.io/login/api-secret", {"apiSecret": "nJWzf34SiRfJy6wVT8ZfiS4vEU8vs7h9yy8F0tr79kp6Kv0cZz5skHaIMPD7Iw1mGyAYGBXobJlWz3MT"}),
         {
             onSuccess: response => console.log(response)
         }
-    
     );
 
-    console.log(accessTokenMutaion?.data?.data);
     const portonePaymentCancelMutation = useMutation(
         async ({accessToken}) => {
             const options = {
@@ -31,19 +64,48 @@ function UserOrderLayout({orderData}) {
             return data;
         },
         {
-            onSuccess: response => console.log(response),
+            onSuccess: () => {
+                modifyOrderStatus.mutateAsync();
+                Swal.fire({
+                    text: "결제가 취소되었습니다.",
+                    icon: "success",
+                    timer: 1500,
+                    confirmButtonColor: "#9d6c4c",
+                    confirmButtonText: "닫기",
+                })
+            },
             onError: error => console.log(error)
         }
     );
-    
+
+    const modifyOrderStatus = useMutation(
+        async () => await instance.put("/order/status", paymentCancelData),
+        {
+            onSuccess: () => queryClient.invalidateQueries("userOrderListQuery")
+        }
+    );
+
     const handleOrderDetailShowOnClick = () => {
-        
+        setOrderDetailShow(isShow => !isShow);
     };
 
     const handlePaymentCancelOnClick = () => {
-        accessTokenMutaion.mutateAsync().then(response =>
-            portonePaymentCancelMutation.mutateAsync(response?.data)
-        );
+        Swal.fire({
+            text: "결제를 취소하시겠습니까?",
+            icon: "question",
+            showCancelButton: true,
+            cancelButtonColor: "#777777",
+            cancelButtonText: "닫기",
+            confirmButtonColor: "#9d6c4c",
+            confirmButtonText: "주문취소",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                accessTokenMutaion.mutateAsync().then(response =>
+                    portonePaymentCancelMutation.mutateAsync(response?.data)
+                );
+            }
+        });
+        
     };
     return (
         <div css={s.layout}>
@@ -57,7 +119,6 @@ function UserOrderLayout({orderData}) {
             <div>
                 
             </div>
-
             <div css={s.titleLayout}>
                 <p>상품명/옵션</p>
                 <p>수량</p>
@@ -69,8 +130,28 @@ function UserOrderLayout({orderData}) {
                     <UserOrderProduct key={orderDetail.id} orderDetailData={orderDetail} />
                 )
             }
-            <button onClick={handleOrderDetailShowOnClick}>주문상세보기</button>
-            <button onClick={handlePaymentCancelOnClick}>주문취소</button>
+            <button onClick={handleOrderDetailShowOnClick}>{isorderDetailShow ? "접기" : "주문상세보기"}</button>
+            {
+                isorderDetailShow &&
+                
+                <>
+                    <div css={s.addressLayout}>
+                        <p>배송지</p>
+                        <p>{orderData.orderName + orderData.phone}</p>
+                        <p>{"(" + orderData.zipcode + ") " + orderData.addressDefault + orderData.addressDetail}</p>
+                        <p>결제정보</p>
+                        <p>주문금액 {orderData.totalPrice}원</p>
+                        <p>{orderData.paymentTypeName}</p>
+                    </div>
+                </>
+                
+
+            }
+            {
+                (orderData?.orderStatus === "결제완료" && isPaymentCancel) && (
+                    <button onClick={handlePaymentCancelOnClick}>주문취소</button>
+                )
+            }
         </div>
     );
 }

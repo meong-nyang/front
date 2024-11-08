@@ -13,8 +13,9 @@ export const layout = css`
         display: flex;
         justify-content: center;
         align-items: center;
-        width: 205px;
+        width: 10%;
         &:nth-last-of-type(1) {
+            width: 15%;
             font-weight: 600;
         }
     }
@@ -25,7 +26,7 @@ export const productLayout = css`
     display: flex;
     flex-direction: row !important;
     justify-content: flex-start !important;
-    width: 550px;
+    width: 75%;
 
     & > img {
         margin: 0px 20px;

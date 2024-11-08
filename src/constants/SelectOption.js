@@ -1,7 +1,7 @@
 import { FaUser } from "react-icons/fa";
 import { PiNoteFill } from "react-icons/pi";
-import { CiShoppingCart } from "react-icons/ci";
-
+import { RiLockPasswordFill } from "react-icons/ri";
+import { MdOutlinePets } from "react-icons/md";
 export const PET_AGE_LIST = [
     { value: "0", label: "0" },
     { value: "1", label: "1" },
@@ -19,7 +19,9 @@ export const PET_AGE_LIST = [
 
 export const MYPAGE_OPTION_LIST = [
     { icon: <FaUser /> , title: "회원정보", address: "info"},
-    { icon: <PiNoteFill /> , title: "주문/배송 내역 조회", address: "orderlist"},
+    { icon: <RiLockPasswordFill /> , title: "비밀번호 변경", address: "pw"},
+    { icon: <MdOutlinePets /> , title: "반려동물 정보", address: "pet"},
+    { icon: <PiNoteFill /> , title: "주문 내역 조회", address: "orderlist"},
 ];
 
 export const PAYMENT_STATUS_LIST = [

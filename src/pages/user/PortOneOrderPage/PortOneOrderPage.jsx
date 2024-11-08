@@ -7,12 +7,16 @@ import { productLayout } from '../UserOrderPage/style';
 import { useMutation, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate } from 'react-router-dom';
+import { useRecoilState } from 'recoil';
+import { orderProuctListAtom } from '../../../atoms/orderAtom';
 
 function PortOneOrderPage({portEtcData}) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
+    const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
     console.log(portEtcData);
+    console.log(orderProductList);
     //order_tb에 저장할 데이터
     const [ orderData, setOrderData ] = useState({
         userId: userInfo?.data?.id,
@@ -74,6 +78,22 @@ console.log(orderData);
         {
             onSuccess: response => console.log(response), //결제완료창 띄우기
             onError: error => console.log(error)
+        }
+    );
+
+    const cartItemDeleteMutation = useMutation(
+        async (deleteIds) => {
+            const arr = Array.from(deleteIds);
+            let str = "cartIds=";
+            for (let i of arr) {
+                str += i + ","
+            }
+            str = str.slice(0, str.length - 1);
+            return await instance.delete(`/user/cart?userId=${userInfo?.data?.id}&${str}`)
+        },
+        {
+            onSuccess: response => console.log(response),
+            onError: error => console.error(error)
         }
     );
 
@@ -142,8 +162,13 @@ console.log(orderData);
                 }
                 console.log(registerOrderData);
 
-                registerOrderMutaion.mutateAsync(registerOrderData);
-                
+                registerOrderMutaion.mutateAsync(registerOrderData).then(() => {
+                    if(!!orderProductList[0].cartId) {
+                        cartItemDeleteMutation.mutate(orderProductList?.map(orderProduct => orderProduct.cartId))           
+                    }
+                }
+                );
+
                 let timerInterval;
                 Swal.fire({
                     title: "결제가 완료되었습니다!",

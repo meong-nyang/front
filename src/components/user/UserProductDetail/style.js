@@ -2,11 +2,12 @@ import { css } from "@emotion/react";
 
 export const layout = css`
     box-sizing: border-box;
+    position: relative;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 400px;
-    height: 600px;
+    width: 260px;
+    height: 400px;
     margin: 20px;
     & > div{
         box-sizing: border-box;
@@ -20,8 +21,8 @@ export const layout = css`
 
 export const imgLayout = css`
     box-sizing: border-box;
-    width: 400px;
-    height: 400px;
+    width: 100%;
+    height: 70%;
 
     & > img {
         box-sizing: border-box;
@@ -56,10 +57,20 @@ export const contentLayout = css`
 
 export const addCartButton = css`
     box-sizing: border-box;
-    width: 100%;
-    height: 55px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
     color: #777777;
     font-weight: 600;
     background-color: #ffffff;
-    border: 1px solid #e0e0e0;
+    border-radius: 50%;
+    border: none;
+    & > svg {
+        font-size: 25px;
+    }
 `;

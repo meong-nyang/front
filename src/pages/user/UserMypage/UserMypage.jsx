@@ -13,6 +13,7 @@ import { MYPAGE_OPTION_LIST } from '../../../constants/SelectOption';
 import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useParams } from 'react-router-dom';
+import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserMypage() {
     const param = useParams();
@@ -52,27 +53,27 @@ function UserMypage() {
     );
     return (
         <UserBackgoundLayout>
+            <UserScrollLayout>
             <div css={s.layout}>
                 <UserMypageController selectOption={selectOption} setSelectOption={setSelectOption}/>
                 {
-                    MYPAGE_OPTION_LIST.map((option,index) => (
-                        selectOption === option.address &&
-                        <p>{option.title}</p>
-                    ))
-                }
-                {
                     param.controllerName === "info" &&
-                    <>
                         <UserInfoDetail userInfo={userInfo} setUserInfo={setUserInfo}/>
-                        <UserInfoPassword/>
-                        <UserInfoPet userInfo={userInfo} setUserInfo={setUserInfo}/>
-                    </>
                 }
                 {
-                   param.controllerName === "orderlist" &&
-                    <UserOrderDetail />
+                    param.controllerName === "pw" &&
+                        <UserInfoPassword/>
+                }
+                {
+                    param.controllerName === "pet" &&
+                        <UserInfoPet userInfo={userInfo} setUserInfo={setUserInfo}/>
+                }
+                {
+                    param.controllerName === "orderlist" &&
+                        <UserOrderDetail />
                 }
             </div>
+            </UserScrollLayout>
         </UserBackgoundLayout>
     );
 }

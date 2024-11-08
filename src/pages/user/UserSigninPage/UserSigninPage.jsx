@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
@@ -21,6 +21,7 @@ function UserSigninPage(props) {
         password: ""
     });
 
+    const passwordInputRef = useRef();
 
     const loginMutation = useMutation(
         async () => await instance.post("/auth/signin", signinData),
@@ -41,7 +42,7 @@ function UserSigninPage(props) {
         }
     );
 
-    const handleInputOnChaange = (e) => {
+    const handleInputOnChange = (e) => {
         setSigninData(data => ({
             ...data,
             [e.target.name]: e.target.value
@@ -71,6 +72,17 @@ function UserSigninPage(props) {
         setFieldErrorMessages(emptyFieldErrors);
     };
 
+    const handleEnter = (e) => {
+        if (e.key === "Enter") {
+            if(signinData.username) {
+                passwordInputRef.current.focus();
+                if(signinData.password){
+                    handleSigninButtonOnClick();
+                }
+            }
+        }
+    }
+
     return (
         <UserBackgoundLayout>
             <div css={s.layout}>
@@ -88,19 +100,19 @@ function UserSigninPage(props) {
                             <p>로그인</p>
                             <div css={s.inputBox}>
                                 <div css={s.userInfoTag}>
-                                    <p>아이디</p > 
+                                    <p>아이디</p> 
                                     <p>{fieldErrorMessages.username}</p> 
                                 </div>
                                 <input name='username' type="text" placeholder='아이디를 입력하세요' 
                                     value={signinData.username}
-                                    onChange={handleInputOnChaange}/>
+                                    onChange={handleInputOnChange} onKeyDown={handleEnter}/>
                                 <div css={s.userInfoTag}>
-                                    <p>비밀번호</p > 
+                                    <p>비밀번호</p> 
                                     <p>{fieldErrorMessages.password}</p> 
                                 </div>
                                 <input name='password' type="password" placeholder='비밀번호를 입력하세요' 
                                     value={signinData.password}
-                                    onChange={handleInputOnChaange}/>
+                                    onChange={handleInputOnChange} onKeyDown={handleEnter} ref={passwordInputRef}/>
                                 <div>
                                     <p>비밀번호를 잊었나요?</p>
                                 </div>
