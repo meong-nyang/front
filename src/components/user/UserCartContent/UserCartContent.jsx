@@ -11,11 +11,23 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
     console.log(cartItem);
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
-    const [ productCount, setProductCount ] = useState(0);
+    const [ productCount, setProductCount ] = useState(cartItem.productCount);
+    const [debounceTimer, setDebounceTimer] = useState(null);
+    
 
     useEffect(() => {
-        setProductCount(cartItem.productCount)
-    }, [cartItem]);
+        if(productCount !== "") {
+            const modifyCartItemData = {
+                cartId: cartItem.cartId,
+                userId: userInfo?.data?.id,
+                productCount
+            }
+            clearTimeout(debounceTimer);
+            setDebounceTimer(setTimeout(() => {
+                modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
+            }, 1000));
+        }
+    }, [productCount]);
 
     const modifyCartItemCountMutation = useMutation(
         async (modifyCartItemData) => await instance.put(`/user/${cartItem.cartId}/count`, modifyCartItemData),
@@ -59,14 +71,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
 
     const handlePlusOnClick = () => {
         setProductCount(count => {
-            const updatedCount = count + 1;
-            const modifyCartItemData = {
-                cartId: cartItem.cartId,
-                userId: userInfo?.data?.id,
-                productCount: updatedCount
-            }
-            modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
-           
+            const updatedCount = count + 1; // 업데이트 함수 호출
             return updatedCount;
         });
     };
@@ -76,15 +81,29 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             let updatedCount = count;
             if (count > 1) {
                 updatedCount = count - 1;
-            }
-            const modifyCartItemData = {
-                cartId: cartItem.cartId,
-                userId: userInfo?.data?.id,
-                productCount: updatedCount
-            }
-            modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
+            }  // 업데이트 함수 호출
             return updatedCount;
         });
+    };
+
+    const handleCountInputOnChange = (e) => {
+        const count = e.target.value;
+        setProductCount(count);
+        // if(count !== "") {
+        //     timeUpdateCart();
+        // }
+    };
+
+    const timeUpdateCart = () => {
+        const modifyCartItemData = {
+            cartId: cartItem.cartId,
+            userId: userInfo?.data?.id,
+            productCount
+        }
+        const timer = setTimeout(() => {
+            modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
+        }, 1000); // 1초 후에 요청 보내기
+
     };
 
     return (
@@ -105,7 +124,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             </div>
             <div css={s.countLayout}>
                 <AiFillMinusCircle onClick={handleMinusOnClick} />
-                <p>{productCount}</p>
+                <input type="text" value={productCount} onChange={handleCountInputOnChange}/>
                 <AiFillPlusCircle onClick={handlePlusOnClick} />
             </div>
             <p>{priceFormet(productCount * cartItem?.productPrice)}원</p>

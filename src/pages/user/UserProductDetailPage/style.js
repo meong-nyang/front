@@ -34,6 +34,7 @@ export const imgLayout = css`
     box-sizing: border-box;
     display: flex;
     width: 540px;
+    height: 465px;
     flex-direction: column;
     justify-content: center;
     align-items: center;

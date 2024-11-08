@@ -32,6 +32,8 @@ function UserProductDetailPage(props) {
         productDetail: "",
         productPrice: "",
         productPriceDiscount: "",
+        currentStock: "",
+        outOfStock: 0,
         imgName: "",
         imgNames: []
 
@@ -54,6 +56,8 @@ function UserProductDetailPage(props) {
                     productDetail: response?.data.productDetail,
                     productPrice: response?.data.productPrice,
                     productPriceDiscount: response?.data.productPriceDiscount,
+                    currentStock: response?.data.currentStock,
+                    outOfStock: response?.data.outOfStock,
                     imgName: response?.data.imgNames[0],
                     imgNames: response?.data.imgNames
                 }))
@@ -115,7 +119,41 @@ function UserProductDetailPage(props) {
         return parseInt(price) * parseInt(productCount);
     };
 
+    const currentCheck = () => {
+        if(productCount > productDetailData?.currentStock){
+            Swal.fire({
+                icon: "error",
+                text: "재고를 넘은 수량은 선택할 수 없습니다.",
+                timer: 1500,
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "확인",
+            });
+            return false;
+        }
+        return true;
+    }
+
+    const productCountCheck = () => {
+        if (productCount === 0 || productCount === "") {
+            Swal.fire({
+                text: `최소 구매개수는 1개입니다.`,
+                icon: "error",
+                timer: 1500,
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "확인",
+            });
+            return false;
+        }
+        return true;
+    }
+
     const handleAddCartOnClick = () => {
+        if(!currentCheck()) {
+            return;
+        }
+        if(!productCountCheck()) {
+            return;
+        }
         const addProductData = {
             userId: userInfo?.data?.id,
             productId: productDetailData.id,
@@ -126,7 +164,6 @@ function UserProductDetailPage(props) {
         Swal.fire({
             icon: "success",
             html: "<p>장바구니에 담겼습니다.</p> <p>장바구니로 이동하시겠습니까?</p>",
-            height: "500px",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",
@@ -141,14 +178,10 @@ function UserProductDetailPage(props) {
     };
 
     const handleOrderOnClick = () => {
-        if (productCount === 0 || productCount === "") {
-            Swal.fire({
-                text: `최소 구매개수는 1개입니다.`,
-                icon: "error",
-                timer: 1500,
-                confirmButtonColor: "#9d6c4c",
-                confirmButtonText: "확인",
-            });
+        if(!currentCheck()) {
+            return;
+        }
+        if(!productCountCheck()) {
             return;
         }
         Swal.fire({
@@ -197,7 +230,10 @@ function UserProductDetailPage(props) {
                             <p>{productDetailData.productName}</p>
                             <div css={s.priceLayout}>
                                 <div>
-                                    <p>7,000원 할인</p>
+                                    {
+                                        productDetailData.productPriceDiscount !== "0" &&
+                                        <p>{priceFormet(productDetailData.productPriceDiscount)}원 할인</p>
+                                    }
                                     <p>{priceFormet(productDetailData.productPrice)}원</p>
                                 </div>
                                     <p><TbTruckDelivery />배송비 : 3,000원</p>

@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import * as s from "./style";
 import Swal from "sweetalert2";
 import { productLayout } from '../UserOrderPage/style';
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
@@ -72,6 +72,19 @@ console.log(orderData);
             });
         }
     }, [portEtcData]);
+
+    // const currentStockCheck = useQuery(
+    //     ["currentStockCheckQuery"],
+    //     async () => {
+    //         const arr = Array.from(deleteIds);
+    //         let str = "cartIds=";
+    //         for (let i of arr) {
+    //             str += i + ","
+    //         }
+    //         str = str.slice(0, str.length - 1);
+    //         return await instance.get("/product/stock?" )
+    //     }
+    // );
 
     const registerOrderMutaion = useMutation(
         async (registerOrderData) => await instance.post("/order", registerOrderData), 

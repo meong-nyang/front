@@ -118,7 +118,7 @@ export const countLayout = css`
     justify-content: center;
     align-items: center;
     width: 150px;
-    & > p {
+    & > input {
         box-sizing: border-box;
         display: flex;
         width: 25px;
@@ -127,6 +127,7 @@ export const countLayout = css`
         border: none;
         outline: none;
         color: #777777;
+        text-align: center;
     }
     & > svg {
         font-size: 20px;

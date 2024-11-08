@@ -102,7 +102,11 @@ function UserSearchProductPage(props) {
                         <p>"{searchData}" 의 검색 결과가 없습니다.</p>
                         :
                         <>
-                            <p>총 {searchProductData?.productsCount}개의 검색결과가 있습니다.</p>
+                            {
+                                !isInit &&  
+                                <p>총 {searchProductData?.productsCount}개의 검색결과가 있습니다.</p>
+                            }
+                          
                             <div css={s.listLayout}>
                             {
                                 searchProductData?.products?.map(product => 
