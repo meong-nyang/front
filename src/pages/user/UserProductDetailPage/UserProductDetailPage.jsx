@@ -12,6 +12,7 @@ import Swal from "sweetalert2";
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
+import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserProductDetailPage(props) {
     const navigate = useNavigate();
@@ -19,11 +20,11 @@ function UserProductDetailPage(props) {
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
 
-    const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
+    const [orderProductList, setOrderProductList] = useRecoilState(orderProuctListAtom);
 
-    const [ productCount, setProductCount ] = useState(1);
+    const [productCount, setProductCount] = useState(1);
 
-    const [ productDetailData, setProductDetailData ] = useState({
+    const [productDetailData, setProductDetailData] = useState({
         id: "",
         productName: "",
         petGroupName: "",
@@ -36,7 +37,7 @@ function UserProductDetailPage(props) {
 
     });
 
-
+    console.log(productDetailData);
     const productDetail = useQuery(
         ["userProductDetailQuery"],
         async () => await instance.get(`/product/${param.productId}`),
@@ -44,7 +45,6 @@ function UserProductDetailPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: response => {
-                console.log(response?.data);
                 setProductDetailData(product => ({
                     ...product,
                     id: response?.data.id,
@@ -70,19 +70,17 @@ function UserProductDetailPage(props) {
         }
     );
 
-    console.log(productDetailData);
-
     const handleInputOnchange = (e) => {
-        const {value} = e.target;
+        const { value } = e.target;
         // 0 이하의 값이 입력되지 않도록 설정
-        if(/^(?!0)[1-9][0-9]*|^\s*$/.test(value)) {
+        if (/^(?!0)[1-9][0-9]*|^\s*$/.test(value)) {
             setProductCount(value);
         }
 
         // const result = value.replace(/\D/, "");
         // console.log(result);
         // setProductCount(result);
-        
+
     };
 
     const hanelSubImgOnClick = (imgName) => {
@@ -113,7 +111,7 @@ function UserProductDetailPage(props) {
         return price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
     };
 
-    const totalPrice = (price) => { 
+    const totalPrice = (price) => {
         return parseInt(price) * parseInt(productCount);
     };
 
@@ -126,7 +124,7 @@ function UserProductDetailPage(props) {
         addProductMutation.mutateAsync(addProductData);
 
         Swal.fire({
-            icon:"success",
+            icon: "success",
             html: "<p>장바구니에 담겼습니다.</p> <p>장바구니로 이동하시겠습니까?</p>",
             height: "500px",
             showCancelButton: true,
@@ -143,6 +141,16 @@ function UserProductDetailPage(props) {
     };
 
     const handleOrderOnClick = () => {
+        if (productCount === 0 || productCount === "") {
+            Swal.fire({
+                text: `최소 구매개수는 1개입니다.`,
+                icon: "error",
+                timer: 1500,
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "확인",
+            });
+            return;
+        }
         Swal.fire({
             text: `${productDetailData.productName} ${productCount}개를 구매하시겠습니까?`,
             icon: "question",
@@ -168,43 +176,55 @@ function UserProductDetailPage(props) {
 
     return (
         <UserMainLayout>
-            <div css={s.layout}>
-                <div css={s.imgLayout}>
-                    <img src={"http://localhost:8080/images/"  + productDetailData.imgName} alt="" />
-                    <div css={s.subImgLayout}>
-                    {
-                        productDetailData?.imgNames.map(img =>
-                                <img src={"http://localhost:8080/images/" + img} 
-                                    key={img} onClick={() => hanelSubImgOnClick(img)}/>
-                            )
-                    }
-                    </div> 
-                </div>
-                <div css={s.detailLayout}>
-                    <p>{productDetailData.productName}</p>
-                    <p><IoPricetagsOutline/>{priceFormet(productDetailData.productPrice)}원</p>
-                    <p>{productDetailData.productDetail}</p>
-                    <p><TbTruckDelivery/>배송비 : 3,000원</p>
-                    <p>선택</p>
-                    <div css={s.countLayout}>
-                        <p>{productDetailData.productName}</p>
-                        <div>
-                            <AiFillMinusCircle onClick={handleMinusOnClick} />
-                            <input type='text' value={productCount} onChange={handleInputOnchange} />
-                            <AiFillPlusCircle onClick={handlePlusOnClick} />
+            <UserScrollLayout>
+                <div css={s.mainLayout}>
+                    <div css={s.categoryLayout}>
+                        <p>{productDetailData.petGroupName + ">" + productDetailData.categoryName}</p>
+                    </div>
+                    <div css={s.layout}>
+                        <div css={s.imgLayout}>
+                            <img src={"http://localhost:8080/images/" + productDetailData.imgName} alt="" />
+                            <div css={s.subImgLayout}>
+                                {
+                                    productDetailData?.imgNames.map(img =>
+                                        <img src={"http://localhost:8080/images/" + img}
+                                            key={img} onClick={() => hanelSubImgOnClick(img)} />
+                                    )
+                                }
+                            </div>
                         </div>
-                        <p>{priceFormet(totalPrice(productDetailData.productPrice))}원</p>
-                    </div>
-                    <div css={s.totalLayout}>
-                        <p>총 상품금액</p>
-                        <p>{priceFormet(totalPrice(productDetailData.productPrice))}원</p>
-                    </div>
-                    <div css={s.buyLayout}>
-                        <button onClick={handleAddCartOnClick}>장바구니</button>
-                        <button onClick={handleOrderOnClick}>구매하기</button>
+                        <div css={s.detailLayout}>
+                            <p>{productDetailData.productName}</p>
+                            <div css={s.priceLayout}>
+                                <div>
+                                    <p>7,000원 할인</p>
+                                    <p>{priceFormet(productDetailData.productPrice)}원</p>
+                                </div>
+                                    <p><TbTruckDelivery />배송비 : 3,000원</p>
+                            </div>
+                            <p>{productDetailData.productDetail}</p>
+                                <p>선택</p>
+                            <div css={s.countLayout}>
+                                <p>{productDetailData.productName}</p>
+                                <div>
+                                    <AiFillMinusCircle onClick={handleMinusOnClick} />
+                                    <input type='text' value={productCount} onChange={handleInputOnchange} />
+                                    <AiFillPlusCircle onClick={handlePlusOnClick} />
+                                </div>
+                                <p>{priceFormet(totalPrice(productDetailData.productPrice))}원</p>
+                            </div>
+                            <div css={s.totalLayout}>
+                                <p>총 상품금액</p>
+                                <p>{priceFormet(totalPrice(productDetailData.productPrice))}원</p>
+                            </div>
+                            <div css={s.buyLayout}>
+                                <button onClick={handleAddCartOnClick}>장바구니</button>
+                                <button onClick={handleOrderOnClick}>구매하기</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-            </div>
+            </UserScrollLayout>
         </UserMainLayout>
     );
 }

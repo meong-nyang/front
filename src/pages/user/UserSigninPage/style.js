@@ -6,7 +6,6 @@ export const layout = css`
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    margin-top: 80px;
     padding: 20px;
     width: 100%;
     flex-grow: 1;
@@ -123,7 +122,15 @@ export const inputBox = css`
         margin-top: 15px;
         border: none;
         border-radius: 5px;
-        background-color: #FFF5D6;
+        background-color: #9d6c4c;
+        color: #ffffff;
+        font-size: 16px;
+        font-weight: 600;
+        &:nth-last-of-type(1) {
+            background-color: #d9d9d9;
+            font-weight: 400;
+            color: #000000;
+        }
     }
 `;
 

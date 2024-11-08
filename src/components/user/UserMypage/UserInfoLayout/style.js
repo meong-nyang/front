@@ -6,7 +6,7 @@ export const layout = css`
     flex-direction: column;
     width: 650px;
     height: auto;
-    margin: 70px 0px;
+    margin: 70px 0px 70px 30px;
     padding: 20px 30px 30px;
     background-color: #ffffff;
     border-radius: 10px;

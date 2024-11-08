@@ -17,6 +17,7 @@ import { SlArrowLeft, SlArrowRight  } from "react-icons/sl";
 import "slick-carousel/slick/slick.css"; 
 import "slick-carousel/slick/slick-theme.css";
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
+import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserMainPage(props) {
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) =>(
@@ -67,11 +68,12 @@ function UserMainPage(props) {
           <SlickButtonFix>
             <SlArrowLeft />
           </SlickButtonFix>
-        )
+        ),
       };
 
     return (
         <UserMainLayout>
+          <UserScrollLayout>
             <div css={s.layout}>
                 <header>
                   <div css={s.BodyContainer}>
@@ -105,7 +107,7 @@ function UserMainPage(props) {
                     </div>
                 </footer>
             </div>
-
+            </UserScrollLayout>
         </UserMainLayout>
     );
 }

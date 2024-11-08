@@ -6,7 +6,6 @@ export const layout = css`
     flex-direction: column;
     justify-content: space-between;
     width: 100%;
-    overflow: auto;
 `;
 
 export const mainLayout = css`
@@ -35,7 +34,7 @@ export const sliderContainer = css`
         display: none;	
     }
     .slick-list{ 
-        width: 4000px;
+        width: 1920px;
     }   
 `;
 

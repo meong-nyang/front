@@ -8,6 +8,8 @@ import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import PortOneOrderPage from '../PortOneOrderPage/PortOneOrderPage';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
+import { IoIosArrowDown } from "react-icons/io";
+import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserOrderPage(props) {
     const queryClient = useQueryClient();
@@ -17,6 +19,7 @@ function UserOrderPage(props) {
     console.log(orderProductList);
     //기존 정보 사용하겠다(true) / 새로운 정보쓰겠다(false)
     const [ selectedOldInfo, setSelectedOldInfo ] = useState(false);
+    const [ isProductShow, setProductShow ] = useState(true);
     //주문페이지로 전달할 상품리스트 + 주문정보
     const [ orderData, setOrderData ] = useState({
         userId: userInfo?.data?.id,
@@ -158,12 +161,16 @@ function UserOrderPage(props) {
 
     return (
         <UserMainLayout>
+            <UserScrollLayout>
             <div css={s.layout}>
                 <p>주문하기</p>    
                 <div css={s.productLayout}>
                     <div css={s.titleLayout}>
-                        <p>주문상품</p>
-                        <p>총 {checkProductList?.data?.data?.productsCount} 개</p>
+                        <div>
+                            <p>주문상품</p>
+                            <p>총 {checkProductList?.data?.data?.productsCount} 개</p>
+                        </div>
+                        <p onClick={() => setProductShow(isShow => !isShow)}>{isProductShow ? "상품접기" : "상품보기"}<IoIosArrowDown /></p>
                     </div>
                     <div css={s.categoryLayout}>
                         <p>상품명/옵션</p>
@@ -171,6 +178,7 @@ function UserOrderPage(props) {
                         <p>결제금액</p>
                     </div>
                     {
+                        isProductShow && 
                         checkProductList?.data?.data?.checkProducts.map(product =>   
                             <UserOrderContent productInfo={product} count={
                                 orderProductList?.filter(orderProduct => product.productId === parseInt(orderProduct.productId))[0]?.productCount
@@ -266,6 +274,7 @@ function UserOrderPage(props) {
                     </div>
                 </div>
             </div>
+            </UserScrollLayout>
         </UserMainLayout>
     );
 }

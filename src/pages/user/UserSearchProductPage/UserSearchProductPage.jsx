@@ -12,21 +12,29 @@ function UserSearchProductPage(props) {
     const limit = 12;
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ searchData, setSearchData ] = useState("");
+    const [ searchProductData, setSearchProductData ] = useState({
+        products: [],
+        productsCount: 0
+    });
     const [ isEnter, setEnter ] = useState(false);
+    const [ isInit, setInit ] = useState(true);
 
     useEffect(() => {
         searchParams.set("page", "1");
         setSearchParams(searchParams);
     }, []);
 
-    // useEffect(() => {
-    //     if(!isEnter) {
-    //         setEnter(true);
-    //     }
-    // }, [searchParams.get("page")]);
+    useEffect(() => {
+        if(!isInit) {
+            setEnter(true);
+        }
+        if(isInit) {
+            setSearchProductData([]);
+        }
+    }, [searchParams.get("page")]);
 
     const searchProductList = useQuery(
-        ["searchProductListQuery", searchParams.get("page"), searchData],
+        ["searchProductListQuery", searchParams.get("page")],
         async () => await instance.get("/product/search", {
             params: {
                 page: searchParams.get("page"),
@@ -39,7 +47,12 @@ function UserSearchProductPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: response => {
+                setSearchProductData(data => ({
+                    ...data,
+                    products: response.data.products
+                }));
                 setEnter(false);
+                setInit(false);
                 console.log(response)
             },
             onError: error => console.log(error)
@@ -53,7 +66,10 @@ function UserSearchProductPage(props) {
             enabled: isEnter,
             retry: 0,
             refetchOnWindowFocus: false,
-            onSuccess: response => console.log(response),
+            onSuccess: response => setSearchProductData(data => ({
+                ...data,
+                productsCount: response.data
+            })),
             onError: error => console.log(error)
         }
     );
@@ -64,8 +80,7 @@ function UserSearchProductPage(props) {
     
     const handleInputOnKeyDown = (e) => {
         if(e.keyCode === 13) {
-             searchProductList.refetch();
-             setEnter(true);
+            setEnter(true);
         }
     };
 
@@ -87,10 +102,10 @@ function UserSearchProductPage(props) {
                         <p>"{searchData}" 의 검색 결과가 없습니다.</p>
                         :
                         <>
-                            <p>총 {searchProductList?.data?.data?.productCount}개의 검색결과가 있습니다.</p>
+                            <p>총 {searchProductData?.productsCount}개의 검색결과가 있습니다.</p>
                             <div css={s.listLayout}>
                             {
-                                searchProductList?.data?.data?.products.map(product => 
+                                searchProductData?.products?.map(product => 
                                     <UserProductDetail key={product.productId} productInfo={product} />
                                 )
                             }
@@ -99,7 +114,7 @@ function UserSearchProductPage(props) {
                     }
                 </div>
             </div>
-            <Paginate address={"/search"} totalCount={searchProductListCount?.data?.data} limit={limit}/>
+            <Paginate address={"/search"} totalCount={searchProductListCount?.data?.data} limit={limit} />
         </UserBackgoundLayout>            
     );
 }

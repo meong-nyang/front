@@ -7,10 +7,7 @@ export const layout = css`
     flex-direction: column;
     width: 1200px;
     height: 100%;
-    overflow: auto;
-    ::-webkit-scrollbar {
-        display: none;
-    }
+    padding-top: 15px;
 `;
 
 

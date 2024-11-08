@@ -6,7 +6,6 @@ export const layout = css`
     display: flex;
     width: 1000px;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     margin: 0 auto;
     padding: 20px;

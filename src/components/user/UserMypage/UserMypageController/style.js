@@ -2,11 +2,9 @@ import { css } from "@emotion/react";
 
 export const layout = css`
     box-sizing: border-box;
-    position: fixed;
-    top: 227px;
-    left: 300px;
-    width: 200px;
+    min-width: 250px;
     height: auto;
+    margin-top: 70px;
     padding: 20px;
     background-color: white;
     border-radius: 10px;

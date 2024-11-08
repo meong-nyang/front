@@ -3,9 +3,11 @@ import { css } from "@emotion/react";
 export const layout = css`
     box-sizing: border-box;
     display: flex;
+    flex-grow: 1;
+    width: 100%;
     height: 100%;
     flex-direction: column;
-    margin: 0 auto;
+    margin-left: 30px;
 
     & > p:nth-of-type(1) {
         font-size: 18px;
@@ -57,7 +59,9 @@ export const dateSelectLayout = css`
 `;
 
 export const orderListLayout = css`
-    height: 600px;
+    box-sizing: border-box;
+    width: 100%;
+    height: 100%;
     margin-top: 30px;
     overflow: auto;
     ::-webkit-scrollbar {

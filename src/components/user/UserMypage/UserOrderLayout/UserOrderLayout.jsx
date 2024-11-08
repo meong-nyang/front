@@ -11,22 +11,25 @@ function UserOrderLayout({orderData}) {
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
 
+    //주문상세보기여부
     const [ isorderDetailShow, setOrderDetailShow ] = useState(false);
+    //주문취소가능여부
+    const [ isPaymentCancel, setPaymentCancel ] = useState(true);
     const [ paymentCancelData, setPaymentCancelData] = useState({
         id: orderData?.orderId,
         userId: userInfo?.data?.id
     });
 
-    const [ isPaymentCancel, setPaymentCancel ] = useState(true);
     useEffect(() => {
         let orderDate = new Date(orderData.orderDate);
 
         // 오늘 날짜를 가져옵니다.
         let today = new Date();
-
+        console.log(today.toString());
         // 오늘 날짜에서 7일을 더한 날짜 계산
         let sevenDaysAgo = new Date(today);
         sevenDaysAgo.setDate(today.getDate() - 7);
+        console.log(sevenDaysAgo);
 
         // 주문 날짜가 7일 이상 지났는지 확인
         if (orderDate <= sevenDaysAgo) {
@@ -34,6 +37,9 @@ function UserOrderLayout({orderData}) {
             setPaymentCancel(false);
         }
     }, [orderData]);
+
+    console.log(orderData.orderId);
+    console.log(isPaymentCancel);
 
     console.log(orderData);
     const accessTokenMutaion = useMutation(
@@ -58,7 +64,16 @@ function UserOrderLayout({orderData}) {
             return data;
         },
         {
-            onSuccess: () => modifyOrderStatus.mutateAsync(),
+            onSuccess: () => {
+                modifyOrderStatus.mutateAsync();
+                Swal.fire({
+                    text: "결제가 취소되었습니다.",
+                    icon: "success",
+                    timer: 1500,
+                    confirmButtonColor: "#9d6c4c",
+                    confirmButtonText: "닫기",
+                })
+            },
             onError: error => console.log(error)
         }
     );
@@ -76,7 +91,7 @@ function UserOrderLayout({orderData}) {
 
     const handlePaymentCancelOnClick = () => {
         Swal.fire({
-            text: "주문을 취소하시겠습니까?",
+            text: "결제를 취소하시겠습니까?",
             icon: "question",
             showCancelButton: true,
             cancelButtonColor: "#777777",
@@ -133,8 +148,9 @@ function UserOrderLayout({orderData}) {
 
             }
             {
-                orderData?.orderStatus === "결제완료" &&  
+                (orderData?.orderStatus === "결제완료" && isPaymentCancel) && (
                     <button onClick={handlePaymentCancelOnClick}>주문취소</button>
+                )
             }
         </div>
     );

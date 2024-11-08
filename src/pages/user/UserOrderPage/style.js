@@ -6,7 +6,6 @@ export const layout = css`
     display: flex;
     width: 1000px;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     margin: 0 auto;
     padding: 20px 20px 50px;
@@ -32,9 +31,36 @@ export const titleLayout = css`
     width: 100%;
     padding: 10px 0px;
     border-bottom: 1px solid #e0e0e0;
+    & > div {
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        & > p {
+            font-size: 18px;
+            font-weight: 600;
+
+            &:nth-last-of-type(1) {
+                margin-left: 10px;
+                font-weight: 400;
+                font-size: 14px;
+                color: #777777;
+            }
+        }
+    }
+   
     & > p {
-        font-size: 18px;
+        box-sizing: border-box;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 16px;
         font-weight: 600;
+        cursor: pointer;
+        & > svg {
+            margin-left: 5px;
+            font-size: 18px;
+        }
     }
 `;
 
