@@ -7,6 +7,8 @@ import { useMutation, useQuery } from "react-query";
 import { instance } from "../../../../apis/util/instance";
 import { MENU_DATAS } from "../../../../constants/options";
 import { convertToCommaValue } from "../../../../utils/changeStringFormat";
+import { FiExternalLink } from "react-icons/fi";
+import ProductDetailModal from "../../../../components/admin/ProductDetailModal/ProductDetailModal";
 
 function ProductDetailPage(props) {
     const params = useParams();
@@ -14,6 +16,7 @@ function ProductDetailPage(props) {
 
     const [imgName, setImgName] = useState([]);
     const [productDetailImgName, setProductDetailImgName ] = useState([]);
+    const [isProductDetailModalOpen, setProductDetailModalOpen] = useState();
 
     const productDetail = useQuery(
         ["productDetailQuery"],
@@ -52,7 +55,10 @@ function ProductDetailPage(props) {
                     console.log(error.response);
                 })
         }
+    }
 
+    const handleProductDetailOnClick = () => {
+        setProductDetailModalOpen(true);
     }
 
     return (
@@ -163,9 +169,16 @@ function ProductDetailPage(props) {
                     <div css={s.productDetail}>
                         <span>제품설명</span>
                         <textarea disabled={true}>{productDetail.data.data.productDetail}</textarea>
-                        <span>상세정보 이미지</span>
+                        <div css={s.productDetailButton} onClick={handleProductDetailOnClick}>
+                            제품 상세 미리보기
+                            <FiExternalLink />
+                        </div>
                         <div css={s.detailImages}>
                             <ProductImages imgSource={productDetailImgName} setImgSource={setProductDetailImgName} isModify={false} />
+                            {
+                                isProductDetailModalOpen &&
+                                <ProductDetailModal detailImg={productDetailImgName} setOpen={setProductDetailModalOpen}/>
+                            }
                         </div>
                     </div>
                 </>

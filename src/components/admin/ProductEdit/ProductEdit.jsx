@@ -281,17 +281,8 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
                     name="productDetail"
                     value={productData.productDetail}
                     onChange={handleProductDataOnChange} />
-                <div css={s.productDetailButton} onClick={handleProductDetailOnClick}>
-                    미리보기
-                    <FiExternalLink />
-                </div>
+                <span>제품 상세 이미지</span>
                 <ProductImages imgSource={detailImg} setImgSource={setDetailImg} isModify={true} />
-                <div css={s.detailImages}>
-                    {
-                        isProductDetailModalOpen &&
-                        <ProductDetailModal detailImg={detailImg} setOpen={setProductDetailModalOpen}/>
-                    }
-                </div>
             </div>
         </div>
     );
