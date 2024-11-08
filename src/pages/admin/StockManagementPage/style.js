@@ -179,7 +179,7 @@ export const productLine = (isModified) => css`
         }
     }
 
-    & > * {
+    & * {
         background-color: ${isModified ? "#FFF5D6" : "white"};
     }
 

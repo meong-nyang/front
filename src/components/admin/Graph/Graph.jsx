@@ -72,13 +72,7 @@ function Graph({ graphData, showRefund }) {
 
     return (
         <div css={s.layout}>
-            {
-                console.log(graphData)
-            }
-            {
-                graphData.date.length !== 0 &&
-                <Line options={options} data={showRefund ? Alldata : Amountdata} />
-            }
+            <Line options={options} data={showRefund ? Alldata : Amountdata} />
         </div>
     );
 }

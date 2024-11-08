@@ -9,6 +9,7 @@ import Swal from "sweetalert2";
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
+import { onlyNumber } from '../../../utils/changeStringFormat';
 
 function UserProductDetailPage(props) {
     const navigate = useNavigate();
@@ -70,11 +71,10 @@ function UserProductDetailPage(props) {
     console.log(productDetailData);
 
     const handleInputOnchange = (e) => {
-        const {value} = e.target;
+        let {value} = e.target;
+        value = onlyNumber(value);
         // 0 이하의 값이 입력되지 않도록 설정
-        if(/^(?!0)[1-9][0-9]*|^\s*$/.test(value)) {
-            setProductCount(value);
-        }
+        setProductCount(value);
 
         // const result = value.replace(/\D/, "");
         // console.log(result);
@@ -115,12 +115,18 @@ function UserProductDetailPage(props) {
     };
 
     const handleAddCartOnClick = () => {
+        if(!userInfo?.data) {
+            if (window.confirm("로그인이 필요한 기능입니다. \n로그인 페이지로 이동하시겠습니까?")) {
+                navigate("/user/signin");
+            }
+            return;
+        }
         const addProductData = {
             userId: userInfo?.data?.id,
             productId: productDetailData.id,
             productCount
         }
-        addProductMutation.mutateAsync(addProductData);
+        addProductMutation.mutateAsync(addProductData).catch(() => {});
 
         Swal.fire({
             icon:"success",

@@ -92,6 +92,9 @@ function AdminStatisticsPage(props) {
     );
 
     const handleDateInputOnChange = (e) => {
+        if(e.target.value === '') {
+            return;
+        }
         if (e.target.name === "startDate" && e.target.value > selectedDate.endDate
             || e.target.name === "endDate" && e.target.value < selectedDate.startDate
         ) {

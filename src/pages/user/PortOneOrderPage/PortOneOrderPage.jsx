@@ -145,25 +145,25 @@ console.log(orderData);
                 registerOrderMutaion.mutateAsync(registerOrderData);
                 
                 let timerInterval;
-                // Swal.fire({
-                //     title: "결제가 완료되었습니다!",
-                //     color: "#9d6c4c",
-                //     html: "<b>5</b>초 뒤 자동으로 홈화면으로 이동합니다!",
-                //     timer: 5000,
-                //     timerProgressBar: true,
-                //     showConfirmButton: false,
-                //     didOpen: () => {
-                //         const b = Swal.getHtmlContainer().querySelector('b');
-                //         timerInterval = setInterval(() => {
-                //             b.textContent = Math.ceil(Swal.getTimerLeft()/1000);
-                //         }, 1000)
-                //     },
-                //     willClose: () => {
-                //         clearInterval(timerInterval);  
-                //     }
-                // }).then(result => {
-                //     navigate("/");
-                // })
+                Swal.fire({
+                    title: "결제가 완료되었습니다!",
+                    color: "#9d6c4c",
+                    html: "<b>5</b>초 뒤 자동으로 홈화면으로 이동합니다!",
+                    timer: 5000,
+                    timerProgressBar: true,
+                    showConfirmButton: false,
+                    didOpen: () => {
+                        const b = Swal.getHtmlContainer().querySelector('b');
+                        timerInterval = setInterval(() => {
+                            b.textContent = Math.ceil(Swal.getTimerLeft()/1000);
+                        }, 1000)
+                    },
+                    willClose: () => {
+                        clearInterval(timerInterval);  
+                    }
+                }).then(result => {
+                    navigate("/");
+                })
             }
         }
         ).catch(error => {

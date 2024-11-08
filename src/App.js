@@ -43,7 +43,8 @@ function App() {
     const location = useLocation();
     const navigate = useNavigate();
 
-    const [authRefresh, setAuthRefresh] = useState(true);
+    const [ authRefresh, setAuthRefresh ] = useState(true);
+    const [ isAdmin, setAdmin ] = useState(false);
 
     useEffect(() => {
         if (!authRefresh) {
@@ -66,19 +67,19 @@ function App() {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: () => {
-                const badPaths = ["/admin/signin"];
-                for (let path of badPaths) {
-                    if(location.pathname.startsWith(path)) {
+                console.log("접근 안됨");
+                const deniedPaths = ["/admin/signin", "/user/signin", "/user/signup"];
+                for(let deniedPath of deniedPaths) {
+                    if (location.pathname === deniedPath) {
                         alert("잘못된 접근입니다.");
-                        navigate("/admin");
-                        break;
+                        navigate("/");
                     }
                 }
             },
             onError: error => {
                 console.log("에러");
                 console.log(error.response);
-                const authPaths = ["/user/mypage"];
+                const authPaths = ["/user/mypage", "/user/cart", "/user/order"];
                 const adminAuthPaths = ["/admin"];
                 for (let authPath of authPaths) {
                     if(location.pathname.startsWith(authPath)) {
@@ -88,9 +89,9 @@ function App() {
                     }
                 }
                 for (let adminAuthPath of adminAuthPaths) {
-                    if(location.pathname.startsWith(adminAuthPath) && location.pathname !== "/admin/signin") {
-                        alert("로그인이 필요한 페이지입니다. \n로그인페이지로 이동합니다.");
-                        navigate("/admin/signin");
+                    if(location.pathname.startsWith(adminAuthPath)) {
+                        alert("잘못된 접근입니다.");
+                        navigate("/");
                     }
                 }
             }
@@ -109,15 +110,7 @@ function App() {
             refetchOnWindowFocus: false,
             onSuccess: success => {
                 const roles = success.data.userRoles;
-                if(roles.includes("ROLE_ADMIN")) {
-                    const allowPaths = ["/admin"];
-                    for (let allowPath of allowPaths) {
-                        if(!location.pathname.startsWith(allowPath)) {
-                            alert("로그아웃 후 이용해주세요");
-                            navigate("/admin");
-                        }
-                    }
-                } else if (roles.includes("ROLE_USER")) {
+                if (!roles.includes("ROLE_ADMIN")) {
                     const deniedPaths = ["/admin"];
                     for (let deniedPath of deniedPaths) {
                         if(location.pathname.startsWith(deniedPath)) {
@@ -126,7 +119,11 @@ function App() {
                         }
                     }
                 }
-                // const signedPath = ["/user/mypage"];
+                if (roles.includes("ROLE_ADMIN")) {
+                    setAdmin(true);
+                } else {
+                    setAdmin(false);
+                }
             }
         }
     );
@@ -167,8 +164,11 @@ function App() {
                 <Route path='/order/success' element={<UserOrderSuccessPage />} />
                 <Route path='/search' element={<UserSearchProductPage />} />
 
-                <Route path='/admin/signin' element={<AdminSigninPage />} />
+                <Route path='/admin/signin' element={
+                    isAdmin ? <AdminSigninPage /> : <div></div>} />
+
                 <Route path='/admin/*' element={
+                    isAdmin ?
                     <MainLayout>
                         <Routes>
                             <Route path='/' element={<DashboardPage />} />
@@ -186,6 +186,8 @@ function App() {
                             <Route path='/*' element={<NotFound />} />
                         </Routes>
                     </MainLayout>
+                    :
+                    <div></div>
                 } />
 
                 <Route path='*' element={<NotFound />} />

@@ -9,6 +9,7 @@ import { instance } from "../../../apis/util/instance";
 import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
 import { convertToCommaValue, convertToNumericValue } from "../../../utils/changeStringFormat";
 import ProductImages from "../ProductImages/ProductImages";
+import { GiSouthAfrica } from "react-icons/gi";
 
 function ProductEdit({ productData, setProductData, detailImg, setDetailImg, disabled }) {
 
@@ -21,7 +22,6 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
     const categoryList = queryClient.getQueryData("categoryListQuery");
 
     const [isOpen, setOpen] = useState(false);
-    const [isProductDetailModalOpen, setProductDetailModalOpen] = useState();
     const [selectedCategoryName, setSelectedCategoryName] = useState(emptySelectedCategoryName);
 
     const getCategoryList = useQuery(
@@ -41,15 +41,38 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
     );
 
     useEffect(() => {
-        console.log(productData);
         setSelectedCategoryName({
             petGroupId: productData?.petGroup?.categoryGroupName || getCategoryList?.data?.data.petGroupList[0].categoryGroupName,
             categoryId: productData?.category?.categoryName || getCategoryList?.data?.data.categoryList[0].categoryName
         });
     }, [productData.category]);
 
+    useEffect(() => {
+        const arrivalDateMillis = new Date(productData.arrivalDate).getTime();
+        const after3daysMillis = parseInt(new Date().getTime()) + (1000 * 60 * 60 * 24 * 3);
+        if (arrivalDateMillis > after3daysMillis) {
+            setProductData(data => ({
+                ...data,
+                expectedStock: productData.currentStock
+            }));
+            return;
+        }
+        setProductData(data => ({
+            ...data,
+            expectedStock: parseInt(productData.currentStock) + parseInt(productData.arrivalQuantity)
+        }));
+    }, [productData.currentStock, productData.arrivalQuantity]);
+
     const handleProductNumberDataOnChange = (e) => {
         const value = convertToNumericValue(e.target.value.toString());
+        if(e.target.name === "productPriceDiscount" && parseInt(value) > parseInt(productData.productPrice)) {
+            alert("할인금액은 단가보다 높을 수 없습니다.");
+            return;
+        }
+        if(e.target.name === "productPrice" && parseInt(value) < parseInt(productData.productPriceDiscount)) {
+            alert("단가는 할인금액보다 낮을 수 없습니다.");
+            return;
+        }
         setProductData(data => {
             return ({
                 ...data,
@@ -81,10 +104,6 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
 
     const handleModalChangeOnClick = () => {
         setOpen(open => !open);
-    }
-
-    const handleProductDetailOnClick = () => {
-        setProductDetailModalOpen(true);
     }
 
     return (
@@ -217,7 +236,7 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
                             <th>가재고</th>
                             <td>
                                 <input type="text" name="expectedStock"
-                                    disabled={disabled}
+                                    disabled={true}
                                     value={convertToCommaValue(productData.expectedStock)}
                                     onChange={handleProductNumberDataOnChange}
                                 />
@@ -275,13 +294,13 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
                 </table>
             </div>
             <div css={s.productDetail}>
-                <span>제품설명</span>
+                <span>상품 설명</span>
                 <textarea 
                     disabled={disabled}
                     name="productDetail"
                     value={productData.productDetail}
                     onChange={handleProductDataOnChange} />
-                <span>제품 상세 이미지</span>
+                <span>상품 상세 이미지</span>
                 <ProductImages imgSource={detailImg} setImgSource={setDetailImg} isModify={true} />
             </div>
         </div>

@@ -39,11 +39,19 @@ export const images = css`
 
     & img {
         position: relative;
-        width: 100%;
-        height: 100%;
+        width: 100px;
+        height: 100px;
     }
 
     & input[type="file"] {
         display: none;
+    }
+`;
+
+export const noPointer = css`
+    cursor: default !important;
+
+    & * {
+        cursor: default;
     }
 `;

@@ -1,9 +1,10 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as s from "./style";
 import { useMutation } from "react-query";
 import { instance } from "../../../apis/util/instance";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
+import { MdArrowBack } from "react-icons/md";
 
 function AdminSigninPage(props) {
 
@@ -17,6 +18,10 @@ function AdminSigninPage(props) {
     const loginMutation = useMutation(
         async () => await instance.post("/auth/admin/signin", loginData),
     );
+
+    const handleBackButtonOnClick = () => {
+        navigate("/");
+    }
 
     const handleInputOnChange = (e) => {
         setLoginData(data => ({
@@ -32,14 +37,15 @@ function AdminSigninPage(props) {
                 config.headers["Authorization"] = localStorage.getItem("accessToken");
                 return config;
             });
-            navigate("/admin");
+            navigate("/admin", {replace: true});
         }).catch((error) => {
-            alert("에러가 발생하였습니다");
+            alert("로그인에 실패하였습니다. \n정보를 확인해주세요");
         });
     }
 
     return (
         <div css={s.layout}>
+            <button css={s.back} onClick={handleBackButtonOnClick} ><MdArrowBack />홈페이지로 이동</button>
             <main css={s.main}>
                 <div>관리자 로그인</div>
                 <div css={s.inputBox}>
@@ -50,7 +56,7 @@ function AdminSigninPage(props) {
                     <p>비밀번호</p>
                     <input type="password" name="password" onChange={handleInputOnChange} />
                 </div>
-                <div css={s.findPassword}><div>비밀번호 찾기</div></div>
+                {/* <div css={s.findPassword}><div>비밀번호 찾기</div></div> */}
                 <button css={s.button} onClick={handleLoginButtonOnClick}>로그인</button>
             </main>
         </div>
