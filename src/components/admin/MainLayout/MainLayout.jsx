@@ -49,6 +49,7 @@ function MainLayout({ children }) {
                         <div css={s.logout}>
                             <div>{userInfo?.data.name}</div>
                             <button onClick={handleLogoutOnClick}>로그아웃</button>
+                            <Link to="/">홈페이지로 이동</Link>
                         </div>
                     }
                 </header>

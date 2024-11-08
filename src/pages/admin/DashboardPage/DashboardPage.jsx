@@ -81,7 +81,7 @@ function DashboardPage() {
                                     <tr>
                                         <th>고객명</th>
                                         <th>주문날짜</th>
-                                        <th>주문상태</th>
+                                        <th>결제상태</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -134,7 +134,7 @@ function DashboardPage() {
                 </div>
                 <div css={s.rightInfo}>
                     <div css={s.card}>
-                        <header>통계</header>
+                        <header>통계 (최근 일주일)</header>
                         <body css={s.statisticsLayout}>
                             <table>
                                 <thead>

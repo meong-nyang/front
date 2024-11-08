@@ -158,6 +158,10 @@ export const CUSTOMER_SEARCH_OPTIONS = [
         id: "name",
         name: "이름"
     },
+    {
+        id: "membership",
+        name: "등급"
+    }
 ]
 
 export const STOCK_SEARCH_OPTIONS = [

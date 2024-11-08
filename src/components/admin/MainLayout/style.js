@@ -148,13 +148,23 @@ export const logout = css`
     align-items: center;
 
     & > button {
-        margin-left: 20px;
+        margin: 0 20px;
         background-color: white;
         width: auto;
         height: auto;
 
         &:hover, &:active {
             background-color: white;
+            text-decoration: underline;
+        }
+    }
+
+    & > a {
+        text-decoration: none;
+        color: black;
+
+        &:hover, &:active {
+            color: black;
             text-decoration: underline;
         }
     }

@@ -1,17 +1,36 @@
 import { css } from "@emotion/react";
 
 export const layout = css`
+    box-sizing: border-box;
     display: flex;
     flex-direction: column;
     margin: 0px auto;
+    padding-top: 100px;
     width: 500px;
     height: 100%;
+`;
+
+export const back = css`
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    border: none;
+    background-color: white;
+    width: max-content;
+
+    &:hover {
+        text-decoration: underline;
+        cursor: pointer;
+    }
+
+    & > svg {
+        margin-right: 5px;
+    }
 `;
 
 export const main = css`
     /* transform: scale(130%); */
     box-sizing: border-box;
-    margin-top: 100px;
     border: 1px solid #00000022;
     border-radius: 20px;
     box-shadow: 2px 2px 5px #00000022;
@@ -78,14 +97,14 @@ export const button = css`
     border-radius: 10px;
     width: 100%;
     height: 40px;
-    background-color: #D2E0FB;
+    background-color: #FFF5D6;
     cursor: pointer;
 
     &:hover {
-        background-color: #b1d4ff;
+        background-color: #F5E1B5;
     }
 
     &:active {
-        background-color: #489bff;
+        background-color: #E6C994;
     }
 `;

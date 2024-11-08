@@ -58,6 +58,10 @@ function ProductDetailPage(props) {
     }
 
     const handleProductDetailOnClick = () => {
+        if (productDetailImgName.length === 0) {
+            alert("미리 볼 이미지가 없습니다.");
+            return;
+        }
         setProductDetailModalOpen(true);
     }
 
@@ -116,9 +120,7 @@ function ProductDetailPage(props) {
                             </tr>
                             <tr>
                                 <th>브랜드</th>
-                                <td>{productDetail.data.data.productBrand}</td>
-                                <th>제조일</th>
-                                <td>{ }</td>
+                                <td colSpan={3}>{productDetail.data.data.productBrand}</td>
                                 <th>할인금액</th>
                                 <td>{convertToCommaValue(productDetail.data.data.productPriceDiscount)}</td>
                                 <th>판매가격</th>
@@ -167,10 +169,10 @@ function ProductDetailPage(props) {
                         </tbody>
                     </table>
                     <div css={s.productDetail}>
-                        <span>제품설명</span>
+                        <span>상품 설명</span>
                         <textarea disabled={true}>{productDetail.data.data.productDetail}</textarea>
                         <div css={s.productDetailButton} onClick={handleProductDetailOnClick}>
-                            제품 상세 미리보기
+                            상품 상세 미리보기
                             <FiExternalLink />
                         </div>
                         <div css={s.detailImages}>

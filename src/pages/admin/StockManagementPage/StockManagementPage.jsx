@@ -1,5 +1,5 @@
 /** @jsxImportSource @emotion/react */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import * as s from "./style";
 
 import { useMutation, useQuery, useQueryClient } from "react-query";
@@ -9,6 +9,7 @@ import { MENU_DATAS, STOCK_SEARCH_OPTIONS } from "../../../constants/options";
 import Paginate from "../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { convertToCommaValue, convertToNumericValue, onlyNumber } from "../../../utils/changeStringFormat";
+import { MdOutlineEdit } from "react-icons/md";
 
 function StockManagementPage(props) {
     const limit = 20;
@@ -23,6 +24,13 @@ function StockManagementPage(props) {
         searchOptionName: "전체",
         searchValue: ""
     });
+
+    useEffect(() => {
+        setSearchData(data => ({
+            ...data,
+            expectedStock: parseInt(stockData.currentStock) + parseInt(stockData.arrivalQuantity)
+        }));
+    }, [stockData]);
     
     const stockDatas = useQuery(
         ["stockDataQuery", searchParams.get("page")],
@@ -139,7 +147,7 @@ function StockManagementPage(props) {
                                     <td>
                                         <input type="text" 
                                             name="currentStock" 
-                                            value={convertToCommaValue(stock.currentStock)} 
+                                            value={convertToCommaValue(stock.currentStock)}
                                             onChange={(e) => handleInputOnChange(e, index)} />
                                     </td>
                                     <td>{stock.expectedStock}</td>

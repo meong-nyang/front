@@ -115,7 +115,7 @@ function ProductModifyPage(props) {
     const handleModifyButtonOnClick = () => {
         productModifyMutation.mutateAsync()
             .then(success => {
-                alert("수정에 성공하였습니다");
+                alert("저장되었습니다.");
                 navigate(`/admin/product/detail/${params.id}`);
             })
             .catch(error => {
