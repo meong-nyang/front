@@ -10,3 +10,8 @@ export const orderProuctListAtom = atom({
         productTotal: 0, //상품 총가격
     }]
 });
+
+export const cartItemCheckList = atom({
+    key: "cartItemCheckList",
+    default : []
+});

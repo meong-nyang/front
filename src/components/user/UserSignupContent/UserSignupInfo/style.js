@@ -37,7 +37,7 @@ export const userInfoTag = css`
 
     & > p:nth-of-type(1) {
         margin: 10px 0px 7px ;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
     }
 

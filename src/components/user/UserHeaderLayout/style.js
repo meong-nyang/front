@@ -1,18 +1,25 @@
 import { css } from "@emotion/react";
 
-export const layout = css`
+export const allLayout = css`
     box-sizing: border-box;
-    position: absolute;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     padding: 10px 30px;
     width: 100%;
-    height: 80px;
-    z-index: 100;
+    min-height: 80px;
     background-color: #FFF5D6;
-    color: #777777;
+    box-shadow: 2px 2px 5px #00000033;
+`;
 
+export const layout = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0px 20px;
+    width: 1200px;
+    height: 100%;
     & > div:nth-of-type(1) {
         width: 206px;
         &  img {
@@ -24,24 +31,16 @@ export const layout = css`
         display: flex;
         justify-content: center;
         align-items: center;
-        font-weight: 600;
         /* margin-left: 160px; */
 
         & > a, button {
             margin-right: 50px;
-            color: #777777;
             text-decoration: none;
             font-size: 18px;
+            color: #777777;
             &:nth-last-of-type(1) {
                 margin: 0px;
             }
-        }
-
-        & > button {
-            border: none;
-            background-color: transparent;
-            font-size: 18px;
-            font-weight: 600;
         }
     }
 
@@ -51,9 +50,13 @@ export const layout = css`
         font-size: 16px;
         width: auto;
         & > a, button {
-            margin-right: 20px;
-            color: #777777;
-            font-size: 14px;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding-left: 15px;
+            font-size: 16px;
+            color: #000000;
             text-decoration: none;
             &:nth-last-of-type(1) {
                 margin: 0;
@@ -61,13 +64,17 @@ export const layout = css`
         }
 
         & > button {
-            margin-right: 20px !important;
+            padding: 0;
+            padding-left: 15px;
             border: none;
             background-color: transparent;
         }
 
         & svg {
-            font-size: 23px;
+            font-size: 30px;
+            &:hover {
+                color: #9d6c4c;
+            }
         }
     }
 `;

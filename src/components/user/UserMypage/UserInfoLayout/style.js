@@ -6,12 +6,10 @@ export const layout = css`
     flex-direction: column;
     width: 650px;
     height: auto;
-    padding: 15px 30px;
+    margin: 70px 0px 70px 30px;
+    padding: 20px 30px 30px;
     background-color: #ffffff;
-    border: 1px solid #e0e0e0;
-    margin-bottom: 30px;
-    /* border-radius: 15px;
-    box-shadow: 5px 5px 20px #00000028; */
+    border-radius: 10px;
 
     & > div:nth-of-type(1) {
         box-sizing: border-box;
@@ -32,11 +30,17 @@ export const buttonLayout = css`
     display: flex;
     align-items: flex-end;
     padding-bottom: 10px;
-    & > p {
-        margin-left: 10px;
+    & > button {
+        border: none;
+        background-color: transparent;
+        margin-left: 5px;
         font-weight: 600;
-        font-size: 14px;
+        font-size: 16px;
         color: #777777;
         cursor: pointer;
+
+        &:hover {
+            color: #9d6c4c;
+        }
     }
 `;

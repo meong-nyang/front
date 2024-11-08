@@ -1,6 +1,7 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
+import { CiShoppingCart } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from 'react-query';
@@ -70,7 +71,7 @@ function UserProductDetail({ productInfo }) {
                     <p>{priceFormet(productInfo.productPrice)}원</p>
                 </div>
             </div>
-            <button css={s.addCartButton} onClick={handleAddCartOnClick}>Add to Cart</button>
+            <button css={s.addCartButton} onClick={handleAddCartOnClick}><CiShoppingCart/></button>
         </div>
     );
 }

@@ -61,6 +61,9 @@ function UserSignupPet({ order, setOrder, userSignupFormData, setUserSignupFormD
                     <label htmlFor='cat'>고양이</label>
                 </div>
             </div>
+            <div css={s.buttonLayout}>
+                <button >회원가입</button>
+            </div>
             <div css={s.locationBox}>
                 <p onClick={handlePreOnClick}><MdArrowBackIos />이전</p>
             </div>

@@ -2,11 +2,11 @@ import { css } from "@emotion/react";
 
 export const layout = css`
     box-sizing: border-box;
-    width: 1000px;
     height: auto;
-    margin-top: 30px;
+    width: 880px;
+    margin-bottom: 30px;
     padding: 20px;
-    border: 1px solid #e0e0e0;
+    border-radius: 10px;
     background-color: white;
     & > button {
         box-sizing: border-box;
@@ -43,6 +43,14 @@ export const headerLayout = css`
             margin-left: 10px;
         }
     }
+`;
+
+export const addressLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
 `;
 
 export const titleLayout = css`

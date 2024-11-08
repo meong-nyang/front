@@ -18,7 +18,7 @@ export const inputBox = css`
     color: #777777;
     & > p {
         margin: 10px 0px 7px;
-        font-size: 14px;
+        font-size: 16px;
         font-weight: 600;
     }
 
@@ -38,7 +38,7 @@ export const typeInputBox = css`
     color: #777777;
     & > p {
         margin: 10px 0px 7px;
-        font-size: 14px;
+        font-size: 16x;
         font-weight: 600;
     }
     
@@ -75,20 +75,21 @@ export const typeBox = css`
 
         & + label {
             box-sizing: border-box;
-            flex-grow: 1;
             display: flex;
             justify-content: center;
             align-items: center;
+            width: 100%;
             height: 40px;
-            border: 1px solid #E0E0E0;
+            background-color: #f5f5f5;
             border-radius: 5px;
-            font-size: 14px;
+            font-size: 16px;
         }
     }
 
     & > input:checked + label{
         box-sizing: border-box;
         background-color: #FFF5D6;
-        border: none;
+        color: #9d6c4c;
+        font-weight: 600;
     }
 `;

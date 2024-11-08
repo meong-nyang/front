@@ -2,14 +2,12 @@ import { css } from "@emotion/react";
 
 export const layout = css`
     box-sizing: border-box;
-    position: absolute;
     display: flex;
     justify-content: center;
     align-items: center;
     padding: 20px;
     width: 100%;
-    height: auto;
-    margin-top: 80px;
+    height: 66px;
     background-color: #FFF5D6;
 
     & > button {
@@ -19,5 +17,8 @@ export const layout = css`
         margin-left: 50px;
         color: #9d6c4c;
         cursor: pointer;
+        &:nth-of-type(1) {
+            margin: 0;
+        }
     }
 `;
