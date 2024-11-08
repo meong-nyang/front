@@ -10,7 +10,6 @@ function ProductImages({imgSource, setImgSource, isModify}) {
     const [ preview, setPreview ] = useState([]);
 
     useEffect(() => {
-        console.log(imgSource);
         if(!!imgSource) {
             let tempPreview = [];
             for (let i of imgSource) {

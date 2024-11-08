@@ -10,7 +10,8 @@ export const background = css`
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: transparent;
+    background-color: #00000088;
+    
 `;
 
 export const layout = css`
@@ -20,4 +21,10 @@ export const layout = css`
     width: 1400px;
     height: 800px;
     background-color: white;
+    overflow: auto;
+
+    & > img {
+        width: 100%;
+        object-fit: cover;
+    }
 `;

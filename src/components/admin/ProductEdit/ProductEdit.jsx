@@ -8,8 +8,9 @@ import { useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../apis/util/instance";
 import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
 import { convertToCommaValue, convertToNumericValue } from "../../../utils/changeStringFormat";
+import ProductImages from "../ProductImages/ProductImages";
 
-function ProductEdit({ productData, setProductData, disabled }) {
+function ProductEdit({ productData, setProductData, detailImg, setDetailImg, disabled }) {
 
     const emptySelectedCategoryName = {
         petGroupId: "",
@@ -20,7 +21,7 @@ function ProductEdit({ productData, setProductData, disabled }) {
     const categoryList = queryClient.getQueryData("categoryListQuery");
 
     const [isOpen, setOpen] = useState(false);
-    const [productDetailModalOpen, setProductDetailModalOpen] = useState(false);
+    const [isProductDetailModalOpen, setProductDetailModalOpen] = useState();
     const [selectedCategoryName, setSelectedCategoryName] = useState(emptySelectedCategoryName);
 
     const getCategoryList = useQuery(
@@ -80,6 +81,10 @@ function ProductEdit({ productData, setProductData, disabled }) {
 
     const handleModalChangeOnClick = () => {
         setOpen(open => !open);
+    }
+
+    const handleProductDetailOnClick = () => {
+        setProductDetailModalOpen(true);
     }
 
     return (
@@ -271,11 +276,13 @@ function ProductEdit({ productData, setProductData, disabled }) {
             </div>
             <div css={s.productDetail}>
                 <span>제품설명</span>
-                <textarea></textarea>
-                <span>상세정보 이미지</span>
-                <div css={s.detailImages}>
-                    <img src="" alt="" />
-                </div>
+                <textarea 
+                    disabled={disabled}
+                    name="productDetail"
+                    value={productData.productDetail}
+                    onChange={handleProductDataOnChange} />
+                <span>제품 상세 이미지</span>
+                <ProductImages imgSource={detailImg} setImgSource={setDetailImg} isModify={true} />
             </div>
         </div>
     );

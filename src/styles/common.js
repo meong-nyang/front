@@ -15,6 +15,7 @@ export const reset = css`
         font-weight: normal;
         font-style: normal;
     }
+
     html, body, #root {
         margin: 0;
         padding: 0;
@@ -31,6 +32,11 @@ export const reset = css`
         font-size: 14px;
         font-family: 'IBMPlexSansKR-Regular';
     }
+
+    textarea, input {
+        font-family: 'IBMPlexSansKR-Regular';
+    }
+
     p {
         cursor: default;
     }

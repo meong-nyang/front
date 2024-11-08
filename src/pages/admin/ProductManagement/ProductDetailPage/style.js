@@ -105,8 +105,29 @@ export const productDetail = css`
         width: 100%;
         height: 100px;
         resize: none;
+        background-color: white;
     }
 `;
+
+export const productDetailButton = css`
+    display: flex;
+    align-items: center;
+    width: 150px;
+    cursor: pointer;
+
+    & > svg {
+        margin-left: 5px;
+    }
+
+    &:hover {
+        text-decoration: underline;
+    }
+
+    &:active {
+        
+    }
+`;
+
 
 export const detailImages = css`
     display: flex;

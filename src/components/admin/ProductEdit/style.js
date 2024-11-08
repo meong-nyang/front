@@ -181,15 +181,3 @@ export const productDetail = css`
         resize: none;
     }
 `;
-
-export const detailImages = css`
-    display: flex;
-    align-items: center;
-    width: 100%;
-    height: 100px;
-
-    & > img {
-        width: 100px;
-        height: 100px;
-    }
-`;
