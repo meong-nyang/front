@@ -34,7 +34,7 @@ export const imgLayout = css`
     box-sizing: border-box;
     display: flex;
     width: 540px;
-    height: 465px;
+    height: 545px;
     flex-direction: column;
     justify-content: center;
     align-items: center;
@@ -49,7 +49,7 @@ export const imgLayout = css`
 export const subImgLayout = css`
     box-sizing: border-box;
     display: flex;
-    width: 90%;
+    width: 100%;
     flex-wrap: wrap;
     & > img {
         width: 60px;
@@ -144,11 +144,18 @@ export const priceLayout = css`
     }
 `;
 
+export const optionLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+`;
 export const countLayout = css`
     box-sizing: border-box;
     display: flex;
     width: 100%;
     justify-content: space-between;
+    align-items: center;
     padding: 20px 0px;
     border-bottom: 2px solid #e0e0e0;
     border-top: 2px solid #e0e0e0;
@@ -168,6 +175,7 @@ export const countLayout = css`
         box-sizing: border-box;
         display: flex;
         justify-content: center;
+        align-items: center;
         width: 139px;
         & > input {
             box-sizing: border-box;

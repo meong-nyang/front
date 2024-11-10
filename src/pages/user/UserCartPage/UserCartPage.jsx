@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
-import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserCartContent from '../../../components/user/UserCartContent/UserCartContent';
@@ -18,14 +16,30 @@ function UserCartPage(props) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
+    const userInfoState = queryClient.getQueryState("userInfoQuery");
     const [ searchParams, setSearchParams ] = useSearchParams();
     const limit = 10;
     const [ totalPrice, setTotalPrice ] = useState(0);
     const [ checkItems, setCheckItems ] = useRecoilState(cartItemCheckList);
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
-
-    console.log(checkItems);
+    console.log(orderProductList)
     useEffect(() => {
+        if(userInfoState === "success" && userInfo === undefined) {
+            Swal.fire({
+                icon: "error",
+                text: "로그인 후 이용가능합니다.",
+                showCancelButton: true,
+                cancelButtonText: "닫기",
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "로그인하기",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/user/signin")
+                }
+            });
+            navigate("/")
+            return;
+        }
         searchParams.set("page", "1");
         setSearchParams(searchParams);
     }, []);
@@ -55,7 +69,18 @@ function UserCartPage(props) {
         {
             enabled: !!userInfo?.data?.id,
             retry: 0,
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
+            onSuccess: response => {
+                // setOrderProductList(
+                //     response.data.cartList.map(product => ({
+                //         productId: product.productId,
+                //         productName: product.productName,
+                //         productPrice: product.productPrice,
+                //         productCount: product.productCount,
+                //         productTotal: product.productPrice * product.productCount
+                //     }))
+                // );
+            }
         }
     );
 
@@ -71,6 +96,7 @@ function UserCartPage(props) {
             onSuccess: resonse => {
                 console.log(resonse.data) 
                 setCheckItems(resonse.data.map(item => item.id))
+
             }
         }
     )
@@ -100,7 +126,13 @@ function UserCartPage(props) {
             return await instance.delete(`/user/cart?userId=${userInfo?.data?.id}&${str}`)
         },
         {
-            onSuccess: response => cartItemList.refetch(),
+            onSuccess: (response, deleteIds) => {
+                console.log(deleteIds);
+                cartItemList.refetch()
+                setOrderProductList(products => 
+                    products.filter(products => !deleteIds.includes(products.productId))
+                )
+            },
             onError: error => console.error(error)
         }
     );
@@ -196,12 +228,12 @@ function UserCartPage(props) {
             if (result.isConfirmed) {
                 setOrderProductList(cartItemAllList?.data?.data
                     .map(item => ({
-                        cartId: item.cartId,
+                        cartId: item.id,
                         productId: item.productId,
-                        productName: item.productName,
+                        productName: item.product.productName,
                         productCount: item.productCount,
-                        productPrice: item.productPrice,
-                        productTotal: item.productCount * item.productPrice
+                        productPrice: item.product.productPrice,
+                        productTotal: item.productCount * item.product.productPrice
                     })));
                 navigate("/user/order")
             }});

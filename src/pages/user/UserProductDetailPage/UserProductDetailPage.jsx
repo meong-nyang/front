@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
-import { IoIosPricetags } from "react-icons/io";
-import { IoPricetagsOutline } from "react-icons/io5";
 import { TbTruckDelivery } from "react-icons/tb";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
@@ -39,6 +37,7 @@ function UserProductDetailPage(props) {
 
     });
 
+    console.log(orderProductList);
     console.log(productDetailData);
     const productDetail = useQuery(
         ["userProductDetailQuery"],
@@ -95,16 +94,20 @@ function UserProductDetailPage(props) {
     }
 
     const handlePlusOnClick = () => {
-        setProductCount(count => parseInt(count) + 1);
+        setProductCount(count => {
+            if(count === "") {
+                return 1;
+            }
+            return parseInt(count) + 1;
+        });
     };
 
     const handleMinusOnClick = () => {
         setProductCount(count => {
-            // 1 미만으로 내려가지 않도록 설정
             if (count > 1) {
                 return parseInt(count) - 1;
             }
-            return count; // 1 이하로는 내려가지 않음
+            return count;
         });
     };
 
@@ -118,6 +121,25 @@ function UserProductDetailPage(props) {
     const totalPrice = (price) => {
         return parseInt(price) * parseInt(productCount);
     };
+
+    const validUserCheck = () => {
+        if(userInfo == undefined) {
+            Swal.fire({
+                icon: "error",
+                text: "로그인 후 이용가능합니다.",
+                showCancelButton: true,
+                cancelButtonText: "닫기",
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "로그인하기",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/user/signin")
+                }
+            });
+            return false;
+        }
+        return true;
+    }
 
     const currentCheck = () => {
         if(productCount > productDetailData?.currentStock){
@@ -148,6 +170,9 @@ function UserProductDetailPage(props) {
     }
 
     const handleAddCartOnClick = () => {
+        if(!validUserCheck()) {
+            return;
+        }
         if(!currentCheck()) {
             return;
         }
@@ -178,6 +203,9 @@ function UserProductDetailPage(props) {
     };
 
     const handleOrderOnClick = () => {
+        if(!validUserCheck()) {
+            return;
+        }
         if(!currentCheck()) {
             return;
         }
@@ -231,16 +259,21 @@ function UserProductDetailPage(props) {
                             <div css={s.priceLayout}>
                                 <div>
                                     {
-                                        productDetailData.productPriceDiscount !== "0" &&
-                                        <p>{priceFormet(productDetailData.productPriceDiscount)}원 할인</p>
+                                        <p>{productDetailData.productPriceDiscount !== "0" 
+                                            ? priceFormet(productDetailData.productPriceDiscount) + "원 할인"
+                                            :""}</p>
                                     }
                                     <p>{priceFormet(productDetailData.productPrice)}원</p>
                                 </div>
                                     <p><TbTruckDelivery />배송비 : 3,000원</p>
                             </div>
                             <p>{productDetailData.productDetail}</p>
-                                <p>선택</p>
+                            <div css={s.optionLayout}>
+
+                            
+                            <p>선택</p>
                             <div css={s.countLayout}>
+                            
                                 <p>{productDetailData.productName}</p>
                                 <div>
                                     <AiFillMinusCircle onClick={handleMinusOnClick} />
@@ -248,6 +281,7 @@ function UserProductDetailPage(props) {
                                     <AiFillPlusCircle onClick={handlePlusOnClick} />
                                 </div>
                                 <p>{priceFormet(totalPrice(productDetailData.productPrice))}원</p>
+                            </div>
                             </div>
                             <div css={s.totalLayout}>
                                 <p>총 상품금액</p>

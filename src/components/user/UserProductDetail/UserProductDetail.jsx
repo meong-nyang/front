@@ -24,7 +24,29 @@ function UserProductDetail({ productInfo }) {
         }
     );
 
+    const validUserCheck = () => {
+        if(userInfo == undefined) {
+            Swal.fire({
+                icon: "error",
+                text: "로그인 후 이용가능합니다.",
+                showCancelButton: true,
+                cancelButtonText: "닫기",
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "로그인하기",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/user/signin")
+                }
+            });
+            return false;
+        }
+        return true;
+    }
+
     const handleAddCartOnClick = () => {
+        if(!validUserCheck()) {
+            return;
+        }
         const addProductData = {
             userId: userInfo?.data?.id,
             productId: productInfo.productId,

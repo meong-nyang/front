@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
-import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
+
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserProductDetail from '../../../components/user/UserProductDetail/UserProductDetail';

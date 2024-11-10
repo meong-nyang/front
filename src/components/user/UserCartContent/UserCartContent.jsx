@@ -4,7 +4,7 @@ import * as s from "./style";
 import { AiTwotoneDelete } from "react-icons/ai";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
-import { useMutation, useQueryClient } from 'react-query';
+import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 
 function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMutation }) {
@@ -29,10 +29,27 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
         }
     }, [productCount]);
 
+    const currentStockCheck = useQuery(
+        ["currentStockCheckQuery", productCount],
+        async () => {
+            const arr = Array.from([cartItem?.productId]);
+            let str = "productIds=";
+            for (let i of arr) {
+                str += i + ","
+            }
+            str = str.slice(0, str.length - 1);
+            return await instance.get(`/product/stock?${str}`)
+        },
+        {
+            retry: 0,
+            refetchOnWindowFocus: false
+        }
+    );
+
     const modifyCartItemCountMutation = useMutation(
         async (modifyCartItemData) => await instance.put(`/user/${cartItem.cartId}/count`, modifyCartItemData),
         {
-            onSuccess: response => queryClient.invalidateQueries('cartItemListQuery'),
+            onSuccess: () => queryClient.invalidateQueries('cartItemListQuery'),
             onError: error => console.log(error)
         }
     );
@@ -62,6 +79,8 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
         }
     };
 
+    
+
     const priceFormet = (price) => {
         if (price == null || isNaN(price)) {
             return '0';
@@ -70,10 +89,21 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
     };
 
     const handlePlusOnClick = () => {
-        setProductCount(count => {
-            const updatedCount = count + 1; // 업데이트 함수 호출
-            return updatedCount;
-        });
+        const stock = currentStockCheck?.data?.data?.currentStocks[0];
+        if(stock?.currentStock >= productCount + 1 && stock?.outOfStock === 1){
+            setProductCount(count => {
+                const updatedCount = count + 1; // 업데이트 함수 호출
+                return updatedCount;
+            });
+        } else {
+            Swal.fire({
+                text: "재고가 넘는 수량은 선택할 수 없습니다.",
+                icon: "error",
+                timer: 1500,
+                showConfirmButton: false
+            });
+        }
+        
     };
 
     const handleMinusOnClick = () => {
@@ -87,24 +117,41 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
     };
 
     const handleCountInputOnChange = (e) => {
+        
         const count = e.target.value;
-        setProductCount(count);
-        // if(count !== "") {
-        //     timeUpdateCart();
-        // }
-    };
-
-    const timeUpdateCart = () => {
-        const modifyCartItemData = {
-            cartId: cartItem.cartId,
-            userId: userInfo?.data?.id,
-            productCount
+        const stock = currentStockCheck?.data?.data?.currentStocks[0];
+        if(count === "") {
+            setProductCount(count);
         }
-        const timer = setTimeout(() => {
-            modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
-        }, 1000); // 1초 후에 요청 보내기
-
+        else if((stock?.currentStock >= parseInt(count) && stock?.outOfStock === 1)){
+            setProductCount(parseInt(count));
+        } else {
+            setProductCount(productCount => productCount);
+            clearTimeout(debounceTimer);
+            setDebounceTimer(setTimeout(() => {
+                Swal.fire({
+                    text: "재고가 넘는 수량은 선택할 수 없습니다.",
+                    icon: "error",
+                    timer: 1500,
+                    showConfirmButton: false
+                });
+            }, 1000));
+           
+        }
+        
     };
+
+    // const timeUpdateCart = () => {
+    //     const modifyCartItemData = {
+    //         cartId: cartItem.cartId,
+    //         userId: userInfo?.data?.id,
+    //         productCount
+    //     }
+    //     const timer = setTimeout(() => {
+    //         modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
+    //     }, 1000); // 1초 후에 요청 보내기
+
+    // };
 
     return (
         <div css={s.contentLayout}>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import Swal from "sweetalert2";
-import { productLayout } from '../UserOrderPage/style';
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useNavigate } from 'react-router-dom';
@@ -35,7 +34,6 @@ function PortOneOrderPage({portEtcData}) {
         paymentMethod: ""
     });
 
-console.log(orderData);
     const portoneData = {
         storeId: "store-a497dea2-bbec-4135-8fb2-c2283879a5b9", 
         customer: {},           // 줘야해
@@ -73,18 +71,21 @@ console.log(orderData);
         }
     }, [portEtcData]);
 
-    // const currentStockCheck = useQuery(
-    //     ["currentStockCheckQuery"],
-    //     async () => {
-    //         const arr = Array.from(deleteIds);
-    //         let str = "cartIds=";
-    //         for (let i of arr) {
-    //             str += i + ","
-    //         }
-    //         str = str.slice(0, str.length - 1);
-    //         return await instance.get("/product/stock?" )
-    //     }
-    // );
+    const currentStockCheck = useQuery(
+        ["currentStockCheckQuery"],
+        async () => {
+            const arr = Array.from(orderProductList?.map(product => product.productId));
+            let str = "productIds=";
+            for (let i of arr) {
+                str += i + ","
+            }
+            str = str.slice(0, str.length - 1);
+            return await instance.get(`/product/stock?${str}`)
+        },
+        {
+            onSuccess: response => console.log(response)
+        }
+    );
 
     const registerOrderMutaion = useMutation(
         async (registerOrderData) => await instance.post("/order", registerOrderData), 
@@ -137,7 +138,30 @@ console.log(orderData);
         return false;
     }
 
+    const buyCheck = () => {
+         return orderProductList?.map(product => {
+            const stock = currentStockCheck?.data?.data?.currentStocks.filter(stock => 
+                stock.productId === product.productId)[0];
+            if(stock.currentStock >= product.productCount && stock.outOfStock === 1) {
+                return true;
+            }
+            return false;
+        });
+    }
+
     const handlePaymentButtonOnClick = () => {
+        //재고 확인
+        if(buyCheck().includes(false)) {
+            Swal.fire({
+                icon:"error",
+                text: "주문할 수 없는 상품이 있습니다.",
+                timer: 1500,
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "닫기",
+            });
+            return;
+        }
+        //주문 정보 확인
         if (isEmpty()) {
             return; 
         }
