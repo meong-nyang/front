@@ -10,6 +10,7 @@ import Paginate from "../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { convertToCommaValue, convertToNumericValue, onlyNumber } from "../../../utils/changeStringFormat";
 import { MdOutlineEdit } from "react-icons/md";
+import StockModal from "../../../components/admin/StockModal/StockModal";
 
 function StockManagementPage(props) {
     const limit = 20;
@@ -24,6 +25,8 @@ function StockManagementPage(props) {
         searchOptionName: "전체",
         searchValue: ""
     });
+
+    const [ isOpen, setOpen ] = useState();
 
     useEffect(() => {
         setSearchData(data => ({
@@ -118,6 +121,10 @@ function StockManagementPage(props) {
 
     return (
         <>
+            {
+                isOpen &&   
+                <StockModal setOpen={setOpen} />
+            }
             <div css={s.header}>
                 <span>총 {stockDatas?.data?.data.stockListCount || 0}개</span>
                 <button onClick={handleSaveButtonOnClick}>변경사항 저장</button>
@@ -130,18 +137,16 @@ function StockManagementPage(props) {
                             <th>상품코드</th>
                             <th>상품명</th>
                             <th>현재재고</th>
-                            <th>가재고</th>
-                            <th>입고 예정 일자</th>
-                            <th>입고 수량</th>
-                            <th>알림 수량</th>
+                            <th>가재고 (현재재고 + 가재고)</th>
+                            <th>최소 알림 수량</th>
                             <th>최소 알림 설정</th>
-                            <th>품절 여부</th>
+                            <th>노출 여부</th>
                         </tr>
                     </thead>
                     <tbody>
                         {
                             stockData.map((stock, index) => (
-                                <tr key={stock.productId} css={s.productLine(stockData[index].isModified)}>
+                                <tr key={stock.productId} css={s.productLine(stockData[index].isModified)} onClick={() => setOpen(true)}>
                                     <td>{stock.productId}</td>
                                     <td>{stock.productName}</td>
                                     <td>
@@ -151,19 +156,6 @@ function StockManagementPage(props) {
                                             onChange={(e) => handleInputOnChange(e, index)} />
                                     </td>
                                     <td>{stock.expectedStock}</td>
-                                    <td>
-                                        <input type="date"
-                                            name="arrivalDate" 
-                                            value={stock.arrivalDate}
-                                            css={s.dateInput(stock.arrivalDate === "")}
-                                            onChange={(e) => handleInputOnChange(e, index)} />
-                                    </td>
-                                    <td>
-                                        <input type="text"
-                                            name="arrivalQuantity"
-                                            value={convertToCommaValue(stock.arrivalQuantity)}
-                                            onChange={(e) => handleInputOnChange(e, index)} />
-                                    </td>
                                     <td>
                                         <input type="text"
                                             name="minAlertQuantity"

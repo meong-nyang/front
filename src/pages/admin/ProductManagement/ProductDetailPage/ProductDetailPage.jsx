@@ -132,42 +132,6 @@ function ProductDetailPage(props) {
                             </tr>
                         </tbody>
                     </table>
-                    <span>재고 관리</span>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>현재재고</th>
-                                <td>{convertToCommaValue(productDetail.data.data.currentStock)}</td>
-                                <th>가재고</th>
-                                <td>{convertToCommaValue(productDetail.data.data.expectedStock)}</td>
-                                <th>입고 예정 일자</th>
-                                <td>{productDetail.data.data.arrivalDate}</td>
-                                <th>입고수량</th>
-                                <td>{convertToCommaValue(productDetail.data.data.arrivalQuantity)}</td>
-                            </tr>
-                            <tr>
-                                <th>재고 알림 설정</th>
-                                <td>
-                                    <div css={s.recommendBox}>
-                                        <div>
-                                            <input type="radio" name="alertSetting" id="20" readOnly={true}
-                                                checked={productDetail.data.data.alertSetting === 2} />
-                                            <label htmlFor="20"></label>
-                                            <label htmlFor="20">설정</label>
-                                        </div>
-                                        <div>
-                                            <input type="radio" name="alertSetting" id="10" readOnly={true}
-                                                checked={productDetail.data.data.alertSetting === 1} />
-                                            <label htmlFor="10"></label>
-                                            <label htmlFor="10">미설정</label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <th>알림 수량</th>
-                                <td>{convertToCommaValue(productDetail.data.data.minAlertQuantity)}</td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <div css={s.productDetail}>
                         <span>상품 설명</span>
                         <textarea disabled={true}>{productDetail.data.data.productDetail}</textarea>

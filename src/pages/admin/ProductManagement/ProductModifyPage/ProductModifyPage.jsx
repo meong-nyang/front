@@ -22,11 +22,7 @@ function ProductModifyPage(props) {
         productMemo: "",
         recommendation: "1",
         currentStock: 0,
-        expectedStock: 0,
-        arrivalDate: "",
-        arrivalQuantity: 0,
-        minAlertQuantity: 0,
-        alertSetting: "1"
+        expectedStock: 0
     }
 
     const params = useParams();

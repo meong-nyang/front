@@ -2,14 +2,11 @@
 import { useEffect, useState } from "react";
 import CategoryModal from "../CategoryModal/CategoryModal";
 import * as s from "./style";
-import { FiExternalLink } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../apis/util/instance";
-import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
 import { convertToCommaValue, convertToNumericValue } from "../../../utils/changeStringFormat";
 import ProductImages from "../ProductImages/ProductImages";
-import { GiSouthAfrica } from "react-icons/gi";
 
 function ProductEdit({ productData, setProductData, detailImg, setDetailImg, disabled }) {
 
@@ -46,22 +43,6 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
             categoryId: productData?.category?.categoryName || getCategoryList?.data?.data.categoryList[0].categoryName
         });
     }, [productData.category]);
-
-    useEffect(() => {
-        const arrivalDateMillis = new Date(productData.arrivalDate).getTime();
-        const after3daysMillis = parseInt(new Date().getTime()) + (1000 * 60 * 60 * 24 * 3);
-        if (arrivalDateMillis > after3daysMillis) {
-            setProductData(data => ({
-                ...data,
-                expectedStock: productData.currentStock
-            }));
-            return;
-        }
-        setProductData(data => ({
-            ...data,
-            expectedStock: parseInt(productData.currentStock) + parseInt(productData.arrivalQuantity)
-        }));
-    }, [productData.currentStock, productData.arrivalQuantity]);
 
     const handleProductNumberDataOnChange = (e) => {
         const value = convertToNumericValue(e.target.value.toString());
@@ -214,79 +195,6 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
                                     disabled={disabled}
                                     value={productData.productMemo}
                                     onChange={handleProductDataOnChange}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <div css={s.stockManagement}>
-                <span>재고 관리</span>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>현재재고</th>
-                            <td>
-                                <input type="text" name="currentStock"
-                                    disabled={disabled}
-                                    value={convertToCommaValue(productData.currentStock)}
-                                    onChange={handleProductNumberDataOnChange}
-                                />
-                            </td>
-                            <th>가재고</th>
-                            <td>
-                                <input type="text" name="expectedStock"
-                                    disabled={true}
-                                    value={convertToCommaValue(productData.expectedStock)}
-                                    onChange={handleProductNumberDataOnChange}
-                                />
-                            </td>
-                            <th>입고 예정 일자</th>
-                            <td>
-                                <input type="date" name="arrivalDate"
-                                    disabled={disabled}
-                                    value={productData.arrivalDate}
-                                    css={s.dateInput(productData.arrivalDate === "")}
-                                    onChange={handleProductDataOnChange}
-                                />
-                            </td>
-                            <th>입고 수량</th>
-                            <td>
-                                <input type="text" name="arrivalQuantity"
-                                    disabled={disabled}
-                                    value={convertToCommaValue(productData.arrivalQuantity)}
-                                    onChange={handleProductNumberDataOnChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>재고 알림 신청</th>
-                            <td>
-                                <div css={s.recommendBox}>
-                                    <div>
-                                        <input type="radio" name="alertSetting" id="20"
-                                            disabled={disabled}
-                                            checked={productData.alertSetting.toString() === "2"}
-                                            onChange={(e) => handleStockAlertOnChange(e, "2")} />
-                                        <label htmlFor="20"></label>
-                                        <label htmlFor="20">설정</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="alertSetting" id="10"
-                                            disabled={disabled}
-                                            checked={productData.alertSetting.toString() === "1"}
-                                            onChange={(e) => handleStockAlertOnChange(e, "1")} />
-                                        <label htmlFor="10"></label>
-                                        <label htmlFor="10">미설정</label>
-                                    </div>
-                                </div>
-                            </td>
-                            <th>알림 수량</th>
-                            <td>
-                                <input type="text" name="minAlertQuantity"
-                                    disabled={disabled}
-                                    value={convertToCommaValue(productData.minAlertQuantity)}
-                                    onChange={handleProductNumberDataOnChange}
                                 />
                             </td>
                         </tr>

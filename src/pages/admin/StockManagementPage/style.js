@@ -146,14 +146,6 @@ export const mainTable = css`
     & tr *:nth-of-type(7) {
         width: 10%;
     }
-
-    & tr *:nth-of-type(8) {
-        width: 8%;
-    }
-
-    & tr *:nth-of-type(9) {
-        width: 10%;
-    }
 `;
 
 export const productLine = (isModified) => css`
