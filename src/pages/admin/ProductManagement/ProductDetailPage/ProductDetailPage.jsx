@@ -25,6 +25,7 @@ function ProductDetailPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
+                console.log(success.data);
                 setImgName(success.data.imgUrls.map(data => data.imgName));
                 setProductDetailImgName(success.data.productDetailImgUrls.map(data => data.imgName));
             },
@@ -88,8 +89,23 @@ function ProductDetailPage(props) {
                             <tr>
                                 <th>카테고리</th>
                                 <td colSpan={3}>{productDetail.data.data.petGroup.categoryGroupName + " > " + productDetail.data.data.category.categoryName}</td>
-                                <th>단가</th>
-                                <td>{convertToCommaValue(productDetail.data.data.productPrice)}</td>
+                                <th>판매상태</th>
+                                <td>
+                                    <div css={s.recommendBox}>
+                                        <div>
+                                            <input type="radio" name="onSale" id="20" readOnly={true}
+                                                checked={productDetail.data.data.onSale.toString() === "1"} />
+                                            <label htmlFor="20"></label>
+                                            <label htmlFor="20">판매</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="onSale" id="10" readOnly={true}
+                                                checked={productDetail.data.data.onSale.toString() === "2"} />
+                                            <label htmlFor="10"></label>
+                                            <label htmlFor="10">미판매</label>
+                                        </div>
+                                    </div>
+                                </td>
                                 <th>추천상품</th>
                                 <td>
                                     <div css={s.recommendBox}>
@@ -120,7 +136,9 @@ function ProductDetailPage(props) {
                             </tr>
                             <tr>
                                 <th>브랜드</th>
-                                <td colSpan={3}>{productDetail.data.data.productBrand}</td>
+                                <td>{productDetail.data.data.productBrand}</td>
+                                <th>단가</th>
+                                <td>{convertToCommaValue(productDetail.data.data.productPrice)}</td>
                                 <th>할인금액</th>
                                 <td>{convertToCommaValue(productDetail.data.data.productPriceDiscount)}</td>
                                 <th>판매가격</th>
@@ -134,7 +152,7 @@ function ProductDetailPage(props) {
                     </table>
                     <div css={s.productDetail}>
                         <span>상품 설명</span>
-                        <textarea disabled={true}>{productDetail.data.data.productDetail}</textarea>
+                        <textarea disabled={true} value={productDetail.data.data.productDetail} />
                         <div css={s.productDetailButton} onClick={handleProductDetailOnClick}>
                             상품 상세 미리보기
                             <FiExternalLink />

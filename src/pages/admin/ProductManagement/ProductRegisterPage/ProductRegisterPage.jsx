@@ -25,7 +25,8 @@ function ProductRegisterPage() {
         currentStock: 0,
         expectedStock: 0,
         minAlertQuantity: 0,
-        alertSetting: "1"
+        alertSetting: "1",
+        onSale: "1"
     }
 
     const [ productData, setProductData ] = useState(emptyProductData);

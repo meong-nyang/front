@@ -1,40 +1,56 @@
 import { css } from "@emotion/react";
 
-export const background = css`
+export const layout = css`
     display: flex;
-    justify-content: center;
-    align-items: center;
-    position: fixed;
-    z-index: 20;
-    border: none !important;
-    top: 0;
-    left: 0;
     width: 100%;
     height: 100%;
-    background-color: transparent;
-    
+    background-color: white;
 `;
 
-export const layout = css`
-    position: relative;
-    display: flex;
-    flex-direction: column;
+export const container = css`
     box-sizing: border-box;
-    box-shadow: 2px 2px 5px #00000055;
     padding: 20px;
-    width: 800px;
-    height: 800px;
-    background-color: white;
+    width: 50%;
+    height: 100%;
+`;
 
-    & > svg {
-        position: absolute;
-        right: 5px;
-        top: 5px;
-        width: 30px;
-        height: 30px;
-    
-        &:hover {
-            cursor: pointer;
+export const stockHeader = css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+`;
+
+export const infoTable = css`
+    margin-top: 5px;
+    margin-bottom: 20px;
+    width: 100%;
+    border-collapse: collapse;
+`;
+
+export const inputAlert = css`
+    & td {
+        padding: 0;
+    }
+
+    & input[type="checkbox"] {
+        box-sizing: border-box;
+        margin-left: 10px;
+        width: 15px;
+        height: 15px;
+    }
+
+    & input[type="text"] {
+        box-sizing: border-box;
+        border: none;
+        padding: 0px 10px;
+        margin-left: 1px;
+        width: calc(100% - 2px);
+        height: calc(100% - 2px);
+        outline: none;
+        font-size: 16px;
+
+        &:focus {
+            outline: 1px solid black;
         }
     }
 `;
@@ -42,6 +58,7 @@ export const layout = css`
 export const headerInput = css`
     display: flex;
     justify-content: center;
+    margin-bottom: 20px;
     align-items: center;
     box-sizing: border-box;
     width: 100%;
@@ -88,10 +105,28 @@ export const inbound = css`
 export const inoutHistory = css`
     width: 100%;
     height: calc(50% - 15px);
+
+    & > span {
+        display: inline-block;
+        margin: 5px 0;
+    }
+
+    & td {
+        text-align: center;
+    }
 `;
 
 export const table = css`
     margin-top: 5px;
+
+    & button {
+        width: 50px;
+        height: 25px;
+
+        &:nth-of-type(1) {
+            margin-right: 5px;
+        }
+    }
     
     th, td {
         border: none;

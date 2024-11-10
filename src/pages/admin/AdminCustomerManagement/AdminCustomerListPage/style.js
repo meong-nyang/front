@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { COLORS } from "../../../../constants/colors";
 
 export const header = css`
     display: flex;
@@ -64,5 +65,11 @@ export const mainTable = css`
 
     & tr *:nth-of-type(6) {
         width: 15%;
+    }
+`;
+
+export const trHover = css`
+    &:hover {
+        background-color: ${COLORS.mainColor};
     }
 `;

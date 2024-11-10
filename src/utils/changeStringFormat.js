@@ -17,3 +17,7 @@ export const convertToNumericValue = (value) => {
 export const convertToCommaValue = (value) => {
     return value?.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ',');
 }
+
+export const alwaysNumber = (value) => {
+    return value === "" ? "0" : value.replace(/^0+/, "");
+}

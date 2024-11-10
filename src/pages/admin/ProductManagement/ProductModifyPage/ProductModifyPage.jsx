@@ -22,7 +22,8 @@ function ProductModifyPage(props) {
         productMemo: "",
         recommendation: "1",
         currentStock: 0,
-        expectedStock: 0
+        expectedStock: 0,
+        onSale: "1"
     }
 
     const params = useParams();

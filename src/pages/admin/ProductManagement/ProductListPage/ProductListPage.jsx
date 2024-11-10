@@ -136,7 +136,8 @@ function ProductListPage() {
                     <tbody>
                         {
                             productList?.data?.data.productList.map(product => 
-                                <tr key={product.id} onClick={() => navigate(`/admin/product/detail/${product.id}`)}>
+                                <tr key={product.id} css={s.trHover}
+                                    onClick={() => navigate(`/admin/product/detail/${product.id}`)}>
                                     <td onClick={(e) => e.stopPropagation()}>
                                         <input type="checkbox"
                                             name={product.id}

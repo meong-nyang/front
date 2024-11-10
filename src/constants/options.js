@@ -58,6 +58,11 @@ export const LOCATION_DATAS = [
         name: "상품관리 > 상품수정"
     },
     {
+        address: "/admin/stock/detail",
+        menuId: 3,
+        name: "재고관리 > 상세"
+    },
+    {
         address: "/admin/stock",
         menuId: 3,
         name: "재고관리"

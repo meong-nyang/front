@@ -21,6 +21,10 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
     const [isOpen, setOpen] = useState(false);
     const [selectedCategoryName, setSelectedCategoryName] = useState(emptySelectedCategoryName);
 
+    useEffect(() => {
+        console.log(productData.onSale);
+    }, [productData]);
+
     const getCategoryList = useQuery(
         ["categoryListQuery"],
         async () => await instance.get("/product/categorys"),
@@ -76,6 +80,13 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
         }));
     }
 
+    const handleonSaleOnChange = (value) => {
+        setProductData(data => ({
+            ...data,
+            onSale: value
+        }))
+    }
+
     const handleStockAlertOnChange = (e, value) => {
         setProductData(data => ({
             ...data,
@@ -95,12 +106,31 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
                     <tbody>
                         <tr>
                             <th>상품명</th>
-                            <td colSpan="5">
+                            <td colSpan="3">
                                 <input type="text" name="productName"
                                     disabled={disabled}
                                     value={productData.productName}
                                     onChange={handleProductDataOnChange} />
                             </td>
+                            <th>판매상태</th>
+                                <td>
+                                    <div css={s.recommendBox}>
+                                        <div>
+                                            <input type="radio" name="onSale" id="20" readOnly={true}
+                                                checked={productData.onSale.toString() === "1"}
+                                                onChange={() => handleonSaleOnChange("1")} />
+                                            <label htmlFor="20"></label>
+                                            <label htmlFor="20">판매</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="onSale" id="10" readOnly={true}
+                                                checked={productData.onSale.toString() === "2"}
+                                                onChange={() => handleonSaleOnChange("2")} />
+                                            <label htmlFor="10"></label>
+                                            <label htmlFor="10">미판매</label>
+                                        </div>
+                                    </div>
+                                </td>
                         </tr>
                         <tr css={s.mustCategory}>
                             <th>카테고리</th>

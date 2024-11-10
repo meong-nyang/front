@@ -1,6 +1,7 @@
 import { css } from "@emotion/react";
-import { NO_INPUT_DATE_DEFAULT_VALUE, NO_INPUT_NUMBER_SPINNER } from "../../../constants/style/inputStyleProperties";
-import { noDate } from "../../../styles/common";
+import { NO_INPUT_DATE_DEFAULT_VALUE, NO_INPUT_NUMBER_SPINNER } from "../../../../constants/style/inputStyleProperties";
+import { noDate } from "../../../../styles/common";
+import { COLORS } from "../../../../constants/colors";
 
 export const header = css`
     display: flex;
@@ -124,31 +125,34 @@ export const mainTable = css`
     }
 
     & tr *:nth-of-type(2) {
-        width: 22%;
+        width: 35%;
     }
 
     & tr *:nth-of-type(3) {
-        width: 10%;
+        width: 15%;
     }
 
     & tr *:nth-of-type(4) {
-        width: 10%;
+        width: 15%;
     }
 
     & tr *:nth-of-type(5) {
-        width: 10%;
+        width: 15%;
     }
 
     & tr *:nth-of-type(6) {
         width: 10%;
     }
-
-    & tr *:nth-of-type(7) {
-        width: 10%;
-    }
 `;
 
-export const productLine = (isModified) => css`
+export const productLine = css`
+    & > td:not(:nth-last-of-type(1)) {
+        cursor: pointer;
+    }
+
+    &:hover {
+        background-color: ${COLORS.mainColor};
+    }
 
     ${NO_INPUT_NUMBER_SPINNER}
 
@@ -170,11 +174,6 @@ export const productLine = (isModified) => css`
             outline: 1px solid black;
         }
     }
-
-    & * {
-        background-color: ${isModified ? "#FFF5D6" : "white"};
-    }
-
 `;
 
 export const dateInput = (isShow) => css`

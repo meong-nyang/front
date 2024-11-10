@@ -16,7 +16,6 @@ import { useEffect, useState } from 'react';
 import { instance } from './apis/util/instance';
 import ProductModifyPage from './pages/admin/ProductManagement/ProductModifyPage/ProductModifyPage';
 import ProductDetailPage from './pages/admin/ProductManagement/ProductDetailPage/ProductDetailPage';
-import StockManagementPage from './pages/admin/StockManagementPage/StockManagementPage';
 
 import UserSigninPage from './pages/user/UserSigninPage/UserSigninPage';
 
@@ -36,6 +35,8 @@ import PortOneOrderPage from './pages/user/PortOneOrderPage/PortOneOrderPage';
 import AdminCustomerListPage from './pages/admin/AdminCustomerManagement/AdminCustomerListPage/AdminCustomerListPage';
 import UserOrderSuccessPage from './pages/user/UserOrderSuccessPage/UserOrderSuccessPage';
 import UserSearchProductPage from './pages/user/UserSearchProductPage/UserSearchProductPage';
+import StockListPage from './pages/admin/adminStockManagement/StockListPage/StockListPage';
+import StockDetailPage from './pages/admin/adminStockManagement/StockDetailPage/StockDetailPage';
 
 
 function App() {
@@ -67,7 +68,6 @@ function App() {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: () => {
-                console.log("접근 안됨");
                 const deniedPaths = ["/admin/signin", "/user/signin", "/user/signup"];
                 for(let deniedPath of deniedPaths) {
                     if (location.pathname === deniedPath) {
@@ -176,7 +176,8 @@ function App() {
                             <Route path='/product/register' element={<ProductRegisterPage />} />
                             <Route path='/product/modify/:id' element={<ProductModifyPage />} />
                             <Route path='/product/detail/:id' element={<ProductDetailPage />} />
-                            <Route path='/stock' element={<StockManagementPage />} />
+                            <Route path='/stock/detail/:id' element={<StockDetailPage />} />
+                            <Route path='/stock' element={<StockListPage />} />
                             <Route path='/order' element={<OrderListPage />} />
                             <Route path='/order/detail/:id' element={<OrderDetailPage />} />
                             <Route path='/customer/detail/:id' element={<AdminCustomerDetailPage />} />
