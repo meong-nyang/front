@@ -5,5 +5,5 @@ export const ADMIN_PAGE_COLORS = {
 export const BUTTON_COLOR = "#d9d9d9";
 
 export const COLORS = {
-    mainColor: "#D2E0FB"
+    mainColor: "#FFF5D6"
 }

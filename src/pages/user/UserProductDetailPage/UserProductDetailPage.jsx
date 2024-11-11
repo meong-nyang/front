@@ -6,7 +6,7 @@ import { IoIosPricetags } from "react-icons/io";
 import { IoPricetagsOutline } from "react-icons/io5";
 import { TbTruckDelivery } from "react-icons/tb";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { instance } from '../../../apis/util/instance';
+import { IMAGE_ADDRESS, instance } from '../../../apis/util/instance';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { useRecoilState } from 'recoil';
@@ -189,11 +189,11 @@ function UserProductDetailPage(props) {
                     </div>
                     <div css={s.layout}>
                         <div css={s.imgLayout}>
-                            <img src={"http://localhost:8080/images/" + productDetailData.imgName} alt="" />
+                            <img src={IMAGE_ADDRESS + productDetailData.imgName} alt="" />
                             <div css={s.subImgLayout}>
                                 {
                                     productDetailData?.imgNames.map(img =>
-                                        <img src={"http://localhost:8080/images/" + img}
+                                        <img src={IMAGE_ADDRESS + img}
                                             key={img} onClick={() => hanelSubImgOnClick(img)} />
                                     )
                                 }

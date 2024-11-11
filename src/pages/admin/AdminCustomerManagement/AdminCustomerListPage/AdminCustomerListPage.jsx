@@ -59,7 +59,8 @@ function AdminCustomerListPage(props) {
                     <tbody>
                         {
                             userInfoDatas?.data?.data.userList.map(user => (
-                                <tr key={user.id} onClick={() => navigate("/admin/customer/detail/" + user.id)}>
+                                <tr key={user.id} css={s.trHover}
+                                    onClick={() => navigate("/admin/customer/detail/" + user.id)}>
                                     <td>{user.createDate}</td>
                                     <td>{user.username}</td>
                                     <td>{user.name}</td>

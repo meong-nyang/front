@@ -1,4 +1,5 @@
 import { css } from "@emotion/react";
+import { COLORS } from "../../../../constants/colors";
 
 export const layout = css`
     width: 100%;
@@ -76,5 +77,15 @@ export const mainTable = css`
 
     & tr > *:nth-of-type(7) {
         width: 13%;
+    }
+`;
+
+export const trHover = css`
+    & td {
+        cursor: pointer;
+    }
+
+    &:hover {
+        background-color: ${COLORS.mainColor};
     }
 `;

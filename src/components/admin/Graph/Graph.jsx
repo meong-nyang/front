@@ -29,7 +29,7 @@ function Graph({ graphData, showRefund }) {
         scales: {
             y: {
                 beginAtZero: true,
-                min: 0,
+                min: 0
             },
         },
         plugins: {
@@ -38,7 +38,7 @@ function Graph({ graphData, showRefund }) {
             },
             title: {
                 display: true,
-                text: '매출',
+                text: '매출(원)',
             },
         },
     };

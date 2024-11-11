@@ -5,7 +5,7 @@ import { AiTwotoneDelete } from "react-icons/ai";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from 'react-query';
-import { instance } from '../../../apis/util/instance';
+import { IMAGE_ADDRESS, instance } from '../../../apis/util/instance';
 
 function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMutation }) {
     console.log(cartItem);
@@ -97,7 +97,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
             </div>
             <div css={s.productLayout}>
                 {/* 이미지 추가하기 */}
-                <img src={"http://localhost:8080/images/" + cartItem.imgName} />
+                <img src={IMAGE_ADDRESS + cartItem.imgName} />
                 <div>
                     <p>{cartItem?.productName}</p>
                     <p>[옵션]</p>
