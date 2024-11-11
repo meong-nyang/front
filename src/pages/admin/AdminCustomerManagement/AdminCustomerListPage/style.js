@@ -69,6 +69,10 @@ export const mainTable = css`
 `;
 
 export const trHover = css`
+    & td {
+        cursor: pointer;
+    }
+
     &:hover {
         background-color: ${COLORS.mainColor};
     }

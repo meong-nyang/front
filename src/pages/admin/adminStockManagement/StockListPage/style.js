@@ -110,12 +110,6 @@ export const mainTable = css`
     border-collapse: collapse;
     width: 100%;
 
-    & input[type="checkbox"] {
-        width: 15px !important;
-        height: 15px !important;
-        cursor: pointer;
-    }
-
     & th, td {
         text-align: center;
     }
@@ -146,7 +140,7 @@ export const mainTable = css`
 `;
 
 export const productLine = css`
-    & > td:not(:nth-last-of-type(1)) {
+    & td {
         cursor: pointer;
     }
 

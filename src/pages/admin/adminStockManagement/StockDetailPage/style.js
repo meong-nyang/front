@@ -55,6 +55,51 @@ export const inputAlert = css`
     }
 `;
 
+export const radioBox = css`
+    display: flex;
+    justify-content: space-around;
+
+    & > div {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        width: 50%;
+    }
+
+    & input {
+        display: none;
+
+        &:checked + label::before {
+            content: "";
+            border-radius: 50%;
+            width: 80%;
+            height: 80%;
+            background-color: black;
+        }
+    }
+
+    & label:nth-of-type(1) {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        outline: none;
+        border: 1px solid black;
+        border-radius: 50%;
+        width: 11px;
+        height: 11px;
+        cursor: pointer;
+    }
+
+    & label:nth-of-type(2) {
+        margin-left: 5px;
+        cursor: pointer;
+    }
+
+    span {
+        margin-left: 5px;
+    }
+`;
+
 export const headerInput = css`
     display: flex;
     justify-content: center;
@@ -113,6 +158,47 @@ export const inoutHistory = css`
 
     & td {
         text-align: center;
+    }
+`;
+
+export const searchContainer = css`
+    display: flex;
+    justify-content: space-between;
+`;
+
+export const selectTime = css`
+    margin-bottom: 5px;
+
+    & > span:nth-of-type(1) {
+        display: inline-block;
+        margin-right: 10px;
+    }
+
+    & > span:nth-of-type(2) {
+        display: inline-block;
+        margin: 0px 10px;
+    }
+
+    & > input[type="date"] {
+        /* border: 1px solid #dbdbdb; */
+        border: none;
+        border-radius: 5px;
+        outline: none;
+        padding-left: 5px;
+        width: 115px;
+        height: 20px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    & > input[type="date"]:-webkit-calendar-picker-indicator {
+        background-color: #FFB69C;
+        color: #FFB69C;
+    }
+
+    & > button {
+        margin-left: 20px;
+        width: 50px;
     }
 `;
 

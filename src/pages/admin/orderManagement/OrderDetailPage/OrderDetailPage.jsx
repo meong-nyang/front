@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { useMutation, useQuery } from "react-query";
 import * as s from "./style";
-import { instance } from "../../../../apis/util/instance";
+import { IMAGE_ADDRESS, instance } from "../../../../apis/util/instance";
 import { Navigate, useNavigate, useParams } from "react-router-dom";
 import { convertToCommaValue } from "../../../../utils/changeStringFormat";
 
@@ -89,7 +89,7 @@ function OrderDetailPage(props) {
                                 <div>
                                     <span>{"상품" + (index + 1)}</span>
                                     <div css={s.productTable}>
-                                        <img src={`http://localhost:8080/images/${product.imgName}`} />
+                                        <img src={IMAGE_ADDRESS + product.imgName} />
                                         <table>
                                             <tbody>
                                                 <tr>

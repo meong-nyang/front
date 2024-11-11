@@ -119,7 +119,7 @@ export const PRODUCT_SEARCH_OPTIONS = [
     },
     {
         id: "category",
-        name: "카테고리명",
+        name: "카테고리",
     }
 ]
 
@@ -132,10 +132,6 @@ export const ORDER_SEARCH_OPTIONS = [
         id: "number",
         name: "주문번호"
     },
-    // {
-    //     id: "date",
-    //     name: "주문날짜"
-    // },
     {
         id: "productId",
         name: "상품코드"
@@ -182,4 +178,19 @@ export const STOCK_SEARCH_OPTIONS = [
         id: "상품명",
         name: "상품명"
     },
+]
+
+export const STOCK_DETAIL_SEARCH_OPTIONS = [
+    {
+        id: "전체",
+        name: "전체"
+    },
+    {
+        id: "구분",
+        name: "구분"
+    },
+    {
+        id: "상태",
+        name: "상태"
+    }
 ]

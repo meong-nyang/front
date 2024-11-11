@@ -9,8 +9,6 @@ import { MENU_DATAS, STOCK_SEARCH_OPTIONS } from "../../../../constants/options"
 import Paginate from "../../../../components/admin/Paginate/Paginate";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import { convertToCommaValue, convertToNumericValue, onlyNumber } from "../../../../utils/changeStringFormat";
-import { MdOutlineEdit } from "react-icons/md";
-import StockModal from "../../../../components/admin/StockModal/StockModal";
 
 function StockListPage(props) {
     const limit = 20;
@@ -71,7 +69,7 @@ function StockListPage(props) {
                             <th>상품코드</th>
                             <th>상품명</th>
                             <th>현재재고</th>
-                            <th>가재고 (현재재고 + 입고예정수량)</th>
+                            <th>가재고 (현재재고 + 입고예정수량 + 구매확전 전 수량)</th>
                             <th>최소 알림 수량</th>
                             <th>최소 알림 설정</th>
                         </tr>
@@ -85,11 +83,7 @@ function StockListPage(props) {
                                     <td>{convertToCommaValue(stock.currentStock)}</td>
                                     <td>{convertToCommaValue(stock.expectedStock)}</td>
                                     <td>{convertToCommaValue(stock.minAlertQuantity)}</td>
-                                    <td onClick={(e) => e.stopPropagation()}>
-                                        <input type="checkbox"
-                                            name="alertSetting"
-                                            checked={stock.alertSetting === 2} />
-                                    </td>
+                                    <td>{stock.alertSetting === 2 ? "설정" : "미설정"}</td>
                                 </tr>
                             ))
                         }

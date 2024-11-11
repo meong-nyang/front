@@ -5,12 +5,24 @@ import { instance } from "../../../../apis/util/instance";
 import { useParams } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
 import { alwaysNumber, convertToCommaValue, convertToNumericValue, onlyNumber } from "../../../../utils/changeStringFormat";
+import SearchBox from "../../../../components/admin/SearchBox/SearchBox";
+import { STOCK_DETAIL_SEARCH_OPTIONS } from "../../../../constants/options";
 
 function StockDetailPage(props) {
 
     const tomorrowDate = () => {
         const tomorrow = new Date().getTime() + 86400000;
         return new Date(tomorrow).toISOString().replace("T", " ").substring(0, 10);
+    };
+
+    const todayDate = () => {
+        return new Date().toISOString().replace("T", " ").substring(0, 10);
+    };
+    
+    const before7DayDate = () => {
+        const now = new Date().getTime();
+        const day7 = 1000 * 60 * 60 * 24 * 7;
+        return new Date(now - day7).toISOString().replace("T", " ").substring(0, 10);
     };
 
     const countInputRef = useRef();
@@ -30,6 +42,17 @@ function StockDetailPage(props) {
         stockId: params.id,
         minAlertQuantity: 0,
         alertSetting: 0
+    });
+
+    const [ searchData, setSearchData ] = useState({
+        searchOptionId: "all",
+        searchOptionName: "전체",
+        searchValue: ""
+    });
+
+    const [ selectedDate, setSelectedDate ] = useState({
+        startDate: before7DayDate(),
+        endDate: todayDate()
     });
 
     const stockDetailData = useQuery(
@@ -79,10 +102,9 @@ function StockDetailPage(props) {
     );
 
     const handleMinAlertCheckboxOnChange = (e) => {
-        console.log(e.target.checked ? 2 : 1);
         setAlertData(data => ({
             ...data,
-            alertSetting: e.target.checked ? 2 : 1
+            alertSetting: e.target.id
         }));
     }
 
@@ -200,11 +222,24 @@ function StockDetailPage(props) {
                             <td>{convertToCommaValue(stockDetailData?.data?.data.expectedStock)}</td>
                         </tr>
                         <tr css={s.inputAlert}>
-                            <th>최소 알림 신청</th>
+                            <th>최소 알림 설정</th>
                             <td>
-                                <input type="checkbox"
-                                    checked={alertData.alertSetting === 2}
-                                    onChange={handleMinAlertCheckboxOnChange} />
+                                <div css={s.radioBox}>
+                                    <div>
+                                        <input type="radio" name="alertSetting" id="2" readOnly={true}
+                                            checked={alertData.alertSetting.toString() === "2"}
+                                            onChange={handleMinAlertCheckboxOnChange} />
+                                        <label htmlFor="2"></label>
+                                        <label htmlFor="2">설정</label>
+                                    </div>
+                                    <div>
+                                        <input type="radio" name="alertSetting" id="1" readOnly={true}
+                                            checked={alertData.alertSetting.toString() === "1"}
+                                            onChange={handleMinAlertCheckboxOnChange} />
+                                        <label htmlFor="1"></label>
+                                        <label htmlFor="1">미설정</label>
+                                    </div>
+                                </div>
                             </td>
                             <th>최소 알림 수량</th>
                             <td>
@@ -230,7 +265,7 @@ function StockDetailPage(props) {
                             <tr>
                                 <th>신청일자</th>
                                 <th>주문수량</th>
-                                <th>도착 예정일</th>
+                                <th>입고 예정일</th>
                                 <th>재고확정</th>
                             </tr>
                         </thead>
@@ -255,10 +290,21 @@ function StockDetailPage(props) {
             </div>
             <div css={s.container}>
                 <div css={s.inoutHistory}>
-                    <span>입고 기록</span>
+                    <div css={s.searchContainer}>
+                        <span>입출고 기록</span>
+                        <div css={s.selectTime}>
+                            <span>조회일자 :</span>
+                            <input type="date" name="startDate" value={selectedDate.startDate} onChange={() => {}}/>
+                            <span>~</span>
+                            <input type="date" name="endDate" value={selectedDate.endDate} onChange={() => {}}/>
+                            <button onClick={() => {}}>조회</button>
+                        </div>
+                    </div>
+                    <SearchBox searchOptions={STOCK_DETAIL_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => {}}/>
                     <table>
                         <thead>
                             <tr>
+                                <th>구분</th>
                                 <th>일자</th>
                                 <th>수량</th>
                                 <th>상태</th>
@@ -269,7 +315,8 @@ function StockDetailPage(props) {
                                 stockDetailData.data && !stockDetailData.isFetching &&
                                 stockDetailData.data.data.incommingList.map(data => 
                                     <tr key={data.id}>
-                                        <td>{data.arrivalDate}</td>
+                                        <td>{data.type}</td>
+                                        <td>{data.arrivedDate}</td>
                                         <td>{convertToCommaValue(data.arrivalQuantity)}</td>
                                         <td>{data.status}</td>
                                     </tr>
@@ -278,7 +325,7 @@ function StockDetailPage(props) {
                         </tbody>
                     </table>
                 </div>
-            </div>  
+            </div>
         </div>
     );
 }

@@ -81,15 +81,19 @@ function App() {
                 console.log(error.response);
                 const authPaths = ["/user/mypage", "/user/cart", "/user/order"];
                 const adminAuthPaths = ["/admin"];
+                if (location.pathname === "/admin/signin") {
+                    console.log("여기");
+                    return;
+                }
                 for (let authPath of authPaths) {
-                    if(location.pathname.startsWith(authPath)) {
+                    if (location.pathname.startsWith(authPath)) {
                         alert("로그인이 필요한 페이지입니다. \n로그인페이지로 이동합니다.");
                         navigate("/user/signin");
                         break;
                     }
                 }
                 for (let adminAuthPath of adminAuthPaths) {
-                    if(location.pathname.startsWith(adminAuthPath)) {
+                    if (location.pathname.startsWith(adminAuthPath)) {
                         alert("잘못된 접근입니다.");
                         navigate("/");
                     }
@@ -164,8 +168,7 @@ function App() {
                 <Route path='/order/success' element={<UserOrderSuccessPage />} />
                 <Route path='/search' element={<UserSearchProductPage />} />
 
-                <Route path='/admin/signin' element={
-                    isAdmin ? <AdminSigninPage /> : <div></div>} />
+                <Route path='/admin/signin' element={!localStorage.getItem("accessToken") ? <AdminSigninPage /> : <></> } />
 
                 <Route path='/admin/*' element={
                     isAdmin ?
