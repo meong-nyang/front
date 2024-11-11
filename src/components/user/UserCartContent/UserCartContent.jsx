@@ -6,14 +6,16 @@ import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
+import { useRecoilState } from 'recoil';
+import { orderProuctListAtom } from '../../../atoms/orderAtom';
 
 function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMutation }) {
     console.log(cartItem);
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
     const [ productCount, setProductCount ] = useState(cartItem.productCount);
-    const [debounceTimer, setDebounceTimer] = useState(null);
-    
+    const [ debounceTimer, setDebounceTimer ] = useState(null);
+    const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
 
     useEffect(() => {
         if(productCount !== "") {
@@ -27,6 +29,17 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
                 modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
             }, 1000));
         }
+        setOrderProductList((prevOrderList) => 
+            prevOrderList?.map((product) => {
+                if (product.productId === cartItem.productId) {
+                    return {
+                        ...product,
+                        productCount: productCount
+                    };
+                }
+                return product;
+            })
+        );
     }, [productCount]);
 
     const currentStockCheck = useQuery(
@@ -79,7 +92,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
         }
     };
 
-    
+    console.log(checkItems);
 
     const priceFormet = (price) => {
         if (price == null || isNaN(price)) {
@@ -90,7 +103,10 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
 
     const handlePlusOnClick = () => {
         const stock = currentStockCheck?.data?.data?.currentStocks[0];
-        if(stock?.currentStock >= productCount + 1 && stock?.outOfStock === 1){
+        if(productCount === "") {
+            setProductCount(0);
+        }
+        if(stock?.currentStock >= productCount + 1){
             setProductCount(count => {
                 const updatedCount = count + 1; // 업데이트 함수 호출
                 return updatedCount;
@@ -117,7 +133,6 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
     };
 
     const handleCountInputOnChange = (e) => {
-        
         const count = e.target.value;
         const stock = currentStockCheck?.data?.data?.currentStocks[0];
         if(count === "") {
@@ -126,19 +141,20 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
         else if((stock?.currentStock >= parseInt(count) && stock?.outOfStock === 1)){
             setProductCount(parseInt(count));
         } else {
-            setProductCount(productCount => productCount);
+            const previousCount = productCount;
+            console.log(previousCount); // 원래 값 저장
+            setProductCount(e.target.value);
+            Swal.fire({
+                text: "재고가 넘는 수량은 선택할 수 없습니다.",
+                icon: "error",
+                timer: 1500,
+                showConfirmButton: false
+            });
+            setProductCount(previousCount);
             clearTimeout(debounceTimer);
             setDebounceTimer(setTimeout(() => {
-                Swal.fire({
-                    text: "재고가 넘는 수량은 선택할 수 없습니다.",
-                    icon: "error",
-                    timer: 1500,
-                    showConfirmButton: false
-                });
             }, 1000));
-           
         }
-        
     };
 
     // const timeUpdateCart = () => {

@@ -71,3 +71,19 @@ export const titleLayout = css`
     }
 `;
 
+export const paymentSelectLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    justify-content: space-between;
+    & > button {
+        box-sizing: border-box;
+        width: 100%;
+        margin-top: 10px;
+        border: 1px solid #e0e0e0;
+        border-radius: 5px;
+        background-color: white;
+        padding: 5px;
+        /* margin-left: 5px; */
+    }
+`;
+

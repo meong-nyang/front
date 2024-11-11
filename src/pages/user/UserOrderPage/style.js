@@ -90,6 +90,7 @@ export const inputLayout = css`
     display: flex;
     justify-content: space-between;
     width: 100%;
+    padding-bottom: 30px;
 `;
 
 export const infoLayout = css`

@@ -36,16 +36,16 @@ function PortOneOrderPage({portEtcData}) {
 
     const portoneData = {
         storeId: "store-a497dea2-bbec-4135-8fb2-c2283879a5b9", 
-        customer: {},           // 줘야해
-        orderType: 0,           // 줘야해
-        paymentId: "payment",          // 줘야해 
+        customer: {},
+        orderType: 0,  
+        paymentId: "payment", 
         orderName: "mn", 
-        totalAmount: 1000,         // 줘야해
+        totalAmount: 1000,         // orderProductList안에든 priceTotal더하기 
         currency: 'CURRENCY_KRW',
         locale: 'KO_KR',
         channelKey: portEtcData.paymentChannelKey,
         payMethod: "",
-        products: [],             // 줘야해
+        products: [],
     };
 
     useEffect(() => {
@@ -141,8 +141,8 @@ function PortOneOrderPage({portEtcData}) {
     const buyCheck = () => {
          return orderProductList?.map(product => {
             const stock = currentStockCheck?.data?.data?.currentStocks.filter(stock => 
-                stock.productId === product.productId)[0];
-            if(stock.currentStock >= product.productCount && stock.outOfStock === 1) {
+                stock.productId === parseInt(product.productId))[0];
+            if(stock?.currentStock >= product.productCount) {
                 return true;
             }
             return false;

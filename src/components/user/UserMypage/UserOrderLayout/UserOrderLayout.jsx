@@ -15,27 +15,30 @@ function UserOrderLayout({orderData}) {
     const [ isorderDetailShow, setOrderDetailShow ] = useState(false);
     //주문취소가능여부
     const [ isPaymentCancel, setPaymentCancel ] = useState(true);
+    //구매확정가능 여부
+    const [ isPaymentConfirmation, setPaymentConfirmation ] = useState(true);
     const [ paymentCancelData, setPaymentCancelData] = useState({
         id: orderData?.orderId,
-        userId: userInfo?.data?.id
+        userId: userInfo?.data?.id,
+        orderStatus: ""
     });
 
     useEffect(() => {
         let orderDate = new Date(orderData.orderDate);
 
-        // 오늘 날짜를 가져옵니다.
         let today = new Date();
-        console.log(today.toString());
-        // 오늘 날짜에서 7일을 더한 날짜 계산
         let sevenDaysAgo = new Date(today);
         sevenDaysAgo.setDate(today.getDate() - 7);
-        console.log(sevenDaysAgo);
-
-        // 주문 날짜가 7일 이상 지났는지 확인
         if (orderDate <= sevenDaysAgo) {
-            // 7일 이상 지난 경우 실행할 작업
             setPaymentCancel(false);
         }
+
+        let threeDaysAgo = new Date(today);
+        threeDaysAgo.setDate(today.getDate() - 3);
+        if (orderDate <= sevenDaysAgo) {
+            setPaymentConfirmation(false);
+        }
+
     }, [orderData]);
 
     console.log(orderData.orderId);
@@ -65,7 +68,11 @@ function UserOrderLayout({orderData}) {
         },
         {
             onSuccess: () => {
-                modifyOrderStatus.mutateAsync();
+                const orderStatusData = {
+                    ...paymentCancelData,
+                    orderStatus: "환불완료"
+                }
+                modifyOrderStatus.mutateAsync(orderStatusData);
                 Swal.fire({
                     text: "결제가 취소되었습니다.",
                     icon: "success",
@@ -79,11 +86,18 @@ function UserOrderLayout({orderData}) {
     );
 
     const modifyOrderStatus = useMutation(
-        async () => await instance.put("/order/status", paymentCancelData),
+        async (orderStatusData) => await instance.put("/order/status", orderStatusData),
         {
             onSuccess: () => queryClient.invalidateQueries("userOrderListQuery")
         }
     );
+
+    const priceFormet = (price) => {
+        if (price == null || isNaN(price)) {
+            return '0';
+        }
+        return price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+    };
 
     const handleOrderDetailShowOnClick = () => {
         setOrderDetailShow(isShow => !isShow);
@@ -107,6 +121,27 @@ function UserOrderLayout({orderData}) {
         });
         
     };
+
+    const handleConfirmationOnClick = () => {
+        Swal.fire({
+            text: "구매를 확정하시겠습니까?",
+            icon: "question",
+            showCancelButton: true,
+            cancelButtonColor: "#777777",
+            cancelButtonText: "닫기",
+            confirmButtonColor: "#9d6c4c",
+            confirmButtonText: "구매확정",
+        }).then((result) => {
+            if (result.isConfirmed) {
+                const orderStatusData = {
+                    ...paymentCancelData,
+                    orderStatus: "구매확정"
+                }
+                modifyOrderStatus.mutateAsync(orderStatusData);
+            }
+        });
+    }
+
     return (
         <div css={s.layout}>
             <div css={s.headerLayout}>
@@ -140,18 +175,30 @@ function UserOrderLayout({orderData}) {
                         <p>{orderData.orderName + orderData.phone}</p>
                         <p>{"(" + orderData.zipcode + ") " + orderData.addressDefault + orderData.addressDetail}</p>
                         <p>결제정보</p>
-                        <p>주문금액 {orderData.totalPrice}원</p>
+                        <p>주문금액 {priceFormet(orderData.totalPrice)}원</p>
                         <p>{orderData.paymentTypeName}</p>
                     </div>
                 </>
                 
 
             }
+            <div css={s.paymentSelectLayout}>
             {
+                
                 (orderData?.orderStatus === "결제완료" && isPaymentCancel) && (
-                    <button onClick={handlePaymentCancelOnClick}>주문취소</button>
+                    <>
+                        <button onClick={handlePaymentCancelOnClick}>주문취소</button>
+                    </>
                 )
             }
+            {
+                (orderData?.orderStatus === "결제완료" && isPaymentConfirmation) && (
+                <>
+                    <button onClick={handleConfirmationOnClick}>구매확정</button>
+                </>
+                )
+            }
+            </div>
         </div>
     );
 }

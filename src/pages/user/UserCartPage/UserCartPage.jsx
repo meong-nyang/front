@@ -13,12 +13,12 @@ import { cartItemCheckList, orderProuctListAtom } from '../../../atoms/orderAtom
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserCartPage(props) {
+    const limit = 10;
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
     const userInfoState = queryClient.getQueryState("userInfoQuery");
     const [ searchParams, setSearchParams ] = useSearchParams();
-    const limit = 10;
     const [ totalPrice, setTotalPrice ] = useState(0);
     const [ checkItems, setCheckItems ] = useRecoilState(cartItemCheckList);
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
@@ -84,6 +84,7 @@ function UserCartPage(props) {
         }
     );
 
+    //페이지네이션 적용안된 전체 리스트
     const cartItemAllList= useQuery(
         ["cartItemAllListQuery"],
         async () => await instance.get("/user/cartId", {
@@ -95,8 +96,14 @@ function UserCartPage(props) {
             enabled: !!userInfo?.data?.id,
             onSuccess: resonse => {
                 console.log(resonse.data) 
-                setCheckItems(resonse.data.map(item => item.id))
-
+                setCheckItems(resonse.data.map(item => item.id));
+                setOrderProductList(resonse.data.map(item => ({
+                    productId: item.productId,
+                    productName: item.product.productName,
+                    productCount: item.productCount,
+                    productPrice: item.product.productPrice,
+                    productTotal: item.productCount * item.product.productPrice
+                })));
             }
         }
     )
@@ -128,7 +135,13 @@ function UserCartPage(props) {
         {
             onSuccess: (response, deleteIds) => {
                 console.log(deleteIds);
-                cartItemList.refetch()
+                cartItemList.refetch();
+                cartItemAllList.refetch();
+                //checkList에서 삭제
+                setCheckItems(items => (
+                    items.filter(item => !deleteIds.includes(item))  
+                ));
+                //주문데이터
                 setOrderProductList(products => 
                     products.filter(products => !deleteIds.includes(products.productId))
                 )
@@ -206,16 +219,6 @@ function UserCartPage(props) {
     };
 
     const handleAllProductOrderOnClick = () => {
-        if(checkItems?.length === 0) {
-            Swal.fire({
-                text: "선택한상품이 없습니다. ",
-                icon: "error",
-                timer: 1500,
-                confirmButtonColor: "#9d6c4c",
-                confirmButtonText: "닫기",
-            });
-            return;
-        }
         Swal.fire({
             text: `전체 상품을 구매하시겠습니까?`,
             icon: "question",
