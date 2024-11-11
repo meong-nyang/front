@@ -14,6 +14,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { instance } from '../../../apis/util/instance';
 import { useParams } from 'react-router-dom';
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
+import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
 
 function UserMypage() {
     const param = useParams();
@@ -52,7 +53,7 @@ function UserMypage() {
         }
     );
     return (
-        <UserBackgoundLayout>
+        <UserMainLayout>
             <UserScrollLayout>
             <div css={s.layout}>
                 <UserMypageController selectOption={selectOption} setSelectOption={setSelectOption}/>
@@ -74,7 +75,7 @@ function UserMypage() {
                 }
             </div>
             </UserScrollLayout>
-        </UserBackgoundLayout>
+        </UserMainLayout>
     );
 }
 

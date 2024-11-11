@@ -2,8 +2,6 @@ import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
-import { IoIosPricetags } from "react-icons/io";
-import { IoPricetagsOutline } from "react-icons/io5";
 import { TbTruckDelivery } from "react-icons/tb";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
 import { IMAGE_ADDRESS, instance } from '../../../apis/util/instance';
@@ -33,11 +31,14 @@ function UserProductDetailPage(props) {
         productDetail: "",
         productPrice: "",
         productPriceDiscount: "",
+        currentStock: "",
+        outOfStock: 0,
         imgName: "",
         imgNames: []
 
     });
 
+    console.log(orderProductList);
     console.log(productDetailData);
     const productDetail = useQuery(
         ["userProductDetailQuery"],
@@ -55,6 +56,8 @@ function UserProductDetailPage(props) {
                     productDetail: response?.data.productDetail,
                     productPrice: response?.data.productPrice,
                     productPriceDiscount: response?.data.productPriceDiscount,
+                    currentStock: response?.data.currentStock,
+                    outOfStock: response?.data.outOfStock,
                     imgName: response?.data.imgNames[0],
                     imgNames: response?.data.imgNames
                 }))
@@ -91,16 +94,20 @@ function UserProductDetailPage(props) {
     }
 
     const handlePlusOnClick = () => {
-        setProductCount(count => parseInt(count) + 1);
+        setProductCount(count => {
+            if(count === "") {
+                return 1;
+            }
+            return parseInt(count) + 1;
+        });
     };
 
     const handleMinusOnClick = () => {
         setProductCount(count => {
-            // 1 미만으로 내려가지 않도록 설정
             if (count > 1) {
                 return parseInt(count) - 1;
             }
-            return count; // 1 이하로는 내려가지 않음
+            return count;
         });
     };
 
@@ -115,12 +122,62 @@ function UserProductDetailPage(props) {
         return parseInt(price) * parseInt(productCount);
     };
 
+    const validUserCheck = () => {
+        if(userInfo == undefined) {
+            Swal.fire({
+                icon: "error",
+                text: "로그인 후 이용가능합니다.",
+                showCancelButton: true,
+                cancelButtonText: "닫기",
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "로그인하기",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/user/signin")
+                }
+            });
+            return false;
+        }
+        return true;
+    }
+
+    const currentCheck = () => {
+        if(productCount > productDetailData?.currentStock){
+            Swal.fire({
+                icon: "error",
+                text: "재고를 넘은 수량은 선택할 수 없습니다.",
+                timer: 1500,
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "확인",
+            });
+            return false;
+        }
+        return true;
+    }
+
+    const productCountCheck = () => {
+        if (productCount === 0 || productCount === "") {
+            Swal.fire({
+                text: `최소 구매개수는 1개입니다.`,
+                icon: "error",
+                timer: 1500,
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "확인",
+            });
+            return false;
+        }
+        return true;
+    }
+
     const handleAddCartOnClick = () => {
-        if(!userInfo?.data) {
-            if (window.confirm("로그인이 필요한 기능입니다. \n로그인 페이지로 이동하시겠습니까?")) {
-                navigate("/user/signin");
-            }
+        if(!validUserCheck()) {
             return;
+        }
+        if(!currentCheck()) {
+            return;
+        }
+        if(!productCountCheck()) {
+           return;
         }
         const addProductData = {
             userId: userInfo?.data?.id,
@@ -132,7 +189,6 @@ function UserProductDetailPage(props) {
         Swal.fire({
             icon: "success",
             html: "<p>장바구니에 담겼습니다.</p> <p>장바구니로 이동하시겠습니까?</p>",
-            height: "500px",
             showCancelButton: true,
             cancelButtonColor: "#777777",
             cancelButtonText: "취소",
@@ -147,14 +203,13 @@ function UserProductDetailPage(props) {
     };
 
     const handleOrderOnClick = () => {
-        if (productCount === 0 || productCount === "") {
-            Swal.fire({
-                text: `최소 구매개수는 1개입니다.`,
-                icon: "error",
-                timer: 1500,
-                confirmButtonColor: "#9d6c4c",
-                confirmButtonText: "확인",
-            });
+        if(!validUserCheck()) {
+            return;
+        }
+        if(!currentCheck()) {
+            return;
+        }
+        if(!productCountCheck()) {
             return;
         }
         Swal.fire({
@@ -203,14 +258,22 @@ function UserProductDetailPage(props) {
                             <p>{productDetailData.productName}</p>
                             <div css={s.priceLayout}>
                                 <div>
-                                    <p>7,000원 할인</p>
+                                    {
+                                        <p>{productDetailData.productPriceDiscount !== "0" 
+                                            ? priceFormet(productDetailData.productPriceDiscount) + "원 할인"
+                                            :""}</p>
+                                    }
                                     <p>{priceFormet(productDetailData.productPrice)}원</p>
                                 </div>
                                     <p><TbTruckDelivery />배송비 : 3,000원</p>
                             </div>
                             <p>{productDetailData.productDetail}</p>
-                                <p>선택</p>
+                            <div css={s.optionLayout}>
+
+                            
+                            <p>선택</p>
                             <div css={s.countLayout}>
+                            
                                 <p>{productDetailData.productName}</p>
                                 <div>
                                     <AiFillMinusCircle onClick={handleMinusOnClick} />
@@ -218,6 +281,7 @@ function UserProductDetailPage(props) {
                                     <AiFillPlusCircle onClick={handlePlusOnClick} />
                                 </div>
                                 <p>{priceFormet(totalPrice(productDetailData.productPrice))}원</p>
+                            </div>
                             </div>
                             <div css={s.totalLayout}>
                                 <p>총 상품금액</p>

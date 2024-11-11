@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserInfoLayout from '../UserInfoLayout/UserInfoLayout';
-import DaumPostcode from 'react-daum-postcode';
+import Swal from "sweetalert2";
 import { useMutation } from 'react-query';
 import { instance } from '../../../../apis/util/instance';
 
@@ -79,7 +79,13 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
                     ...userInfo,
                     userInfo: editUserInfoData
                 });
-                alert("수정 되었습니다");
+                Swal.fire({
+                    text: `정보가 수정되었습니다.`,
+                    icon: "success",
+                    timer: 1500,
+                    confirmButtonColor: "#9d6c4c",
+                    confirmButtonText: "확인",
+                })
                 console.log("수정 후 userInfo", userInfo)
             },
             onError: error => {

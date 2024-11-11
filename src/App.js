@@ -123,6 +123,7 @@ function App() {
                         }
                     }
                 }
+
                 if (roles.includes("ROLE_ADMIN")) {
                     setAdmin(true);
                 } else {

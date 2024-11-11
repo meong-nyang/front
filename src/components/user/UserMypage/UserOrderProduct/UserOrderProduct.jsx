@@ -6,7 +6,12 @@ import { instance } from '../../../../apis/util/instance';
 import axios from 'axios';
 
 function UserOrderProduct({orderDetailData}) {
-    
+    const priceFormet = (price) => {
+        if (price == null || isNaN(price)) {
+            return '0';
+        }
+        return price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
+    };
     return (
         <div css={s.contentLayout}>
                 <div css={s.productLayout}>
@@ -20,7 +25,7 @@ function UserOrderProduct({orderDetailData}) {
                     <p>{orderDetailData.productCount}개</p>
                 </div>
                 <div>
-                    <p>{orderDetailData.productPrice * orderDetailData.productCount}원</p>
+                    <p>{priceFormet(orderDetailData.productPrice * orderDetailData.productCount)}원</p>
                 </div>
                 <div css={s.deliveryLayout}>
                     <p>결제완료</p>

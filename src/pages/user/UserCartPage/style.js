@@ -2,13 +2,12 @@ import { css } from "@emotion/react";
 
 export const layout = css`
     box-sizing: border-box;
-    position: relative;
     display: flex;
     width: 1000px;
+    height: 100%;
     flex-direction: column;
     align-items: center;
-    margin: 0 auto;
-    padding: 20px;
+    margin: 20px auto;
     & > p {
         font-size: 25px;
         font-weight: 600;
@@ -180,7 +179,7 @@ export const orderButtonLayout = css`
     display: flex;
     justify-content: center;
     align-items: center;
-
+    padding-bottom: 30px;
     & > button {
         box-sizing: border-box;
         padding: 10px 100px;

@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import React, { useEffect, useState } from 'react';
 import * as s from "./style";
+import Swal from "sweetalert2";
 import UserOrderContent from '../../../components/user/UserOrderContent/UserOrderContent';
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
@@ -10,8 +11,10 @@ import PortOneOrderPage from '../PortOneOrderPage/PortOneOrderPage';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
 import { IoIosArrowDown } from "react-icons/io";
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
+import { useNavigate } from 'react-router-dom';
 
 function UserOrderPage(props) {
+    const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
     //장바구니나 상세페이지에서 넘어온 상품 리스트
@@ -34,6 +37,23 @@ function UserOrderPage(props) {
         paymentMethod: "",
         paymentChannelKey: ""
     });
+
+    useEffect(() => {
+        if(userInfo === undefined) {
+            Swal.fire({
+                icon: "error",
+                text: "접근권한이 없습니다.",
+                timer: 1500,
+                showConfirmButton: false
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/user/signin")
+                }
+            });
+            navigate("/")
+            return;
+        }
+    }, []);
 
     useEffect(() => {
         if(selectedOldInfo) {

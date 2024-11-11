@@ -6,6 +6,7 @@ export const layout = css`
     flex-direction: column;
     width: 100%;
     height: 100%;
+    background-color: #fafafa;
     background-repeat: no-repeat; 
     /* overflow: scroll; */
 `;

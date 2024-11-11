@@ -1,6 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import UserBackgoundLayout from '../../../components/user/UserBackgoundLayout/UserBackgoundLayout';
-import UserHeaderLayout from '../../../components/user/UserHeaderLayout/UserHeaderLayout';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
 import UserCartContent from '../../../components/user/UserCartContent/UserCartContent';
@@ -15,17 +13,33 @@ import { cartItemCheckList, orderProuctListAtom } from '../../../atoms/orderAtom
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserCartPage(props) {
+    const limit = 10;
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
+    const userInfoState = queryClient.getQueryState("userInfoQuery");
     const [ searchParams, setSearchParams ] = useSearchParams();
-    const limit = 10;
     const [ totalPrice, setTotalPrice ] = useState(0);
     const [ checkItems, setCheckItems ] = useRecoilState(cartItemCheckList);
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
-
-    console.log(checkItems);
+    console.log(orderProductList)
     useEffect(() => {
+        if(userInfoState === "success" && userInfo === undefined) {
+            Swal.fire({
+                icon: "error",
+                text: "로그인 후 이용가능합니다.",
+                showCancelButton: true,
+                cancelButtonText: "닫기",
+                confirmButtonColor: "#9d6c4c",
+                confirmButtonText: "로그인하기",
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    navigate("/user/signin")
+                }
+            });
+            navigate("/")
+            return;
+        }
         searchParams.set("page", "1");
         setSearchParams(searchParams);
     }, []);
@@ -55,10 +69,22 @@ function UserCartPage(props) {
         {
             enabled: !!userInfo?.data?.id,
             retry: 0,
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
+            onSuccess: response => {
+                // setOrderProductList(
+                //     response.data.cartList.map(product => ({
+                //         productId: product.productId,
+                //         productName: product.productName,
+                //         productPrice: product.productPrice,
+                //         productCount: product.productCount,
+                //         productTotal: product.productPrice * product.productCount
+                //     }))
+                // );
+            }
         }
     );
 
+    //페이지네이션 적용안된 전체 리스트
     const cartItemAllList= useQuery(
         ["cartItemAllListQuery"],
         async () => await instance.get("/user/cartId", {
@@ -70,7 +96,14 @@ function UserCartPage(props) {
             enabled: !!userInfo?.data?.id,
             onSuccess: resonse => {
                 console.log(resonse.data) 
-                setCheckItems(resonse.data.map(item => item.id))
+                setCheckItems(resonse.data.map(item => item.id));
+                setOrderProductList(resonse.data.map(item => ({
+                    productId: item.productId,
+                    productName: item.product.productName,
+                    productCount: item.productCount,
+                    productPrice: item.product.productPrice,
+                    productTotal: item.productCount * item.product.productPrice
+                })));
             }
         }
     )
@@ -100,7 +133,19 @@ function UserCartPage(props) {
             return await instance.delete(`/user/cart?userId=${userInfo?.data?.id}&${str}`)
         },
         {
-            onSuccess: response => cartItemList.refetch(),
+            onSuccess: (response, deleteIds) => {
+                console.log(deleteIds);
+                cartItemList.refetch();
+                cartItemAllList.refetch();
+                //checkList에서 삭제
+                setCheckItems(items => (
+                    items.filter(item => !deleteIds.includes(item))  
+                ));
+                //주문데이터
+                setOrderProductList(products => 
+                    products.filter(products => !deleteIds.includes(products.productId))
+                )
+            },
             onError: error => console.error(error)
         }
     );
@@ -174,16 +219,6 @@ function UserCartPage(props) {
     };
 
     const handleAllProductOrderOnClick = () => {
-        if(checkItems?.length === 0) {
-            Swal.fire({
-                text: "선택한상품이 없습니다. ",
-                icon: "error",
-                timer: 1500,
-                confirmButtonColor: "#9d6c4c",
-                confirmButtonText: "닫기",
-            });
-            return;
-        }
         Swal.fire({
             text: `전체 상품을 구매하시겠습니까?`,
             icon: "question",
@@ -196,12 +231,12 @@ function UserCartPage(props) {
             if (result.isConfirmed) {
                 setOrderProductList(cartItemAllList?.data?.data
                     .map(item => ({
-                        cartId: item.cartId,
+                        cartId: item.id,
                         productId: item.productId,
-                        productName: item.productName,
+                        productName: item.product.productName,
                         productCount: item.productCount,
-                        productPrice: item.productPrice,
-                        productTotal: item.productCount * item.productPrice
+                        productPrice: item.product.productPrice,
+                        productTotal: item.productCount * item.product.productPrice
                     })));
                 navigate("/user/order")
             }});
