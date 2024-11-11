@@ -23,10 +23,7 @@ function ProductModifyPage(props) {
         recommendation: "1",
         currentStock: 0,
         expectedStock: 0,
-        arrivalDate: "",
-        arrivalQuantity: 0,
-        minAlertQuantity: 0,
-        alertSetting: "1"
+        onSale: "1"
     }
 
     const params = useParams();
@@ -115,7 +112,7 @@ function ProductModifyPage(props) {
     const handleModifyButtonOnClick = () => {
         productModifyMutation.mutateAsync()
             .then(success => {
-                alert("수정에 성공하였습니다");
+                alert("저장되었습니다.");
                 navigate(`/admin/product/detail/${params.id}`);
             })
             .catch(error => {

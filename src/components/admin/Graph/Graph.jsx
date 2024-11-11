@@ -29,7 +29,7 @@ function Graph({ graphData, showRefund }) {
         scales: {
             y: {
                 beginAtZero: true,
-                min: 0,
+                min: 0
             },
         },
         plugins: {
@@ -38,7 +38,7 @@ function Graph({ graphData, showRefund }) {
             },
             title: {
                 display: true,
-                text: '매출',
+                text: '매출(원)',
             },
         },
     };
@@ -72,13 +72,7 @@ function Graph({ graphData, showRefund }) {
 
     return (
         <div css={s.layout}>
-            {
-                console.log(graphData)
-            }
-            {
-                graphData.date.length !== 0 &&
-                <Line options={options} data={showRefund ? Alldata : Amountdata} />
-            }
+            <Line options={options} data={showRefund ? Alldata : Amountdata} />
         </div>
     );
 }

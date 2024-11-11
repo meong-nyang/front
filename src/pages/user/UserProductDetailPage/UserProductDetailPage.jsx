@@ -4,12 +4,13 @@ import * as s from "./style";
 import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import { TbTruckDelivery } from "react-icons/tb";
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { instance } from '../../../apis/util/instance';
+import { IMAGE_ADDRESS, instance } from '../../../apis/util/instance';
 import { useNavigate, useParams } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
+import { onlyNumber } from '../../../utils/changeStringFormat';
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserProductDetailPage(props) {
@@ -74,16 +75,15 @@ function UserProductDetailPage(props) {
     );
 
     const handleInputOnchange = (e) => {
-        const { value } = e.target;
+        let {value} = e.target;
+        value = onlyNumber(value);
         // 0 이하의 값이 입력되지 않도록 설정
-        if (/^(?!0)[1-9][0-9]*|^\s*$/.test(value)) {
-            setProductCount(value);
-        }
+        setProductCount(value);
 
         // const result = value.replace(/\D/, "");
         // console.log(result);
         // setProductCount(result);
-
+        
     };
 
     const hanelSubImgOnClick = (imgName) => {
@@ -177,14 +177,14 @@ function UserProductDetailPage(props) {
             return;
         }
         if(!productCountCheck()) {
-            return;
+           return;
         }
         const addProductData = {
             userId: userInfo?.data?.id,
             productId: productDetailData.id,
             productCount
         }
-        addProductMutation.mutateAsync(addProductData);
+        addProductMutation.mutateAsync(addProductData).catch(() => {});
 
         Swal.fire({
             icon: "success",
@@ -244,11 +244,11 @@ function UserProductDetailPage(props) {
                     </div>
                     <div css={s.layout}>
                         <div css={s.imgLayout}>
-                            <img src={"http://localhost:8080/images/" + productDetailData.imgName} alt="" />
+                            <img src={IMAGE_ADDRESS + productDetailData.imgName} alt="" />
                             <div css={s.subImgLayout}>
                                 {
                                     productDetailData?.imgNames.map(img =>
-                                        <img src={"http://localhost:8080/images/" + img}
+                                        <img src={IMAGE_ADDRESS + img}
                                             key={img} onClick={() => hanelSubImgOnClick(img)} />
                                     )
                                 }

@@ -130,11 +130,13 @@ export const mainContainer = css`
         width: 10%;
         font-weight: 500;
         background-color: ${ADMIN_PAGE_COLORS.tableTitleBg};
+        cursor: default;
     }
 
     td {
         width: 15%;
         padding: 0px 10px;
+        cursor: default;
     }
 `;
 
@@ -148,13 +150,23 @@ export const logout = css`
     align-items: center;
 
     & > button {
-        margin-left: 20px;
+        margin: 0 20px;
         background-color: white;
         width: auto;
         height: auto;
 
         &:hover, &:active {
             background-color: white;
+            text-decoration: underline;
+        }
+    }
+
+    & > a {
+        text-decoration: none;
+        color: black;
+
+        &:hover, &:active {
+            color: black;
             text-decoration: underline;
         }
     }

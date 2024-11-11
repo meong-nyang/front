@@ -2,11 +2,9 @@
 import { useEffect, useState } from "react";
 import CategoryModal from "../CategoryModal/CategoryModal";
 import * as s from "./style";
-import { FiExternalLink } from "react-icons/fi";
 import { IoMdArrowDropdown } from "react-icons/io";
 import { useQuery, useQueryClient } from "react-query";
 import { instance } from "../../../apis/util/instance";
-import ProductDetailModal from "../ProductDetailModal/ProductDetailModal";
 import { convertToCommaValue, convertToNumericValue } from "../../../utils/changeStringFormat";
 import ProductImages from "../ProductImages/ProductImages";
 
@@ -21,8 +19,11 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
     const categoryList = queryClient.getQueryData("categoryListQuery");
 
     const [isOpen, setOpen] = useState(false);
-    const [isProductDetailModalOpen, setProductDetailModalOpen] = useState();
     const [selectedCategoryName, setSelectedCategoryName] = useState(emptySelectedCategoryName);
+
+    useEffect(() => {
+        console.log(productData.onSale);
+    }, [productData]);
 
     const getCategoryList = useQuery(
         ["categoryListQuery"],
@@ -41,7 +42,6 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
     );
 
     useEffect(() => {
-        console.log(productData);
         setSelectedCategoryName({
             petGroupId: productData?.petGroup?.categoryGroupName || getCategoryList?.data?.data.petGroupList[0].categoryGroupName,
             categoryId: productData?.category?.categoryName || getCategoryList?.data?.data.categoryList[0].categoryName
@@ -50,6 +50,14 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
 
     const handleProductNumberDataOnChange = (e) => {
         const value = convertToNumericValue(e.target.value.toString());
+        if(e.target.name === "productPriceDiscount" && parseInt(value) > parseInt(productData.productPrice)) {
+            alert("할인금액은 단가보다 높을 수 없습니다.");
+            return;
+        }
+        if(e.target.name === "productPrice" && parseInt(value) < parseInt(productData.productPriceDiscount)) {
+            alert("단가는 할인금액보다 낮을 수 없습니다.");
+            return;
+        }
         setProductData(data => {
             return ({
                 ...data,
@@ -72,6 +80,13 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
         }));
     }
 
+    const handleonSaleOnChange = (value) => {
+        setProductData(data => ({
+            ...data,
+            onSale: value
+        }))
+    }
+
     const handleStockAlertOnChange = (e, value) => {
         setProductData(data => ({
             ...data,
@@ -83,10 +98,6 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
         setOpen(open => !open);
     }
 
-    const handleProductDetailOnClick = () => {
-        setProductDetailModalOpen(true);
-    }
-
     return (
         <div css={s.layout}>
             <div css={s.mustData}>
@@ -95,12 +106,31 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
                     <tbody>
                         <tr>
                             <th>상품명</th>
-                            <td colSpan="5">
+                            <td colSpan="3">
                                 <input type="text" name="productName"
                                     disabled={disabled}
                                     value={productData.productName}
                                     onChange={handleProductDataOnChange} />
                             </td>
+                            <th>판매상태</th>
+                                <td>
+                                    <div css={s.recommendBox}>
+                                        <div>
+                                            <input type="radio" name="onSale" id="20" readOnly={true}
+                                                checked={productData.onSale.toString() === "1"}
+                                                onChange={() => handleonSaleOnChange("1")} />
+                                            <label htmlFor="20"></label>
+                                            <label htmlFor="20">판매</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="onSale" id="10" readOnly={true}
+                                                checked={productData.onSale.toString() === "2"}
+                                                onChange={() => handleonSaleOnChange("2")} />
+                                            <label htmlFor="10"></label>
+                                            <label htmlFor="10">미판매</label>
+                                        </div>
+                                    </div>
+                                </td>
                         </tr>
                         <tr css={s.mustCategory}>
                             <th>카테고리</th>
@@ -201,87 +231,14 @@ function ProductEdit({ productData, setProductData, detailImg, setDetailImg, dis
                     </tbody>
                 </table>
             </div>
-            <div css={s.stockManagement}>
-                <span>재고 관리</span>
-                <table>
-                    <tbody>
-                        <tr>
-                            <th>현재재고</th>
-                            <td>
-                                <input type="text" name="currentStock"
-                                    disabled={disabled}
-                                    value={convertToCommaValue(productData.currentStock)}
-                                    onChange={handleProductNumberDataOnChange}
-                                />
-                            </td>
-                            <th>가재고</th>
-                            <td>
-                                <input type="text" name="expectedStock"
-                                    disabled={disabled}
-                                    value={convertToCommaValue(productData.expectedStock)}
-                                    onChange={handleProductNumberDataOnChange}
-                                />
-                            </td>
-                            <th>입고 예정 일자</th>
-                            <td>
-                                <input type="date" name="arrivalDate"
-                                    disabled={disabled}
-                                    value={productData.arrivalDate}
-                                    css={s.dateInput(productData.arrivalDate === "")}
-                                    onChange={handleProductDataOnChange}
-                                />
-                            </td>
-                            <th>입고 수량</th>
-                            <td>
-                                <input type="text" name="arrivalQuantity"
-                                    disabled={disabled}
-                                    value={convertToCommaValue(productData.arrivalQuantity)}
-                                    onChange={handleProductNumberDataOnChange}
-                                />
-                            </td>
-                        </tr>
-                        <tr>
-                            <th>재고 알림 신청</th>
-                            <td>
-                                <div css={s.recommendBox}>
-                                    <div>
-                                        <input type="radio" name="alertSetting" id="20"
-                                            disabled={disabled}
-                                            checked={productData.alertSetting.toString() === "2"}
-                                            onChange={(e) => handleStockAlertOnChange(e, "2")} />
-                                        <label htmlFor="20"></label>
-                                        <label htmlFor="20">설정</label>
-                                    </div>
-                                    <div>
-                                        <input type="radio" name="alertSetting" id="10"
-                                            disabled={disabled}
-                                            checked={productData.alertSetting.toString() === "1"}
-                                            onChange={(e) => handleStockAlertOnChange(e, "1")} />
-                                        <label htmlFor="10"></label>
-                                        <label htmlFor="10">미설정</label>
-                                    </div>
-                                </div>
-                            </td>
-                            <th>알림 수량</th>
-                            <td>
-                                <input type="text" name="minAlertQuantity"
-                                    disabled={disabled}
-                                    value={convertToCommaValue(productData.minAlertQuantity)}
-                                    onChange={handleProductNumberDataOnChange}
-                                />
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
             <div css={s.productDetail}>
-                <span>제품설명</span>
+                <span>상품 설명</span>
                 <textarea 
                     disabled={disabled}
                     name="productDetail"
                     value={productData.productDetail}
                     onChange={handleProductDataOnChange} />
-                <span>제품 상세 이미지</span>
+                <span>상품 상세 이미지</span>
                 <ProductImages imgSource={detailImg} setImgSource={setDetailImg} isModify={true} />
             </div>
         </div>

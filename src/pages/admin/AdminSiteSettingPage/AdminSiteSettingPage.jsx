@@ -74,6 +74,10 @@ function AdminSiteSettingPage(props) {
     }
 
     const handleSaveButtonOnClick = () => {
+        if (siteData.sitePhone.length !== 12 && siteData.sitePhone.length !== 13) {
+            alert("전화번호 형식이 잘못되었습니다.");
+            return;
+        }
         modifySiteSettingMutation.mutateAsync()
             .then(success => {
                 alert("저장되었습니다.");

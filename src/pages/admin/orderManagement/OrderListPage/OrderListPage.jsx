@@ -80,10 +80,7 @@ function OrderListPage(props) {
                         {
                             orderList?.data?.data.orderList.map(order => (
                                 <React.Fragment key={order.id}>
-                                    <tr onClick={() => navigate("/admin/order/detail/" + order.id)}>
-                                        {/* <td rowSpan={order.orderDetails.length}>
-                                            <input type="checkbox" />
-                                        </td> */}
+                                    <tr css={s.trHover}onClick={() => navigate("/admin/order/detail/" + order.id)}>
                                         <td rowSpan={order.orderDetails.length}>{order.id}</td>
                                         <td rowSpan={order.orderDetails.length}>{order.orderDate}</td>
                                         <td>{order.orderDetails[0].productId}</td>

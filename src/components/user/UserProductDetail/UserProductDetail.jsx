@@ -5,7 +5,7 @@ import { CiShoppingCart } from "react-icons/ci";
 import { useNavigate } from 'react-router-dom';
 import Swal from "sweetalert2";
 import { useMutation, useQueryClient } from 'react-query';
-import { instance } from '../../../apis/util/instance';
+import { IMAGE_ADDRESS, instance } from '../../../apis/util/instance';
 
 function UserProductDetail({ productInfo }) {
     const navigate = useNavigate();
@@ -85,7 +85,7 @@ function UserProductDetail({ productInfo }) {
         <div css={s.layout}>
             <div onClick={handleProductDetailOnClick}> 
                 <div css={s.imgLayout}>
-                    <img src={"http://localhost:8080/images/" + productInfo.imgName} alt="" />
+                    <img src={IMAGE_ADDRESS + productInfo.imgName} alt="" />
                 </div>
                 <div css={s.contentLayout}>
                     <p>{productInfo.productName}</p>

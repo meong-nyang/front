@@ -16,6 +16,7 @@ function CategoryModal({ setOpen, productData, setProductData, setSelectedCatego
             ...data,
             [e.target.name]: id
         }));
+        setOpen(false);
     }
 
     return (

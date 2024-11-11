@@ -25,6 +25,7 @@ function ProductDetailPage(props) {
             retry: 0,
             refetchOnWindowFocus: false,
             onSuccess: async (success) => {
+                console.log(success.data);
                 setImgName(success.data.imgUrls.map(data => data.imgName));
                 setProductDetailImgName(success.data.productDetailImgUrls.map(data => data.imgName));
             },
@@ -58,6 +59,10 @@ function ProductDetailPage(props) {
     }
 
     const handleProductDetailOnClick = () => {
+        if (productDetailImgName.length === 0) {
+            alert("미리 볼 이미지가 없습니다.");
+            return;
+        }
         setProductDetailModalOpen(true);
     }
 
@@ -84,8 +89,23 @@ function ProductDetailPage(props) {
                             <tr>
                                 <th>카테고리</th>
                                 <td colSpan={3}>{productDetail.data.data.petGroup.categoryGroupName + " > " + productDetail.data.data.category.categoryName}</td>
-                                <th>단가</th>
-                                <td>{convertToCommaValue(productDetail.data.data.productPrice)}</td>
+                                <th>판매상태</th>
+                                <td>
+                                    <div css={s.recommendBox}>
+                                        <div>
+                                            <input type="radio" name="onSale" id="20" readOnly={true}
+                                                checked={productDetail.data.data.onSale.toString() === "1"} />
+                                            <label htmlFor="20"></label>
+                                            <label htmlFor="20">판매</label>
+                                        </div>
+                                        <div>
+                                            <input type="radio" name="onSale" id="10" readOnly={true}
+                                                checked={productDetail.data.data.onSale.toString() === "2"} />
+                                            <label htmlFor="10"></label>
+                                            <label htmlFor="10">미판매</label>
+                                        </div>
+                                    </div>
+                                </td>
                                 <th>추천상품</th>
                                 <td>
                                     <div css={s.recommendBox}>
@@ -117,8 +137,8 @@ function ProductDetailPage(props) {
                             <tr>
                                 <th>브랜드</th>
                                 <td>{productDetail.data.data.productBrand}</td>
-                                <th>제조일</th>
-                                <td>{ }</td>
+                                <th>단가</th>
+                                <td>{convertToCommaValue(productDetail.data.data.productPrice)}</td>
                                 <th>할인금액</th>
                                 <td>{convertToCommaValue(productDetail.data.data.productPriceDiscount)}</td>
                                 <th>판매가격</th>
@@ -130,47 +150,11 @@ function ProductDetailPage(props) {
                             </tr>
                         </tbody>
                     </table>
-                    <span>재고 관리</span>
-                    <table>
-                        <tbody>
-                            <tr>
-                                <th>현재재고</th>
-                                <td>{convertToCommaValue(productDetail.data.data.currentStock)}</td>
-                                <th>가재고</th>
-                                <td>{convertToCommaValue(productDetail.data.data.expectedStock)}</td>
-                                <th>입고 예정 일자</th>
-                                <td>{productDetail.data.data.arrivalDate}</td>
-                                <th>입고수량</th>
-                                <td>{convertToCommaValue(productDetail.data.data.arrivalQuantity)}</td>
-                            </tr>
-                            <tr>
-                                <th>재고 알림 설정</th>
-                                <td>
-                                    <div css={s.recommendBox}>
-                                        <div>
-                                            <input type="radio" name="alertSetting" id="20" readOnly={true}
-                                                checked={productDetail.data.data.alertSetting === 2} />
-                                            <label htmlFor="20"></label>
-                                            <label htmlFor="20">설정</label>
-                                        </div>
-                                        <div>
-                                            <input type="radio" name="alertSetting" id="10" readOnly={true}
-                                                checked={productDetail.data.data.alertSetting === 1} />
-                                            <label htmlFor="10"></label>
-                                            <label htmlFor="10">미설정</label>
-                                        </div>
-                                    </div>
-                                </td>
-                                <th>알림 수량</th>
-                                <td>{convertToCommaValue(productDetail.data.data.minAlertQuantity)}</td>
-                            </tr>
-                        </tbody>
-                    </table>
                     <div css={s.productDetail}>
-                        <span>제품설명</span>
-                        <textarea disabled={true}>{productDetail.data.data.productDetail}</textarea>
+                        <span>상품 설명</span>
+                        <textarea disabled={true} value={productDetail.data.data.productDetail} />
                         <div css={s.productDetailButton} onClick={handleProductDetailOnClick}>
-                            제품 상세 미리보기
+                            상품 상세 미리보기
                             <FiExternalLink />
                         </div>
                         <div css={s.detailImages}>

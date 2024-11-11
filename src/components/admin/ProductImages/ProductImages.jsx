@@ -4,6 +4,8 @@ import * as s from "./style";
 import { RiImageAddLine } from "react-icons/ri";
 import { GiCancel } from "react-icons/gi";
 import { IMAGE_ADDRESS } from "../../../apis/util/instance";
+import { MdOutlineImageNotSupported } from "react-icons/md";
+import { useQueryClient } from "react-query";
 
 function ProductImages({imgSource, setImgSource, isModify}) {
     
@@ -60,6 +62,10 @@ function ProductImages({imgSource, setImgSource, isModify}) {
             {
                  isModify && imgSource.length < 10 &&
                 <div onClick={handleImageChangeOnClick}><RiImageAddLine /></div>
+            }
+            {
+                !isModify && imgSource.length === 0 &&
+                <div css={s.noPointer}><MdOutlineImageNotSupported /></div>
             }
         </div>
     );
