@@ -11,6 +11,7 @@ function UserProductDetail({ productInfo }) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
+    const siteLogo = queryClient.getQueryData("siteLogoQuery");
     console.log(productInfo);
     const handleProductDetailOnClick = () => {
         navigate(`/product/detail/${productInfo.productId}`)
@@ -85,7 +86,7 @@ function UserProductDetail({ productInfo }) {
         <div css={s.layout}>
             <div onClick={handleProductDetailOnClick}> 
                 <div css={s.imgLayout}>
-                    <img src={IMAGE_ADDRESS + productInfo.imgName} alt="" />
+                    <img src={productInfo.imgName === "" ? IMAGE_ADDRESS + siteLogo?.data : IMAGE_ADDRESS + productInfo.imgName} alt="" />
                 </div>
                 <div css={s.contentLayout}>
                     <p>{productInfo.productName}</p>

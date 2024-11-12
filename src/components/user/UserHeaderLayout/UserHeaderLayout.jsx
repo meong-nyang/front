@@ -5,11 +5,12 @@
     import { CiSearch, CiShoppingCart, CiLogout, CiLogin, CiUser  } from "react-icons/ci";
     import { Link, NavLink } from 'react-router-dom';
     import { useQueryClient } from 'react-query';
+import { IMAGE_ADDRESS } from '../../../apis/util/instance';
 
     function UserHeaderLayout() {
         const queryClient = useQueryClient();
         const userInfo = queryClient.getQueryData("userInfoQuery");
-        
+        const siteLogo = queryClient.getQueryData("siteLogoQuery");
         const activeStyle = {
             color: "#9d6c4c",
             fontWeight: "bold"
@@ -32,7 +33,7 @@
             <div css={s.allLayout}>
                 <div css={s.layout}>
                     <div>
-                        <NavLink to={'/'}><img src={logoImg} /></NavLink>
+                        <NavLink to={'/'}><img src={IMAGE_ADDRESS + siteLogo?.data} /></NavLink>
                     </div>
                     <div>
                         <NavLink to={'/product/list/all?page=1'} style={({isActive}) => (isActive ? activeStyle : {})}>전체</NavLink>

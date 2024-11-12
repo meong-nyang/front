@@ -269,7 +269,10 @@ function UserProductDetailPage(props) {
                                             :""}</p>
                                     }
                                     <div>
-                                        <p>{convertToCommaValue(productDetailData.productPrice)}원</p>
+                                        {
+                                            productDetailData.productPriceDiscount !== "0" &&
+                                            <p css={s.discountStyle}>{convertToCommaValue(productDetailData.productPrice)}원</p>
+                                        }
                                         <p>{convertToCommaValue(productDetailData.productPrice - productDetailData.productPriceDiscount)}원</p>
                                     </div>
                                 </div>

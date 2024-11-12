@@ -14,6 +14,7 @@ import { alwaysNumber, convertToCommaValue, convertToNumericValue } from '../../
 function UserCartContent({ cartItem, cartItemDeleteMutation }) {
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
+    const siteLogo = queryClient.getQueryData("siteLogoQuery");
     const [ productCount, setProductCount ] = useState(1);
     const [ debounceTimer, setDebounceTimer ] = useState(null);
     const [ checkItems, setCheckItems ] = useRecoilState(cartItemCheckList);
@@ -151,7 +152,7 @@ function UserCartContent({ cartItem, cartItemDeleteMutation }) {
             </div>
             <div css={s.productLayout}>
                 {/* 이미지 추가하기 */}
-                <img src={IMAGE_ADDRESS + cartItem.imgName} />
+                <img src={cartItem.imgName === "" ? IMAGE_ADDRESS + siteLogo?.data : IMAGE_ADDRESS + cartItem.imgName} />
                 <div>
                     <p>{cartItem?.productName}</p>
                 </div>

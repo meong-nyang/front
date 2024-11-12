@@ -4,13 +4,16 @@ import * as s from "./style";
 import axios from 'axios';
 import { convertToCommaValue } from '../../../../utils/changeStringFormat';
 import { IMAGE_ADDRESS } from '../../../../apis/util/instance';
+import { useQueryClient } from 'react-query';
 
 function UserOrderProduct({orderDetailData}) {
-   console.log(orderDetailData);
+    const queryClient = useQueryClient();
+    const siteLogo = queryClient.getQueryData("siteLogoQuery");
+    console.log(orderDetailData);
     return (
         <div css={s.contentLayout}>
                 <div css={s.productLayout}>
-                    <img src={IMAGE_ADDRESS + orderDetailData.imgName} />
+                    <img src={orderDetailData.imgName === "" ? IMAGE_ADDRESS + siteLogo?.data : IMAGE_ADDRESS + orderDetailData.imgName} />
                     <div>
                         <p>{orderDetailData.productName}</p>
                     </div>

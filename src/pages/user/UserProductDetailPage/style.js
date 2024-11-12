@@ -120,9 +120,6 @@ export const priceLayout = css`
                 align-items: center;
                 font-size: 14px;
                 color: #777777;
-                &:nth-of-type(1) {
-                    text-decoration: line-through;
-                }
                 &:nth-last-of-type(1) {
                     margin-left: 10px;
                     font-size: 22px;
@@ -148,6 +145,10 @@ export const priceLayout = css`
         }
     }
    
+`;
+
+export const discountStyle = css`
+    text-decoration: line-through;
 `;
 
 export const optionLayout = css`
