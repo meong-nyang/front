@@ -158,7 +158,6 @@ function UserOrderLayout({orderData}) {
                 <p>상품명/옵션</p>
                 <p>수량</p>
                 <p>결제금액</p>
-                <p>결제상태</p>
             </div>
             {
                 orderData?.orderDetailList.map(orderDetail =>

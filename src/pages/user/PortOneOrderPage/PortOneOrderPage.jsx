@@ -14,7 +14,7 @@ function PortOneOrderPage({portEtcData, totalPrice}) {
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
-
+    console.log(portEtcData);
     //order_tb에 저장할 데이터
     const [ orderData, setOrderData ] = useState({
         userId: userInfo?.data?.id,
@@ -53,7 +53,8 @@ function PortOneOrderPage({portEtcData, totalPrice}) {
                 userId: userInfo?.data?.id,
                 products: portEtcData.products.map(product => ({
                     productId: product.id,
-                    productCount: product.count
+                    productCount: product.count,
+                    productPrice: product.amount
                 })),
                 totalPrice: totalPrice + 3000,
                 orderItemCount: portEtcData.products.length,
@@ -69,7 +70,7 @@ function PortOneOrderPage({portEtcData, totalPrice}) {
             });
         }
     }, [portEtcData]);
-
+console.log(orderData);
     const currentStockCheck = useQuery(
         ["currentStockCheckQuery"],
         async () => {

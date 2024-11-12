@@ -3,6 +3,7 @@ import { css } from "@emotion/react";
 export const contentLayout = css`
     box-sizing: border-box;
     display: flex;
+    justify-content: space-around;
     align-items: center;
     width: 100%;
     height: 100px;
@@ -29,7 +30,6 @@ export const productLayout = css`
         margin: 0px 20px;
         width: 50px;
         height: 50px;
-        background-color: red;
     }
     & > div {
         display: flex;

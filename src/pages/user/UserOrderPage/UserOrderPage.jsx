@@ -20,6 +20,7 @@ function UserOrderPage(props) {
     const userInfo = queryClient.getQueryData("userInfoQuery");
     //장바구니나 상세페이지에서 넘어온 상품 리스트
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
+    console.log(orderProductList);
     const [ totalPrice, setTotalPrice ] = useState(0);
     //기존 정보 사용하겠다(true) / 새로운 정보쓰겠다(false)
     const [ selectedOldInfo, setSelectedOldInfo ] = useState(false);
