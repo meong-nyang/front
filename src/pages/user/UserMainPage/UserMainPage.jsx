@@ -18,6 +18,10 @@ import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
+import { useQuery } from 'react-query';
+import { instance } from '../../../apis/util/instance';
+import UserProductDetailPage from '../UserProductDetailPage/UserProductDetailPage';
+import UserProductDetail from '../../../components/user/UserProductDetail/UserProductDetail';
 
 function UserMainPage(props) {
   const SlickButtonFix = ({ currentSlide, slideCount, children, ...props }) =>(
@@ -71,6 +75,25 @@ function UserMainPage(props) {
         ),
       };
 
+      const productList = useQuery(
+        ["userProductListQuery"],
+        async () => await instance.get("/products", {
+            params: {
+                page: 1,
+                limit: 8,
+                groupName: "recommend",
+                categoryId: 0
+            }
+        }),
+        {
+            retry: 0,
+            refetchOnWindowFocus: false,
+            onSuccess: response => console.log(response),
+            onError: error => console.log(error)
+        }
+    );
+
+
     return (
         <UserMainLayout>
           <UserScrollLayout>
@@ -91,8 +114,14 @@ function UserMainPage(props) {
                   </div>
                 </header>
                 <main css={s.mainLayout}>
-                    <h2>추천상품</h2>
-                    {/* <img src={img} /> */}
+                    <h1>추천상품</h1>
+                    <div css={s.recommedLayout}>
+                    {
+                        productList?.data?.data?.productList.map(product => 
+                            <UserProductDetail key={product.productId} productInfo={product} />
+                        )
+                    }
+                    </div>
                 </main>
                 <footer css={s.footerLayout}>
                     <div>

@@ -120,19 +120,14 @@ function UserCartContent({ cartItem, cartItemDeleteMutation }) {
 
     const handleCountInputOnChange = (e) => {
         const value = convertToNumericValue(e.target.value);
-        setProductCount(alwaysNumber(value))
-
-        const count = e.target.value;
         const stock = currentStockCheck?.data?.data?.currentStocks[0];
-        if(count === "") {
-            setProductCount(count);
-        }
-        else if((stock?.currentStock >= parseInt(count) && stock?.outOfStock === 1)){
-            setProductCount(parseInt(count));
+        setProductCount(alwaysNumber(value));
+        if(stock?.currentStock >= alwaysNumber(value)){
+            setProductCount(alwaysNumber(value));
         } else {
             const previousCount = productCount;
             console.log(previousCount); // 원래 값 저장
-            setProductCount(e.target.value);
+            setProductCount(alwaysNumber(value))
             Swal.fire({
                 text: "재고가 넘는 수량은 선택할 수 없습니다.",
                 icon: "error",
