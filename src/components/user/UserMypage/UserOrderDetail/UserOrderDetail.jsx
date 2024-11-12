@@ -85,6 +85,10 @@ function UserOrderDetail(props) {
                 </div>
             </div>
             <div css={s.orderListLayout}>
+                {
+                     orderList?.data?.data?.orderList?.length === 0 &&
+                     <p>주문내역이 없습니다.</p>
+                }
             {
                 orderList?.data?.data?.orderList.map(order => 
                     <UserOrderLayout key={order.orderId} orderData={order}/>

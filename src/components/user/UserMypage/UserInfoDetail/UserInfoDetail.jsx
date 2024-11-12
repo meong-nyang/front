@@ -3,10 +3,11 @@ import React, { useEffect, useState } from 'react';
 import * as s from "./style";
 import UserInfoLayout from '../UserInfoLayout/UserInfoLayout';
 import Swal from "sweetalert2";
-import { useMutation } from 'react-query';
+import { useMutation, useQueryClient } from 'react-query';
 import { instance } from '../../../../apis/util/instance';
 
 function UserInfoDetail({ userInfo, setUserInfo }) {
+    const queryClient = useQueryClient();
     const [ editMode, setEditMode ] = useState(false);
     const [ addressDefault, setAddressDefault ] = useState("");
     const [ zipcode, setZipcode ] = useState("");
@@ -75,6 +76,7 @@ function UserInfoDetail({ userInfo, setUserInfo }) {
         async () => await instance.put(`/user/${userInfo.id}`, userInfo),
         {
             onSuccess: () => {
+                queryClient.invalidateQueries("userInfoQuery");
                 setEditUserInfoData({
                     ...userInfo,
                     userInfo: editUserInfoData

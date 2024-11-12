@@ -24,10 +24,6 @@ function UserOrderProduct({orderDetailData}) {
                 <div>
                     <p>{convertToCommaValue(orderDetailData.productPrice * orderDetailData.productCount)}원</p>
                 </div>
-                <div css={s.deliveryLayout}>
-                    <p>결제완료</p>
-                    <button>결제취소</button>
-                </div>
             </div>
     );
 }

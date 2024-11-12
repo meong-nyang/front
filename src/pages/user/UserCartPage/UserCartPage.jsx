@@ -207,8 +207,8 @@ function UserCartPage() {
                         productId: item.productId,
                         productName: item.product.productName,
                         productCount: item.productCount,
-                        productPrice: item.product.productPrice - item.product.productDetail,
-                        productTotal: item.productCount * item.product.productPrice
+                        productPrice: item.product.productPrice - item.product.productPriceDiscount,
+                        productTotal: item.productCount * item.product.productPrice - item.product.productPriceDiscount
                     }));
                 setOrderProductList(selectedProducts);
                 navigate("/user/order");
@@ -232,8 +232,8 @@ function UserCartPage() {
                         productId: item.productId,
                         productName: item.product.productName,
                         productCount: item.productCount,
-                        productPrice: item.product.productPrice,
-                        productTotal: item.productCount * item.product.productPrice
+                        productPrice: item.product.productPrice - item.product.productPriceDiscount,
+                        productTotal: item.productCount * item.product.productPrice - item.product.productPriceDiscount
                     })));
                 navigate("/user/order")
             }});
