@@ -24,6 +24,7 @@ function MainLayout({ children }) {
 
      const handleLogoutOnClick = () => {
         localStorage.removeItem("accessToken");
+        queryClient.invalidateQueries("accessTokenValidationQuery");
         navigate("/admin/signin", {replace: true});
      }
 

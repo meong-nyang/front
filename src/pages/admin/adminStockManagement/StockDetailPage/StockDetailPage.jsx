@@ -47,13 +47,14 @@ function StockDetailPage(props) {
     const [ searchData, setSearchData ] = useState({
         searchOptionId: "all",
         searchOptionName: "전체",
-        searchValue: ""
-    });
-
-    const [ selectedDate, setSelectedDate ] = useState({
+        searchValue: "",
         startDate: before7DayDate(),
         endDate: todayDate()
     });
+
+    useEffect(() => {
+        console.log(searchData);
+    }, [searchData]);
 
     const stockDetailData = useQuery(
         ["stockDetailDataQuery"],
@@ -142,6 +143,13 @@ function StockDetailPage(props) {
         }
 
         setInputData(data => ({
+            ...data,
+            [e.target.name]: e.target.value
+        }));
+    }
+
+    const handleSearchDateInputOnChange = (e) => {
+        setSearchData(data => ({
             ...data,
             [e.target.name]: e.target.value
         }));
@@ -294,9 +302,9 @@ function StockDetailPage(props) {
                         <span>입출고 기록</span>
                         <div css={s.selectTime}>
                             <span>조회일자 :</span>
-                            <input type="date" name="startDate" value={selectedDate.startDate} onChange={() => {}}/>
+                            <input type="date" name="startDate" value={searchData.startDate} onChange={handleSearchDateInputOnChange}/>
                             <span>~</span>
-                            <input type="date" name="endDate" value={selectedDate.endDate} onChange={() => {}}/>
+                            <input type="date" name="endDate" value={searchData.endDate} onChange={handleSearchDateInputOnChange}/>
                             <button onClick={() => {}}>조회</button>
                         </div>
                     </div>

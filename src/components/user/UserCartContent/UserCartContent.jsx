@@ -6,7 +6,6 @@ import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { instance } from '../../../apis/util/instance';
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
 import { IMAGE_ADDRESS, instance } from '../../../apis/util/instance';
