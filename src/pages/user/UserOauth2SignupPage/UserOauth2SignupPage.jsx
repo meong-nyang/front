@@ -75,7 +75,6 @@ function UserOauth2SignupPage(props) {
 
     return (
         <UserBackgoundLayout>
-            <UserHeaderLayout />
             <div css={s.layout}>
                 <div css={s.titleLayout}>
                     <p>회원가입</p>
