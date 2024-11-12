@@ -333,7 +333,7 @@ function StockDetailPage(props) {
                                 stockDetailData.data.data.incommingList.map(data => 
                                     <tr key={data.id}>
                                         <td>{data.type}</td>
-                                        <td>{data.arrivedDate}</td>
+                                        <td>{data.arrivedDate || "-"}</td>
                                         <td>{convertToCommaValue(data.arrivalQuantity)}</td>
                                         <td>{data.status}</td>
                                     </tr>

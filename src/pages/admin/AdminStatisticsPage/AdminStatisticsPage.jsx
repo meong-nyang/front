@@ -78,9 +78,8 @@ function AdminStatisticsPage(props) {
 
                         tempRefundAmount.push(data.totalPrice);
                     }
-                    tempSummaryData.dailyAvgAmount = parseInt(tempSummaryData.totalAmount / cnt);
+                    tempSummaryData.dailyAvgAmount = parseInt(tempSummaryData.totalAmount / cnt) || 0;
                 }
-                console.log(tempSummaryData);
                 setSummaryData(tempSummaryData);
                 setGraphData({
                     date: tempDate,
