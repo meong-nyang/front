@@ -162,7 +162,7 @@ function UserCartContent({ cartItem, cartItemDeleteMutation }) {
                 <input type="text" value={productCount} onChange={handleCountInputOnChange}/>
                 <AiFillPlusCircle onClick={handlePlusOnClick} />
             </div>
-            <p>{convertToCommaValue(productCount * cartItem?.productPrice)}원</p>
+            <p>{convertToCommaValue(productCount * (cartItem?.productPrice - cartItem?.productDiscountPrice))}원</p>
             <div>
                 <AiTwotoneDelete onClick={handleCartItemDeleteOnClick}/>
             </div>

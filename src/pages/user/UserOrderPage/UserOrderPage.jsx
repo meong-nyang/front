@@ -12,6 +12,7 @@ import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayo
 import { IoIosArrowDown } from "react-icons/io";
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 import { useNavigate } from 'react-router-dom';
+import { convertToCommaValue } from '../../../utils/changeStringFormat';
 
 function UserOrderPage(props) {
     const navigate = useNavigate();
@@ -19,7 +20,7 @@ function UserOrderPage(props) {
     const userInfo = queryClient.getQueryData("userInfoQuery");
     //장바구니나 상세페이지에서 넘어온 상품 리스트
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
-    console.log(orderProductList);
+    const [ totalPrice, setTotalPrice ] = useState(0);
     //기존 정보 사용하겠다(true) / 새로운 정보쓰겠다(false)
     const [ selectedOldInfo, setSelectedOldInfo ] = useState(false);
     const [ isProductShow, setProductShow ] = useState(true);
@@ -37,6 +38,21 @@ function UserOrderPage(props) {
         paymentMethod: "",
         paymentChannelKey: ""
     });
+
+    // useEffect(() => {
+    //     let total = 0;
+    //     if(checkItems?.length !== 0) {
+    //         total = cartItemAllList?.data?.data
+    //         .filter(item => checkItems?.includes(item.id))
+    //             .reduce((acc, { product, productCount }) => {
+    //                 return acc + ((product.productPrice - product.productPriceDiscount) * productCount);
+    //             }, 0);
+    //     }
+    //     console.log(total);
+    //     setTotalPrice(total);
+        
+    // }, [checkItems]);
+
 
     useEffect(() => {
         if(userInfo === undefined) {
@@ -116,6 +132,13 @@ function UserOrderPage(props) {
         {
             onSuccess: response => {
                 console.log(response);
+                
+                const total = response.data.checkProducts
+                    .reduce((acc, { productId, productPrice, productPriceDiscount }) => {
+                        return acc + ((productPrice - productPriceDiscount) * (orderProductList?.filter(orderProduct => productId === parseInt(orderProduct.productId))[0]?.productCount));
+                    }, 0);
+            
+                setTotalPrice(total);
                 setOrderData(order => ({
                     ...order,
                     products: response?.data?.checkProducts.map(product => ({
@@ -279,7 +302,7 @@ function UserOrderPage(props) {
                         <div css={s.priceLayout}>
                             <div>
                                 <p>총 주문금액</p>
-                                <p>10,000원</p>
+                                <p>{convertToCommaValue(totalPrice)}원</p>
                             </div>
                             <div>
                                 <p>배송비</p>
@@ -288,9 +311,9 @@ function UserOrderPage(props) {
                         </div>
                         <div css={s.totalPriceLayout}>
                             <p>결제예정금액</p>
-                            <p>13,000원</p>
+                            <p>{convertToCommaValue(totalPrice + 3000)}원</p>
                         </div>
-                        <PortOneOrderPage portEtcData={orderData}/>
+                        <PortOneOrderPage portEtcData={orderData} totalPrice={totalPrice}/>
                     </div>
                 </div>
             </div>

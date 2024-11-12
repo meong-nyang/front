@@ -8,6 +8,7 @@ import { useQueryClient } from 'react-query';
 function UserOrderContent({productInfo, count}) {
     const queryClient = useQueryClient();
     const siteLogo = queryClient.getQueryData("siteLogoQuery");
+    console.log(productInfo);
     return (
         <div css={s.layout}>
             <div css={s.productLayout}>
@@ -18,7 +19,7 @@ function UserOrderContent({productInfo, count}) {
                 </div>
             </div>
             <p>{count}</p>
-            <p>{convertToCommaValue(productInfo.productPrice * count)}원</p>
+            <p>{convertToCommaValue((productInfo.productPrice - productInfo.productPriceDiscount) * count)}원</p>
         </div>
     );
 }

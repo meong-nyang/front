@@ -9,13 +9,11 @@ import { useNavigate } from 'react-router-dom';
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
 
-function PortOneOrderPage({portEtcData}) {
+function PortOneOrderPage({portEtcData, totalPrice}) {
     const navigate = useNavigate();
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
-    console.log(portEtcData);
-    console.log(orderProductList);
 
     //order_tb에 저장할 데이터
     const [ orderData, setOrderData ] = useState({
@@ -41,7 +39,7 @@ function PortOneOrderPage({portEtcData}) {
         orderType: 0,  
         paymentId: "payment", 
         orderName: "mn", 
-        totalAmount: 1000,         // orderProductList안에든 priceTotal더하기 
+        totalAmount: totalPrice,         // totalPrice
         currency: 'CURRENCY_KRW',
         locale: 'KO_KR',
         channelKey: portEtcData.paymentChannelKey,
@@ -57,7 +55,7 @@ function PortOneOrderPage({portEtcData}) {
                     productId: product.id,
                     productCount: product.count
                 })),
-                totalPrice: portEtcData.products.reduce((sum, { amount }) => sum + amount, 0),
+                totalPrice: totalPrice + 3000,
                 orderItemCount: portEtcData.products.length,
                 orderName: portEtcData.orderName,
                 zipcode: portEtcData.orderZipcode,
@@ -171,7 +169,7 @@ function PortOneOrderPage({portEtcData}) {
             paymentId: crypto.randomUUID(),
             channelKey: portEtcData.paymentChannelKey,
             payMethod: portEtcData.paymentMethod,
-            // totalAmount: , 추가해야됨
+            totalAmount: totalPrice + 3000,
             customer: {
                 userId: userInfo?.data?.id,
                 fullName: portEtcData.orderName,
@@ -186,7 +184,6 @@ function PortOneOrderPage({portEtcData}) {
             })),
             productType: "PRODUCT_TYPE_REAL",
         }
-        console.log("!!" + requestData);
         PortOne.requestPayment(requestData).then(response => {
             if(!response.code) { //성공했을 때
                 //(추가)결제완료창 만들어서 넘기기
