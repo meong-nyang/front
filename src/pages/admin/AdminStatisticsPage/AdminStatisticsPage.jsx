@@ -57,7 +57,7 @@ function AdminStatisticsPage(props) {
             refetchOnWindowFocus: false,
             onSuccess: success => {
                 console.log(success.data.summaryStatistics);
-                let tempSummaryData = {...emptySummaryData, dailyMinAmount: success.data.summaryStatistics[0]?.totalPrice};
+                let tempSummaryData = {...emptySummaryData, dailyMinAmount: success.data.summaryStatistics[0]?.totalPrice || 0};
                 let tempDate = [];
                 let tempAmount = [];
                 let tempRefundAmount = [];
@@ -80,6 +80,7 @@ function AdminStatisticsPage(props) {
                     }
                     tempSummaryData.dailyAvgAmount = parseInt(tempSummaryData.totalAmount / cnt);
                 }
+                console.log(tempSummaryData);
                 setSummaryData(tempSummaryData);
                 setGraphData({
                     date: tempDate,
@@ -94,12 +95,6 @@ function AdminStatisticsPage(props) {
     const handleDateInputOnChange = (e) => {
         if(e.target.value === '') {
             return;
-        }
-        if (e.target.name === "startDate" && e.target.value > selectedDate.endDate
-            || e.target.name === "endDate" && e.target.value < selectedDate.startDate
-        ) {
-            alert("올바른 범위를 입력해주세요");
-            return ;
         }
         setSelectedDate(date => ({
             ...date,

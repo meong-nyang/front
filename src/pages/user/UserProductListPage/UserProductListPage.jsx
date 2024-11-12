@@ -91,7 +91,7 @@ function UserProductListPage(props) {
                         <p>{'>'}</p>
                         <p>{categoryName(categoryData.categoryId)}</p>
                     </div>
-                    <p>총 {productList?.data?.data?.productListCount}개</p>
+                    <p>총 {productListCount?.data?.data}개</p>
                 </div>
                 <div css={s.listLayout}>
                     {

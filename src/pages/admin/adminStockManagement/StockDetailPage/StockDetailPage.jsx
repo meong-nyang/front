@@ -10,6 +10,8 @@ import { STOCK_DETAIL_SEARCH_OPTIONS } from "../../../../constants/options";
 
 function StockDetailPage(props) {
 
+    const limit = 20;
+
     const tomorrowDate = () => {
         const tomorrow = new Date().getTime() + 86400000;
         return new Date(tomorrow).toISOString().replace("T", " ").substring(0, 10);
@@ -47,13 +49,14 @@ function StockDetailPage(props) {
     const [ searchData, setSearchData ] = useState({
         searchOptionId: "all",
         searchOptionName: "전체",
-        searchValue: ""
-    });
-
-    const [ selectedDate, setSelectedDate ] = useState({
+        searchValue: "",
         startDate: before7DayDate(),
         endDate: todayDate()
     });
+
+    useEffect(() => {
+        console.log(searchData);
+    }, [searchData]);
 
     const stockDetailData = useQuery(
         ["stockDetailDataQuery"],
@@ -147,6 +150,13 @@ function StockDetailPage(props) {
         }));
     }
 
+    const handleSearchDateInputOnChange = (e) => {
+        setSearchData(data => ({
+            ...data,
+            [e.target.name]: e.target.value
+        }));
+    }
+
     const handleSaveAlertButtonOnClick = () => {
         alertMutation.mutateAsync().catch(() => {});
     }
@@ -200,6 +210,10 @@ function StockDetailPage(props) {
                 })
                 .catch(error => alert("에러"));
         }
+    }
+
+    const handleSearchInoutLogOnClick = () => {
+        
     }
 
     return (
@@ -290,17 +304,20 @@ function StockDetailPage(props) {
             </div>
             <div css={s.container}>
                 <div css={s.inoutHistory}>
-                    <div css={s.searchContainer}>
+                    {/* <div css={s.searchContainer}>
                         <span>입출고 기록</span>
                         <div css={s.selectTime}>
                             <span>조회일자 :</span>
-                            <input type="date" name="startDate" value={selectedDate.startDate} onChange={() => {}}/>
+                            <input type="date" name="startDate" value={searchData.startDate} onChange={handleSearchDateInputOnChange}/>
                             <span>~</span>
-                            <input type="date" name="endDate" value={selectedDate.endDate} onChange={() => {}}/>
+                            <input type="date" name="endDate" value={searchData.endDate} onChange={handleSearchDateInputOnChange}/>
                             <button onClick={() => {}}>조회</button>
                         </div>
                     </div>
-                    <SearchBox searchOptions={STOCK_DETAIL_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => {}}/>
+                    <SearchBox searchOptions={STOCK_DETAIL_SEARCH_OPTIONS} 
+                        searchData={searchData}
+                        setSearchData={setSearchData}
+                        onEnter={() =>{}}/> */}
                     <table>
                         <thead>
                             <tr>
