@@ -15,7 +15,13 @@ export const mainLayout = css`
     flex-direction: column;
     align-items: center;
     margin: 100px 0px;
-    
+`;
+
+export const recommedLayout = css`
+    box-sizing: border-box;
+    display: flex;
+    width: 1200px;
+    flex-wrap: wrap;
 `;
 
 export const BodyContainer = css`
