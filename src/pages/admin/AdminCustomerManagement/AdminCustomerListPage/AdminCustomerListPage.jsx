@@ -65,7 +65,7 @@ function AdminCustomerListPage(props) {
                                     <td>{user.username}</td>
                                     <td>{user.name}</td>
                                     <td>{user.phone}</td>
-                                    <td>{user.recentPurchaseDate}</td>
+                                    <td>{user.recentPurchaseDate || "구매 내역 없음"}</td>
                                     <td>{user.membership.membershipLevelName}</td>
                                 </tr>
                             ))

@@ -10,6 +10,8 @@ import { STOCK_DETAIL_SEARCH_OPTIONS } from "../../../../constants/options";
 
 function StockDetailPage(props) {
 
+    const limit = 20;
+
     const tomorrowDate = () => {
         const tomorrow = new Date().getTime() + 86400000;
         return new Date(tomorrow).toISOString().replace("T", " ").substring(0, 10);
@@ -210,6 +212,10 @@ function StockDetailPage(props) {
         }
     }
 
+    const handleSearchInoutLogOnClick = () => {
+        
+    }
+
     return (
         <div css={s.layout}>
             <div css={s.container}>
@@ -298,7 +304,7 @@ function StockDetailPage(props) {
             </div>
             <div css={s.container}>
                 <div css={s.inoutHistory}>
-                    <div css={s.searchContainer}>
+                    {/* <div css={s.searchContainer}>
                         <span>입출고 기록</span>
                         <div css={s.selectTime}>
                             <span>조회일자 :</span>
@@ -308,7 +314,10 @@ function StockDetailPage(props) {
                             <button onClick={() => {}}>조회</button>
                         </div>
                     </div>
-                    <SearchBox searchOptions={STOCK_DETAIL_SEARCH_OPTIONS} searchData={searchData} setSearchData={setSearchData} onEnter={() => {}}/>
+                    <SearchBox searchOptions={STOCK_DETAIL_SEARCH_OPTIONS} 
+                        searchData={searchData}
+                        setSearchData={setSearchData}
+                        onEnter={() =>{}}/> */}
                     <table>
                         <thead>
                             <tr>
