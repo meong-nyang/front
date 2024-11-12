@@ -28,8 +28,6 @@ export const imgLayout = css`
         box-sizing: border-box;
         width: 100%;
         height: 100%;
-        object-fit: contain; 
-        background-color: #777777;
     }
 `;
 
@@ -51,6 +49,12 @@ export const contentLayout = css`
         &:nth-of-type(2) {
             font-size: 14px;
             font-weight: 400;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            word-break: break-word;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical
         }
     }
 `;

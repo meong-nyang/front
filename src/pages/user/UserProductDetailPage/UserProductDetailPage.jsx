@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
-import { onlyNumber } from '../../../utils/changeStringFormat';
+import { convertToCommaValue, onlyNumber } from '../../../utils/changeStringFormat';
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserProductDetailPage(props) {
@@ -22,7 +22,7 @@ function UserProductDetailPage(props) {
     const [orderProductList, setOrderProductList] = useRecoilState(orderProuctListAtom);
 
     const [productCount, setProductCount] = useState(1);
-
+    const [ tabSelect, setTabSelect ] = useState(1);
     const [productDetailData, setProductDetailData] = useState({
         id: "",
         productName: "",
@@ -31,10 +31,11 @@ function UserProductDetailPage(props) {
         productDetail: "",
         productPrice: "",
         productPriceDiscount: "",
+        onSale: "",
         currentStock: "",
-        outOfStock: 0,
         imgName: "",
-        imgNames: []
+        imgNames: [],
+        detailImgUrls: []
 
     });
 
@@ -57,9 +58,10 @@ function UserProductDetailPage(props) {
                     productPrice: response?.data.productPrice,
                     productPriceDiscount: response?.data.productPriceDiscount,
                     currentStock: response?.data.currentStock,
-                    outOfStock: response?.data.outOfStock,
+                    onSale: response?.data.onSale,
                     imgName: response?.data.imgNames[0],
-                    imgNames: response?.data.imgNames
+                    imgNames: response?.data.imgNames,
+                    detailImgUrls: response?.data.detailImgUrls
                 }))
             },
             onError: error => console.log(error)
@@ -110,6 +112,10 @@ function UserProductDetailPage(props) {
             return count;
         });
     };
+
+    const handleTabOnClick = (tab) => {
+        setTabSelect(tab);
+    }
 
     const priceFormet = (price) => {
         if (price == null || isNaN(price)) {
@@ -239,14 +245,12 @@ function UserProductDetailPage(props) {
         <UserMainLayout>
             <UserScrollLayout>
                 <div css={s.mainLayout}>
-                    <div css={s.categoryLayout}>
-                        <p>{productDetailData.petGroupName + ">" + productDetailData.categoryName}</p>
-                    </div>
                     <div css={s.layout}>
                         <div css={s.imgLayout}>
                             <img src={IMAGE_ADDRESS + productDetailData.imgName} alt="" />
                             <div css={s.subImgLayout}>
                                 {
+                                    productDetailData?.imgNames?.length > 1 &&
                                     productDetailData?.imgNames.map(img =>
                                         <img src={IMAGE_ADDRESS + img}
                                             key={img} onClick={() => hanelSubImgOnClick(img)} />
@@ -255,22 +259,24 @@ function UserProductDetailPage(props) {
                             </div>
                         </div>
                         <div css={s.detailLayout}>
+                            <p>{productDetailData.petGroupName + ">" + productDetailData.categoryName}</p>
                             <p>{productDetailData.productName}</p>
                             <div css={s.priceLayout}>
                                 <div>
                                     {
                                         <p>{productDetailData.productPriceDiscount !== "0" 
-                                            ? priceFormet(productDetailData.productPriceDiscount) + "원 할인"
+                                            ? convertToCommaValue(productDetailData.productPriceDiscount) + "원 할인"
                                             :""}</p>
                                     }
-                                    <p>{priceFormet(productDetailData.productPrice)}원</p>
+                                    <div>
+                                        <p>{convertToCommaValue(productDetailData.productPrice)}원</p>
+                                        <p>{convertToCommaValue(productDetailData.productPrice - productDetailData.productPriceDiscount)}원</p>
+                                    </div>
                                 </div>
                                     <p><TbTruckDelivery />배송비 : 3,000원</p>
                             </div>
                             <p>{productDetailData.productDetail}</p>
                             <div css={s.optionLayout}>
-
-                            
                             <p>선택</p>
                             <div css={s.countLayout}>
                             
@@ -280,12 +286,12 @@ function UserProductDetailPage(props) {
                                     <input type='text' value={productCount} onChange={handleInputOnchange} />
                                     <AiFillPlusCircle onClick={handlePlusOnClick} />
                                 </div>
-                                <p>{priceFormet(totalPrice(productDetailData.productPrice))}원</p>
+                                <p>{convertToCommaValue(totalPrice(productDetailData.productPrice - productDetailData.productPriceDiscount))}원</p>
                             </div>
                             </div>
                             <div css={s.totalLayout}>
                                 <p>총 상품금액</p>
-                                <p>{priceFormet(totalPrice(productDetailData.productPrice))}원</p>
+                                <p>{convertToCommaValue(totalPrice(productDetailData.productPrice - productDetailData.productPriceDiscount))}원</p>
                             </div>
                             <div css={s.buyLayout}>
                                 <button onClick={handleAddCartOnClick}>장바구니</button>
@@ -293,6 +299,21 @@ function UserProductDetailPage(props) {
                             </div>
                         </div>
                     </div>
+                    <div css={s.detailTabLayout(tabSelect)}>
+                        <p onClick={() => handleTabOnClick(1)}>상세정보</p>
+                        <p onClick={() => handleTabOnClick(2)}>리뷰</p>
+                        <p onClick={() => handleTabOnClick(3)}>문의</p>
+                    </div>
+                    {
+                        tabSelect === 1 && 
+                        <div css={s.detailImgLayout}>
+                        {
+                            productDetailData.detailImgUrls.map(({imgName}) => 
+                                <img src={IMAGE_ADDRESS + imgName} />
+                            )
+                        }
+                        </div>
+                    }
                 </div>
             </UserScrollLayout>
         </UserMainLayout>

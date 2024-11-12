@@ -11,8 +11,9 @@ import Paginate from '../../../components/admin/Paginate/Paginate';
 import { useRecoilState } from 'recoil';
 import { cartItemCheckList, orderProuctListAtom } from '../../../atoms/orderAtom';
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
+import { convertToCommaValue } from '../../../utils/changeStringFormat';
 
-function UserCartPage(props) {
+function UserCartPage() {
     const limit = 10;
     const navigate = useNavigate();
     const queryClient = useQueryClient();
@@ -20,9 +21,22 @@ function UserCartPage(props) {
     const userInfoState = queryClient.getQueryState("userInfoQuery");
     const [ searchParams, setSearchParams ] = useSearchParams();
     const [ totalPrice, setTotalPrice ] = useState(0);
+    const [ isInit, setInit ] = useState(true); 
+    //체크된 아이템의 cartId를 담는 배열(초기값: 장바구니의 모든 id)
     const [ checkItems, setCheckItems ] = useRecoilState(cartItemCheckList);
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
-    console.log(orderProductList)
+    console.log(checkItems);
+    console.log(orderProductList);
+    console.log(totalPrice);
+
+    // useEffect(() => {
+    //     if (isInit && cartItemAllList?.data?.data) {
+    //         const allCartIds = cartItemAllList?.data?.data.map(({ id }) => id) || [];
+    //         setCheckItems(allCartIds); // 처음에만 checkItems 설정
+    //         setInit(false); // 설정 후에는 더 이상 변경하지 않도록 isInit을 false로 설정
+    //     }
+    // }, [isInit]);
+
     useEffect(() => {
         if(userInfoState === "success" && userInfo === undefined) {
             Swal.fire({
@@ -44,19 +58,28 @@ function UserCartPage(props) {
         setSearchParams(searchParams);
     }, []);
 
+    // useEffect(() => {
+    //     if(isInit) {
+    //         setCheckItems(cartItemAllList?.data?.data?.map(item => item.id));
+    //     }
+    //     return setInit(false);
+    // }, [cartItemAllList?.data?.data]);
+
     useEffect(() => {
         let total = 0;
         if(checkItems?.length !== 0) {
-            total = cartItemList?.data?.data?.cartList
-            .filter(item => checkItems?.includes(item.cartId))
-                .reduce((acc, { productPrice, productCount }) => {
-                    return acc + (productPrice * productCount);
+            total = cartItemAllList?.data?.data
+            .filter(item => checkItems?.includes(item.id))
+                .reduce((acc, { product, productCount }) => {
+                    return acc + (product.productPrice * productCount);
                 }, 0);
         }
+        console.log(total);
         setTotalPrice(total);
         
     }, [checkItems]);
 
+    //페이지네이션이 적용된 장바구니 아이템 리스트
     const cartItemList = useQuery(
         ["cartItemListQuery", searchParams.get("page")],
         async () => await instance.get("/user/cart", {
@@ -70,22 +93,12 @@ function UserCartPage(props) {
             enabled: !!userInfo?.data?.id,
             retry: 0,
             refetchOnWindowFocus: false,
-            onSuccess: response => {
-                // setOrderProductList(
-                //     response.data.cartList.map(product => ({
-                //         productId: product.productId,
-                //         productName: product.productName,
-                //         productPrice: product.productPrice,
-                //         productCount: product.productCount,
-                //         productTotal: product.productPrice * product.productCount
-                //     }))
-                // );
-            }
+            onSuccess: response => console.log(response)
         }
     );
 
-    //페이지네이션 적용안된 전체 리스트
-    const cartItemAllList= useQuery(
+    //페이지네이션 적용안된 전체 장바구니 아이템 리스트
+    const cartItemAllList = useQuery(
         ["cartItemAllListQuery"],
         async () => await instance.get("/user/cartId", {
             params: {
@@ -94,16 +107,12 @@ function UserCartPage(props) {
         }),
         {
             enabled: !!userInfo?.data?.id,
-            onSuccess: resonse => {
-                console.log(resonse.data) 
-                setCheckItems(resonse.data.map(item => item.id));
-                setOrderProductList(resonse.data.map(item => ({
-                    productId: item.productId,
-                    productName: item.product.productName,
-                    productCount: item.productCount,
-                    productPrice: item.product.productPrice,
-                    productTotal: item.productCount * item.product.productPrice
-                })));
+            onSuccess: response => {
+                console.log(response)
+                if(isInit) {
+                    setCheckItems(response.data.map(item => item.id))
+                    setInit(false)
+                }
             }
         }
     )
@@ -137,14 +146,9 @@ function UserCartPage(props) {
                 console.log(deleteIds);
                 cartItemList.refetch();
                 cartItemAllList.refetch();
-                //checkList에서 삭제
                 setCheckItems(items => (
                     items.filter(item => !deleteIds.includes(item))  
                 ));
-                //주문데이터
-                setOrderProductList(products => 
-                    products.filter(products => !deleteIds.includes(products.productId))
-                )
             },
             onError: error => console.error(error)
         }
@@ -175,13 +179,6 @@ function UserCartPage(props) {
         });
     }
 
-    const priceFormet = (price) => {
-        if (price == null || isNaN(price)) {
-            return '0';
-        }
-        return price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-    };
-
     const handleSelectProductOrderOnClick = () => {
         if(checkItems?.length === 0) {
             Swal.fire({
@@ -210,7 +207,7 @@ function UserCartPage(props) {
                         productId: item.productId,
                         productName: item.product.productName,
                         productCount: item.productCount,
-                        productPrice: item.product.productPrice,
+                        productPrice: item.product.productPrice - item.product.productDetail,
                         productTotal: item.productCount * item.product.productPrice
                     }));
                 setOrderProductList(selectedProducts);
@@ -273,7 +270,7 @@ function UserCartPage(props) {
                     <>
                     {
                         cartItemList?.data?.data?.cartList.map(cartItem => 
-                            <UserCartContent cartItem={cartItem} checkItems={checkItems} setCheckItems={setCheckItems} cartItemDeleteMutation={cartItemDeleteMutation}/>
+                            <UserCartContent cartItem={cartItem} cartItemDeleteMutation={cartItemDeleteMutation}/>
                         )
                     }
                     <Paginate address={"/user/cart"} totalCount={cartItemListCount?.data?.data} limit={limit}/>
@@ -284,7 +281,7 @@ function UserCartPage(props) {
                     <div css={s.priceLayout}>
                         <div>
                             <p>총주문금액</p>
-                            <p>{priceFormet(totalPrice)}원</p>
+                            <p>{convertToCommaValue(totalPrice)}원</p>
                         </div>
                         <p>+</p>
                         <div>
@@ -294,7 +291,7 @@ function UserCartPage(props) {
                         <p>=</p>
                         <div>
                             <p>결제 예정 금액</p>
-                            <p>{checkItems?.length === 0 ? priceFormet(totalPrice) : priceFormet(totalPrice + 2500)}원</p>
+                            <p>{checkItems?.length === 0 ? convertToCommaValue(totalPrice) : convertToCommaValue(totalPrice + 2500)}원</p>
                         </div>
                     </div>
                 </div>

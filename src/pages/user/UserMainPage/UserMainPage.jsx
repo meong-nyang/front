@@ -82,7 +82,7 @@ function UserMainPage(props) {
                       {list.map((value, index) => (
                         <div>	
                           <div css={s.sliderContent} key={index}>
-                            <img src={frame1} />
+                            <img src={img} />
                           </div>
                         </div>
                       ))}
@@ -92,7 +92,7 @@ function UserMainPage(props) {
                 </header>
                 <main css={s.mainLayout}>
                     <h2>추천상품</h2>
-                    <img src={img} />
+                    {/* <img src={img} /> */}
                 </main>
                 <footer css={s.footerLayout}>
                     <div>

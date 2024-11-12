@@ -16,13 +16,13 @@ function PortOneOrderPage({portEtcData}) {
     const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
     console.log(portEtcData);
     console.log(orderProductList);
+
     //order_tb에 저장할 데이터
     const [ orderData, setOrderData ] = useState({
         userId: userInfo?.data?.id,
         products: [],
         totalPrice: 0,
         orderItemCount: 0,
-        // orderStatus: "",
         orderName: "",
         zipcode: "",
         addressDefault: "",
@@ -34,6 +34,7 @@ function PortOneOrderPage({portEtcData}) {
         paymentMethod: ""
     });
 
+    //포트원 결제에 필요한 데이터
     const portoneData = {
         storeId: "store-a497dea2-bbec-4135-8fb2-c2283879a5b9", 
         customer: {},

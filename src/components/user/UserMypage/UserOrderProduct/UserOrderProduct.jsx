@@ -1,31 +1,25 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import { useMutation } from 'react-query';
-import { instance } from '../../../../apis/util/instance';
 import axios from 'axios';
+import { convertToCommaValue } from '../../../../utils/changeStringFormat';
+import { IMAGE_ADDRESS } from '../../../../apis/util/instance';
 
 function UserOrderProduct({orderDetailData}) {
-    const priceFormet = (price) => {
-        if (price == null || isNaN(price)) {
-            return '0';
-        }
-        return price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-    };
+   console.log(orderDetailData);
     return (
         <div css={s.contentLayout}>
                 <div css={s.productLayout}>
-                    <img src="" />
+                    <img src={IMAGE_ADDRESS + orderDetailData.imgName} />
                     <div>
                         <p>{orderDetailData.productName}</p>
-                        <p>[옵션]</p>
                     </div>
                 </div>
                 <div>
                     <p>{orderDetailData.productCount}개</p>
                 </div>
                 <div>
-                    <p>{priceFormet(orderDetailData.productPrice * orderDetailData.productCount)}원</p>
+                    <p>{convertToCommaValue(orderDetailData.productPrice * orderDetailData.productCount)}원</p>
                 </div>
                 <div css={s.deliveryLayout}>
                     <p>결제완료</p>

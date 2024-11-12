@@ -93,20 +93,13 @@ export const productLayout = css`
         margin: 0px 20px;
         width: 50px;
         height: 50px;
-        object-fit: contain; 
-        background-color: red;
-
     }
     & > div {
         display: flex;
         flex-direction: column;
+        justify-content: center;
         & > p {
             font-weight: 600;
-            &:nth-of-type(2) {
-                color: #777777;
-                font-size: 14px;
-                font-weight: 400;
-            }
         }
     }
 `;
@@ -127,6 +120,7 @@ export const countLayout = css`
         border: none;
         outline: none;
         color: #777777;
+        background-color: #fafafa;
         text-align: center;
     }
     & > svg {
