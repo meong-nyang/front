@@ -78,7 +78,7 @@ function OrderListPage(props) {
                     </thead>
                     <tbody css={s.tableBody}>
                         {
-                            orderList?.data?.data.orderList.map(order => (
+                            orderList?.data?.data?.orderList?.map(order => (
                                 <React.Fragment key={order.id}>
                                     <tr css={s.trHover}onClick={() => navigate("/admin/order/detail/" + order.id)}>
                                         <td rowSpan={order.orderDetails.length}>{order.id}</td>

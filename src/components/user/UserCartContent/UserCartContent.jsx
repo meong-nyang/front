@@ -6,18 +6,22 @@ import { AiFillPlusCircle, AiFillMinusCircle } from "react-icons/ai";
 import Swal from "sweetalert2";
 
 import { useMutation, useQuery, useQueryClient } from 'react-query';
-import { instance } from '../../../apis/util/instance';
 import { useRecoilState } from 'recoil';
-import { orderProuctListAtom } from '../../../atoms/orderAtom';
+import { cartItemCheckList } from '../../../atoms/orderAtom';
 import { IMAGE_ADDRESS, instance } from '../../../apis/util/instance';
+import { alwaysNumber, convertToCommaValue, convertToNumericValue } from '../../../utils/changeStringFormat';
 
-function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMutation }) {
-    console.log(cartItem);
+function UserCartContent({ cartItem, cartItemDeleteMutation }) {
     const queryClient = useQueryClient();
     const userInfo = queryClient.getQueryData("userInfoQuery");
-    const [ productCount, setProductCount ] = useState(cartItem.productCount);
+    const [ productCount, setProductCount ] = useState(1);
     const [ debounceTimer, setDebounceTimer ] = useState(null);
-    const [ orderProductList, setOrderProductList ] = useRecoilState(orderProuctListAtom);
+    const [ checkItems, setCheckItems ] = useRecoilState(cartItemCheckList);
+
+    console.log(cartItem);
+    useEffect(() => {
+        setProductCount(cartItem.productCount);  
+    }, [cartItem.productCount]);
 
     useEffect(() => {
         if(productCount !== "") {
@@ -31,23 +35,12 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
                 modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
             }, 1000));
         }
-        setOrderProductList((prevOrderList) => 
-            prevOrderList?.map((product) => {
-                if (product.productId === cartItem.productId) {
-                    return {
-                        ...product,
-                        productCount: productCount
-                    };
-                }
-                return product;
-            })
-        );
     }, [productCount]);
 
     const currentStockCheck = useQuery(
-        ["currentStockCheckQuery", productCount],
+        ["currentStockCheckQuery", cartItem.productId],
         async () => {
-            const arr = Array.from([cartItem?.productId]);
+            const arr = Array.from([cartItem.productId]);
             let str = "productIds=";
             for (let i of arr) {
                 str += i + ","
@@ -57,14 +50,15 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
         },
         {
             retry: 0,
-            refetchOnWindowFocus: false
+            refetchOnWindowFocus: false,
+            onSuccess: response => console.log(response)
         }
     );
 
     const modifyCartItemCountMutation = useMutation(
         async (modifyCartItemData) => await instance.put(`/user/${cartItem.cartId}/count`, modifyCartItemData),
         {
-            onSuccess: () => queryClient.invalidateQueries('cartItemListQuery'),
+            onSuccess: () => queryClient.invalidateQueries('cartItemAllListQuery'),
             onError: error => console.log(error)
         }
     );
@@ -94,15 +88,6 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
         }
     };
 
-    console.log(checkItems);
-
-    const priceFormet = (price) => {
-        if (price == null || isNaN(price)) {
-            return '0';
-        }
-        return price.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ',');
-    };
-
     const handlePlusOnClick = () => {
         const stock = currentStockCheck?.data?.data?.currentStocks[0];
         if(productCount === "") {
@@ -120,8 +105,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
                 timer: 1500,
                 showConfirmButton: false
             });
-        }
-        
+        } 
     };
 
     const handleMinusOnClick = () => {
@@ -135,6 +119,9 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
     };
 
     const handleCountInputOnChange = (e) => {
+        const value = convertToNumericValue(e.target.value);
+        setProductCount(alwaysNumber(value))
+
         const count = e.target.value;
         const stock = currentStockCheck?.data?.data?.currentStocks[0];
         if(count === "") {
@@ -159,18 +146,6 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
         }
     };
 
-    // const timeUpdateCart = () => {
-    //     const modifyCartItemData = {
-    //         cartId: cartItem.cartId,
-    //         userId: userInfo?.data?.id,
-    //         productCount
-    //     }
-    //     const timer = setTimeout(() => {
-    //         modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
-    //     }, 1000); // 1초 후에 요청 보내기
-
-    // };
-
     return (
         <div css={s.contentLayout}>
             <div css={s.checkboxStyle}>
@@ -184,7 +159,6 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
                 <img src={IMAGE_ADDRESS + cartItem.imgName} />
                 <div>
                     <p>{cartItem?.productName}</p>
-                    <p>[옵션]</p>
                 </div>
             </div>
             <div css={s.countLayout}>
@@ -192,7 +166,7 @@ function UserCartContent({ cartItem, checkItems, setCheckItems, cartItemDeleteMu
                 <input type="text" value={productCount} onChange={handleCountInputOnChange}/>
                 <AiFillPlusCircle onClick={handlePlusOnClick} />
             </div>
-            <p>{priceFormet(productCount * cartItem?.productPrice)}원</p>
+            <p>{convertToCommaValue(productCount * cartItem?.productPrice)}원</p>
             <div>
                 <AiTwotoneDelete onClick={handleCartItemDeleteOnClick}/>
             </div>
