@@ -82,9 +82,10 @@ function OrderDetailPage(props) {
                             </tr>
                         </tbody>
                     </table>
-                    <span>주문 상품 목록 (최근 6개)</span>
+                    <span>주문 상품 목록</span>
                     <div css={s.productList}>
                         {
+                            orderDetailData?.data &&
                             orderDetailData.data.data.products.map((product, index) => (
                                 <div>
                                     <span>{"상품" + (index + 1)}</span>

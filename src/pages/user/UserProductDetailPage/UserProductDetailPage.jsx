@@ -10,7 +10,7 @@ import Swal from "sweetalert2";
 import { useRecoilState } from 'recoil';
 import { orderProuctListAtom } from '../../../atoms/orderAtom';
 import UserMainLayout from '../../../components/user/UserMainLayout/UserMainLayout';
-import { convertToCommaValue, onlyNumber } from '../../../utils/changeStringFormat';
+import { alwaysNumber, convertToCommaValue, onlyNumber } from '../../../utils/changeStringFormat';
 import UserScrollLayout from '../../../components/user/UserScrollLayout/UserScrollLayout';
 
 function UserProductDetailPage(props) {
@@ -78,7 +78,7 @@ function UserProductDetailPage(props) {
 
     const handleInputOnchange = (e) => {
         let {value} = e.target;
-        value = onlyNumber(value);
+        value = onlyNumber(alwaysNumber(value));
         // 0 이하의 값이 입력되지 않도록 설정
         setProductCount(value);
 
