@@ -71,7 +71,7 @@ function UserCartPage() {
             total = cartItemAllList?.data?.data
             .filter(item => checkItems?.includes(item.id))
                 .reduce((acc, { product, productCount }) => {
-                    return acc + (product.productPrice * productCount);
+                    return acc + ((product.productPrice - product.productPriceDiscount) * productCount);
                 }, 0);
         }
         console.log(total);
@@ -286,12 +286,12 @@ function UserCartPage() {
                         <p>+</p>
                         <div>
                             <p>배송비</p>
-                            <p>{checkItems?.length === 0 ? "0" : "2,500"}원</p>
+                            <p>{checkItems?.length === 0 ? "0" : "3,000"}원</p>
                         </div>
                         <p>=</p>
                         <div>
                             <p>결제 예정 금액</p>
-                            <p>{checkItems?.length === 0 ? convertToCommaValue(totalPrice) : convertToCommaValue(totalPrice + 2500)}원</p>
+                            <p>{checkItems?.length === 0 ? convertToCommaValue(totalPrice) : convertToCommaValue(totalPrice + 3000)}원</p>
                         </div>
                     </div>
                 </div>
