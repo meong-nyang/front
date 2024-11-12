@@ -67,13 +67,15 @@ export const mainTable = css`
 `;
 
 export const trHover = css`
+    background-color: ${COLORS.mainColor};
+
     & td {
         cursor: pointer;
     }
+`;
 
-    &:hover {
-        background-color: ${COLORS.mainColor};
-    }
+export const whiteBackground = css`
+    background-color: white;
 `;
 
 export const tableBody = css`
@@ -82,7 +84,21 @@ export const tableBody = css`
     }
 `;
 
+export const productCellHover = css`
+    background-color: ${COLORS.mainColor};
+
+    & td {
+        cursor: pointer;
+    }
+
+    & > td {
+        width: 10% !important;
+    }
+`;
+
 export const productCell = css`
+    background-color: white;
+
     & > td {
         width: 10% !important;
     }
