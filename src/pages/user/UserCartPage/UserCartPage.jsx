@@ -65,20 +65,6 @@ function UserCartPage() {
     //     return setInit(false);
     // }, [cartItemAllList?.data?.data]);
 
-    useEffect(() => {
-        let total = 0;
-        if(checkItems?.length !== 0) {
-            total = cartItemAllList?.data?.data
-            .filter(item => checkItems?.includes(item.id))
-                .reduce((acc, { product, productCount }) => {
-                    return acc + ((product.productPrice - product.productPriceDiscount) * productCount);
-                }, 0);
-        }
-        console.log(total);
-        setTotalPrice(total);
-        
-    }, [checkItems]);
-
     //페이지네이션이 적용된 장바구니 아이템 리스트
     const cartItemList = useQuery(
         ["cartItemListQuery", searchParams.get("page")],
@@ -116,6 +102,20 @@ function UserCartPage() {
             }
         }
     )
+
+    useEffect(() => {
+        let total = 0;
+        if(checkItems?.length !== 0) {
+            total = cartItemAllList?.data?.data
+            .filter(item => checkItems?.includes(item.id))
+                .reduce((acc, { product, productCount }) => {
+                    return acc + ((product.productPrice - product.productPriceDiscount) * productCount);
+                }, 0);
+        }
+        console.log(total);
+        setTotalPrice(total);
+        
+    }, [checkItems, cartItemAllList.data]);
 
     const cartItemListCount = useQuery(
         ["cartItemListCountQuery"],

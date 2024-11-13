@@ -36,7 +36,7 @@ function UserOrderPage(props) {
         orderAddressDefault: "",
         orderAddressDetail: "",
         request: "",
-        paymentMethod: "",
+        paymentMethod: "CARD",
         paymentChannelKey: ""
     });
 
@@ -160,7 +160,10 @@ function UserOrderPage(props) {
         ["paymentListQuery"],
         async () => await instance.get("/order/payment"),
         {
-            onSuccess: response => console.log(response),
+            onSuccess: response => setOrderData(orderData => ({
+                ...orderData,
+                paymentChannelKey: response.data[0].paymentChannelKey 
+            })),
             onError: error => console.log(error)
         }
     );
@@ -293,7 +296,7 @@ function UserOrderPage(props) {
                             {
                                 paymentList?.data?.data.map(payment => 
                                     <>
-                                        <input type="radio" id={payment.id} name="payment" onChange={() => handlePaymentOnChange(payment.paymentMethod ,payment.paymentChannelKey)} value={payment.paymentMethod}/>
+                                        <input type="radio" id={payment.id} name="payment" onChange={() => handlePaymentOnChange(payment.paymentMethod ,payment.paymentChannelKey)} checked={payment.paymentMethod===orderData.paymentMethod} value={payment.paymentMethod}/>
                                         <label htmlFor={payment.id} >{payment.paymentName}</label>
                                     </>
                                 )

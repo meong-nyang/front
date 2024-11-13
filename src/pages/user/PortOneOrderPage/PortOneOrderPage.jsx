@@ -43,7 +43,7 @@ function PortOneOrderPage({portEtcData, totalPrice}) {
         currency: 'CURRENCY_KRW',
         locale: 'KO_KR',
         channelKey: portEtcData.paymentChannelKey,
-        payMethod: "",
+        payMethod: portEtcData.paymentMethod,
         products: [],
     };
 

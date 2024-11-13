@@ -35,6 +35,8 @@ function AdminStatisticsPage(props) {
         refundAmount: []
     });
 
+    useEffect(() => {console.log(graphData)}, [graphData]);
+
     const [ selectedDate, setSelectedDate ] = useState({
         startDate: before7DayDate(),
         endDate: todayDate()
@@ -73,10 +75,9 @@ function AdminStatisticsPage(props) {
                         tempDate.push(data.orderDate);
                         tempAmount.push(data.totalPrice);
                     } else if (data.orderStatus === "환불완료") {
-                        console.log(data);
                         tempSummaryData.refundAmount += data.totalPrice;
                         tempSummaryData.refundCount += data.totalCount;
-
+                        // tempDate.push(data.orderDate);
                         tempRefundAmount.push(data.totalPrice);
                     }
                     tempSummaryData.dailyAvgAmount = parseInt(tempSummaryData.totalAmount / cnt) || 0;

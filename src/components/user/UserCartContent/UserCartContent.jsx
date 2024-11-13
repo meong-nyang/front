@@ -34,7 +34,7 @@ function UserCartContent({ cartItem, cartItemDeleteMutation }) {
             clearTimeout(debounceTimer);
             setDebounceTimer(setTimeout(() => {
                 modifyCartItemCountMutation.mutateAsync(modifyCartItemData);
-            }, 1000));
+            }, 500));
         }
     }, [productCount]);
 
