@@ -63,7 +63,7 @@ function AdminStatisticsPage(props) {
                 let tempRefundAmount = [];
                 let cnt = 0;
                 for (let data of success.data.summaryStatistics) {
-                    if(data.orderStatus === "결제완료") {
+                    if(data.orderStatus === "구매확정") {
                         tempSummaryData.totalAmount += data.totalPrice;
                         tempSummaryData.totalCount += data.totalCount;
                         tempSummaryData.dailyMinAmount = tempSummaryData.dailyMinAmount < data.totalPrice ? tempSummaryData.dailyMinAmount : data.totalPrice;
@@ -73,14 +73,14 @@ function AdminStatisticsPage(props) {
                         tempDate.push(data.orderDate);
                         tempAmount.push(data.totalPrice);
                     } else if (data.orderStatus === "환불완료") {
+                        console.log(data);
                         tempSummaryData.refundAmount += data.totalPrice;
                         tempSummaryData.refundCount += data.totalCount;
 
                         tempRefundAmount.push(data.totalPrice);
                     }
-                    tempSummaryData.dailyAvgAmount = parseInt(tempSummaryData.totalAmount / cnt);
+                    tempSummaryData.dailyAvgAmount = parseInt(tempSummaryData.totalAmount / cnt) || 0;
                 }
-                console.log(tempSummaryData);
                 setSummaryData(tempSummaryData);
                 setGraphData({
                     date: tempDate,

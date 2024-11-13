@@ -26,7 +26,7 @@ function OrderDetailPage(props) {
     );
 
     const handleOrderCancelOnClick = () => {
-        if(window.confirm("정말로 주문을 삭제하시겠습니까?")) {
+        if (window.confirm("정말로 주문을 삭제하시겠습니까?")) {
             orderDeleteMutation.mutateAsync()
             .then(success => {
                 alert("삭제되었습니다.");
@@ -38,9 +38,9 @@ function OrderDetailPage(props) {
 
     return (
         <div css={s.layout}>
-            <div css={s.buttons}>
+            {/* <div css={s.buttons}>
                 <button onClick={handleOrderCancelOnClick}>주문 취소</button>
-            </div>
+            </div> */}
             {
                 orderDetailData.isSuccess && !orderDetailData.isFetching &&
                 <>
@@ -82,9 +82,10 @@ function OrderDetailPage(props) {
                             </tr>
                         </tbody>
                     </table>
-                    <span>주문 상품 목록 (최근 6개)</span>
+                    <span>주문 상품 목록</span>
                     <div css={s.productList}>
                         {
+                            orderDetailData?.data &&
                             orderDetailData.data.data.products.map((product, index) => (
                                 <div>
                                     <span>{"상품" + (index + 1)}</span>

@@ -1,7 +1,6 @@
 import React from 'react';
 /** @jsxImportSource @emotion/react */
 import * as s from "./style";
-import axios from 'axios';
 import { convertToCommaValue } from '../../../../utils/changeStringFormat';
 import { IMAGE_ADDRESS } from '../../../../apis/util/instance';
 import { useQueryClient } from 'react-query';

@@ -69,7 +69,7 @@ function StockListPage(props) {
                             <th>상품코드</th>
                             <th>상품명</th>
                             <th>현재재고</th>
-                            <th>가재고 (현재재고 + 입고예정수량 + 구매확전 전 수량)</th>
+                            <th>가재고 (현재재고 + 입고예정수량)</th>
                             <th>최소 알림 수량</th>
                             <th>최소 알림 설정</th>
                         </tr>

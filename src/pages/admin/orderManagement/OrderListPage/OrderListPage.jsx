@@ -30,6 +30,8 @@ function OrderListPage(props) {
         searchValue: ""
     });
 
+    const [ hoverOrderId, setHoverOrderId ] = useState(0);
+
     const orderList = useQuery(
         ["orderListQuery", searchParams.get("page")],
         async () => {
@@ -56,6 +58,15 @@ function OrderListPage(props) {
         orderList.refetch();
     }
 
+    const handleMouseOver = (orderId) => {
+        console.log(orderId);
+        setHoverOrderId(orderId);
+    }
+
+    const handleMouseOut = () => {
+        setHoverOrderId(0);
+    }
+
     return (
         <>
             <div css={s.header}>
@@ -78,9 +89,12 @@ function OrderListPage(props) {
                     </thead>
                     <tbody css={s.tableBody}>
                         {
-                            orderList?.data?.data?.orderList?.map(order => (
+                            orderList?.data?.data?.orderList?.map((order, index) => (
                                 <React.Fragment key={order.id}>
-                                    <tr css={s.trHover}onClick={() => navigate("/admin/order/detail/" + order.id)}>
+                                    <tr css={hoverOrderId === order.id ? s.trHover : s.whiteBackground} 
+                                        onClick={() => navigate("/admin/order/detail/" + order.id)}
+                                        onMouseOver={() => handleMouseOver(order.id)}
+                                        onMouseOut={handleMouseOut} >
                                         <td rowSpan={order.orderDetails.length}>{order.id}</td>
                                         <td rowSpan={order.orderDetails.length}>{order.orderDate}</td>
                                         <td>{order.orderDetails[0].productId}</td>
@@ -94,7 +108,9 @@ function OrderListPage(props) {
                                         order.orderDetails.slice(1).map(product => (
                                             <tr key={product.productId} 
                                                 onClick={() => navigate("/admin/order/detail/" + order.id)}
-                                                css={s.productCell} >
+                                                onMouseOver={() => handleMouseOver(order.id)}
+                                                onMouseOut={handleMouseOut}
+                                                css={hoverOrderId === order.id ? s.productCellHover : s.productCell} >
                                                 <td>{product.productId}</td>
                                                 <td>{product.product.productName}</td>
                                                 <td>{convertToCommaValue(product.productPrice)}</td>
